@@ -6,12 +6,6 @@
 import * as monaco from "monaco-editor";
 import { onMounted, ref } from "vue";
 import { useLocalStorage } from "@vueuse/core";
-import {
-  emmetHTML,
-  emmetCSS,
-  emmetJSX,
-  expandAbbreviation,
-} from "emmet-monaco-es";
 
 const clearDiagnostics = {
   noSuggestionDiagnostics: true,
@@ -37,28 +31,12 @@ defineExpose({
 });
 
 onMounted(async () => {
-  emmetHTML(monaco, ["html"]);
   if (!container.value) return;
   await document.fonts.load("12px JetBrains Mono");
   monaco.editor.remeasureFonts();
 
   const editor = monaco.editor.create(container.value, {
     value: content.value,
-    //     value: `module.exports = leftpad;
-
-    // function leftpad(str, len, ch) {
-    //   str = String(str);
-    //   var i = -1;
-
-    //   if (!ch && ch !== 0) ch = ' ';
-
-    //   len = len - str.length;
-
-    //   while (i++ < len) {
-    //     str = ch + str;
-    //   }
-    //   return str;
-    // }`,
     language: "html",
     theme: "vs-dark",
     fontLigatures: true,
