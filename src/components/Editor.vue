@@ -4,8 +4,9 @@
 
 <script setup lang="ts">
 import * as monaco from "monaco-editor";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watchEffect } from "vue";
 import { useLocalStorage } from "@vueuse/core";
+import { theme } from "../composables/theme";
 
 const clearDiagnostics = {
   noSuggestionDiagnostics: true,
@@ -17,28 +18,35 @@ const width = ref(520);
 const editorRef = ref<monaco.editor.IStandaloneCodeEditor>();
 const content = useLocalStorage(
   "content",
-  `<template>
-  <span
-    class="text-[#497AFB] bg-[#ECF0FB] font-semibold inline-block px-1 py-px rounded leading-5 mx-px"
-    >
-    <slot />
-  </span>
-</template>`
+  `const btn = document.getElementById('btn')
+let count = 0
+function render() {
+  btn.innerText = \`Count: \${count}\`
+}
+btn.addEventListener('click', () => {
+  // Count from 1 to 10.
+  if (count < 10) {
+    count += 1
+    render()
+  }
+})`
 );
+
+const isReady = ref(false);
 
 defineExpose({
   editorRef,
+  isReady,
 });
 
 onMounted(async () => {
   if (!container.value) return;
-  await document.fonts.load("12px JetBrains Mono");
-  monaco.editor.remeasureFonts();
 
   const editor = monaco.editor.create(container.value, {
     value: content.value,
-    language: "html",
+    language: "javascript",
     theme: "vs-dark",
+    renderWhitespace: "none",
     fontLigatures: true,
     selectionHighlight: false,
     scrollBeyondLastLine: false,
@@ -89,8 +97,20 @@ onMounted(async () => {
   editor.onDidChangeModelContent((e) => {
     content.value = editor.getModel()?.getValue();
   });
-
+  editor.onDidBlurEditorWidget(() => {
+    editor.setSelection(new monaco.Selection(0, 0, 0, 0));
+  });
   editor.onDidContentSizeChange(updateHeight);
+  updateHeight();
+
+  watchEffect(() => {
+    monaco.editor.defineTheme(theme.value.name, theme.value.monaco);
+    monaco.editor.setTheme(theme.value.name);
+  });
+
+  await document.fonts.load("12px JetBrains Mono");
+  monaco.editor.remeasureFonts();
+  isReady.value = true;
 });
 </script>
 
