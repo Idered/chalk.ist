@@ -10,8 +10,9 @@
     "tabWidth": 2
   },
   "dependencies": {
+    "@vueform/multiselect": "2.3.3",
+    "@vueuse/components": "8.0.1",
     "@vueuse/core": "7.7.1",
-    "emmet-monaco-es": "5.1.0",
     "html2canvas": "github:idered/html2canvas",
     "monaco-editor": "0.32.1",
     "vue": "^3.2.31"

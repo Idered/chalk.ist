@@ -2,9 +2,10 @@ lockfileVersion: 5.3
 
 specifiers:
   '@vitejs/plugin-vue': ^2.2.4
+  '@vueform/multiselect': 2.3.3
+  '@vueuse/components': 8.0.1
   '@vueuse/core': 7.7.1
   autoprefixer: 10.4.2
-  emmet-monaco-es: 5.1.0
   html2canvas: github:idered/html2canvas
   monaco-editor: 0.32.1
   postcss: 8.4.8
@@ -16,8 +17,9 @@ specifiers:
   vue-tsc: ^0.29.8
 
 dependencies:
+  '@vueform/multiselect': 2.3.3
+  '@vueuse/components': 8.0.1_vue@3.2.31
   '@vueuse/core': 7.7.1_vue@3.2.31
-  emmet-monaco-es: 5.1.0_monaco-editor@0.32.1
   html2canvas: github.com/idered/html2canvas/e7b373f2d106a398d25e71deaf736f216b5a194e
   monaco-editor: 0.32.1
   vue: 3.2.31
@@ -72,14 +74,17 @@ packages:
     resolution: {integrity: sha512-87pltuCPt99aL+y9xS6GPZ+Wmmyhll2WXH73gG/xpGcQ84DRnptBsI2r0BeIQ0EB/SQTOe2ANPqFqj3Rj5FOGA==}
     dependencies:
       '@emmetio/scanner': 1.0.0
+    dev: true
 
   /@emmetio/css-abbreviation/2.1.4:
     resolution: {integrity: sha512-qk9L60Y+uRtM5CPbB0y+QNl/1XKE09mSO+AhhSauIfr2YOx/ta3NJw2d8RtCFxgzHeRqFRr8jgyzThbu+MZ4Uw==}
     dependencies:
       '@emmetio/scanner': 1.0.0
+    dev: true
 
   /@emmetio/scanner/1.0.0:
     resolution: {integrity: sha512-8HqW8EVqjnCmWXVpqAOZf+EGESdkR27odcMMMGefgKXtar00SoYNSryGv//TELI4T3QFsECo78p+0lmalk/CFA==}
+    dev: true
 
   /@nodelib/fs.scandir/2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -256,6 +261,21 @@ packages:
   /@vue/shared/3.2.31:
     resolution: {integrity: sha512-ymN2pj6zEjiKJZbrf98UM2pfDd6F2H7ksKw7NDt/ZZ1fh5Ei39X5tABugtT03ZRlWd9imccoK0hE8hpjpU7irQ==}
 
+  /@vueform/multiselect/2.3.3:
+    resolution: {integrity: sha512-CLhtUZJwRGLyPqcgwuRrODOjT3Yqu6KNs5vV1O12kNOR/8c8ecX5vJyTcD0Mv1SJvnrslZgENmvYRRPpb5Cnjg==}
+    dev: false
+
+  /@vueuse/components/8.0.1_vue@3.2.31:
+    resolution: {integrity: sha512-KdlJknzRsv/fG75eMa+pjFwAG3pqRlDF6oOq1pEYr5XGniJRRX6qXe8FDB6oQIsNDiNNA32FfE5ESMFwSRo4xQ==}
+    dependencies:
+      '@vueuse/core': 8.0.1_vue@3.2.31
+      '@vueuse/shared': 8.0.1_vue@3.2.31
+      vue-demi: 0.12.1_vue@3.2.31
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+    dev: false
+
   /@vueuse/core/7.7.1_vue@3.2.31:
     resolution: {integrity: sha512-PRRgbATMpoeUmkCEBtUeJgOwtew8s+4UsEd+Pm7MhkjL2ihCNrSqxNVtM6NFE4uP2sWnkGcZpCjPuNSxowJ1Ow==}
     peerDependencies:
@@ -272,8 +292,44 @@ packages:
       vue-demi: 0.12.1_vue@3.2.31
     dev: false
 
+  /@vueuse/core/8.0.1_vue@3.2.31:
+    resolution: {integrity: sha512-LQ5pyxALWMZikNWzW2CTs/RfTyT0O3oYDl7jJhfckY0q/dLe2SCy5vX4+f6c2LFjG9M+sXRugne+W4t1I/wXUA==}
+    peerDependencies:
+      '@vue/composition-api': ^1.1.0
+      vue: ^2.6.0 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      '@vueuse/metadata': 8.0.1
+      '@vueuse/shared': 8.0.1_vue@3.2.31
+      vue: 3.2.31
+      vue-demi: 0.12.1_vue@3.2.31
+    dev: false
+
+  /@vueuse/metadata/8.0.1:
+    resolution: {integrity: sha512-+Y2TSsgliQMzqcRMcuX28XHrxojrZYGiBKzW05/mkPmlYGlUSOauF9pvyyslH0V4HfzCsg3CDKJhCnBLWKqN0w==}
+    dev: false
+
   /@vueuse/shared/7.7.1_vue@3.2.31:
     resolution: {integrity: sha512-rN2qd22AUl7VdBxihagWyhUNHCyVk9IpvBTTfHoLH9G7rGE552X1f+zeCfehuno0zXif13jPw+icW/wn2a0rnQ==}
+    peerDependencies:
+      '@vue/composition-api': ^1.1.0
+      vue: ^2.6.0 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      vue: 3.2.31
+      vue-demi: 0.12.1_vue@3.2.31
+    dev: false
+
+  /@vueuse/shared/8.0.1_vue@3.2.31:
+    resolution: {integrity: sha512-PZf84+DHWUnIKNhvIxL335uWjjfIeEhYjRFilDqEWB/t4yHfNbZxDpT+4OgiLtgdCcGG1JKryNI7nkY9TyEu6w==}
     peerDependencies:
       '@vue/composition-api': ^1.1.0
       vue: ^2.6.0 || ^3.2.0
@@ -563,20 +619,12 @@ packages:
     resolution: {integrity: sha512-fiDxw8mO9Ph1Z0bjX2sFTPpi0J0QkOiwOJF+5Q0J0baNc/F9lLePAvDPlnoxvbUYYMizqrKPeotRRkJ9LtxAew==}
     dev: true
 
-  /emmet-monaco-es/5.1.0_monaco-editor@0.32.1:
-    resolution: {integrity: sha512-muRcP2MsDLoHkjs9xEfE3qClyACpFanZT+UGDLgkS/dDGg6p1wndm1W7zGvx/NWUgPjeUxG4XNN6wRpV6O31TA==}
-    peerDependencies:
-      monaco-editor: '>=0.22.0'
-    dependencies:
-      emmet: 2.3.6
-      monaco-editor: 0.32.1
-    dev: false
-
   /emmet/2.3.6:
     resolution: {integrity: sha512-pLS4PBPDdxuUAmw7Me7+TcHbykTsBKN/S9XJbUOMFQrNv9MoshzyMFK/R57JBm94/6HSL4vHnDeEmxlC82NQ4A==}
     dependencies:
       '@emmetio/abbreviation': 2.2.3
       '@emmetio/css-abbreviation': 2.1.4
+    dev: true
 
   /entities/2.2.0:
     resolution: {integrity: sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==}
