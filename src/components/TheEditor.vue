@@ -21,10 +21,11 @@ import { computed, onMounted, ref, watch, watchEffect } from "vue";
 
 import EditorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 import CssWorker from "monaco-editor/esm/vs/language/css/css.worker?worker";
+import JSONWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
 import HtmlWorker from "monaco-editor/esm/vs/language/html/html.worker?worker";
 import TsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
-import { isEditorReady, store, theme } from "../composables/store";
-import { DEFAULT_EDITOR_CONFIG } from "../constants";
+import { isEditorReady, store, theme } from "~/composables/store";
+import { DEFAULT_EDITOR_CONFIG } from "~/constants";
 
 (self as any).MonacoEnvironment = {
   getWorker(_: string, label: string) {
@@ -36,6 +37,9 @@ import { DEFAULT_EDITOR_CONFIG } from "../constants";
     }
     if (["html"].includes(label)) {
       return new HtmlWorker();
+    }
+    if (["json"].includes(label)) {
+      return new JSONWorker();
     }
     return new EditorWorker();
   },

@@ -142,11 +142,11 @@
 <script setup lang="ts">
 import html2canvas from "html2canvas";
 import { onBeforeMount, ref } from "vue";
-import { store } from "../composables/store";
-import * as themes from "../themes";
+import { store } from "~/composables/store";
+import * as themes from "~/themes";
 import BaseToggle from "./BaseToggle.vue";
 import BaseSelect from "./BaseSelect.vue";
-import { AVAILABLE_LANGUAGES } from "../constants";
+import { AVAILABLE_LANGUAGES } from "~/constants";
 
 enum State {
   Idle,

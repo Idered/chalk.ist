@@ -63,14 +63,14 @@
 </template>
 
 <script setup lang="ts">
-import Editor from "./Editor.vue";
+import Editor from "./TheEditor.vue";
 import IconTwitter from "./IconTwitter.vue";
 import { useElementSize } from "@vueuse/core";
-import { isEditorReady, theme, store } from "../composables/store";
+import { isEditorReady, theme, store } from "~/composables/store";
 import { ref } from "vue";
 
 const editorFrame = ref();
-const { width, height } = useElementSize(editorFrame);
+const { width } = useElementSize(editorFrame);
 </script>
 
 <style>

@@ -2,7 +2,7 @@ import {
   ChalkTheme,
   createMonacoTheme,
   trimHSL,
-} from "../composables/theme-utils";
+} from "~/composables/theme-utils";
 
 export const vue: ChalkTheme = {
   key: "vue",

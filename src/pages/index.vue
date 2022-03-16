@@ -1,0 +1,12 @@
+<template>
+  <main class="bg-slate-900 min-h-screen grid grid-cols-[auto_1fr]">
+    <TheSidebar />
+    <TheEditorFrame />
+  </main>
+</template>
+
+<script setup lang="ts">
+import TheEditorFrame from "~/components/TheEditorFrame.vue";
+import TheSidebar from "~/components/TheSidebar.vue";
+</script>
+x
