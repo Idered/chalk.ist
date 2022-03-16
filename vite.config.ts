@@ -29,7 +29,7 @@ export default defineConfig({
       manifest: {
         name: "Chalk",
         short_name: "Chalk",
-        theme_color: "#ffffff",
+        theme_color: "#0b0b0d",
         icons: [
           {
             src: "/pwa-192x192.png",
