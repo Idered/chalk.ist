@@ -12,6 +12,13 @@
               isFocused = true;
             }
           "
+          @keydown.tab="
+            () => {
+              isOpen = false;
+              isFocused = false;
+              search = '';
+            }
+          "
           @blur="
             () => {
               isFocused = false;
