@@ -1,6 +1,6 @@
 <template>
   <div
-    class="border-r p-4 border-slate-700 bg-slate-800 grid gap-y-5 content-start min-w-[224px]"
+    class="border-r p-4 border-slate-700 bg-slate-800 grid gap-y-5 content-start min-w-[250px]"
   >
     <div class="grid gap-y-2 justify-start">
       <label class="font-semibold text-xs">Theme</label>
@@ -128,25 +128,19 @@
         }}
       </button>
     </div>
-
-    <a
-      href="https://twitter.com/Idered?ref_src=chalk.ist"
-      class="twitter-follow-button"
-      data-show-count="true"
-      data-show-screen-name="false"
-      data-size="large"
-    />
+    <TheTwitterFollowButton />
   </div>
 </template>
 
 <script setup lang="ts">
 import html2canvas from "html2canvas";
-import { onBeforeMount, ref } from "vue";
+import { ref } from "vue";
 import { store } from "~/composables/store";
 import * as themes from "~/themes";
 import BaseToggle from "./BaseToggle.vue";
 import BaseSelect from "./BaseSelect.vue";
 import { AVAILABLE_LANGUAGES } from "~/constants";
+import TheTwitterFollowButton from "./TheTwitterFollowButton.vue";
 
 enum State {
   Idle,
@@ -205,12 +199,4 @@ const handleDownload = async () => {
     downloadPng(canvas);
   });
 };
-
-onBeforeMount(() => {
-  let externalScript = document.createElement("script");
-  externalScript.setAttribute("async", "true");
-  externalScript.setAttribute("charset", "utf-8");
-  externalScript.setAttribute("src", "https://platform.twitter.com/widgets.js");
-  document.head.appendChild(externalScript);
-});
 </script>
