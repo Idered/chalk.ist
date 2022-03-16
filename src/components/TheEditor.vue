@@ -24,7 +24,7 @@ import CssWorker from "monaco-editor/esm/vs/language/css/css.worker?worker";
 import JSONWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
 import HtmlWorker from "monaco-editor/esm/vs/language/html/html.worker?worker";
 import TsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
-import { isEditorReady, store, theme } from "~/composables/store";
+import { store, theme } from "~/composables/store";
 import { DEFAULT_EDITOR_CONFIG } from "~/constants";
 
 (self as any).MonacoEnvironment = {
@@ -157,7 +157,6 @@ onMounted(async () => {
 
   await document.fonts.load("12px JetBrains Mono");
   monaco.editor.remeasureFonts();
-  isEditorReady.value = true;
 });
 </script>
 

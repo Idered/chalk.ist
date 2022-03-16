@@ -33,6 +33,7 @@ export default defineConfig({
         name: "Chalk",
         short_name: "Chalk",
         theme_color: "#101014",
+        background_color: "#101014",
         icons: [
           {
             src: "/pwa-192x192.png",

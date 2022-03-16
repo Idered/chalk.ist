@@ -15,7 +15,6 @@ export const store = useStorage("chalk-store", {
   content: DEFAULT_CONTENT,
 });
 
-export const isEditorReady = ref(false);
 export const theme = computed(
   () => (themes as Record<string, ChalkTheme>)[store.value.currentTheme]
 );

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex transition-opacity duration-700"
+    class="flex transition-opacity duration-700 h-[26px]"
     :class="{
       'opacity-0 pointer-events-none': !show || store.hideTwitterFollow,
     }"
