@@ -1,6 +1,6 @@
 <template>
   <div
-    class="border-r p-4 border-slate-700 bg-slate-800 min-h-screen grid gap-y-4 content-start min-w-[224px]"
+    class="border-r p-4 border-slate-700 bg-slate-800 grid gap-y-5 content-start min-w-[214px]"
   >
     <div class="grid gap-y-2 justify-start">
       <label class="font-medium text-xs">Theme</label>
@@ -17,22 +17,15 @@
       </div>
     </div>
 
-    <div class="grid gap-y-2">
+    <div class="grid gap-y-1">
       <label for="language" class="font-medium text-xs">Language</label>
-      <input
-        class="border border-slate-700 bg-slate-900 rounded-md focus:outline-none px-2 py-1 text-[13px]"
-        type="text"
-        id="language"
-        autocomplete="off"
-        spellcheck="false"
-        v-model="store.language"
-      />
+      <BaseSelect v-model="store.language" :options="AVAILABLE_LANGUAGES" />
     </div>
 
-    <div class="grid gap-y-2">
+    <div class="grid gap-y-1">
       <label for="username" class="font-medium text-xs">Username</label>
       <input
-        class="border border-slate-700 bg-slate-900 rounded-md focus:outline-none px-2 py-1 text-[13px]"
+        class="border border-slate-700 mask bg-slate-900 rounded-md focus:outline-none px-2 py-1 text-[13px]"
         type="text"
         id="username"
         autocomplete="off"
@@ -43,17 +36,22 @@
 
     <div class="grid gap-y-2">
       <div
-        class="grid grid-flow-col gap-y-2 items-center justify-start gap-x-2"
+        class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2"
       >
-        <input type="checkbox" v-model="store.diff" id="diff" class="sr-only" />
-        <BaseToggle v-model="store.diff" />
         <label class="font-medium text-xs select-none cursor-pointer" for="diff"
           >Diff</label
         >
+        <input type="checkbox" v-model="store.diff" id="diff" class="sr-only" />
+        <BaseToggle v-model="store.diff" />
       </div>
       <div
-        class="grid grid-flow-col gap-y-2 items-center justify-start gap-x-2"
+        class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2"
       >
+        <label
+          class="font-medium text-xs select-none cursor-pointer"
+          for="reflection"
+          >Reflection</label
+        >
         <input
           type="checkbox"
           v-model="store.reflection"
@@ -61,15 +59,11 @@
           class="sr-only"
         />
         <BaseToggle v-model="store.reflection" />
-        <label
-          class="font-medium text-xs select-none cursor-pointer"
-          for="reflection"
-          >Reflection</label
-        >
       </div>
     </div>
 
     <div class="grid gap-y-2">
+      <label class="font-medium text-xs">Export</label>
       <button
         class="bg-brand-600/30 text-brand-500 h-10 rounded font-medium grid justify-start pl-4 grid-flow-col gap-x-3 items-center text-xs hover:bg-brand-600/40 group transition"
         @click="handleCopy"
@@ -149,6 +143,8 @@ import { onBeforeMount, ref } from "vue";
 import { store } from "../composables/store";
 import * as themes from "../themes";
 import BaseToggle from "./BaseToggle.vue";
+import BaseSelect from "./BaseSelect.vue";
+import { AVAILABLE_LANGUAGES } from "../constants";
 
 enum State {
   Idle,

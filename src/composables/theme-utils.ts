@@ -54,8 +54,8 @@ export const createMonacoTheme = (theme: {
       { token: "metatag.php", fontStyle: "bold" },
 
       { token: "key", foreground: "#000000" },
-      { token: "string.key.json", foreground: "#000000" },
-      { token: "string.value.json", foreground: "#000000" },
+      { token: "string.key.json", foreground: theme.foreground },
+      { token: "string.value.json", foreground: theme.strings },
 
       { token: "attribute.name", foreground: theme.keywords },
       { token: "attribute.value", foreground: theme.strings },
@@ -68,7 +68,7 @@ export const createMonacoTheme = (theme: {
 
       { token: "keyword", foreground: theme.keywords },
       { token: "keyword.flow", foreground: "#000000" },
-      { token: "keyword.json", foreground: "#000000" },
+      { token: "keyword.json", foreground: theme.keywords },
       { token: "keyword.flow.scss", foreground: "#000000" },
 
       { token: "operator.scss", foreground: theme.delimiters },

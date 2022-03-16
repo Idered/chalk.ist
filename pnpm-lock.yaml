@@ -5,7 +5,9 @@ specifiers:
   '@vueform/multiselect': 2.3.3
   '@vueuse/components': 8.0.1
   '@vueuse/core': 7.7.1
+  '@vueuse/integrations': 8.0.1
   autoprefixer: 10.4.2
+  fuse.js: 6.5.3
   html2canvas: github:idered/html2canvas
   monaco-editor: 0.32.1
   postcss: 8.4.8
@@ -20,6 +22,8 @@ dependencies:
   '@vueform/multiselect': 2.3.3
   '@vueuse/components': 8.0.1_vue@3.2.31
   '@vueuse/core': 7.7.1_vue@3.2.31
+  '@vueuse/integrations': 8.0.1_fuse.js@6.5.3+vue@3.2.31
+  fuse.js: 6.5.3
   html2canvas: github.com/idered/html2canvas/e7b373f2d106a398d25e71deaf736f216b5a194e
   monaco-editor: 0.32.1
   vue: 3.2.31
@@ -307,6 +311,45 @@ packages:
       '@vueuse/shared': 8.0.1_vue@3.2.31
       vue: 3.2.31
       vue-demi: 0.12.1_vue@3.2.31
+    dev: false
+
+  /@vueuse/integrations/8.0.1_fuse.js@6.5.3+vue@3.2.31:
+    resolution: {integrity: sha512-4px31nvskjBhRyIZLlGvWO5/5ji0sEnMr67vdM/qcBn++r8LjxUVCItRJqVuJGj78JPKCbKsnengIVkKVTsYuQ==}
+    peerDependencies:
+      axios: '*'
+      change-case: '*'
+      drauu: '*'
+      focus-trap: '*'
+      fuse.js: '*'
+      jwt-decode: '*'
+      nprogress: '*'
+      qrcode: '*'
+      universal-cookie: '*'
+    peerDependenciesMeta:
+      axios:
+        optional: true
+      drauu:
+        optional: true
+      focus-trap:
+        optional: true
+      fuse.js:
+        optional: true
+      jwt-decode:
+        optional: true
+      nprogress:
+        optional: true
+      qrcode:
+        optional: true
+      universal-cookie:
+        optional: true
+    dependencies:
+      '@vueuse/core': 8.0.1_vue@3.2.31
+      '@vueuse/shared': 8.0.1_vue@3.2.31
+      fuse.js: 6.5.3
+      vue-demi: 0.12.1_vue@3.2.31
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
     dev: false
 
   /@vueuse/metadata/8.0.1:
@@ -901,6 +944,11 @@ packages:
   /function-bind/1.1.1:
     resolution: {integrity: sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==}
     dev: true
+
+  /fuse.js/6.5.3:
+    resolution: {integrity: sha512-sA5etGE7yD/pOqivZRBvUBd/NaL2sjAu6QuSaFoe1H2BrJSkH/T/UXAJ8CdXdw7DvY3Hs8CXKYkDWX7RiP5KOg==}
+    engines: {node: '>=10'}
+    dev: false
 
   /get-intrinsic/1.1.1:
     resolution: {integrity: sha512-kWZrnVM42QCiEA2Ig1bG8zjoIMOgxWwYCEeNdwY6Tv/cOSeGpcoX4pXHfKUxNKVoArnrEr2e9srnAxxGIraS9Q==}

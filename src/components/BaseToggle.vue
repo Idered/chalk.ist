@@ -1,8 +1,8 @@
 <template>
   <svg
     width="32"
-    height="18"
-    viewBox="0 0 32 18"
+    height="20"
+    viewBox="0 0 34 20"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     class="cursor-pointer select-none"
@@ -11,9 +11,9 @@
     <rect
       x="1"
       y="1"
-      width="30"
-      height="16"
-      rx="8"
+      width="32"
+      height="18"
+      rx="9"
       class="transition"
       :class="{
         'fill-slate-600': !modelValue,
@@ -22,12 +22,12 @@
     />
     <circle
       cx="10"
-      cy="9"
-      r="5"
+      cy="10"
+      r="6"
       fill="white"
       class="transition"
       :class="{
-        'translate-x-3': modelValue,
+        'translate-x-[14px]': modelValue,
       }"
     ></circle>
   </svg>

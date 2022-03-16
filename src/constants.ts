@@ -42,3 +42,12 @@ export const DEFAULT_EDITOR_CONFIG: monaco.editor.IStandaloneDiffEditorConstruct
     minimap: { enabled: false },
     scrollbar: { vertical: "hidden" },
   };
+
+export const AVAILABLE_LANGUAGES = [
+  { value: "javascript", label: "JavaScript" },
+  { value: "typescript", label: "TypeScript" },
+  { value: "css", label: "CSS" },
+  { value: "json", label: "JSON" },
+  { value: "scss", label: "SCSS" },
+  { value: "html", label: "HTML" },
+].sort((a, b) => a.label.localeCompare(b.label));
