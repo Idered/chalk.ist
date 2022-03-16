@@ -35,7 +35,6 @@ const show = ref(false);
 
 onBeforeMount(async () => {
   let script = document.createElement("script");
-  //   script.setAttribute("defer", "true");
   script.setAttribute("charset", "utf-8");
   script.setAttribute("src", "https://platform.twitter.com/widgets.js");
   script.addEventListener("load", () => {
