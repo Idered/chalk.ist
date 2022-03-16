@@ -3,7 +3,7 @@
     <div
       ref="editorFrame"
       data-editor-frame
-      class="bg-frame p-8 grid overflow-hidden duration-500 justify-items-center items-center transition"
+      class="bg-frame p-8 grid overflow-hidden justify-items-center items-center"
       :class="{
         'opacity-0 scale-95': !isEditorReady,
       }"
