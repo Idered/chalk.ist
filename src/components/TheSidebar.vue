@@ -1,6 +1,6 @@
 <template>
   <div
-    class="border-r p-4 border-slate-700 bg-slate-800 grid gap-y-5 content-start min-w-[250px]"
+    class="border-r p-4 border-slate-700 bg-slate-800 grid gap-y-5 content-start min-w-[250px] border-t border-t-slate-900 shadow-[inset_0_1px_0_rgb(30_30_37)]"
   >
     <div class="grid gap-y-2 justify-start">
       <label class="font-semibold text-xs">Theme</label>
