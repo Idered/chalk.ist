@@ -8,6 +8,7 @@
         <button
           v-for="theme in themes"
           class="w-6 h-6 rounded-full transition hover:scale-105 active:scale-95 hover:opacity-100"
+          :title="`Use ${theme.name} theme`"
           :style="{ backgroundImage: theme.background }"
           @click="store.currentTheme = theme.key"
           :class="{
