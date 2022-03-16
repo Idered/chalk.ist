@@ -26,6 +26,9 @@ export default defineConfig({
     // https://github.com/antfu/vite-plugin-pwa
     VitePWA({
       registerType: "autoUpdate",
+      workbox: {
+        maximumFileSizeToCacheInBytes: 1024 * 1024 * 5,
+      },
       manifest: {
         name: "Chalk",
         short_name: "Chalk",
