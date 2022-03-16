@@ -71,7 +71,7 @@ export default defineConfig({
       "@vueuse/core",
       "@vueuse/head",
       "@vueuse/components",
-      "@vueuse/integrations",
+      "@vueuse/integrations/useFuse",
     ],
     exclude: ["vue-demi"],
   },
