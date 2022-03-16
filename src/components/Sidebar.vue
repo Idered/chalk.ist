@@ -1,9 +1,9 @@
 <template>
   <div
-    class="border-r p-4 border-slate-700 bg-slate-800 grid gap-y-5 content-start min-w-[214px]"
+    class="border-r p-4 border-slate-700 bg-slate-800 grid gap-y-5 content-start min-w-[224px]"
   >
     <div class="grid gap-y-2 justify-start">
-      <label class="font-medium text-xs">Theme</label>
+      <label class="font-semibold text-xs">Theme</label>
       <div class="grid grid-flow-col items-center gap-x-2">
         <button
           v-for="theme in themes"
@@ -18,14 +18,14 @@
     </div>
 
     <div class="grid gap-y-1">
-      <label for="language" class="font-medium text-xs">Language</label>
+      <label for="language" class="font-semibold text-xs">Language</label>
       <BaseSelect v-model="store.language" :options="AVAILABLE_LANGUAGES" />
     </div>
 
     <div class="grid gap-y-1">
-      <label for="username" class="font-medium text-xs">Username</label>
+      <label for="username" class="font-semibold text-xs">Username</label>
       <input
-        class="border border-slate-700 mask bg-slate-900 rounded-md focus:outline-none px-2 py-1 text-[13px]"
+        class="border font-mono border-slate-700 mask bg-slate-900 rounded-md focus:outline-none px-2 py-1 text-[13px]"
         type="text"
         id="username"
         autocomplete="off"
@@ -38,7 +38,9 @@
       <div
         class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2"
       >
-        <label class="font-medium text-xs select-none cursor-pointer" for="diff"
+        <label
+          class="font-semibold text-xs select-none cursor-pointer"
+          for="diff"
           >Diff</label
         >
         <input type="checkbox" v-model="store.diff" id="diff" class="sr-only" />
@@ -48,7 +50,7 @@
         class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2"
       >
         <label
-          class="font-medium text-xs select-none cursor-pointer"
+          class="font-semibold text-xs select-none cursor-pointer"
           for="reflection"
           >Reflection</label
         >
@@ -63,9 +65,9 @@
     </div>
 
     <div class="grid gap-y-2">
-      <label class="font-medium text-xs">Export</label>
+      <label class="font-semibold text-xs">Export</label>
       <button
-        class="bg-brand-600/30 text-brand-500 h-10 rounded font-medium grid justify-start pl-4 grid-flow-col gap-x-3 items-center text-xs hover:bg-brand-600/40 group transition"
+        class="bg-brand-600/30 text-brand-500 h-10 rounded font-semibold grid justify-start px-4 grid-flow-col gap-x-3 items-center text-xs hover:bg-brand-600/40 group transition"
         @click="handleCopy"
       >
         <svg
@@ -96,7 +98,7 @@
       </button>
 
       <button
-        class="bg-rose-500/30 text-rose-300 h-10 rounded font-medium grid justify-start pl-4 grid-flow-col gap-x-3 items-center text-xs hover:bg-rose-500/40 group transition"
+        class="bg-rose-500/30 text-rose-300 h-10 rounded font-semibold grid justify-start pl-4 grid-flow-col gap-x-3 items-center text-xs hover:bg-rose-500/40 group transition"
         @click="handleDownload"
       >
         <svg

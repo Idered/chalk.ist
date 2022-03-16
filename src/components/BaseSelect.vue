@@ -1,10 +1,10 @@
 <template>
   <OnClickOutside @trigger="isOpen = false">
-    <div class="relative" @keyup.esc="isOpen = false">
+    <div class="relative font-mono" @keyup.esc="isOpen = false">
       <div class="relative">
         <input
           type="text"
-          class="border border-slate-700 rounded-md transition focus:outline-none px-2 py-1 text-[13px] w-full"
+          class="border font-mono border-slate-700 rounded-md transition focus:outline-none px-2 py-1 text-[13px] w-full"
           @focus="
             () => {
               activeIndex = 0;
