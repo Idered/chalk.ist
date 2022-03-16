@@ -94,6 +94,8 @@
             ? "..."
             : state === State.JustCopied
             ? "Copied!"
+            : state === State.CopyFailure
+            ? "Error! Try to download"
             : "Copy to Clipboard"
         }}
       </button>
@@ -135,8 +137,8 @@
 
 <script setup lang="ts">
 import html2canvas from "html2canvas";
-import { ref } from "vue";
-import { store } from "~/composables/store";
+import { nextTick, ref } from "vue";
+import { isExporting, store } from "~/composables/store";
 import * as themes from "~/themes";
 import BaseToggle from "./BaseToggle.vue";
 import BaseSelect from "./BaseSelect.vue";
@@ -149,6 +151,7 @@ enum State {
   PreparingToDownload,
   JustCopied,
   JustDownloaded,
+  CopyFailure,
 }
 
 const state = ref(State.Idle);
@@ -173,13 +176,21 @@ const downloadPng = (canvas: HTMLCanvasElement) => {
 const copyToClipboard = (canvas: HTMLCanvasElement) => {
   canvas.toBlob(function (blob) {
     if (!blob) return;
-    const item = new ClipboardItem({ "image/png": blob });
-    navigator.clipboard.write([item]);
-    state.value = State.JustCopied;
-    clearTimeout(timeout.value);
-    timeout.value = setTimeout(() => {
-      state.value = State.Idle;
-    }, 1000);
+    try {
+      const item = new ClipboardItem({ "image/png": blob });
+      navigator.clipboard.write([item]);
+      state.value = State.JustCopied;
+      clearTimeout(timeout.value);
+      timeout.value = setTimeout(() => {
+        state.value = State.Idle;
+      }, 1000);
+    } catch {
+      state.value = State.CopyFailure;
+      clearTimeout(timeout.value);
+      timeout.value = setTimeout(() => {
+        state.value = State.Idle;
+      }, 1000);
+    }
   }, "image/png");
 };
 
@@ -187,7 +198,10 @@ const handleCopy = async () => {
   const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
   if (!frame) return;
   state.value = State.PreparingToCopy;
+  isExporting.value = true;
+  await nextTick();
   html2canvas(frame).then((canvas) => {
+    isExporting.value = false;
     copyToClipboard(canvas);
   });
 };
@@ -196,7 +210,10 @@ const handleDownload = async () => {
   const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
   if (!frame) return;
   state.value = State.PreparingToDownload;
+  isExporting.value = true;
+  await nextTick();
   html2canvas(frame).then((canvas) => {
+    isExporting.value = false;
     downloadPng(canvas);
   });
 };

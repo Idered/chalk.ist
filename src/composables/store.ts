@@ -1,6 +1,6 @@
 import { useStorage } from "@vueuse/core";
 import * as themes from "~/themes";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { ChalkTheme } from "./theme-utils";
 import { DEFAULT_CONTENT, DEFAULT_THEME } from "~/constants";
 
@@ -15,6 +15,7 @@ export const store = useStorage("chalk-store", {
   content: DEFAULT_CONTENT,
 });
 
+export const isExporting = ref(false);
 export const theme = computed(
   () => (themes as Record<string, ChalkTheme>)[store.value.currentTheme]
 );

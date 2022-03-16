@@ -1,5 +1,5 @@
 <template>
-  <main class="bg-slate-900 min-h-screen grid md:grid-cols-[auto_1fr]">
+  <main class="bg-slate-900 md:min-h-screen grid md:grid-cols-[auto_1fr]">
     <TheSidebar />
     <TheEditorFrame />
   </main>

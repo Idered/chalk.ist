@@ -5,7 +5,9 @@
     <div
       :style="{
         transform:
-          width > windowWidth ? `scale(${windowWidth / width})` : undefined,
+          width > windowWidth && !isExporting
+            ? `scale(${windowWidth / width})`
+            : undefined,
         transformOrigin: 'left top',
       }"
     >
@@ -78,7 +80,7 @@
 import Editor from "./TheEditor.vue";
 import IconTwitter from "./IconTwitter.vue";
 import { useElementSize, useWindowSize } from "@vueuse/core";
-import { theme, store } from "~/composables/store";
+import { theme, store, isExporting } from "~/composables/store";
 import { ref } from "vue";
 
 const editorFrame = ref();
