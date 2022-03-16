@@ -1,6 +1,6 @@
 import { useStorage } from "@vueuse/core";
 import * as themes from "~/themes";
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import { ChalkTheme } from "./theme-utils";
 import { DEFAULT_CONTENT, DEFAULT_THEME } from "~/constants";
 
