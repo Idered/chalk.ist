@@ -30,13 +30,13 @@
             isOpen = false;
             (e.target as HTMLInputElement).blur();
           }"
-          @keydown.up="
+          @keydown.up.prevent="
             () => {
               activeIndex =
                 activeIndex - 1 >= 0 ? activeIndex - 1 : options.length - 1;
             }
           "
-          @keydown.down="
+          @keydown.down.prevent="
             () => {
               activeIndex =
                 activeIndex + 1 < options.length ? activeIndex + 1 : 0;
@@ -93,7 +93,7 @@
 
 <script setup lang="ts">
 import { OnClickOutside } from "@vueuse/components";
-import { computed, PropType, ref } from "vue";
+import { computed, PropType, ref, watchEffect } from "vue";
 import IconChevronDown from "./IconChevronDown.vue";
 import { useFuse } from "@vueuse/integrations/useFuse";
 
@@ -128,6 +128,12 @@ const { results } = useFuse(search, props.options, {
   fuseOptions: {
     keys: ["label"],
   },
+});
+
+watchEffect(() => {
+  if (results.value.length - 1 < activeIndex.value) {
+    activeIndex.value = results.value.length - 1;
+  }
 });
 
 function handleSelect(option: Option) {
