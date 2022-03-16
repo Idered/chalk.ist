@@ -4,9 +4,10 @@
       <div class="relative">
         <input
           type="text"
-          class="border border-slate-700 bg-slate-800 rounded-md focus:outline-none px-2 py-1 text-[13px] w-full shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px;]"
+          class="border border-slate-700 rounded-md transition focus:outline-none px-2 py-1 text-[13px] w-full"
           @focus="
             () => {
+              activeIndex = 0;
               isOpen = true;
               isFocused = true;
             }
@@ -38,7 +39,9 @@
           v-model.trim="search"
           :placeholder="isFocused ? 'Search' : selected?.label"
           :class="{
-            'cursor-pointer': !isFocused,
+            'bg-slate-900': isFocused,
+            'cursor-pointer bg-slate-800 shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px]':
+              !isFocused,
             'placeholder-slate-600/50': isFocused,
           }"
         />
@@ -54,7 +57,7 @@
       <transition appear>
         <div
           v-if="isOpen"
-          class="absolute top-full p-0.5 border border-slate-700 bg-slate-800 rounded-md w-full translate-y-2 shadow-[rgba(0,0,0,0.25)_0px_14px_28px,rgba(0,0,0,0.22)_0px_10px_10px]"
+          class="absolute top-full p-1 border border-slate-700 bg-slate-800 rounded-md w-full translate-y-2 shadow-[rgba(0,0,0,0.25)_0px_14px_28px,rgba(0,0,0,0.22)_0px_10px_10px]"
         >
           <div
             v-for="(result, i) in results"
@@ -62,6 +65,8 @@
             class="text-xs font-medium px-2 h-6 grid items-center cursor-pointer transition-colors"
             :class="{
               'text-white': i === activeIndex,
+              'bg-white/10 text-white rounded':
+                result.item.value === modelValue,
             }"
             @mouseenter="activeIndex = i"
           >
