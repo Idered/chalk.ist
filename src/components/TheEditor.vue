@@ -35,10 +35,10 @@ import { DEFAULT_EDITOR_CONFIG } from "~/constants";
     if (["css", "scss"].includes(label)) {
       return new CssWorker();
     }
-    if (["html"].includes(label)) {
+    if (["html", "handlebars", "twig"].includes(label)) {
       return new HtmlWorker();
     }
-    if (["json"].includes(label)) {
+    if (["json", "yaml"].includes(label)) {
       return new JSONWorker();
     }
     return new EditorWorker();

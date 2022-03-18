@@ -14,7 +14,7 @@
     />
     <button
       type="button"
-      class="border rounded-full h-6 w-6 shrink-0 grid ml-4 items-center hover:border-slate-600/40 justify-center transition-colors group hover:bg-slate-800 border-slate-700 bg-slate-900"
+      class="border rounded-full h-6 w-6 shrink-0 grid ml-4 items-center hover:border-slate-600/40 focus:outline-none focus:ring-[3px] focus:border-blue-800 ring-blue-900/20 justify-center transition-colors group hover:bg-slate-800 border-slate-700 bg-slate-900"
       title="Hide Twitter Follow Button"
       @click="store.hideTwitterFollow = true"
     >

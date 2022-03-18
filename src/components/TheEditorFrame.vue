@@ -1,74 +1,66 @@
 <template>
   <div
-    class="grid md:justify-items-center md:items-center max-w-screen overflow-hidden"
+    class="grid md:justify-items-center md:items-center"
+    :style="{
+      transform:
+        width > windowWidth && !isExporting
+          ? `scale(${windowWidth / width})`
+          : undefined,
+      transformOrigin: 'left top',
+    }"
   >
     <div
+      ref="editorFrame"
+      data-editor-frame
+      class="bg-frame grid justify-items-center items-center"
       :style="{
-        transform:
-          width > windowWidth && !isExporting
-            ? `scale(${windowWidth / width})`
-            : undefined,
-        transformOrigin: 'left top',
+        minHeight: `${(width / 16) * 9 + 1}px`,
       }"
     >
-      <div
-        ref="editorFrame"
-        data-editor-frame
-        class="bg-frame grid justify-items-center items-center"
-        :style="{
-          minHeight: `${(width / 16) * 9 + 1}px`,
-        }"
-      >
-        <div class="p-8">
-          <div class="bg-black/80 rounded-md px-4 shadow-app relative">
-            <div
-              v-if="store.reflection"
-              class="absolute inset-0 overflow-hidden pointer-events-none"
+      <div class="p-8">
+        <div class="bg-black/80 rounded-md px-4 shadow-app relative">
+          <div
+            v-if="store.reflection"
+            class="absolute inset-0 overflow-hidden pointer-events-none"
+          >
+            <svg
+              class="absolute left-0 top-0 w-3/6"
+              viewBox="0 0 100 172"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <svg
-                class="absolute left-0 top-0 w-3/6"
-                viewBox="0 0 100 172"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M0 0H100L47 172H0V0Z"
-                  fill="url(#paint0_linear_47_2)"
-                />
-                <defs>
-                  <linearGradient
-                    id="paint0_linear_47_2"
-                    x1="50"
-                    y1="0"
-                    x2="50"
-                    y2="100"
-                    gradientUnits="userSpaceOnUse"
-                  >
-                    <stop stop-color="white" stop-opacity="0.02" />
-                    <stop offset="1" stop-color="white" stop-opacity="0" />
-                  </linearGradient>
-                </defs>
-              </svg>
-            </div>
-            <div class="pt-4 grid justify-start gap-x-2 grid-flow-col">
-              <div class="w-3 h-3 bg-white/25 rounded-full"></div>
-              <div class="w-3 h-3 bg-white/25 rounded-full"></div>
-              <div class="w-3 h-3 bg-white/25 rounded-full"></div>
-            </div>
-            <div class="py-8">
-              <Editor ref="editor" />
-            </div>
+              <path d="M0 0H100L47 172H0V0Z" fill="url(#paint0_linear_47_2)" />
+              <defs>
+                <linearGradient
+                  id="paint0_linear_47_2"
+                  x1="50"
+                  y1="0"
+                  x2="50"
+                  y2="100"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stop-color="white" stop-opacity="0.02" />
+                  <stop offset="1" stop-color="white" stop-opacity="0" />
+                </linearGradient>
+              </defs>
+            </svg>
           </div>
-          <div class="flex justify-end">
-            <div
-              class="rounded-full z-10 relative p-1 pr-4 bg-black/70 text-white mt-4 flex items-center"
-              v-if="store.username"
-            >
-              <IconTwitter :width="32" />
-              <div class="font-semibold text-sm ml-2">
-                @{{ store.username }}
-              </div>
-            </div>
+          <div class="pt-4 grid justify-start gap-x-2 grid-flow-col">
+            <div class="w-3 h-3 bg-white/25 rounded-full"></div>
+            <div class="w-3 h-3 bg-white/25 rounded-full"></div>
+            <div class="w-3 h-3 bg-white/25 rounded-full"></div>
+          </div>
+          <div class="py-8">
+            <Editor ref="editor" />
+          </div>
+        </div>
+        <div class="flex justify-end">
+          <div
+            class="rounded-full z-10 relative p-1 pr-4 bg-black/70 text-white mt-4 flex items-center"
+            v-if="store.username"
+          >
+            <IconTwitter :width="32" />
+            <div class="font-semibold text-sm ml-2">@{{ store.username }}</div>
           </div>
         </div>
       </div>

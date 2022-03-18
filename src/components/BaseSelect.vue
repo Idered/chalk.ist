@@ -1,49 +1,51 @@
 <template>
-  <OnClickOutside @trigger="isOpen = false">
-    <div class="relative font-mono" @keyup.esc="isOpen = false">
+  <OnClickOutside @trigger="close">
+    <div class="relative font-mono" @keyup.esc="close">
       <div class="relative">
-        <input
+        <BaseInput
+          role="combobox"
+          :id="id"
+          :aria-expanded="isOpen"
           type="text"
-          class="border font-mono border-slate-700 rounded-md transition focus:outline-none px-2 py-1 text-[13px] w-full"
-          @focus="
-            () => {
-              activeIndex = 0;
-              isOpen = true;
-              isFocused = true;
+          :readonly="!isOpen"
+          @click="open"
+          @keydown="
+            (e) => {
+              if (
+                !isOpen &&
+                !['Enter', 'ArrowDown', 'ArrowUp', 'Space'].includes(e.code)
+              ) {
+                return;
+              }
+              if (!isOpen && e.code !== 'Tab') {
+                e.preventDefault();
+                return open();
+              }
+              switch (e.code) {
+                case 'Tab':
+                  return close();
+                case 'ArrowDown':
+                  activeIndex =
+                    activeIndex + 1 < results.length ? activeIndex + 1 : 0;
+                  break;
+                case 'ArrowUp':
+                  activeIndex =
+                    activeIndex - 1 >= 0 ? activeIndex - 1 : results.length - 1;
+                  break;
+                case 'Enter':
+                  if (activeIndex > -1) {
+                    $emit('update:modelValue', results[activeIndex].item.value);
+                  }
+                  return close();
+                case 'Escape':
+                  return close();
+                default:
+                  break;
+              }
             }
           "
-          @keydown.tab="
-            () => {
-              isOpen = false;
-              isFocused = false;
-              search = '';
-            }
-          "
-          @blur="
-            () => {
-              isFocused = false;
-              search = '';
-            }
-          "
-          @keydown.enter="(e) => {
-            $emit('update:modelValue', results[activeIndex].item.value);
-            isOpen = false;
-            (e.target as HTMLInputElement).blur();
-          }"
-          @keydown.up.prevent="
-            () => {
-              activeIndex =
-                activeIndex - 1 >= 0 ? activeIndex - 1 : options.length - 1;
-            }
-          "
-          @keydown.down.prevent="
-            () => {
-              activeIndex =
-                activeIndex + 1 < options.length ? activeIndex + 1 : 0;
-            }
-          "
-          @keyup.esc="($event.target as HTMLInputElement).blur()"
-          v-model.trim="search"
+          @keyup.esc="close"
+          v-model="search"
           :placeholder="isFocused ? 'Search' : selected?.label"
           :class="{
             'bg-slate-900': isFocused,
@@ -64,20 +66,39 @@
       <transition appear>
         <div
           v-if="isOpen"
-          class="absolute top-full p-1 border border-slate-700 bg-slate-800 rounded-md w-full translate-y-2 shadow-[rgba(0,0,0,0.25)_0px_14px_28px,rgba(0,0,0,0.22)_0px_10px_10px]"
+          class="absolute z-10 grid top-full p-1 border border-slate-700 bg-slate-800 rounded-md w-full translate-y-2 shadow-[rgba(0,0,0,0.25)_0px_14px_28px,rgba(0,0,0,0.22)_0px_10px_10px]"
+          @mouseleave="
+            () => {
+              activeIndex = -1;
+            }
+          "
         >
           <div
             v-for="(result, i) in results"
             @click="handleSelect(result.item)"
-            class="text-xs font-medium px-2 h-6 grid items-center cursor-pointer transition-colors"
+            class="text-xs font-medium px-2 h-6 pl-6 grid items-center cursor-pointer transition-colors"
             :class="{
               'text-white': i === activeIndex,
-              'bg-white/10 text-white rounded':
-                result.item.value === modelValue,
             }"
             @mouseenter="activeIndex = i"
           >
+            <IconCheck
+              width="12"
+              class="absolute left-2"
+              v-if="modelValue === result.item.value"
+            />
             {{ result.item.label }}
+          </div>
+          <div
+            v-if="!search"
+            v-for="item in groups"
+            :key="item.group"
+            class="text-xs opacity-50 pl-2 font-medium px-2 h-6 grid items-center cursor-pointer transition-colors"
+            :style="{
+              gridRowStart: item.index,
+            }"
+          >
+            {{ item.group }}
           </div>
           <div
             v-if="results.length === 0"
@@ -93,13 +114,20 @@
 
 <script setup lang="ts">
 import { OnClickOutside } from "@vueuse/components";
-import { computed, PropType, ref, watchEffect } from "vue";
+import { computed, PropType, ref } from "vue";
 import IconChevronDown from "./IconChevronDown.vue";
 import { useFuse } from "@vueuse/integrations/useFuse";
+import IconCheck from "./IconCheck.vue";
+import BaseInput from "./BaseInput.vue";
 
 type Option = {
   value: string;
   label: string;
+};
+
+type OptionGroup = {
+  group: string;
+  children: Option[];
 };
 
 const emit = defineEmits(["update:modelValue"]);
@@ -109,37 +137,74 @@ const props = defineProps({
     type: String,
     default: "",
   },
+  id: {
+    type: String,
+    default: "",
+  },
   options: {
-    type: Array as PropType<Option[]>,
+    type: Array as PropType<
+      (Option & OptionGroup)[] | Option[] | OptionGroup[]
+    >,
     default: () => [],
     required: true,
   },
 });
 
-const activeIndex = ref(0);
+const activeIndex = ref(-1);
 const search = ref("");
 const isOpen = ref(false);
 const isFocused = ref(false);
-const selected = computed(() => {
-  return props.options.find((option) => option.value === props.modelValue);
+const flatOptions = computed(() => {
+  return props.options.flatMap((option) => {
+    if ("group" in option) {
+      return option.children;
+    }
+    return option;
+  });
 });
-const { results } = useFuse(search, props.options, {
+const groups = computed(() => {
+  let index = 1;
+  const result = [] as (OptionGroup & { index: number })[];
+  for (const item of props.options) {
+    if (!("group" in item)) {
+      index++;
+      continue;
+    }
+    result.push({
+      index,
+      group: item.group,
+      children: item.children,
+    });
+    index += item.children.length + 1;
+  }
+  return result;
+});
+const selected = computed(() => {
+  return flatOptions.value.find((option) => option.value === props.modelValue);
+});
+const { results } = useFuse(search, flatOptions, {
   matchAllWhenSearchEmpty: true,
   fuseOptions: {
     keys: ["label"],
   },
 });
 
-watchEffect(() => {
-  if (results.value.length - 1 < activeIndex.value) {
-    activeIndex.value = results.value.length - 1;
-  }
-});
+function open() {
+  activeIndex.value = -1;
+  isOpen.value = true;
+  isFocused.value = true;
+}
+
+function close() {
+  activeIndex.value = -1;
+  isOpen.value = false;
+  isFocused.value = false;
+  search.value = "";
+}
 
 function handleSelect(option: Option) {
   emit("update:modelValue", option.value);
-  isOpen.value = false;
-  search.value = "";
+  close();
 }
 </script>
 

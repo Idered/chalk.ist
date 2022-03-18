@@ -7,26 +7,35 @@
       <div class="grid grid-flow-col items-center gap-x-2">
         <button
           v-for="theme in themes"
-          class="w-6 h-6 rounded-full transition hover:scale-105 active:scale-95 hover:opacity-100"
-          :title="`Use ${theme.name} theme`"
-          :style="{ backgroundImage: theme.background }"
           @click="store.currentTheme = theme.key"
-          :class="{
-            'opacity-50': store.currentTheme !== theme.key,
-          }"
-        ></button>
+          class="group rounded-full focus:outline-none"
+          :title="`Use ${theme.name} theme`"
+        >
+          <div
+            class="w-6 h-6 rounded-full group-hover:opacity-100 transition group-hover:scale-105 group-active:scale-95 group-focus:shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] group-focus:ring-[3px] ring-blue-800"
+            :class="{
+              'opacity-50': store.currentTheme !== theme.key,
+            }"
+            :style="{ backgroundImage: theme.background }"
+          ></div>
+        </button>
       </div>
     </div>
 
     <div class="grid gap-y-1">
       <label for="language" class="font-semibold text-xs">Language</label>
-      <BaseSelect v-model="store.language" :options="AVAILABLE_LANGUAGES" />
+      <BaseSelect
+        id="language"
+        v-model="store.language"
+        :options="AVAILABLE_LANGUAGES"
+      />
     </div>
 
     <div class="grid gap-y-1">
       <label for="username" class="font-semibold text-xs">Username</label>
-      <input
-        class="border font-mono border-slate-700 mask bg-slate-900 rounded-md focus:outline-none px-2 py-1 text-[13px]"
+
+      <BaseInput
+        class="border font-mono focus:outline-none focus:ring-[3px] focus:border-blue-800 ring-blue-900/20 border-slate-700 bg-slate-900 rounded-md px-2 py-1 text-[13px]"
         type="text"
         id="username"
         autocomplete="off"
@@ -44,8 +53,7 @@
           for="diff"
           >Diff</label
         >
-        <input type="checkbox" v-model="store.diff" id="diff" class="sr-only" />
-        <BaseToggle v-model="store.diff" />
+        <BaseSwitch v-model="store.diff" id="diff" />
       </div>
       <div
         class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2"
@@ -55,20 +63,14 @@
           for="reflection"
           >Reflection</label
         >
-        <input
-          type="checkbox"
-          v-model="store.reflection"
-          id="reflection"
-          class="sr-only"
-        />
-        <BaseToggle v-model="store.reflection" />
+        <BaseSwitch v-model="store.reflection" id="reflection" />
       </div>
     </div>
 
     <div class="grid gap-y-2">
       <label class="font-semibold text-xs">Export</label>
       <button
-        class="bg-brand-600/30 text-brand-500 h-10 rounded font-semibold grid justify-start px-4 grid-flow-col gap-x-3 items-center text-xs hover:bg-brand-600/40 group transition"
+        class="focus:outline-none focus:ring-[3px] ring-blue-600/30 bg-emerald-600/30 text-emerald-500 h-10 rounded font-semibold grid justify-start px-4 grid-flow-col gap-x-3 items-center text-xs hover:bg-emerald-600/40 group transition"
         @click="handleCopy"
       >
         <svg
@@ -101,7 +103,7 @@
       </button>
 
       <button
-        class="bg-rose-500/30 text-rose-300 h-10 rounded font-semibold grid justify-start pl-4 grid-flow-col gap-x-3 items-center text-xs hover:bg-rose-500/40 group transition"
+        class="focus:outline-none focus:ring-[3px] ring-blue-600/30 bg-rose-500/30 text-rose-300 h-10 rounded font-semibold grid justify-start pl-4 grid-flow-col gap-x-3 items-center text-xs hover:bg-rose-500/40 group transition"
         @click="handleDownload"
       >
         <svg
@@ -131,7 +133,7 @@
         }}
       </button>
     </div>
-    <TheTwitterFollowButton />
+    <!-- <TheTwitterFollowButton /> -->
   </div>
 </template>
 
@@ -140,10 +142,11 @@ import html2canvas from "html2canvas";
 import { nextTick, ref } from "vue";
 import { isExporting, store } from "~/composables/store";
 import * as themes from "~/themes";
-import BaseToggle from "./BaseToggle.vue";
+import BaseSwitch from "./BaseSwitch.vue";
 import BaseSelect from "./BaseSelect.vue";
 import { AVAILABLE_LANGUAGES } from "~/constants";
-import TheTwitterFollowButton from "./TheTwitterFollowButton.vue";
+// import TheTwitterFollowButton from "./TheTwitterFollowButton.vue";
+import BaseInput from "./BaseInput.vue";
 
 enum State {
   Idle,
