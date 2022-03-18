@@ -1,140 +1,140 @@
 <template>
-  <div
-    class="border-r p-4 border-slate-700 bg-slate-800 grid gap-y-5 content-start min-w-[250px] border-t border-t-slate-900 shadow-[inset_0_1px_0_rgb(30_30_37)]"
-  >
-    <div class="grid gap-y-2 justify-start">
-      <label class="font-semibold text-xs">Theme</label>
-      <div class="grid grid-flow-col items-center gap-x-2">
-        <button
-          v-for="theme in themes"
-          @click="store.currentTheme = theme.key"
-          class="group rounded-full focus:outline-none"
-          :title="`Use ${theme.name} theme`"
-        >
+  <aside>
+    <div class="sm:hidden" :style="{ height: '57px' }"></div>
+    <div
+      class="fixed bottom-0 inset-x-0 border-t border-slate-700 sm:border-t-0 sm:border-r content-start overflow-hidden transition-[height] sm:!h-screen sm:w-[240px] sm:static bg-slate-800"
+      :style="{
+        height: isExpanded ? `${287 + 57}px` : `57px`,
+      }"
+    >
+      <!-- <div
+      class="border-r p-4 border-slate-700 bg-slate-800 grid gap-y-5 content-start min-w-[250px] border-t border-t-slate-900 shadow-[inset_0_1px_0_rgb(30_30_37)] max-w-[100vw] h-full"
+    > -->
+      <div data-expandable-content class="grid gap-y-5 px-3 py-4">
+        <div class="grid gap-y-2 justify-start">
+          <label class="font-semibold text-xs">Theme</label>
+          <div class="grid grid-flow-col items-center gap-x-2">
+            <button
+              v-for="theme in themes"
+              @click="store.currentTheme = theme.key"
+              class="group rounded-full focus:outline-none"
+              :title="`Use ${theme.name} theme`"
+            >
+              <div
+                class="w-6 h-6 rounded-full group-hover:opacity-100 transition group-hover:scale-105 group-active:scale-95 group-focus:shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] group-focus:ring-[3px] ring-blue-800"
+                :class="{
+                  'opacity-50': store.currentTheme !== theme.key,
+                }"
+                :style="{ backgroundImage: theme.background }"
+              ></div>
+            </button>
+          </div>
+        </div>
+        <div class="grid gap-y-1">
+          <label for="language" class="font-semibold text-xs">Language</label>
+          <BaseSelect
+            id="language"
+            v-model="store.language"
+            :options="AVAILABLE_LANGUAGES"
+          />
+        </div>
+        <div class="grid gap-y-1">
+          <label for="username" class="font-semibold text-xs">Username</label>
+          <BaseInput
+            class="border font-mono focus:outline-none focus:ring-[3px] focus:border-blue-800 ring-blue-900/20 border-slate-700 bg-slate-900 rounded-md px-2 py-1 text-[13px]"
+            type="text"
+            id="username"
+            autocomplete="off"
+            spellcheck="false"
+            v-model="store.username"
+          />
+        </div>
+        <div class="grid gap-y-2">
           <div
-            class="w-6 h-6 rounded-full group-hover:opacity-100 transition group-hover:scale-105 group-active:scale-95 group-focus:shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] group-focus:ring-[3px] ring-blue-800"
+            class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2"
+          >
+            <label
+              class="font-semibold text-xs select-none cursor-pointer"
+              for="diff"
+              >Diff</label
+            >
+            <BaseSwitch v-model="store.diff" id="diff" />
+          </div>
+          <div
+            class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2"
+          >
+            <label
+              class="font-semibold text-xs select-none cursor-pointer"
+              for="reflection"
+              >Reflection</label
+            >
+            <BaseSwitch v-model="store.reflection" id="reflection" />
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="grid grid-cols-[1fr_auto_1fr] sm:grid-cols-1 gap-2 fixed inset-x-0 bottom-0 py-2 px-3 bg-slate-900 sm:static sm:bg-transparent sm:px-3 sm:py-0"
+      >
+        <label class="font-semibold text-xs hidden sm:block">Export</label>
+
+        <BaseButton
+          class="px-4 w-full bg-emerald-600/30 text-emerald-500 hover:bg-emerald-600/40 group"
+          @click="handleCopy"
+        >
+          <IconClipboard
+            width="16"
+            class="group-hover:scale-110 transition-transform group-hover:rotate-6"
+          />
+          <span class="truncate">
+            {{
+              state === State.PreparingToCopy
+                ? "..."
+                : state === State.JustCopied
+                ? "Copied!"
+                : state === State.CopyFailure
+                ? "Error! Try to download"
+                : "Copy to Clipboard"
+            }}
+          </span>
+        </BaseButton>
+
+        <BaseButton
+          class="bg-slate-700 text-slate-500 hover:bg-slate-700/80 group sm:hidden"
+          @click="isExpanded = !isExpanded"
+          square="w-10"
+        >
+          <IconChevronDown
+            width="16"
+            class="transition"
             :class="{
-              'opacity-50': store.currentTheme !== theme.key,
+              'rotate-180': !isExpanded,
             }"
-            :style="{ backgroundImage: theme.background }"
-          ></div>
-        </button>
+          />
+        </BaseButton>
+
+        <BaseButton
+          class="px-4 w-full bg-rose-500/30 text-rose-300 hover:bg-rose-500/40 group"
+          @click="handleDownload"
+        >
+          <IconDownload
+            width="16"
+            class="group-hover:scale-110 transition-transform group-hover:rotate-6"
+          />
+          <span class="truncate">
+            {{
+              state === State.PreparingToDownload
+                ? "..."
+                : state === State.JustDownloaded
+                ? "Downloaded!"
+                : "Download PNG"
+            }}
+          </span>
+        </BaseButton>
       </div>
+      <!-- <TheTwitterFollowButton /> -->
     </div>
-
-    <div class="grid gap-y-1">
-      <label for="language" class="font-semibold text-xs">Language</label>
-      <BaseSelect
-        id="language"
-        v-model="store.language"
-        :options="AVAILABLE_LANGUAGES"
-      />
-    </div>
-
-    <div class="grid gap-y-1">
-      <label for="username" class="font-semibold text-xs">Username</label>
-
-      <BaseInput
-        class="border font-mono focus:outline-none focus:ring-[3px] focus:border-blue-800 ring-blue-900/20 border-slate-700 bg-slate-900 rounded-md px-2 py-1 text-[13px]"
-        type="text"
-        id="username"
-        autocomplete="off"
-        spellcheck="false"
-        v-model="store.username"
-      />
-    </div>
-
-    <div class="grid gap-y-2">
-      <div
-        class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2"
-      >
-        <label
-          class="font-semibold text-xs select-none cursor-pointer"
-          for="diff"
-          >Diff</label
-        >
-        <BaseSwitch v-model="store.diff" id="diff" />
-      </div>
-      <div
-        class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2"
-      >
-        <label
-          class="font-semibold text-xs select-none cursor-pointer"
-          for="reflection"
-          >Reflection</label
-        >
-        <BaseSwitch v-model="store.reflection" id="reflection" />
-      </div>
-    </div>
-
-    <div class="grid gap-y-2">
-      <label class="font-semibold text-xs">Export</label>
-      <button
-        class="focus:outline-none focus:ring-[3px] ring-blue-600/30 bg-emerald-600/30 text-emerald-500 h-10 rounded font-semibold grid justify-start px-4 grid-flow-col gap-x-3 items-center text-xs hover:bg-emerald-600/40 group transition"
-        @click="handleCopy"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          aria-hidden="true"
-          role="img"
-          class="iconify iconify--radix-icons group-hover:scale-110 transition-transform group-hover:rotate-6"
-          width="16"
-          height="16"
-          preserveAspectRatio="xMidYMid meet"
-          viewBox="0 0 15 15"
-        >
-          <path
-            fill="currentColor"
-            fill-rule="evenodd"
-            d="M5 2V1h5v1H5Zm-.25-2A.75.75 0 0 0 4 .75V1h-.5A1.5 1.5 0 0 0 2 2.5v10A1.5 1.5 0 0 0 3.5 14H7v-1H3.5a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5H4v.25c0 .414.336.75.75.75h5.5a.75.75 0 0 0 .75-.75V2h.5a.5.5 0 0 1 .5.5V7h1V2.5A1.5 1.5 0 0 0 11.5 1H11V.75a.75.75 0 0 0-.75-.75h-5.5ZM9 8.5a.5.5 0 1 1-1 0a.5.5 0 0 1 1 0Zm1.5.5a.5.5 0 1 0 0-1a.5.5 0 0 0 0 1Zm2.5-.5a.5.5 0 1 1-1 0a.5.5 0 0 1 1 0Zm1.5.5a.5.5 0 1 0 0-1a.5.5 0 0 0 0 1Zm.5 1.5a.5.5 0 1 1-1 0a.5.5 0 0 1 1 0Zm-.5 2.5a.5.5 0 1 0 0-1a.5.5 0 0 0 0 1Zm0 2a.5.5 0 1 0 0-1a.5.5 0 0 0 0 1Zm-6-4a.5.5 0 1 0 0-1a.5.5 0 0 0 0 1Zm.5 1.5a.5.5 0 1 1-1 0a.5.5 0 0 1 1 0ZM8.5 15a.5.5 0 1 0 0-1a.5.5 0 0 0 0 1Zm2.5-.5a.5.5 0 1 1-1 0a.5.5 0 0 1 1 0Zm1.5.5a.5.5 0 1 0 0-1a.5.5 0 0 0 0 1Z"
-            clip-rule="evenodd"
-          ></path>
-        </svg>
-        {{
-          state === State.PreparingToCopy
-            ? "..."
-            : state === State.JustCopied
-            ? "Copied!"
-            : state === State.CopyFailure
-            ? "Error! Try to download"
-            : "Copy to Clipboard"
-        }}
-      </button>
-
-      <button
-        class="focus:outline-none focus:ring-[3px] ring-blue-600/30 bg-rose-500/30 text-rose-300 h-10 rounded font-semibold grid justify-start pl-4 grid-flow-col gap-x-3 items-center text-xs hover:bg-rose-500/40 group transition"
-        @click="handleDownload"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          aria-hidden="true"
-          role="img"
-          class="iconify iconify--radix-icons group-hover:scale-110 transition-transform group-hover:rotate-6"
-          width="16"
-          height="16"
-          preserveAspectRatio="xMidYMid meet"
-          viewBox="0 0 15 15"
-        >
-          <path
-            fill="currentColor"
-            fill-rule="evenodd"
-            d="M7.5 1.05a.45.45 0 0 1 .45.45v6.914l2.232-2.232a.45.45 0 1 1 .636.636l-3 3a.45.45 0 0 1-.636 0l-3-3a.45.45 0 1 1 .636-.636L7.05 8.414V1.5a.45.45 0 0 1 .45-.45ZM2.5 10a.5.5 0 0 1 .5.5V12c0 .554.446 1 .996 1h7.005A.999.999 0 0 0 12 12v-1.5a.5.5 0 0 1 1 0V12a2 2 0 0 1-1.999 2H3.996A1.997 1.997 0 0 1 2 12v-1.5a.5.5 0 0 1 .5-.5Z"
-            clip-rule="evenodd"
-          ></path>
-        </svg>
-        {{
-          state === State.PreparingToDownload
-            ? "..."
-            : state === State.JustDownloaded
-            ? "Downloaded!"
-            : "Download PNG"
-        }}
-      </button>
-    </div>
-    <!-- <TheTwitterFollowButton /> -->
-  </div>
+  </aside>
 </template>
 
 <script setup lang="ts">
@@ -147,6 +147,10 @@ import BaseSelect from "./BaseSelect.vue";
 import { AVAILABLE_LANGUAGES } from "~/constants";
 // import TheTwitterFollowButton from "./TheTwitterFollowButton.vue";
 import BaseInput from "./BaseInput.vue";
+import BaseButton from "./BaseButton.vue";
+import IconDownload from "./IconDownload.vue";
+import IconClipboard from "./IconClipboard.vue";
+import IconChevronDown from "./IconChevronDown.vue";
 
 enum State {
   Idle,
@@ -158,6 +162,7 @@ enum State {
 }
 
 const state = ref(State.Idle);
+const isExpanded = ref(false);
 const timeout = ref();
 
 const downloadPng = (canvas: HTMLCanvasElement) => {

@@ -161,6 +161,7 @@ onMounted(async () => {
 </script>
 
 <style>
+.iPadShowKeyboard,
 .codicon-light-bulb,
 .diffOverview {
   display: none !important;

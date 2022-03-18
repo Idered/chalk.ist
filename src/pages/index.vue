@@ -1,7 +1,9 @@
 <template>
-  <main class="bg-slate-900 md:min-h-screen grid md:grid-cols-[auto_1fr]">
-    <TheSidebar />
-    <TheEditorFrame />
+  <main
+    class="grid grid-rows-[1fr_auto] h-screen sm:grid-rows-1 sm:grid-cols-[auto_1fr]"
+  >
+    <TheEditorFrame class="sm:col-start-2 sm:min-h-screen" />
+    <TheSidebar class="sm:col-start-1" />
   </main>
 </template>
 
@@ -9,4 +11,3 @@
 import TheEditorFrame from "~/components/TheEditorFrame.vue";
 import TheSidebar from "~/components/TheSidebar.vue";
 </script>
-x
