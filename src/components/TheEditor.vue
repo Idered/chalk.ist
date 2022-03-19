@@ -104,23 +104,14 @@ onMounted(async () => {
   const autoHeight = () => {
     if (!activeContainer.value) return;
     const MAX_HEIGHT = Infinity;
-
     const contentHeight = Math.min(
       MAX_HEIGHT,
       activeEditor.value.getContentHeight() + 12
     );
-    // const contentWidth = Math.max(
-    //   400,
-    //   activeEditor.value.getContentWidth() + 32
-    // );
     activeContainer.value.style.width = `${width.value}px`;
     activeContainer.value.style.height = `${contentHeight}px`;
     activeEditor.value.layout({ width: width.value, height: contentHeight });
   };
-
-  // activeEditor.value.onDidChangeModelContent((e) => {
-  //   content.value = activeEditor.value.getModel()?.getValue();
-  // });
 
   editor.onDidChangeModelContent(() => {
     store.value.content = editor.getModel()?.getValue() || "";
@@ -156,7 +147,22 @@ onMounted(async () => {
   });
 
   await document.fonts.load("12px JetBrains Mono");
+
   monaco.editor.remeasureFonts();
+
+  const source = container.value.querySelector(".monaco-editor");
+  const diffSource = diffContainer.value.querySelector(
+    ".modified-in-monaco-diff-editor"
+  );
+  const target = document.querySelector<HTMLDivElement>(
+    "[data-editor-frame-container]"
+  );
+  const handleScroll = (event: Event): void => {
+    if (!target) return;
+    target.scrollTop += (event as WheelEvent).deltaY;
+  };
+  source?.addEventListener("wheel", handleScroll);
+  diffSource?.addEventListener("wheel", handleScroll);
 });
 </script>
 
