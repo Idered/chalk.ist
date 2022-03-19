@@ -233,7 +233,7 @@ const handleCopy = async () => {
   isExporting.value = true;
   await nextTick();
   html2canvas(frame, {
-    backgroundColor: "transparent",
+    backgroundColor: store.value.showBackground ? undefined : "transparent",
   }).then((canvas) => {
     isExporting.value = false;
     copyToClipboard(canvas);
@@ -247,7 +247,7 @@ const handleDownload = async () => {
   isExporting.value = true;
   await nextTick();
   html2canvas(frame, {
-    backgroundColor: "transparent",
+    backgroundColor: store.value.showBackground ? undefined : "transparent",
   }).then((canvas) => {
     isExporting.value = false;
     downloadPng(canvas);
