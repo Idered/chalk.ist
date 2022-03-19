@@ -28,6 +28,7 @@
               </button>
             </div>
           </div>
+
           <div class="grid gap-y-1">
             <label for="language" class="font-semibold text-xs">Language</label>
             <BaseSelect
@@ -36,6 +37,7 @@
               :options="AVAILABLE_LANGUAGES"
             />
           </div>
+
           <div class="grid gap-y-1">
             <label for="username" class="font-semibold text-xs">Username</label>
             <BaseInput
@@ -47,7 +49,19 @@
               v-model="store.username"
             />
           </div>
+
           <div class="grid gap-y-2">
+            <div
+              class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2"
+            >
+              <label
+                class="font-semibold text-xs select-none cursor-pointer"
+                for="showBackground"
+                >Background</label
+              >
+              <BaseSwitch v-model="store.showBackground" id="showBackground" />
+            </div>
+
             <div
               class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2"
             >
@@ -58,6 +72,7 @@
               >
               <BaseSwitch v-model="store.diff" id="diff" />
             </div>
+
             <div
               class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2"
             >
@@ -70,6 +85,7 @@
             </div>
           </div>
         </div>
+
         <div
           class="grid grid-cols-[1fr_auto_1fr] sm:grid-cols-1 gap-2 fixed inset-x-0 bottom-0 py-2 px-3 bg-slate-800 sm:static sm:bg-transparent sm:px-3 sm:py-0"
         >
@@ -204,7 +220,9 @@ const handleCopy = async () => {
   state.value = State.PreparingToCopy;
   isExporting.value = true;
   await nextTick();
-  html2canvas(frame).then((canvas) => {
+  html2canvas(frame, {
+    backgroundColor: "transparent",
+  }).then((canvas) => {
     isExporting.value = false;
     copyToClipboard(canvas);
   });
@@ -216,7 +234,9 @@ const handleDownload = async () => {
   state.value = State.PreparingToDownload;
   isExporting.value = true;
   await nextTick();
-  html2canvas(frame).then((canvas) => {
+  html2canvas(frame, {
+    backgroundColor: "transparent",
+  }).then((canvas) => {
     isExporting.value = false;
     downloadPng(canvas);
   });

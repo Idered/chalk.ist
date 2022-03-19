@@ -20,16 +20,27 @@
       <div
         ref="editorFrame"
         data-editor-frame
-        class="bg-frame grid justify-items-center items-center"
+        class="grid justify-items-center items-center relative"
         :style="{
           minHeight: `${(frameWidth / 16) * 9 + 1}px`,
         }"
       >
+        <div
+          class="absolute bg-frame inset-0 transition"
+          :class="{
+            'opacity-0': !store.showBackground,
+          }"
+        ></div>
         <div class="p-8">
-          <div class="bg-black/80 rounded-md px-4 shadow-app relative">
+          <div
+            class="bg-black/80 rounded-md px-4 relative transition-shadow"
+            :class="{
+              'shadow-app': store.showBackground,
+            }"
+          >
             <div
               v-if="store.reflection"
-              class="absolute inset-0 overflow-hidden pointer-events-none"
+              class="absolute inset-0 overflow-hidden pointer-events-none rounded-md"
             >
               <svg
                 class="absolute left-0 top-0 w-3/6"

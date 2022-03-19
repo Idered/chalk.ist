@@ -10,6 +10,7 @@ export const store = useStorage("chalk-store", {
   username: "",
   diff: false,
   hideTwitterFollow: false,
+  showBackground: true,
   reflection: true,
   modifiedContent: "",
   content: DEFAULT_CONTENT,
