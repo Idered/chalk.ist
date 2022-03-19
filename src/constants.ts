@@ -32,7 +32,7 @@ export const DEFAULT_EDITOR_CONFIG: monaco.editor.IStandaloneDiffEditorConstruct
     matchBrackets: "never",
     occurrencesHighlight: false,
     definitionLinkOpensInPeek: false,
-    lineDecorationsWidth: 11,
+    lineDecorationsWidth: 0,
     contextmenu: false,
     overviewRulerLanes: 0,
     lineNumbers: "off",

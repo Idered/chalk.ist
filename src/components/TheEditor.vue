@@ -175,8 +175,8 @@ onMounted(async () => {
 .original-in-monaco-diff-editor .overflow-guard {
   opacity: 0;
 }
-.codicon-diff-remove,
-.codicon-diff-insert {
-  height: 30px !important;
+.monaco-diff-editor .codicon-diff-remove,
+.monaco-diff-editor .codicon-diff-insert {
+  opacity: 0 !important;
 }
 </style>

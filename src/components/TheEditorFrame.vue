@@ -1,13 +1,16 @@
 <template>
-  <div class="overflow-y-auto overflow-x-hidden grid">
+  <div ref="container" class="overflow-y-auto overflow-x-hidden grid">
     <div
-      class="grid justify-items-center items-center"
+      class="grid justify-items-center items-start"
       :style="{
         transform:
-          width > windowWidth && !isExporting
-            ? `scale(${windowWidth / width})`
+          frameWidth > containerWidth && !isExporting
+            ? `scale(${containerWidth / frameWidth})`
             : undefined,
         transformOrigin: 'left top',
+      }"
+      :class="{
+        'sm:items-center': frameWidth < containerWidth,
       }"
     >
       <div
@@ -15,7 +18,7 @@
         data-editor-frame
         class="bg-frame grid justify-items-center items-center"
         :style="{
-          minHeight: `${(width / 16) * 9 + 1}px`,
+          minHeight: `${(frameWidth / 16) * 9 + 1}px`,
         }"
       >
         <div class="p-8">
@@ -78,13 +81,14 @@
 <script setup lang="ts">
 import Editor from "./TheEditor.vue";
 import IconTwitter from "./IconTwitter.vue";
-import { useElementSize, useWindowSize } from "@vueuse/core";
+import { useElementSize } from "@vueuse/core";
 import { theme, store, isExporting } from "~/composables/store";
 import { ref } from "vue";
 
-const editorFrame = ref();
-const { width: windowWidth } = useWindowSize();
-const { width } = useElementSize(editorFrame);
+const container = ref<HTMLDivElement>();
+const editorFrame = ref<HTMLDivElement>();
+const { width: containerWidth } = useElementSize(container);
+const { width: frameWidth } = useElementSize(editorFrame);
 </script>
 
 <style>
