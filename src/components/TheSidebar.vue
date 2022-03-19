@@ -1,5 +1,5 @@
 <template>
-  <OnClickOutside :trigger="(isExpanded = false)">
+  <OnClickOutside @trigger="isExpanded = false">
     <aside>
       <div class="sm:hidden" :style="{ height: '57px' }"></div>
       <div
