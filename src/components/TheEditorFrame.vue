@@ -1,7 +1,11 @@
 <template>
-  <div ref="container" class="overflow-y-auto overflow-x-hidden grid p-1">
+  <div
+    data-editor-frame-container
+    ref="container"
+    class="overflow-y-auto overflow-x-hidden grid p-1"
+  >
     <div
-      class="grid justify-items-center items-start"
+      class="grid justify-items-center items-start h-0"
       :style="{
         transform:
           frameWidth > containerWidth && !isExporting
@@ -10,7 +14,7 @@
         transformOrigin: 'left top',
       }"
       :class="{
-        'sm:items-center': frameWidth < containerWidth,
+        'sm:items-center h-auto': frameWidth < containerWidth,
       }"
     >
       <div
