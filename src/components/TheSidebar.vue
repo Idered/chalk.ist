@@ -5,83 +5,92 @@
       <div
         class="fixed bottom-0 inset-x-0 border-t border-slate-700 sm:border-t-0 pwa:sm:border-t pwa:sm:border-t-slate-900 pwa:sm:shadow-[inset_0_1px_0_rgb(30_30_37)] sm:border-r content-start transition-[height] sm:transition-none sm:!h-screen sm:w-[240px] sm:static bg-slate-800 overflow-auto"
         :style="{
-          height: isExpanded ? `${287 + 57}px` : `57px`,
+          height: isExpanded ? `${expandableContentHeight + 57}px` : `57px`,
         }"
       >
-        <div data-expandable-content class="grid gap-y-5 px-3 py-4">
-          <div class="grid gap-y-2 justify-start">
-            <label class="font-semibold text-xs">Theme</label>
-            <div class="grid grid-flow-col items-center gap-x-2">
-              <button
-                v-for="theme in themes"
-                @click="store.currentTheme = theme.key"
-                class="group rounded-full focus:outline-none"
-                :title="`Use ${theme.name} theme`"
-              >
-                <div
-                  class="w-6 h-6 rounded-full group-hover:opacity-100 transition group-hover:scale-105 group-active:scale-95 group-focus:shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] group-focus:ring-[3px] ring-blue-800"
-                  :class="{
-                    'opacity-50': store.currentTheme !== theme.key,
-                  }"
-                  :style="{ backgroundImage: theme.background }"
-                ></div>
-              </button>
-            </div>
-          </div>
-
-          <div class="grid gap-y-1">
-            <label for="language" class="font-semibold text-xs">Language</label>
-            <BaseSelect
-              id="language"
-              v-model="store.language"
-              :options="AVAILABLE_LANGUAGES"
-            />
-          </div>
-
-          <div class="grid gap-y-1">
-            <label for="username" class="font-semibold text-xs">Username</label>
-            <BaseInput
-              class="border font-mono focus:outline-none focus:ring-[3px] focus:border-blue-800 ring-blue-900/20 border-slate-700 bg-slate-900 rounded-md px-2 py-1 text-[13px]"
-              type="text"
-              id="username"
-              autocomplete="off"
-              spellcheck="false"
-              v-model="store.username"
-            />
-          </div>
-
-          <div class="grid gap-y-2">
-            <div
-              class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2"
-            >
-              <label
-                class="font-semibold text-xs select-none cursor-pointer"
-                for="showBackground"
-                >Background</label
-              >
-              <BaseSwitch v-model="store.showBackground" id="showBackground" />
+        <div ref="expandableContent">
+          <div class="grid gap-y-5 px-3 py-4">
+            <div class="grid gap-y-2 justify-start">
+              <label class="font-semibold text-xs">Theme</label>
+              <div class="grid grid-flow-col items-center gap-x-2">
+                <button
+                  v-for="theme in themes"
+                  @click="store.currentTheme = theme.key"
+                  class="group rounded-full focus:outline-none"
+                  :title="`Use ${theme.name} theme`"
+                >
+                  <div
+                    class="w-6 h-6 rounded-full group-hover:opacity-100 transition group-hover:scale-105 group-active:scale-95 group-focus:shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] group-focus:ring-[3px] ring-blue-800"
+                    :class="{
+                      'opacity-50': store.currentTheme !== theme.key,
+                    }"
+                    :style="{ backgroundImage: theme.background }"
+                  ></div>
+                </button>
+              </div>
             </div>
 
-            <div
-              class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2"
-            >
-              <label
-                class="font-semibold text-xs select-none cursor-pointer"
-                for="diff"
-                >Diff</label
+            <div class="grid gap-y-1">
+              <label for="language" class="font-semibold text-xs"
+                >Language</label
               >
-              <BaseSwitch v-model="store.diff" id="diff" />
+              <BaseSelect
+                id="language"
+                v-model="store.language"
+                :options="AVAILABLE_LANGUAGES"
+              />
             </div>
 
-            <div
-              class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2"
-            >
-              <label
-                class="font-semibold text-xs select-none cursor-pointer"
-                for="reflection"
-                >Reflection</label
+            <div class="grid gap-y-1">
+              <label for="username" class="font-semibold text-xs"
+                >Username</label
               >
-              <BaseSwitch v-model="store.reflection" id="reflection" />
+              <BaseInput
+                class="border font-mono focus:outline-none focus:ring-[3px] focus:border-blue-800 ring-blue-900/20 border-slate-700 bg-slate-900 rounded-md px-2 py-1 text-[13px]"
+                type="text"
+                id="username"
+                autocomplete="off"
+                spellcheck="false"
+                v-model="store.username"
+              />
+            </div>
+
+            <div class="grid gap-y-2">
+              <div
+                class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2"
+              >
+                <label
+                  class="font-semibold text-xs select-none cursor-pointer"
+                  for="showBackground"
+                  >Background</label
+                >
+                <BaseSwitch
+                  v-model="store.showBackground"
+                  id="showBackground"
+                />
+              </div>
+
+              <div
+                class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2"
+              >
+                <label
+                  class="font-semibold text-xs select-none cursor-pointer"
+                  for="diff"
+                  >Diff</label
+                >
+                <BaseSwitch v-model="store.diff" id="diff" />
+              </div>
+
+              <div
+                class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2"
+              >
+                <label
+                  class="font-semibold text-xs select-none cursor-pointer"
+                  for="reflection"
+                  >Reflection</label
+                >
+                <BaseSwitch v-model="store.reflection" id="reflection" />
+              </div>
             </div>
           </div>
         </div>
@@ -163,6 +172,7 @@ import BaseButton from "./BaseButton.vue";
 import IconDownload from "./IconDownload.vue";
 import IconClipboard from "./IconClipboard.vue";
 import IconChevronDown from "./IconChevronDown.vue";
+import { useElementSize } from "@vueuse/core";
 
 enum State {
   Idle,
@@ -176,6 +186,8 @@ enum State {
 const state = ref(State.Idle);
 const isExpanded = ref(false);
 const timeout = ref();
+const expandableContent = ref();
+const { height: expandableContentHeight } = useElementSize(expandableContent);
 
 const downloadPng = (canvas: HTMLCanvasElement) => {
   canvas.toBlob(function (blob) {
