@@ -1,5 +1,5 @@
 <template>
-  <div ref="container" class="overflow-y-auto overflow-x-hidden grid">
+  <div ref="container" class="overflow-y-auto overflow-x-hidden grid p-1">
     <div
       class="grid justify-items-center items-start"
       :style="{
