@@ -130,8 +130,8 @@ onMounted(async () => {
   watch(() => store.value.diff, autoHeight);
 
   watchEffect(() => {
-    monaco.editor.defineTheme(theme.value.name, theme.value.monaco);
-    monaco.editor.setTheme(theme.value.name);
+    monaco.editor.defineTheme(`chalk-${theme.value.key}`, theme.value.monaco);
+    monaco.editor.setTheme(`chalk-${theme.value.key}`);
   });
 
   watchEffect(() => {
