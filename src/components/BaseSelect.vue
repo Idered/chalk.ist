@@ -1,72 +1,77 @@
 <template>
   <OnClickOutside @trigger="close">
     <div class="relative font-mono" @keyup.esc="close">
-      <div class="relative">
-        <BaseInput
-          role="combobox"
-          :id="id"
-          :aria-expanded="isOpen"
-          type="text"
-          :readonly="!isOpen"
-          @click="open"
-          @keydown="
-            (e) => {
-              if (
-                !isOpen &&
-                !['Enter', 'ArrowDown', 'ArrowUp', 'Space'].includes(e.code)
-              ) {
-                return;
-              }
-              if (!isOpen && e.code !== 'Tab') {
-                e.preventDefault();
-                return open();
-              }
-              switch (e.code) {
-                case 'Tab':
-                  return close();
-                case 'ArrowDown':
-                  activeIndex =
-                    activeIndex + 1 < results.length ? activeIndex + 1 : 0;
-                  break;
-                case 'ArrowUp':
-                  activeIndex =
-                    activeIndex - 1 >= 0 ? activeIndex - 1 : results.length - 1;
-                  break;
-                case 'Enter':
-                  if (activeIndex > -1) {
-                    $emit('update:modelValue', results[activeIndex].item.value);
-                  }
-                  return close();
-                case 'Escape':
-                  return close();
-                default:
-                  break;
-              }
+      <BaseInput
+        role="combobox"
+        :id="id"
+        :aria-expanded="isOpen"
+        type="text"
+        :readonly="!isOpen"
+        @click="open"
+        @keydown="
+          (e) => {
+            if (
+              !isOpen &&
+              !['Enter', 'ArrowDown', 'ArrowUp', 'Space'].includes(e.code)
+            ) {
+              return;
             }
-          "
-          @keyup.esc="close"
-          v-model="search"
-          :placeholder="isFocused ? 'Search' : selected?.label"
-          :class="{
-            'bg-slate-900': isFocused,
-            'cursor-pointer bg-slate-800 shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px]':
-              !isFocused,
-            'placeholder-slate-600/50': isFocused,
-          }"
-        />
-        <IconChevronDown
-          height="12"
-          class="pointer-events-none absolute right-2 top-1/2 -mt-[6px] transition-transform"
-          :class="{
-            'rotate-180': !isFocused,
-          }"
-        />
-      </div>
+            if (!isOpen && e.code !== 'Tab') {
+              e.preventDefault();
+              return open();
+            }
+            switch (e.code) {
+              case 'Tab':
+                return close();
+              case 'ArrowDown':
+                activeIndex =
+                  activeIndex + 1 < results.length ? activeIndex + 1 : 0;
+                break;
+              case 'ArrowUp':
+                activeIndex =
+                  activeIndex - 1 >= 0 ? activeIndex - 1 : results.length - 1;
+                break;
+              case 'Enter':
+                if (activeIndex > -1) {
+                  $emit('update:modelValue', results[activeIndex].item.value);
+                } else if (results.length) {
+                  $emit('update:modelValue', results[0].item.value);
+                }
+                return close();
+              case 'Escape':
+                return close();
+              default:
+                break;
+            }
+          }
+        "
+        @keyup.esc="close"
+        v-model="search"
+        :placeholder="isFocused ? 'Search' : selected?.label"
+        :class="{
+          'bg-slate-900': isFocused,
+          'cursor-pointer bg-slate-800 shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px]':
+            !isFocused,
+          'placeholder-slate-600/50': isFocused,
+        }"
+      />
+
+      <IconChevronDown
+        height="12"
+        class="pointer-events-none absolute right-2 top-1/2 -mt-[6px] transition-transform"
+        :class="{
+          'rotate-180': !isFocused,
+        }"
+      />
 
       <transition appear>
         <div
+          ref="dropdown"
           v-if="isOpen"
-          class="absolute z-10 grid top-full p-1 border border-slate-700 bg-slate-800 rounded-md w-full translate-y-2 shadow-[rgba(0,0,0,0.25)_0px_14px_28px,rgba(0,0,0,0.22)_0px_10px_10px]"
+          class="absolute z-10 grid overflow-auto top-full translate-y-2 p-1 border border-slate-700 bg-slate-800 rounded-md w-full shadow-[rgba(0,0,0,0.25)_0px_14px_28px,rgba(0,0,0,0.22)_0px_10px_10px]"
+          :style="{
+            maxHeight: `${maxHeight}px`,
+          }"
           @mouseleave="
             () => {
               activeIndex = -1;
@@ -114,7 +119,8 @@
 
 <script setup lang="ts">
 import { OnClickOutside } from "@vueuse/components";
-import { computed, PropType, ref } from "vue";
+import { useElementBounding, useWindowSize } from "@vueuse/core";
+import { computed, PropType, ref, watchEffect } from "vue";
 import IconChevronDown from "./IconChevronDown.vue";
 import { useFuse } from "@vueuse/integrations/useFuse";
 import IconCheck from "./IconCheck.vue";
@@ -150,10 +156,12 @@ const props = defineProps({
   },
 });
 
+const dropdown = ref<HTMLElement>();
 const activeIndex = ref(-1);
 const search = ref("");
 const isOpen = ref(false);
 const isFocused = ref(false);
+const { height: windowHeight } = useWindowSize();
 const flatOptions = computed(() => {
   return props.options.flatMap((option) => {
     if ("group" in option) {
@@ -161,6 +169,12 @@ const flatOptions = computed(() => {
     }
     return option;
   });
+});
+const maxHeight = computed(() => {
+  if (!isOpen.value || !dropdown.value) return "down";
+  const difference =
+    windowHeight.value - (dropdown.value.getBoundingClientRect().bottom || 0);
+  return difference < 0 ? dropdown.value.clientHeight + difference - 16 : "up";
 });
 const groups = computed(() => {
   let index = 1;
