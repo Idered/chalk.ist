@@ -2,7 +2,6 @@ lockfileVersion: 5.3
 
 specifiers:
   '@vitejs/plugin-vue': ^2.2.4
-  '@vueform/multiselect': 2.3.3
   '@vueuse/components': 8.0.1
   '@vueuse/core': 7.7.1
   '@vueuse/head': 0.7.5
@@ -26,7 +25,6 @@ specifiers:
   workbox-window: 6.5.1
 
 dependencies:
-  '@vueform/multiselect': 2.3.3
   '@vueuse/components': 8.0.1_vue@3.2.31
   '@vueuse/core': 7.7.1_vue@3.2.31
   '@vueuse/integrations': 8.0.1_fuse.js@6.5.3+vue@3.2.31
@@ -1498,10 +1496,6 @@ packages:
 
   /@vue/shared/3.2.31:
     resolution: {integrity: sha512-ymN2pj6zEjiKJZbrf98UM2pfDd6F2H7ksKw7NDt/ZZ1fh5Ei39X5tABugtT03ZRlWd9imccoK0hE8hpjpU7irQ==}
-
-  /@vueform/multiselect/2.3.3:
-    resolution: {integrity: sha512-CLhtUZJwRGLyPqcgwuRrODOjT3Yqu6KNs5vV1O12kNOR/8c8ecX5vJyTcD0Mv1SJvnrslZgENmvYRRPpb5Cnjg==}
-    dev: false
 
   /@vueuse/components/8.0.1_vue@3.2.31:
     resolution: {integrity: sha512-KdlJknzRsv/fG75eMa+pjFwAG3pqRlDF6oOq1pEYr5XGniJRRX6qXe8FDB6oQIsNDiNNA32FfE5ESMFwSRo4xQ==}

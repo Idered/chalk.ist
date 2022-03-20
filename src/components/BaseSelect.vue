@@ -119,8 +119,8 @@
 
 <script setup lang="ts">
 import { OnClickOutside } from "@vueuse/components";
-import { useElementBounding, useWindowSize } from "@vueuse/core";
-import { computed, PropType, ref, watchEffect } from "vue";
+import { useWindowSize } from "@vueuse/core";
+import { computed, PropType, ref } from "vue";
 import IconChevronDown from "./IconChevronDown.vue";
 import { useFuse } from "@vueuse/integrations/useFuse";
 import IconCheck from "./IconCheck.vue";
