@@ -159,7 +159,7 @@
 
 <script setup lang="ts">
 import html2canvas from "html2canvas";
-import { nextTick, ref } from "vue";
+import { nextTick, ref, watchEffect } from "vue";
 import { OnClickOutside } from "@vueuse/components";
 import { isExporting, store } from "~/composables/store";
 import * as themes from "~/themes";
@@ -249,7 +249,7 @@ const handleDownload = async () => {
   isExporting.value = true;
   await nextTick();
   html2canvas(frame, {
-    backgroundColor: store.value.showBackground ? undefined : "transparent",
+    backgroundColor: "transparent",
   }).then((canvas) => {
     isExporting.value = false;
     downloadPng(canvas);
