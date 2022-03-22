@@ -159,7 +159,7 @@
 
 <script setup lang="ts">
 import html2canvas from "html2canvas";
-import { nextTick, ref, watchEffect } from "vue";
+import { nextTick, onMounted, ref, watchEffect } from "vue";
 import { OnClickOutside } from "@vueuse/components";
 import { isExporting, store } from "~/composables/store";
 import * as themes from "~/themes";
@@ -256,10 +256,13 @@ const handleDownload = async () => {
   });
 };
 
-watchEffect(() => {
-  umami.trackEvent(store.value.currentTheme, "theme");
-});
-watchEffect(() => {
-  umami.trackEvent(store.value.language, "language");
+onMounted(() => {
+  watchEffect(() => {
+    umami.trackEvent(store.value.currentTheme, "theme");
+  });
+
+  watchEffect(() => {
+    umami.trackEvent(store.value.language, "language");
+  });
 });
 </script>
