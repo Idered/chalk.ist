@@ -255,4 +255,11 @@ const handleDownload = async () => {
     downloadPng(canvas);
   });
 };
+
+watchEffect(() => {
+  umami.trackEvent(store.value.currentTheme, "theme");
+});
+watchEffect(() => {
+  umami.trackEvent(store.value.language, "language");
+});
 </script>
