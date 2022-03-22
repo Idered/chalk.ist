@@ -15,7 +15,7 @@
               <div class="grid grid-flow-col items-center gap-x-2">
                 <button
                   v-for="theme in themes"
-                  @click="store.currentTheme = theme.key"
+                  @click="setTheme(theme)"
                   class="group rounded-full focus:outline-none"
                   :title="`Use ${theme.name} theme`"
                 >
@@ -36,7 +36,8 @@
               >
               <BaseSelect
                 id="language"
-                v-model="store.language"
+                :model-value="store.language"
+                @update:model-value="setLanguage"
                 :options="AVAILABLE_LANGUAGES"
               />
             </div>
@@ -173,6 +174,7 @@ import IconDownload from "./IconDownload.vue";
 import IconClipboard from "./IconClipboard.vue";
 import IconChevronDown from "./IconChevronDown.vue";
 import { useElementSize } from "@vueuse/core";
+import { ChalkTheme } from "~/composables/theme-utils";
 
 enum State {
   Idle,
@@ -256,13 +258,13 @@ const handleDownload = async () => {
   });
 };
 
-onMounted(() => {
-  watchEffect(() => {
-    umami.trackEvent(store.value.currentTheme, "theme");
-  });
+function setTheme(theme: ChalkTheme) {
+  store.value.currentTheme = theme.key;
+  umami.trackEvent(store.value.currentTheme, "theme");
+}
 
-  watchEffect(() => {
-    umami.trackEvent(store.value.language, "language");
-  });
-});
+function setLanguage(language: string) {
+  store.value.language = language;
+  umami.trackEvent(store.value.language, "language");
+}
 </script>
