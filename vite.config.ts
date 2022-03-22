@@ -6,13 +6,25 @@ import Pages from "vite-plugin-pages";
 import Layouts from "vite-plugin-vue-layouts";
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "~/": `${path.resolve(__dirname, "src")}/`,
     },
   },
   plugins: [
+    {
+      name: "html-transform",
+      transformIndexHtml(html) {
+        if (mode !== "production") return html;
+
+        return html.replace(
+          "<!-- %UMAMI% -->",
+          `<script async defer data-website-id="74b418ca-7be5-48a9-8947-d62340be88cc" src="https://umami.kasper.io/umami.js" ></script>`
+        );
+      },
+    },
+
     Vue(),
 
     // https://github.com/hannoeru/vite-plugin-pages
@@ -79,4 +91,4 @@ export default defineConfig({
     ],
     exclude: ["vue-demi"],
   },
-});
+}));
