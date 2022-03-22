@@ -160,7 +160,7 @@
 
 <script setup lang="ts">
 import html2canvas from "html2canvas";
-import { nextTick, onMounted, ref, watchEffect } from "vue";
+import { nextTick, ref } from "vue";
 import { OnClickOutside } from "@vueuse/components";
 import { isExporting, store } from "~/composables/store";
 import * as themes from "~/themes";
