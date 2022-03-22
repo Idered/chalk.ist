@@ -229,11 +229,12 @@ const copyToClipboard = (canvas: HTMLCanvasElement) => {
 const handleCopy = async () => {
   const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
   if (!frame) return;
+  umami.trackEvent("Copy to Clipboard", "click");
   state.value = State.PreparingToCopy;
   isExporting.value = true;
   await nextTick();
   html2canvas(frame, {
-    backgroundColor: store.value.showBackground ? undefined : "transparent",
+    backgroundColor: "transparent",
   }).then((canvas) => {
     isExporting.value = false;
     copyToClipboard(canvas);
@@ -243,6 +244,7 @@ const handleCopy = async () => {
 const handleDownload = async () => {
   const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
   if (!frame) return;
+  umami.trackEvent("Download PNG", "click");
   state.value = State.PreparingToDownload;
   isExporting.value = true;
   await nextTick();
