@@ -231,7 +231,7 @@ const copyToClipboard = (canvas: HTMLCanvasElement) => {
 const handleCopy = async () => {
   const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
   if (!frame) return;
-  umami.trackEvent("Copy to Clipboard", "click");
+  umami.trackEvent("Copy to Clipboard", "export");
   state.value = State.PreparingToCopy;
   isExporting.value = true;
   await nextTick();
@@ -246,7 +246,7 @@ const handleCopy = async () => {
 const handleDownload = async () => {
   const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
   if (!frame) return;
-  umami.trackEvent("Download PNG", "click");
+  umami.trackEvent("Download PNG", "export");
   state.value = State.PreparingToDownload;
   isExporting.value = true;
   await nextTick();
