@@ -39,8 +39,10 @@
             }"
           >
             <div
-              v-if="store.reflection"
-              class="absolute inset-0 overflow-hidden pointer-events-none rounded-md"
+              class="absolute inset-0 overflow-hidden pointer-events-none rounded-md transition"
+              :class="{
+                'opacity-0': !store.reflection,
+              }"
             >
               <svg
                 class="absolute left-0 top-0 w-3/6"
@@ -78,12 +80,35 @@
           </div>
           <div class="flex justify-end">
             <div
-              class="rounded-full z-10 relative p-1 pr-4 bg-black/70 text-white mt-4 flex items-center"
-              v-if="store.username"
+              class="rounded-full z-10 relative p-1 bg-black/70 text-white mt-4 flex items-center"
+              v-if="
+                (store.username || store.name || store.picture) &&
+                store.showTwitterBadge
+              "
             >
-              <IconTwitter :width="32" />
-              <div class="font-semibold text-sm ml-2">
-                @{{ store.username }}
+              <img
+                v-if="store.picture"
+                :src="store.picture"
+                width="32"
+                height="32"
+                class="rounded-full"
+                alt=""
+              />
+              <IconTwitter v-else :width="32" />
+              <div v-if="store.name || store.username" class="ml-2 pr-4">
+                <div class="font-semibold text-xs" v-if="store.name">
+                  {{ store.name }}
+                </div>
+                <div
+                  class="font-medium leading-3"
+                  v-if="store.username"
+                  :class="{
+                    'text-sm': !store.name,
+                    'text-[11px] text-white/50': store.name,
+                  }"
+                >
+                  @{{ store.username }}
+                </div>
               </div>
             </div>
           </div>

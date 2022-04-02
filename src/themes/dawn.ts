@@ -1,6 +1,7 @@
 import {
   ChalkTheme,
   createMonacoTheme,
+  hslToHex,
   trimHSL,
 } from "~/composables/theme-utils";
 
@@ -10,11 +11,11 @@ export const dawn: ChalkTheme = {
   shadow: trimHSL("hsl(8, 45%, 13%)"),
   background: "linear-gradient(140deg, hsl(33, 60%, 50%), #a13e37, #281a29)",
   monaco: createMonacoTheme({
-    foreground: "#b28075",
-    comments: "#744d25",
-    keywords: "#d66a34",
-    delimiters: "#c7bad9",
-    strings: "#c7bad9",
-    numbers: "#eeebf2",
+    foreground: hslToHex("hsl(11, 28%, 58%)"),
+    comments: hslToHex("hsl(30, 52%, 30%)"),
+    keywords: hslToHex("hsl(20, 66%, 52%)"),
+    delimiters: hslToHex("hsl(265, 29%, 79%)"),
+    strings: hslToHex("hsl(265, 29%, 79%)"),
+    numbers: hslToHex("hsl(266, 21%, 94%)"),
   }),
 };

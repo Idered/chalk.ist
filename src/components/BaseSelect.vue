@@ -81,7 +81,7 @@
           <div
             v-for="(result, i) in results"
             @click="handleSelect(result.item)"
-            class="text-xs font-medium px-2 h-6 pl-6 grid items-center cursor-pointer transition-colors"
+            class="text-xs font-medium px-2 h-6 pl-6 grid items-center cursor-pointer transition-colors relative"
             :class="{
               'text-white': i === activeIndex,
             }"

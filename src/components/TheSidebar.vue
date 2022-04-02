@@ -42,21 +42,128 @@
               />
             </div>
 
-            <div class="grid gap-y-1">
-              <label for="username" class="font-semibold text-xs"
-                >Username</label
-              >
-              <BaseInput
-                class="border font-mono focus:outline-none focus:ring-[3px] focus:border-blue-800 ring-blue-900/20 border-slate-700 bg-slate-900 rounded-md px-2 py-1 text-[13px]"
-                type="text"
-                id="username"
-                autocomplete="off"
-                spellcheck="false"
-                v-model="store.username"
-              />
-            </div>
-
             <div class="grid gap-y-2">
+              <div
+                class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2"
+              >
+                <label
+                  class="font-semibold text-xs select-none cursor-pointer"
+                  for="showBackground"
+                  >Twitter Badge</label
+                >
+                <BaseButton
+                  class="text-blue-500 px-2.5 font-semibold text-xs bg-blue-600/30 hover:bg-blue-600/40 h-5 rounded"
+                  @click="
+                    store.expandTwitterOptions = !store.expandTwitterOptions
+                  "
+                >
+                  <IconChevronDown
+                    width="12"
+                    class="transition-transform"
+                    :class="{
+                      'rotate-180': store.expandTwitterOptions,
+                    }"
+                  />
+                  <!-- {{ store.expandTwitterOptions ? "Hide" : "Edit" }} -->
+                </BaseButton>
+              </div>
+
+              <div
+                class="grid gap-y-1 gap-x-2 items-start"
+                v-if="store.expandTwitterOptions"
+              >
+                <div
+                  v-if="store.picture"
+                  class="row-start-1 row-end-3 relative group"
+                >
+                  <BaseButton
+                    @click="store.picture = ''"
+                    class="h-5 w-5 absolute right-0 top-0 group-hover:opacity-100 opacity-0 bg-red-600/80 hover:bg-red-600 transition rounded-full justify-center text-white"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      xmlns:xlink="http://www.w3.org/1999/xlink"
+                      aria-hidden="true"
+                      role="img"
+                      width="16"
+                      height="16"
+                      preserveAspectRatio="xMidYMid meet"
+                      viewBox="0 0 20 20"
+                    >
+                      <g fill="currentColor">
+                        <path
+                          d="M7.172 14.243a1 1 0 1 1-1.415-1.415l7.071-7.07a1 1 0 0 1 1.415 1.414l-7.071 7.07Z"
+                        ></path>
+                        <path
+                          d="M5.757 7.172a1 1 0 1 1 1.415-1.415l7.07 7.071a1 1 0 0 1-1.414 1.415l-7.07-7.071Z"
+                        ></path>
+                      </g>
+                    </svg>
+                  </BaseButton>
+                  <img
+                    :src="store.picture"
+                    alt=""
+                    class="w-14 h-14 border border-slate-700 bg-slate-700/30 rounded-full"
+                  />
+                </div>
+                <label
+                  v-else
+                  class="w-14 h-14 border border-slate-700 bg-slate-700/30 hover:bg-slate-700/50 text-slate-600 hover:text-slate-400 transition-colors cursor-pointer rounded-full flex items-center justify-center row-start-1 row-end-3"
+                >
+                  <input type="file" class="sr-only" @change="handlePicture" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    aria-hidden="true"
+                    role="img"
+                    width="24"
+                    height="24"
+                    preserveAspectRatio="xMidYMid meet"
+                    viewBox="0 0 256 256"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M172 56a4 4 0 0 1 4-4h20V32a4 4 0 0 1 8 0v20h20a4 4 0 0 1 0 8h-20v20a4 4 0 0 1-8 0V60h-20a4 4 0 0 1-4-4Zm54.8 56.2A104.1 104.1 0 0 1 228 128a99.6 99.6 0 0 1-32.7 73.9l-.8.8a99.9 99.9 0 0 1-132.9 0a3.6 3.6 0 0 1-.9-.8A100 100 0 0 1 128 28a104.1 104.1 0 0 1 15.8 1.2a4 4 0 0 1 3.3 4.6a4 4 0 0 1-4.6 3.3A100 100 0 0 0 128 36a92 92 0 0 0-65.2 156.9a75.8 75.8 0 0 1 44.5-34.1a44 44 0 1 1 41.4 0a75.8 75.8 0 0 1 44.5 34.1A92.1 92.1 0 0 0 220 128a99 99 0 0 0-1.1-14.5a4 4 0 0 1 3.3-4.6a4 4 0 0 1 4.6 3.3ZM128 156a36 36 0 1 0-36-36a36 36 0 0 0 36 36Zm0 64a91.3 91.3 0 0 0 59.1-21.6a68 68 0 0 0-118.2 0A91.3 91.3 0 0 0 128 220Z"
+                    ></path>
+                  </svg>
+                </label>
+
+                <div class="grid gap-y-1 col-start-2">
+                  <BaseInput
+                    class="placeholder:text-slate-600/75"
+                    type="text"
+                    id="name"
+                    autocomplete="off"
+                    spellcheck="false"
+                    placeholder="Name"
+                    v-model="store.name"
+                  />
+                </div>
+
+                <div class="grid gap-y-1 col-start-2">
+                  <BaseInput
+                    class="placeholder:text-slate-600/75"
+                    type="text"
+                    id="username"
+                    autocomplete="off"
+                    spellcheck="false"
+                    placeholder="Username"
+                    v-model="store.username"
+                  />
+                </div>
+              </div>
+
+              <div
+                class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2"
+              >
+                <label
+                  class="font-semibold text-xs select-none cursor-pointer"
+                  for="reflection"
+                  >Show Badge</label
+                >
+                <BaseSwitch v-model="store.showTwitterBadge" id="reflection" />
+              </div>
+
               <div
                 class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2"
               >
@@ -76,10 +183,10 @@
               >
                 <label
                   class="font-semibold text-xs select-none cursor-pointer"
-                  for="diff"
-                  >Diff</label
+                  for="reflection"
+                  >Reflection</label
                 >
-                <BaseSwitch v-model="store.diff" id="diff" />
+                <BaseSwitch v-model="store.reflection" id="reflection" />
               </div>
 
               <div
@@ -87,10 +194,10 @@
               >
                 <label
                   class="font-semibold text-xs select-none cursor-pointer"
-                  for="reflection"
-                  >Reflection</label
+                  for="diff"
+                  >Diff</label
                 >
-                <BaseSwitch v-model="store.reflection" id="reflection" />
+                <BaseSwitch v-model="store.diff" id="diff" />
               </div>
             </div>
           </div>
@@ -152,7 +259,29 @@
             </span>
           </BaseButton>
         </div>
-        <!-- <TheTwitterFollowButton /> -->
+
+        <div class="px-3 text-xs space-x-2 mt-4 opacity-75 hidden sm:flex">
+          <a
+            href="https://github.com/Idered/chalk.ist"
+            class="hover:text-white transition outline-none focus:text-white"
+          >
+            GitHub
+          </a>
+          <span class="opacity-40 font-bold">/</span>
+          <a
+            href="https://umami.kasper.io/share/WCDyKkOU/chalk.ist"
+            class="hover:text-white transition outline-none focus:text-white"
+          >
+            Analytics
+          </a>
+          <span class="opacity-40 font-bold">/</span>
+          <a
+            href="mailto:feedback@kasper.io"
+            class="hover:text-white transition outline-none focus:text-white"
+          >
+            Feedback
+          </a>
+        </div>
       </div>
     </aside>
   </OnClickOutside>
@@ -162,12 +291,11 @@
 import html2canvas from "html2canvas";
 import { nextTick, ref } from "vue";
 import { OnClickOutside } from "@vueuse/components";
-import { isExporting, store } from "~/composables/store";
+import { isExporting, showTwitterFlyout, store } from "~/composables/store";
 import * as themes from "~/themes";
 import BaseSwitch from "./BaseSwitch.vue";
 import BaseSelect from "./BaseSelect.vue";
 import { AVAILABLE_LANGUAGES } from "~/constants";
-// import TheTwitterFollowButton from "./TheTwitterFollowButton.vue";
 import BaseInput from "./BaseInput.vue";
 import BaseButton from "./BaseButton.vue";
 import IconDownload from "./IconDownload.vue";
@@ -240,6 +368,7 @@ const handleCopy = async () => {
   }).then((canvas) => {
     isExporting.value = false;
     copyToClipboard(canvas);
+    showTwitterFlyout.value = true;
   });
 };
 
@@ -255,8 +384,20 @@ const handleDownload = async () => {
   }).then((canvas) => {
     isExporting.value = false;
     downloadPng(canvas);
+    showTwitterFlyout.value = true;
   });
 };
+
+function handlePicture(event: Event) {
+  const target = event.target as HTMLInputElement;
+  if (target.files) {
+    const reader = new FileReader();
+    reader.readAsDataURL(target.files[0]);
+    reader.onload = () => {
+      store.value.picture = reader.result as string;
+    };
+  }
+}
 
 function setTheme(theme: ChalkTheme) {
   store.value.currentTheme = theme.key;
