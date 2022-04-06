@@ -8,7 +8,7 @@ Chalk.ist
 <a href="https://chalk.ist">Go to App</a>
 </p>
 
-![](./.github/screenshot.png)
+![](./.github/screenshot.jpeg)
 
 ## Development
 
