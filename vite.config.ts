@@ -41,6 +41,7 @@ export default defineConfig(({ mode }) => ({
       workbox: {
         maximumFileSizeToCacheInBytes: 1024 * 1024 * 5,
       },
+      includeAssets: ["og-image.png"],
       manifest: {
         name: "Chalk",
         short_name: "Chalk",
