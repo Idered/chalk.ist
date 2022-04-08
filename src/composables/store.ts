@@ -22,6 +22,4 @@ export const store = useStorage("chalk-store", {
 
 export const showTwitterFlyout = ref(false);
 export const isExporting = ref(false);
-export const theme = computed(
-  () => (themes as Record<string, ChalkTheme>)[store.value.currentTheme]
-);
+export const theme = computed(() => (themes as Record<string, ChalkTheme>)[store.value.currentTheme]);

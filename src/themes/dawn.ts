@@ -1,9 +1,4 @@
-import {
-  ChalkTheme,
-  createMonacoTheme,
-  hslToHex,
-  trimHSL,
-} from "~/composables/theme-utils";
+import { ChalkTheme, createMonacoTheme, hslToHex, trimHSL } from "~/composables/theme-utils";
 
 export const dawn: ChalkTheme = {
   key: "dawn",

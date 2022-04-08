@@ -31,9 +31,7 @@
             </div>
 
             <div class="grid gap-y-1">
-              <label for="language" class="font-semibold text-xs"
-                >Language</label
-              >
+              <label for="language" class="font-semibold text-xs">Language</label>
               <BaseSelect
                 id="language"
                 :model-value="store.language"
@@ -43,19 +41,13 @@
             </div>
 
             <div class="grid gap-y-2">
-              <div
-                class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2"
-              >
-                <label
-                  class="font-semibold text-xs select-none cursor-pointer"
-                  for="showBackground"
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label class="font-semibold text-xs select-none cursor-pointer" for="showBackground"
                   >Twitter Badge</label
                 >
                 <BaseButton
                   class="text-blue-500 px-2.5 font-semibold text-xs bg-blue-600/30 hover:bg-blue-600/40 h-5 rounded"
-                  @click="
-                    store.expandTwitterOptions = !store.expandTwitterOptions
-                  "
+                  @click="store.expandTwitterOptions = !store.expandTwitterOptions"
                 >
                   <IconChevronDown
                     width="12"
@@ -68,14 +60,8 @@
                 </BaseButton>
               </div>
 
-              <div
-                class="grid gap-y-1 gap-x-2 items-start"
-                v-if="store.expandTwitterOptions"
-              >
-                <div
-                  v-if="store.picture"
-                  class="row-start-1 row-end-3 relative group"
-                >
+              <div class="grid gap-y-1 gap-x-2 items-start" v-if="store.expandTwitterOptions">
+                <div v-if="store.picture" class="row-start-1 row-end-3 relative group">
                   <BaseButton
                     @click="store.picture = ''"
                     class="h-5 w-5 absolute right-0 top-0 group-hover:opacity-100 opacity-0 bg-red-600/80 hover:bg-red-600 transition rounded-full justify-center text-white"
@@ -153,50 +139,23 @@
                 </div>
               </div>
 
-              <div
-                class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2"
-              >
-                <label
-                  class="font-semibold text-xs select-none cursor-pointer"
-                  for="reflection"
-                  >Show Badge</label
-                >
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label class="font-semibold text-xs select-none cursor-pointer" for="reflection">Show Badge</label>
                 <BaseSwitch v-model="store.showTwitterBadge" id="reflection" />
               </div>
 
-              <div
-                class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2"
-              >
-                <label
-                  class="font-semibold text-xs select-none cursor-pointer"
-                  for="showBackground"
-                  >Background</label
-                >
-                <BaseSwitch
-                  v-model="store.showBackground"
-                  id="showBackground"
-                />
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label class="font-semibold text-xs select-none cursor-pointer" for="showBackground">Background</label>
+                <BaseSwitch v-model="store.showBackground" id="showBackground" />
               </div>
 
-              <div
-                class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2"
-              >
-                <label
-                  class="font-semibold text-xs select-none cursor-pointer"
-                  for="reflection"
-                  >Reflection</label
-                >
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label class="font-semibold text-xs select-none cursor-pointer" for="reflection">Reflection</label>
                 <BaseSwitch v-model="store.reflection" id="reflection" />
               </div>
 
-              <div
-                class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2"
-              >
-                <label
-                  class="font-semibold text-xs select-none cursor-pointer"
-                  for="diff"
-                  >Diff</label
-                >
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label class="font-semibold text-xs select-none cursor-pointer" for="diff">Diff</label>
                 <BaseSwitch v-model="store.diff" id="diff" />
               </div>
             </div>
@@ -211,10 +170,7 @@
             class="px-4 w-full bg-emerald-600/30 text-emerald-500 hover:bg-emerald-600/40 group"
             @click="handleCopy"
           >
-            <IconClipboard
-              width="16"
-              class="group-hover:scale-110 transition-transform group-hover:rotate-6"
-            />
+            <IconClipboard width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
             <span class="truncate">
               {{
                 state === State.PreparingToCopy
@@ -244,10 +200,7 @@
             class="px-4 w-full bg-rose-500/30 text-rose-300 hover:bg-rose-500/40 group"
             @click="handleDownload"
           >
-            <IconDownload
-              width="16"
-              class="group-hover:scale-110 transition-transform group-hover:rotate-6"
-            />
+            <IconDownload width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
             <span class="truncate">
               {{
                 state === State.PreparingToDownload
@@ -275,10 +228,7 @@
             Analytics
           </a>
           <span class="opacity-40 font-bold">/</span>
-          <a
-            href="mailto:feedback@kasper.io"
-            class="hover:text-white transition outline-none focus:text-white"
-          >
+          <a href="mailto:feedback@kasper.io" class="hover:text-white transition outline-none focus:text-white">
             Feedback
           </a>
         </div>

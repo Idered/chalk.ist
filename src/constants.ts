@@ -13,35 +13,34 @@ btn.addEventListener('click', () => {
     render()
   }
 })`;
-export const DEFAULT_EDITOR_CONFIG: monaco.editor.IStandaloneDiffEditorConstructionOptions =
-  {
-    theme: "vs-dark",
-    renderWhitespace: "none",
-    fontLigatures: true,
-    selectionHighlight: false,
-    scrollBeyondLastLine: false,
-    fontFamily: "JetBrains Mono",
-    fontSize: 14,
-    quickSuggestions: false,
-    renderLineHighlight: "none",
-    wordWrap: "on",
-    renderSideBySide: false,
-    wrappingStrategy: "advanced",
-    codeLens: false,
-    folding: false,
-    matchBrackets: "never",
-    occurrencesHighlight: false,
-    definitionLinkOpensInPeek: false,
-    lineDecorationsWidth: 0,
-    contextmenu: false,
-    overviewRulerLanes: 0,
-    lineNumbers: "off",
-    guides: { indentation: false },
-    hover: { enabled: false },
-    lightbulb: { enabled: false },
-    minimap: { enabled: false },
-    scrollbar: { vertical: "hidden" },
-  };
+export const DEFAULT_EDITOR_CONFIG: monaco.editor.IStandaloneDiffEditorConstructionOptions = {
+  theme: "vs-dark",
+  renderWhitespace: "none",
+  fontLigatures: true,
+  selectionHighlight: false,
+  scrollBeyondLastLine: false,
+  fontFamily: "JetBrains Mono",
+  fontSize: 14,
+  quickSuggestions: false,
+  renderLineHighlight: "none",
+  wordWrap: "on",
+  renderSideBySide: false,
+  wrappingStrategy: "advanced",
+  codeLens: false,
+  folding: false,
+  matchBrackets: "never",
+  occurrencesHighlight: false,
+  definitionLinkOpensInPeek: false,
+  lineDecorationsWidth: 0,
+  contextmenu: false,
+  overviewRulerLanes: 0,
+  lineNumbers: "off",
+  guides: { indentation: false },
+  hover: { enabled: false },
+  lightbulb: { enabled: false },
+  minimap: { enabled: false },
+  scrollbar: { vertical: "hidden" },
+};
 
 export const AVAILABLE_LANGUAGES = [
   {

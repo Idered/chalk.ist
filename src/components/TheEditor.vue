@@ -1,17 +1,7 @@
 <template>
   <div>
-    <div
-      id="diff-editor"
-      ref="diffContainer"
-      class="-mb-3"
-      :class="{ hidden: !store.diff }"
-    />
-    <div
-      id="editor"
-      ref="container"
-      class="-mb-3"
-      :class="{ hidden: store.diff }"
-    />
+    <div id="diff-editor" ref="diffContainer" class="-mb-3" :class="{ hidden: !store.diff }" />
+    <div id="editor" ref="container" class="-mb-3" :class="{ hidden: store.diff }" />
   </div>
 </template>
 
@@ -56,28 +46,12 @@ onMounted(async () => {
   const editor = monaco.editor.create(container.value, {
     ...DEFAULT_EDITOR_CONFIG,
   });
-  const diffEditor = monaco.editor.createDiffEditor(
-    diffContainer.value,
-    DEFAULT_EDITOR_CONFIG
-  );
-  const activeContainer = computed(() =>
-    store.value.diff ? diffContainer.value : container.value
-  );
-  const activeEditor = computed(() =>
-    store.value.diff ? diffEditor.getModifiedEditor() : editor
-  );
-  const editorModel = monaco.editor.createModel(
-    store.value.content,
-    store.value.language
-  );
-  const diffEditorOriginalModel = monaco.editor.createModel(
-    store.value.content,
-    store.value.language
-  );
-  const diffEditorModifiedModel = monaco.editor.createModel(
-    store.value.content,
-    store.value.language
-  );
+  const diffEditor = monaco.editor.createDiffEditor(diffContainer.value, DEFAULT_EDITOR_CONFIG);
+  const activeContainer = computed(() => (store.value.diff ? diffContainer.value : container.value));
+  const activeEditor = computed(() => (store.value.diff ? diffEditor.getModifiedEditor() : editor));
+  const editorModel = monaco.editor.createModel(store.value.content, store.value.language);
+  const diffEditorOriginalModel = monaco.editor.createModel(store.value.content, store.value.language);
+  const diffEditorModifiedModel = monaco.editor.createModel(store.value.content, store.value.language);
 
   editor.setModel(editorModel);
   diffEditor.setModel({
@@ -104,10 +78,7 @@ onMounted(async () => {
   const autoHeight = () => {
     if (!activeContainer.value) return;
     const MAX_HEIGHT = Infinity;
-    const contentHeight = Math.min(
-      MAX_HEIGHT,
-      activeEditor.value.getContentHeight() + 12
-    );
+    const contentHeight = Math.min(MAX_HEIGHT, activeEditor.value.getContentHeight() + 12);
     activeContainer.value.style.width = `${width.value}px`;
     activeContainer.value.style.height = `${contentHeight}px`;
     activeEditor.value.layout({ width: width.value, height: contentHeight });
@@ -136,14 +107,8 @@ onMounted(async () => {
 
   watchEffect(() => {
     monaco.editor.setModelLanguage(editorModel, store.value.language);
-    monaco.editor.setModelLanguage(
-      diffEditorOriginalModel,
-      store.value.language
-    );
-    monaco.editor.setModelLanguage(
-      diffEditorModifiedModel,
-      store.value.language
-    );
+    monaco.editor.setModelLanguage(diffEditorOriginalModel, store.value.language);
+    monaco.editor.setModelLanguage(diffEditorModifiedModel, store.value.language);
   });
 
   await document.fonts.load("12px JetBrains Mono");
@@ -151,12 +116,8 @@ onMounted(async () => {
   monaco.editor.remeasureFonts();
 
   const source = container.value.querySelector(".monaco-editor");
-  const diffSource = diffContainer.value.querySelector(
-    ".modified-in-monaco-diff-editor"
-  );
-  const target = document.querySelector<HTMLDivElement>(
-    "[data-editor-frame-container]"
-  );
+  const diffSource = diffContainer.value.querySelector(".modified-in-monaco-diff-editor");
+  const target = document.querySelector<HTMLDivElement>("[data-editor-frame-container]");
   const handleScroll = (event: Event): void => {
     if (!target) return;
     target.scrollTop += (event as WheelEvent).deltaY;

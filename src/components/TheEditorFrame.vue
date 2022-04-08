@@ -1,16 +1,9 @@
 <template>
-  <div
-    data-editor-frame-container
-    ref="container"
-    class="overflow-y-auto overflow-x-hidden grid p-1"
-  >
+  <div data-editor-frame-container ref="container" class="overflow-y-auto overflow-x-hidden grid p-1">
     <div
       class="grid justify-items-center items-start h-0"
       :style="{
-        transform:
-          frameWidth > containerWidth && !isExporting
-            ? `scale(${containerWidth / frameWidth})`
-            : undefined,
+        transform: frameWidth > containerWidth && !isExporting ? `scale(${containerWidth / frameWidth})` : undefined,
         transformOrigin: 'left top',
       }"
       :class="{
@@ -50,10 +43,7 @@
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <path
-                  d="M0 0H100L47 172H0V0Z"
-                  fill="url(#paint0_linear_47_2)"
-                />
+                <path d="M0 0H100L47 172H0V0Z" fill="url(#paint0_linear_47_2)" />
                 <defs>
                   <linearGradient
                     id="paint0_linear_47_2"
@@ -81,19 +71,9 @@
           <div class="flex justify-end">
             <div
               class="rounded-full z-10 relative p-1 bg-black/70 text-white mt-4 flex items-center"
-              v-if="
-                (store.username || store.name || store.picture) &&
-                store.showTwitterBadge
-              "
+              v-if="(store.username || store.name || store.picture) && store.showTwitterBadge"
             >
-              <img
-                v-if="store.picture"
-                :src="store.picture"
-                width="32"
-                height="32"
-                class="rounded-full"
-                alt=""
-              />
+              <img v-if="store.picture" :src="store.picture" width="32" height="32" class="rounded-full" alt="" />
               <IconTwitter v-else :width="32" />
               <div v-if="store.name || store.username" class="ml-2 pr-4">
                 <div class="font-semibold text-xs" v-if="store.name">
@@ -133,10 +113,8 @@ const { width: frameWidth } = useElementSize(editorFrame);
 
 <style>
 .shadow-app {
-  box-shadow: 0px 0.6px 0.7px hsl(v-bind("theme.shadow") / 0.3),
-    0px 3.5px 4px -0.3px hsl(v-bind("theme.shadow") / 0.31),
-    0px 6.4px 7.4px -0.7px hsl(v-bind("theme.shadow") / 0.32),
-    0px 10.4px 12px -1px hsl(v-bind("theme.shadow") / 0.32),
+  box-shadow: 0px 0.6px 0.7px hsl(v-bind("theme.shadow") / 0.3), 0px 3.5px 4px -0.3px hsl(v-bind("theme.shadow") / 0.31),
+    0px 6.4px 7.4px -0.7px hsl(v-bind("theme.shadow") / 0.32), 0px 10.4px 12px -1px hsl(v-bind("theme.shadow") / 0.32),
     0px 16.3px 18.8px -1.3px hsl(v-bind("theme.shadow") / 0.33),
     0px 25.2px 29.1px -1.6px hsl(v-bind("theme.shadow") / 0.33),
     0px 37.9px 43.8px -2px hsl(v-bind("theme.shadow") / 0.34),

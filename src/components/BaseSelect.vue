@@ -10,10 +10,7 @@
         @click="open"
         @keydown="
           (e) => {
-            if (
-              !isOpen &&
-              !['Enter', 'ArrowDown', 'ArrowUp', 'Space'].includes(e.code)
-            ) {
+            if (!isOpen && !['Enter', 'ArrowDown', 'ArrowUp', 'Space'].includes(e.code)) {
               return;
             }
             if (!isOpen && e.code !== 'Tab') {
@@ -24,12 +21,10 @@
               case 'Tab':
                 return close();
               case 'ArrowDown':
-                activeIndex =
-                  activeIndex + 1 < results.length ? activeIndex + 1 : 0;
+                activeIndex = activeIndex + 1 < results.length ? activeIndex + 1 : 0;
                 break;
               case 'ArrowUp':
-                activeIndex =
-                  activeIndex - 1 >= 0 ? activeIndex - 1 : results.length - 1;
+                activeIndex = activeIndex - 1 >= 0 ? activeIndex - 1 : results.length - 1;
                 break;
               case 'Enter':
                 if (activeIndex > -1) {
@@ -50,8 +45,7 @@
         :placeholder="isFocused ? 'Search' : selected?.label"
         :class="{
           'bg-slate-900': isFocused,
-          'cursor-pointer bg-slate-800 shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px]':
-            !isFocused,
+          'cursor-pointer bg-slate-800 shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px]': !isFocused,
           'placeholder-slate-600/50': isFocused,
         }"
       />
@@ -87,11 +81,7 @@
             }"
             @mouseenter="activeIndex = i"
           >
-            <IconCheck
-              width="12"
-              class="absolute left-2"
-              v-if="modelValue === result.item.value"
-            />
+            <IconCheck width="12" class="absolute left-2" v-if="modelValue === result.item.value" />
             {{ result.item.label }}
           </div>
           <div
@@ -148,9 +138,7 @@ const props = defineProps({
     default: "",
   },
   options: {
-    type: Array as PropType<
-      (Option & OptionGroup)[] | Option[] | OptionGroup[]
-    >,
+    type: Array as PropType<(Option & OptionGroup)[] | Option[] | OptionGroup[]>,
     default: () => [],
     required: true,
   },
@@ -172,8 +160,7 @@ const flatOptions = computed(() => {
 });
 const maxHeight = computed(() => {
   if (!isOpen.value || !dropdown.value) return "down";
-  const difference =
-    windowHeight.value - (dropdown.value.getBoundingClientRect().bottom || 0);
+  const difference = windowHeight.value - (dropdown.value.getBoundingClientRect().bottom || 0);
   return difference < 0 ? dropdown.value.clientHeight + difference - 16 : "up";
 });
 const groups = computed(() => {

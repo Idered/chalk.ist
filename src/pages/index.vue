@@ -1,7 +1,5 @@
 <template>
-  <main
-    class="grid grid-rows-[1fr_auto] h-screen sm:grid-rows-1 sm:grid-cols-[auto_1fr]"
-  >
+  <main class="grid grid-rows-[1fr_auto] h-screen sm:grid-rows-1 sm:grid-cols-[auto_1fr]">
     <TheEditorFrame class="sm:col-start-2 sm:min-h-screen" />
     <TheTwitterFlyout />
     <TheSidebar class="sm:col-start-1" />
