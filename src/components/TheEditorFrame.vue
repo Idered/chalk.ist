@@ -137,7 +137,7 @@ import Editor from "./TheEditor.vue";
 import IconTwitter from "./IconTwitter.vue";
 import { useElementSize, useEventListener } from "@vueuse/core";
 import { theme, store, isExporting } from "~/composables/store";
-import { ref, watchEffect } from "vue";
+import { ref, watch } from "vue";
 import { MAX_FRAME_WIDTH, MIN_FRAME_WIDTH } from "~/constants";
 import { ExportState, exportState } from "~/composables/export-state";
 
@@ -147,8 +147,8 @@ const { width: containerWidth } = useElementSize(container);
 const activeResizeHandle = ref<"left" | "right" | null>(null);
 const { height: frameHeight } = useElementSize(editorFrame);
 
-watchEffect(() => {
-  store.value.frameHeight = Math.round(frameHeight.value);
+watch(frameHeight, (value) => {
+  store.value.frameHeight = Math.round(value);
 });
 
 useEventListener("mouseup", () => {
