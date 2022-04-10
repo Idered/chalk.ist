@@ -1,5 +1,7 @@
 import * as monaco from "monaco-editor";
 
+export const MAX_FRAME_WIDTH = 980;
+export const MIN_FRAME_WIDTH = 520;
 export const DEFAULT_THEME = "dawn";
 export const DEFAULT_CONTENT = `const btn = document.getElementById('btn')
 let count = 0

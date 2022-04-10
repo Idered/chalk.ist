@@ -3,11 +3,12 @@
     <div
       class="grid justify-items-center items-start h-0"
       :style="{
-        transform: frameWidth > containerWidth && !isExporting ? `scale(${containerWidth / frameWidth})` : undefined,
+        transform:
+          store.frameWidth > containerWidth && !isExporting ? `scale(${containerWidth / store.frameWidth})` : undefined,
         transformOrigin: 'left top',
       }"
       :class="{
-        'sm:items-center h-auto': frameWidth < containerWidth,
+        'sm:items-center h-auto': store.frameWidth < containerWidth,
       }"
     >
       <div
@@ -15,16 +16,49 @@
         data-editor-frame
         class="grid justify-items-center items-center relative"
         :style="{
-          minHeight: `${(frameWidth / 16) * 9 + 1}px`,
+          width: `${store.frameWidth}px`,
+          // minHeight: `${(store.frameWidth / 16) * 9 + 1}px`,
         }"
       >
+        <div
+          class="absolute bottom-full right-0 mb-2 bg-slate-700 text-white/75 text-[11px] uppercase font-bold tracking-wider px-2.5 h-6 transition grid items-center rounded"
+        >
+          {{ store.frameWidth }} x {{ store.frameHeight }}
+        </div>
+        <div
+          v-if="exportState === ExportState.Idle"
+          class="w-6 h-6 absolute top-1/2 z-50 -translate-y-3 -right-3 flex items-center justify-center group cursor-ew-resize select-none"
+          @mousedown="activeResizeHandle = 'right'"
+        >
+          <div
+            class="pointer-events-none w-1.5 h-1.5 bg-white rounded-full group-hover:scale-150 transition-transform"
+          />
+        </div>
+
+        <div
+          v-if="exportState === ExportState.Idle"
+          class="w-6 h-6 absolute top-1/2 z-10 -translate-y-3 -left-3 flex items-center justify-center group cursor-ew-resize"
+          @mousedown="activeResizeHandle = 'left'"
+        >
+          <div
+            class="pointer-events-none w-1.5 h-1.5 bg-white rounded-full group-hover:scale-150 transition-transform"
+          />
+        </div>
+
         <div
           class="absolute bg-frame inset-0 transition"
           :class="{
             'opacity-0': !store.showBackground,
           }"
         ></div>
-        <div class="p-8">
+        <div
+          :style="{
+            paddingLeft: `${store.paddingX}px`,
+            paddingRight: `${store.paddingX}px`,
+            paddingTop: `${store.paddingY}px`,
+            paddingBottom: `${store.paddingY}px`,
+          }"
+        >
           <div
             class="bg-black/80 rounded-md px-4 relative transition-shadow"
             :class="{
@@ -101,14 +135,32 @@
 <script setup lang="ts">
 import Editor from "./TheEditor.vue";
 import IconTwitter from "./IconTwitter.vue";
-import { useElementSize } from "@vueuse/core";
+import { useElementSize, useEventListener } from "@vueuse/core";
 import { theme, store, isExporting } from "~/composables/store";
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
+import { MAX_FRAME_WIDTH, MIN_FRAME_WIDTH } from "~/constants";
+import { ExportState, exportState } from "~/composables/export-state";
 
 const container = ref<HTMLDivElement>();
 const editorFrame = ref<HTMLDivElement>();
 const { width: containerWidth } = useElementSize(container);
-const { width: frameWidth } = useElementSize(editorFrame);
+const activeResizeHandle = ref<"left" | "right" | null>(null);
+const { height: frameHeight } = useElementSize(editorFrame);
+
+watchEffect(() => {
+  store.value.frameHeight = Math.round(frameHeight.value);
+});
+
+useEventListener("mouseup", () => {
+  activeResizeHandle.value = null;
+});
+
+useEventListener("mousemove", (event: MouseEvent) => {
+  if (!editorFrame.value || !activeResizeHandle.value) return;
+  const { width } = getComputedStyle(editorFrame.value as HTMLElement);
+  const nextWidth = parseInt(width, 10) + event.movementX * (activeResizeHandle.value === "left" ? -1 : 1);
+  store.value.frameWidth = Math.min(Math.max(nextWidth, MIN_FRAME_WIDTH), MAX_FRAME_WIDTH);
+});
 </script>
 
 <style>

@@ -41,8 +41,8 @@
             </div>
 
             <div class="grid gap-y-2">
-              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-                <label class="font-semibold text-xs select-none cursor-pointer" for="showBackground"
+              <div class="grid grid-flow-col gap-y-2 items-center grid-cols-[1fr_auto_auto] gap-x-2">
+                <label class="font-semibold text-xs select-none cursor-pointer" for="showTwitterBadge"
                   >Twitter Badge</label
                 >
                 <BaseButton
@@ -56,8 +56,8 @@
                       'rotate-180': store.expandTwitterOptions,
                     }"
                   />
-                  <!-- {{ store.expandTwitterOptions ? "Hide" : "Edit" }} -->
                 </BaseButton>
+                <BaseSwitch v-model="store.showTwitterBadge" id="showTwitterBadge" />
               </div>
 
               <div class="grid gap-y-1 gap-x-2 items-start" v-if="store.expandTwitterOptions">
@@ -140,11 +140,6 @@
               </div>
 
               <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-                <label class="font-semibold text-xs select-none cursor-pointer" for="reflection">Show Badge</label>
-                <BaseSwitch v-model="store.showTwitterBadge" id="reflection" />
-              </div>
-
-              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
                 <label class="font-semibold text-xs select-none cursor-pointer" for="showBackground">Background</label>
                 <BaseSwitch v-model="store.showBackground" id="showBackground" />
               </div>
@@ -152,6 +147,38 @@
               <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
                 <label class="font-semibold text-xs select-none cursor-pointer" for="reflection">Reflection</label>
                 <BaseSwitch v-model="store.reflection" id="reflection" />
+              </div>
+
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label class="font-semibold text-xs select-none cursor-pointer" for="paddingX">Padding X</label>
+                <div class="grid gap-x-2 grid-flow-col text-sm">
+                  <input
+                    id="paddingX"
+                    class="accent-blue-700"
+                    type="range"
+                    min="32"
+                    max="256"
+                    step="8"
+                    :value="store.paddingX"
+                    @input="store.paddingX = parseInt(($event.target as HTMLInputElement).value)"
+                  />
+                </div>
+              </div>
+
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label class="font-semibold text-xs select-none cursor-pointer" for="paddingY">Padding Y</label>
+                <div class="grid gap-x-2 grid-flow-col text-sm">
+                  <input
+                    id="paddingY"
+                    class="accent-blue-700"
+                    type="range"
+                    min="32"
+                    max="128"
+                    step="8"
+                    :value="store.paddingY"
+                    @input="store.paddingY = parseInt(($event.target as HTMLInputElement).value)"
+                  />
+                </div>
               </div>
 
               <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
@@ -173,18 +200,18 @@
             <IconClipboard width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
             <span class="truncate">
               {{
-                state === State.PreparingToCopy
+                exportState === ExportState.PreparingToCopy
                   ? "..."
-                  : state === State.JustCopied
+                  : exportState === ExportState.JustCopied
                   ? "Copied!"
-                  : state === State.CopyFailure
+                  : exportState === ExportState.CopyFailure
                   ? "Error! Try to download"
                   : "Copy to Clipboard"
               }}
             </span>
           </BaseButton>
           <BaseButton
-            class="bg-slate-700 text-slate-500 hover:bg-slate-700/80 group sm:hidden"
+            class="bg-slate-700 text-slate-500 hover:bg-slate-700/80 group sm:hidden w-10 justify-center"
             @click="isExpanded = !isExpanded"
             square="w-10"
           >
@@ -203,9 +230,9 @@
             <IconDownload width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
             <span class="truncate">
               {{
-                state === State.PreparingToDownload
+                exportState === ExportState.PreparingToDownload
                   ? "..."
-                  : state === State.JustDownloaded
+                  : exportState === ExportState.JustDownloaded
                   ? "Downloaded!"
                   : "Download PNG"
               }}
@@ -253,17 +280,8 @@ import IconClipboard from "./IconClipboard.vue";
 import IconChevronDown from "./IconChevronDown.vue";
 import { useElementSize } from "@vueuse/core";
 import { ChalkTheme } from "~/composables/theme-utils";
+import { exportState, ExportState } from "~/composables/export-state";
 
-enum State {
-  Idle,
-  PreparingToCopy,
-  PreparingToDownload,
-  JustCopied,
-  JustDownloaded,
-  CopyFailure,
-}
-
-const state = ref(State.Idle);
 const isExpanded = ref(false);
 const timeout = ref();
 const expandableContent = ref();
@@ -277,10 +295,10 @@ const downloadPng = (canvas: HTMLCanvasElement) => {
     link.href = url;
     link.download = "screenshot.png";
     link.click();
-    state.value = State.JustDownloaded;
+    exportState.value = ExportState.JustDownloaded;
     clearTimeout(timeout.value);
     timeout.value = setTimeout(() => {
-      state.value = State.Idle;
+      exportState.value = ExportState.Idle;
     }, 1000);
   });
 };
@@ -291,16 +309,16 @@ const copyToClipboard = (canvas: HTMLCanvasElement) => {
     try {
       const item = new ClipboardItem({ "image/png": blob });
       navigator.clipboard.write([item]);
-      state.value = State.JustCopied;
+      exportState.value = ExportState.JustCopied;
       clearTimeout(timeout.value);
       timeout.value = setTimeout(() => {
-        state.value = State.Idle;
+        exportState.value = ExportState.Idle;
       }, 1000);
     } catch {
-      state.value = State.CopyFailure;
+      exportState.value = ExportState.CopyFailure;
       clearTimeout(timeout.value);
       timeout.value = setTimeout(() => {
-        state.value = State.Idle;
+        exportState.value = ExportState.Idle;
       }, 1000);
     }
   }, "image/png");
@@ -310,7 +328,7 @@ const handleCopy = async () => {
   const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
   if (!frame) return;
   umami.trackEvent("Copy to Clipboard", "export");
-  state.value = State.PreparingToCopy;
+  exportState.value = ExportState.PreparingToCopy;
   isExporting.value = true;
   await nextTick();
   html2canvas(frame, {
@@ -326,7 +344,7 @@ const handleDownload = async () => {
   const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
   if (!frame) return;
   umami.trackEvent("Download PNG", "export");
-  state.value = State.PreparingToDownload;
+  exportState.value = ExportState.PreparingToDownload;
   isExporting.value = true;
   await nextTick();
   html2canvas(frame, {

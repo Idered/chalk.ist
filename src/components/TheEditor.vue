@@ -14,7 +14,7 @@ import CssWorker from "monaco-editor/esm/vs/language/css/css.worker?worker";
 import JSONWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
 import HtmlWorker from "monaco-editor/esm/vs/language/html/html.worker?worker";
 import TsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
-import { store, theme } from "~/composables/store";
+import { editorWidth, store, theme } from "~/composables/store";
 import { DEFAULT_EDITOR_CONFIG } from "~/constants";
 
 (self as any).MonacoEnvironment = {
@@ -37,7 +37,6 @@ import { DEFAULT_EDITOR_CONFIG } from "~/constants";
 
 const container = ref<HTMLDivElement>();
 const diffContainer = ref<HTMLDivElement>();
-const width = ref(510);
 
 onMounted(async () => {
   if (!container.value) return;
@@ -79,10 +78,16 @@ onMounted(async () => {
     if (!activeContainer.value) return;
     const MAX_HEIGHT = Infinity;
     const contentHeight = Math.min(MAX_HEIGHT, activeEditor.value.getContentHeight() + 12);
-    activeContainer.value.style.width = `${width.value}px`;
+    activeContainer.value.style.width = `${editorWidth.value}px`;
     activeContainer.value.style.height = `${contentHeight}px`;
-    activeEditor.value.layout({ width: width.value, height: contentHeight });
+    activeEditor.value.layout({ width: editorWidth.value, height: contentHeight });
   };
+
+  watchEffect(() => {
+    if (!activeContainer.value) return;
+    activeContainer.value.style.width = `${editorWidth.value}px`;
+    activeEditor.value.layout({ width: editorWidth.value, height: parseInt(activeContainer.value.style.height, 10) });
+  });
 
   editor.onDidChangeModelContent(() => {
     store.value.content = editor.getModel()?.getValue() || "";
@@ -124,6 +129,8 @@ onMounted(async () => {
   };
   source?.addEventListener("wheel", handleScroll);
   diffSource?.addEventListener("wheel", handleScroll);
+
+  setInterval(() => {}, 1000);
 });
 </script>
 
