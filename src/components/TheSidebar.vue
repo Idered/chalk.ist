@@ -60,7 +60,7 @@
                 <BaseSwitch v-model="store.showTwitterBadge" id="showTwitterBadge" />
               </div>
 
-              <div class="grid gap-y-1 gap-x-2 items-start" v-if="store.expandTwitterOptions">
+              <div class="grid gap-y-1 gap-x-2 items-start grid-cols-[auto_1fr]" v-if="store.expandTwitterOptions">
                 <div v-if="store.picture" class="row-start-1 row-end-3 relative group">
                   <BaseButton
                     @click="store.picture = ''"
@@ -157,7 +157,7 @@
                     class="accent-blue-700"
                     type="range"
                     min="32"
-                    max="128"
+                    max="256"
                     step="8"
                     :value="store.paddingX"
                     @input="store.paddingX = parseInt(($event.target as HTMLInputElement).value)"

@@ -27,8 +27,8 @@
         </div>
         <div
           v-if="exportState === ExportState.Idle"
-          class="w-6 h-6 absolute top-1/2 z-50 -translate-y-3 -right-3 flex items-center justify-center group cursor-ew-resize select-none"
-          @mousedown="activeResizeHandle = 'right'"
+          class="flex w-6 h-6 absolute top-1/2 z-50 -translate-y-3 -right-3 items-center justify-center group cursor-ew-resize select-none"
+          @mousedown="startResize($event, 'right')"
         >
           <div
             class="pointer-events-none w-1.5 h-1.5 bg-white rounded-full group-hover:scale-150 transition-transform"
@@ -37,8 +37,8 @@
 
         <div
           v-if="exportState === ExportState.Idle"
-          class="w-6 h-6 absolute top-1/2 z-10 -translate-y-3 -left-3 flex items-center justify-center group cursor-ew-resize"
-          @mousedown="activeResizeHandle = 'left'"
+          class="flex w-6 h-6 absolute top-1/2 z-10 -translate-y-3 -left-3 items-center justify-center group cursor-ew-resize"
+          @mousedown="startResize($event, 'left')"
         >
           <div
             class="pointer-events-none w-1.5 h-1.5 bg-white rounded-full group-hover:scale-150 transition-transform"
@@ -144,8 +144,17 @@ import { ExportState, exportState } from "~/composables/export-state";
 const container = ref<HTMLDivElement>();
 const editorFrame = ref<HTMLDivElement>();
 const { width: containerWidth } = useElementSize(container);
+const resizeStartX = ref(0);
+const resizeStartWidth = ref(0);
 const activeResizeHandle = ref<"left" | "right" | null>(null);
 const { height: frameHeight } = useElementSize(editorFrame);
+
+function startResize(event: MouseEvent, handle: "left" | "right") {
+  event.preventDefault();
+  activeResizeHandle.value = handle;
+  resizeStartX.value = event.clientX;
+  resizeStartWidth.value = store.value.frameWidth;
+}
 
 watch(frameHeight, (value) => {
   store.value.frameHeight = Math.round(value);
@@ -157,8 +166,8 @@ useEventListener("mouseup", () => {
 
 useEventListener("mousemove", (event: MouseEvent) => {
   if (!editorFrame.value || !activeResizeHandle.value) return;
-  const { width } = getComputedStyle(editorFrame.value as HTMLElement);
-  const nextWidth = parseInt(width, 10) + event.movementX * (activeResizeHandle.value === "left" ? -1 : 1);
+  const direction = activeResizeHandle.value === "left" ? -1 : 1;
+  const nextWidth = resizeStartWidth.value + 2 * (event.clientX - resizeStartX.value) * direction;
   store.value.frameWidth = Math.min(Math.max(nextWidth, MIN_FRAME_WIDTH), MAX_FRAME_WIDTH);
 });
 </script>

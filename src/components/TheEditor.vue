@@ -83,10 +83,10 @@ onMounted(async () => {
     activeEditor.value.layout({ width: editorWidth.value, height: contentHeight });
   };
 
-  watchEffect(() => {
+  watch(editorWidth, (width) => {
     if (!activeContainer.value) return;
-    activeContainer.value.style.width = `${editorWidth.value}px`;
-    activeEditor.value.layout({ width: editorWidth.value, height: parseInt(activeContainer.value.style.height, 10) });
+    activeContainer.value.style.width = `${width}px`;
+    activeEditor.value.layout({ width, height: parseInt(activeContainer.value.style.height, 10) });
   });
 
   editor.onDidChangeModelContent(() => {

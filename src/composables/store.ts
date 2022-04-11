@@ -17,10 +17,10 @@ export const store = useStorage("chalk-store", {
   showBackground: true,
   reflection: true,
   modifiedContent: "",
-  paddingX: 32,
-  paddingY: 32,
+  paddingX: 72,
+  paddingY: 64,
   frameHeight: 0,
-  frameWidth: MIN_FRAME_WIDTH,
+  frameWidth: 720,
   content: DEFAULT_CONTENT,
 });
 
