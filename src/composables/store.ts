@@ -31,6 +31,7 @@ export const isExporting = ref(false);
 export const theme = computed(() => (themes as Record<string, ChalkTheme>)[store.value.currentTheme]);
 
 // Data migrations
+store.value.showWindowControls = store.value.showWindowControls ?? true;
 store.value.paddingX = store.value.paddingX || 32;
 store.value.paddingY = store.value.paddingY || 32;
 store.value.frameWidth = store.value.frameWidth || MIN_FRAME_WIDTH;
