@@ -35,6 +35,7 @@ export const createMonacoTheme = (
     keywords: string;
     strings: string;
     numbers: string;
+    regexp: string;
   },
   rules = [] as monaco.editor.IStandaloneThemeData["rules"]
 ) =>
@@ -54,7 +55,7 @@ export const createMonacoTheme = (
       { token: "comment", foreground: theme.comments },
       { token: "number", foreground: theme.numbers },
       { token: "number.hex", foreground: theme.numbers },
-      { token: "regexp", foreground: "#000000" },
+      { token: "regexp", foreground: theme.regexp },
       { token: "annotation", foreground: "#000000" },
       { token: "type", foreground: theme.foreground },
 

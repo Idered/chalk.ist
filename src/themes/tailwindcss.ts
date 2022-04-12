@@ -12,5 +12,6 @@ export const tailwindcss: ChalkTheme = {
     delimiters: hslToHex(`hsl(198, 16%, 47%)`),
     strings: hslToHex(`hsl(160, 86%, 70%)`),
     numbers: hslToHex(`hsl(160, 65%, 51%)`),
+    regexp: hslToHex(`hsl(160, 65%, 71%)`),
   }),
 };

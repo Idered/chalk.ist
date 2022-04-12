@@ -12,5 +12,6 @@ export const dawn: ChalkTheme = {
     delimiters: hslToHex("hsl(265, 29%, 79%)"),
     strings: hslToHex("hsl(265, 29%, 79%)"),
     numbers: hslToHex("hsl(266, 21%, 94%)"),
+    regexp: hslToHex("hsl(20, 51%, 64%)"),
   }),
 };

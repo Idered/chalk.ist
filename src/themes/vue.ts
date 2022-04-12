@@ -12,5 +12,6 @@ export const vue: ChalkTheme = {
     delimiters: hslToHex("hsl(150, 13%, 91%)"),
     strings: hslToHex("hsl(97, 54%, 77%)"),
     numbers: hslToHex("hsl(66, 60%, 61%)"),
+    regexp: hslToHex("hsl(66, 60%, 81%)"),
   }),
 };
