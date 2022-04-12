@@ -16,6 +16,7 @@ export const store = useStorage("chalk-store", {
   enableTwitterFlyout: true,
   showBackground: true,
   reflection: true,
+  showWindowControls: true,
   modifiedContent: "",
   paddingX: 72,
   paddingY: 64,
@@ -24,7 +25,7 @@ export const store = useStorage("chalk-store", {
   content: DEFAULT_CONTENT,
 });
 
-export const editorWidth = computed(() => store.value.frameWidth - store.value.paddingX * 2 - 16 * 2);
+export const editorWidth = computed(() => store.value.frameWidth - store.value.paddingX * 2 - 20 * 2);
 export const showTwitterFlyout = ref(false);
 export const isExporting = ref(false);
 export const theme = computed(() => (themes as Record<string, ChalkTheme>)[store.value.currentTheme]);

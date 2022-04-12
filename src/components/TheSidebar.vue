@@ -140,6 +140,13 @@
               </div>
 
               <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label class="font-semibold text-xs select-none cursor-pointer" for="showWindowControls"
+                  >Window controls</label
+                >
+                <BaseSwitch v-model="store.showWindowControls" id="showWindowControls" />
+              </div>
+
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
                 <label class="font-semibold text-xs select-none cursor-pointer" for="showBackground">Background</label>
                 <BaseSwitch v-model="store.showBackground" id="showBackground" />
               </div>
