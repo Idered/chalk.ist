@@ -3,17 +3,12 @@
     class="sm:col-start-2 fixed -mt-12 sm:mt-0 right-4 left-4 md:left-[256px] top-full grid justify-items-center max-h-0"
   >
     <div
-      class="absolute bottom-full bg-slate-800 p-2 -translate-y-5 rounded-full border border-slate-700 grid grid-flow-col items-center gap-x-4 transition ease-out-back duration-700"
+      class="absolute bottom-full bg-slate-800 pl-5 p-2 -translate-y-5 rounded-full border border-slate-700 grid grid-flow-col items-center gap-x-4 transition ease-out-back duration-700"
       :class="{
         'opacity-0 pointer-events-none translate-y-12': !showTwitterFlyout || !store.enableTwitterFlyout,
       }"
     >
-      <img src="https://github.com/idered.png" alt="" class="w-8 rounded-full" />
-
-      <span class="text-slate-400 font-medium text-sm">
-        Your first screenshot looks great <span class="ml-1"> 🎉</span> If you like this tool, follow me on Twitter for
-        more!
-      </span>
+      <span class="text-slate-400 font-medium text-sm">Want to get updates about new chalk.ist features? </span>
 
       <a
         href="https://twitter.com/Idered?ref_src=chalk.ist"
