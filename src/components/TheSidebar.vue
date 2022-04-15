@@ -262,8 +262,11 @@
             Analytics
           </a>
           <span class="opacity-40 font-bold">/</span>
-          <a href="mailto:feedback@kasper.io" class="hover:text-white transition outline-none focus:text-white">
-            Feedback
+          <a
+            href="https://www.buymeacoffee.com/idered"
+            class="hover:text-white transition outline-none focus:text-white"
+          >
+            Buy coffee
           </a>
         </div>
       </div>
