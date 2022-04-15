@@ -66,6 +66,7 @@ export const AVAILABLE_LANGUAGES = [
     children: [
       { value: "javascript", label: "JavaScript" },
       { value: "typescript", label: "TypeScript" },
+      { value: "go", label: "Go" },
     ],
   },
   {
