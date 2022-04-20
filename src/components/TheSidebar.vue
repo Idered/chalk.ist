@@ -269,6 +269,15 @@
             Buy coffee
           </a>
         </div>
+        <div class="px-3 text-xs mt-2">
+          <span class="opacity-75">Created by</span>
+          <a
+            href="https://twitter.com/Idered"
+            class="hover:text-white transition outline-none font-medium focus:text-white"
+          >
+            Kasper Mikiewcz
+          </a>
+        </div>
       </div>
     </aside>
   </OnClickOutside>
@@ -278,7 +287,7 @@
 import html2canvas from "html2canvas";
 import { nextTick, ref } from "vue";
 import { OnClickOutside } from "@vueuse/components";
-import { isExporting, showTwitterFlyout, store } from "~/composables/store";
+import { isExporting, store } from "~/composables/store";
 import * as themes from "~/themes";
 import BaseSwitch from "./BaseSwitch.vue";
 import BaseSelect from "./BaseSelect.vue";
@@ -346,7 +355,6 @@ const handleCopy = async () => {
   }).then((canvas) => {
     isExporting.value = false;
     copyToClipboard(canvas);
-    showTwitterFlyout.value = true;
   });
 };
 
@@ -362,7 +370,6 @@ const handleDownload = async () => {
   }).then((canvas) => {
     isExporting.value = false;
     downloadPng(canvas);
-    showTwitterFlyout.value = true;
   });
 };
 
