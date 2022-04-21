@@ -18,10 +18,12 @@
     "fuse.js": "6.5.3",
     "html2canvas": "github:idered/html2canvas",
     "monaco-editor": "0.32.1",
+    "pica": "7.1.0",
     "vue": "^3.2.31",
     "vue-router": "4.0.14"
   },
   "devDependencies": {
+    "@types/pica": "^9.0.0",
     "@vitejs/plugin-vue": "^2.2.4",
     "@vueuse/head": "0.7.5",
     "autoprefixer": "10.4.2",

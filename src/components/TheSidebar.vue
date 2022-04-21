@@ -276,7 +276,7 @@
             Buy coffee
           </a>
         </div>
-        <div class="px-3 text-xs mt-2">
+        <div class="px-3 text-xs my-2">
           <span class="opacity-75">Created by</span>
           <a
             href="https://twitter.com/Idered"
@@ -307,6 +307,7 @@ import IconChevronDown from "./IconChevronDown.vue";
 import { useElementSize } from "@vueuse/core";
 import { ChalkTheme } from "~/composables/theme-utils";
 import { exportState, ExportState } from "~/composables/export-state";
+import { resizeImage, cropImage } from "~/composables/image";
 
 const isExpanded = ref(false);
 const timeout = ref();
@@ -383,11 +384,15 @@ const handleDownload = async () => {
 function handlePicture(event: Event) {
   const target = event.target as HTMLInputElement;
   if (target.files) {
+    const file = target.files[0];
+    if (!file) return;
     const reader = new FileReader();
-    reader.readAsDataURL(target.files[0]);
-    reader.onload = () => {
-      store.value.picture = reader.result as string;
+    reader.onload = async (e) => {
+      const croppedImage = await cropImage(reader.result as string, 1);
+      const resizedImage = await resizeImage(croppedImage, 56 * 2);
+      store.value.picture = resizedImage.toDataURL(file.type);
     };
+    reader.readAsDataURL(file);
   }
 }
 
