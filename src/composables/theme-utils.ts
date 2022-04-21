@@ -72,7 +72,7 @@ export const createMonacoTheme = (
       { token: "metatag.content.html", foreground: "#000000" },
       { token: "metatag.html", foreground: "#000000" },
       { token: "metatag.xml", foreground: "#000000" },
-      { token: "metatag.php", fontStyle: "bold" },
+      { token: "metatag.php", fontStyle: "bold", foreground: theme.keywords },
 
       { token: "key", foreground: "#000000" },
       { token: "string.key.json", foreground: theme.foreground },
