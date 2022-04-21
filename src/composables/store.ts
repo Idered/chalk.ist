@@ -15,6 +15,7 @@ export const store = useStorage("chalk-store", {
   expandTwitterOptions: true,
   showBackground: true,
   reflection: true,
+  showLineNumbers: true,
   showWindowControls: true,
   modifiedContent: "",
   paddingX: 72,
@@ -29,6 +30,7 @@ export const isExporting = ref(false);
 export const theme = computed(() => (themes as Record<string, ChalkTheme>)[store.value.currentTheme]);
 
 // Data migrations
+store.value.showLineNumbers = store.value.showLineNumbers ?? true;
 store.value.showWindowControls = store.value.showWindowControls ?? true;
 store.value.paddingX = store.value.paddingX || 32;
 store.value.paddingY = store.value.paddingY || 32;

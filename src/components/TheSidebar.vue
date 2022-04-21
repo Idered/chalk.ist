@@ -147,6 +147,13 @@
               </div>
 
               <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label class="font-semibold text-xs select-none cursor-pointer" for="showLineNumbers"
+                  >Line numbers</label
+                >
+                <BaseSwitch v-model="store.showLineNumbers" id="showLineNumbers" />
+              </div>
+
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
                 <label class="font-semibold text-xs select-none cursor-pointer" for="showBackground">Background</label>
                 <BaseSwitch v-model="store.showBackground" id="showBackground" />
               </div>
@@ -275,7 +282,7 @@
             href="https://twitter.com/Idered"
             class="hover:text-white transition outline-none font-medium focus:text-white"
           >
-            Kasper Mikiewcz
+            Kasper Mikiewicz
           </a>
         </div>
       </div>

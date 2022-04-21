@@ -116,6 +116,14 @@ onMounted(async () => {
     monaco.editor.setModelLanguage(diffEditorModifiedModel, store.value.language);
   });
 
+  watchEffect(() => {
+    editor.updateOptions({
+      lineDecorationsWidth: store.value.showLineNumbers ? 16 : 0,
+      lineNumbersMinChars: 2,
+      lineNumbers: store.value.showLineNumbers ? "on" : "off",
+    });
+  });
+
   await document.fonts.load("12px JetBrains Mono");
 
   monaco.editor.remeasureFonts();
@@ -129,8 +137,6 @@ onMounted(async () => {
   };
   source?.addEventListener("wheel", handleScroll);
   diffSource?.addEventListener("wheel", handleScroll);
-
-  setInterval(() => {}, 1000);
 });
 </script>
 
@@ -152,5 +158,8 @@ onMounted(async () => {
 .monaco-diff-editor .codicon-diff-remove,
 .monaco-diff-editor .codicon-diff-insert {
   opacity: 0 !important;
+}
+.monaco-editor .line-numbers.active-line-number {
+  color: #858585 !important;
 }
 </style>
