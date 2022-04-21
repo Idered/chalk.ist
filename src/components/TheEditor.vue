@@ -121,12 +121,12 @@ onMounted(async () => {
     (show) => {
       editor.updateOptions({
         lineDecorationsWidth: show ? 16 : 0,
-        lineNumbersMinChars: 2,
+        lineNumbersMinChars: 1,
         lineNumbers: show ? "on" : "off",
       });
       diffEditor.updateOptions({
         lineDecorationsWidth: show ? 16 : 0,
-        lineNumbersMinChars: 2,
+        lineNumbersMinChars: 1,
         lineNumbers: show ? "on" : "off",
       });
     },
