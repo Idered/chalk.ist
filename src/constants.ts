@@ -35,7 +35,6 @@ export const DEFAULT_EDITOR_CONFIG: monaco.editor.IStandaloneDiffEditorConstruct
   definitionLinkOpensInPeek: false,
   contextmenu: false,
   overviewRulerLanes: 0,
-  lineNumbers: "off",
   guides: { indentation: false },
   hover: { enabled: false },
   lightbulb: { enabled: false },

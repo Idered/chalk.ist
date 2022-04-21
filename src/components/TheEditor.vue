@@ -116,13 +116,22 @@ onMounted(async () => {
     monaco.editor.setModelLanguage(diffEditorModifiedModel, store.value.language);
   });
 
-  watchEffect(() => {
-    editor.updateOptions({
-      lineDecorationsWidth: store.value.showLineNumbers ? 16 : 0,
-      lineNumbersMinChars: 2,
-      lineNumbers: store.value.showLineNumbers ? "on" : "off",
-    });
-  });
+  watch(
+    () => store.value.showLineNumbers,
+    (show) => {
+      editor.updateOptions({
+        lineDecorationsWidth: show ? 16 : 0,
+        lineNumbersMinChars: 2,
+        lineNumbers: show ? "on" : "off",
+      });
+      diffEditor.updateOptions({
+        lineDecorationsWidth: show ? 16 : 0,
+        lineNumbersMinChars: 2,
+        lineNumbers: show ? "on" : "off",
+      });
+    },
+    { immediate: true }
+  );
 
   await document.fonts.load("12px JetBrains Mono");
 
