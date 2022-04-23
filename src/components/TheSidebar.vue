@@ -217,7 +217,7 @@
             </span>
           </BaseButton>
           <BaseButton
-            class="px-4 w-full bg-emerald-600/30 text-emerald-500 hover:bg-emerald-600/40 group"
+            class="px-4 w-full hidden sm:flex bg-emerald-600/30 text-emerald-500 hover:bg-emerald-600/40 group"
             @click="handleCopy"
           >
             <IconClipboard width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
@@ -285,7 +285,7 @@
             Buy coffee
           </a>
         </div>
-        <div class="px-3 text-xs my-2">
+        <div class="px-3 text-xs my-2 hidden sm:block">
           <span class="opacity-75">Created by</span>
           <a
             href="https://twitter.com/Idered"
