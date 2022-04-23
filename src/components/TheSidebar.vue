@@ -207,7 +207,7 @@
           class="grid grid-cols-[1fr_auto_1fr] sm:grid-cols-1 gap-2 fixed inset-x-0 bottom-0 py-2 px-3 bg-slate-800 sm:static sm:bg-transparent sm:px-3 sm:py-0"
         >
           <label class="font-semibold text-xs hidden sm:block">Export</label>
-          <BaseButton
+          <!-- <BaseButton
             class="px-4 w-full bg-blue-600/30 text-blue-500 hover:bg-blue-600/40 group"
             @click="handleCopyLink"
           >
@@ -215,7 +215,7 @@
             <span class="truncate">
               {{ exportState === ExportState.JustCopiedLink ? "Copied!" : "Copy Link to Clipboard" }}
             </span>
-          </BaseButton>
+          </BaseButton> -->
           <BaseButton
             class="px-4 w-full bg-emerald-600/30 text-emerald-500 hover:bg-emerald-600/40 group"
             @click="handleCopy"
