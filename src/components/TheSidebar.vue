@@ -207,7 +207,7 @@
           class="grid grid-cols-[1fr_auto_1fr] sm:grid-cols-1 gap-2 fixed inset-x-0 bottom-0 py-2 px-3 bg-slate-800 sm:static sm:bg-transparent sm:px-3 sm:py-0"
         >
           <label class="font-semibold text-xs hidden sm:block">Export</label>
-          <!-- <BaseButton
+          <BaseButton
             class="px-4 w-full bg-blue-600/30 text-blue-500 hover:bg-blue-600/40 group"
             @click="handleCopyLink"
           >
@@ -215,7 +215,7 @@
             <span class="truncate">
               {{ exportState === ExportState.JustCopiedLink ? "Copied!" : "Copy Link to Clipboard" }}
             </span>
-          </BaseButton> -->
+          </BaseButton>
           <BaseButton
             class="px-4 w-full bg-emerald-600/30 text-emerald-500 hover:bg-emerald-600/40 group"
             @click="handleCopy"
@@ -316,7 +316,7 @@ import IconChevronDown from "./IconChevronDown.vue";
 import { useElementSize } from "@vueuse/core";
 import { ChalkTheme } from "~/composables/theme-utils";
 import { exportState, ExportState } from "~/composables/export-state";
-// import IconClipboardLink from "./IconClipboardLink.vue";
+import IconClipboardLink from "./IconClipboardLink.vue";
 import { resizeImage, cropImage } from "~/composables/image";
 
 const isExpanded = ref(false);
@@ -376,38 +376,38 @@ const handleCopy = async () => {
   });
 };
 
-// const handleCopyLink = async () => {
-//   const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
-//   if (!frame) return;
-//   umami.trackEvent("Copy Link", "export");
+const handleCopyLink = async () => {
+  const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
+  if (!frame) return;
+  umami.trackEvent("Copy Link", "export");
 
-//   // copy location.href to clipboard
-//   const { content } = store.value;
-//   const str = window.btoa(
-//     JSON.stringify({
-//       c: content,
-//       t: store.value.currentTheme,
-//       l: store.value.language,
-//       px: store.value.paddingX,
-//       py: store.value.paddingY,
-//       w: store.value.frameWidth,
-//       n: store.value.name,
-//       u: store.value.username,
-//       b: store.value.showTwitterBadge,
-//       r: store.value.reflection,
-//       ln: store.value.showLineNumbers,
-//       wc: store.value.showWindowControls,
-//     })
-//   );
-//   const url = `${window.location.origin}/share/${str}`;
-//   navigator.clipboard.writeText(url);
+  // copy location.href to clipboard
+  const { content } = store.value;
+  const str = window.btoa(
+    JSON.stringify({
+      c: content,
+      t: store.value.currentTheme,
+      l: store.value.language,
+      px: store.value.paddingX,
+      py: store.value.paddingY,
+      w: store.value.frameWidth,
+      n: store.value.name,
+      u: store.value.username,
+      b: store.value.showTwitterBadge,
+      r: store.value.reflection,
+      ln: store.value.showLineNumbers,
+      wc: store.value.showWindowControls,
+    })
+  );
+  const url = `${window.location.origin}/share/${str}`;
+  navigator.clipboard.writeText(url);
 
-//   exportState.value = ExportState.JustCopiedLink;
-//   clearTimeout(timeout.value);
-//   timeout.value = setTimeout(() => {
-//     exportState.value = ExportState.Idle;
-//   }, 1000);
-// };
+  exportState.value = ExportState.JustCopiedLink;
+  clearTimeout(timeout.value);
+  timeout.value = setTimeout(() => {
+    exportState.value = ExportState.Idle;
+  }, 1000);
+};
 
 const handleDownload = async () => {
   const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
