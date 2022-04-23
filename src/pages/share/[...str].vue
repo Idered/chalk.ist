@@ -31,7 +31,7 @@ const data: {
 } = JSON.parse(window.atob(props.str));
 
 preview.value = {
-  content: data.c,
+  content: decodeURIComponent(data.c),
   theme: data.t,
   language: data.l,
   paddingX: data.px,

@@ -385,7 +385,7 @@ const handleCopyLink = async () => {
   const { content } = store.value;
   const str = window.btoa(
     JSON.stringify({
-      c: content,
+      c: encodeURIComponent(content),
       t: store.value.currentTheme,
       l: store.value.language,
       px: store.value.paddingX,
