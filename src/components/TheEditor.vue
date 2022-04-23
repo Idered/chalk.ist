@@ -7,14 +7,14 @@
 
 <script setup lang="ts">
 import * as monaco from "monaco-editor";
-import { computed, onMounted, ref, watch, watchEffect } from "vue";
+import { computed, nextTick, onMounted, ref, watch, watchEffect } from "vue";
 
 import EditorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 import CssWorker from "monaco-editor/esm/vs/language/css/css.worker?worker";
 import JSONWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
 import HtmlWorker from "monaco-editor/esm/vs/language/html/html.worker?worker";
 import TsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
-import { editorWidth, store, theme } from "~/composables/store";
+import { editorWidth, preview, store, theme } from "~/composables/store";
 import { DEFAULT_EDITOR_CONFIG } from "~/constants";
 
 (self as any).MonacoEnvironment = {
@@ -46,8 +46,8 @@ onMounted(async () => {
     ...DEFAULT_EDITOR_CONFIG,
   });
   const diffEditor = monaco.editor.createDiffEditor(diffContainer.value, DEFAULT_EDITOR_CONFIG);
-  const activeContainer = computed(() => (store.value.diff ? diffContainer.value : container.value));
-  const activeEditor = computed(() => (store.value.diff ? diffEditor.getModifiedEditor() : editor));
+  const activeContainer = computed(() => (store.value.diff && !preview.value ? diffContainer.value : container.value));
+  const activeEditor = computed(() => (store.value.diff && !preview.value ? diffEditor.getModifiedEditor() : editor));
   const editorModel = monaco.editor.createModel(store.value.content, store.value.language);
   const diffEditorOriginalModel = monaco.editor.createModel(store.value.content, store.value.language);
   const diffEditorModifiedModel = monaco.editor.createModel(store.value.content, store.value.language);
@@ -74,63 +74,96 @@ onMounted(async () => {
     noSyntaxValidation: true,
   });
 
+  const getEditorHeight = () => {
+    if (!activeContainer.value) return 0;
+    return activeEditor.value.getContentHeight() + 12;
+  };
+
   const autoHeight = () => {
     if (!activeContainer.value) return;
-    const MAX_HEIGHT = Infinity;
-    const contentHeight = Math.min(MAX_HEIGHT, activeEditor.value.getContentHeight() + 12);
+    const contentHeight = getEditorHeight();
     activeContainer.value.style.width = `${editorWidth.value}px`;
     activeContainer.value.style.height = `${contentHeight}px`;
     activeEditor.value.layout({ width: editorWidth.value, height: contentHeight });
   };
 
-  watch(editorWidth, (width) => {
-    if (!activeContainer.value) return;
-    activeContainer.value.style.width = `${width}px`;
-    activeEditor.value.layout({ width, height: parseInt(activeContainer.value.style.height, 10) });
-  });
-
-  editor.onDidChangeModelContent(() => {
-    store.value.content = editor.getModel()?.getValue() || "";
-    diffEditorOriginalModel.setValue(store.value.content);
-    diffEditorModifiedModel.setValue(store.value.content);
-  });
-
-  activeEditor.value.onDidBlurEditorWidget(() => {
-    activeEditor.value.setSelection(new monaco.Selection(0, 0, 0, 0));
-  });
-
   editor.onDidContentSizeChange(autoHeight);
-  diffEditor.getModifiedEditor().onDidContentSizeChange(autoHeight);
-  autoHeight();
 
-  watch(() => store.value.diff, autoHeight);
+  if (!preview.value) {
+    watch(editorWidth, (width) => {
+      if (!activeContainer.value) return;
+      activeContainer.value.style.width = `${width}px`;
+      activeEditor.value.layout({ width, height: parseInt(activeContainer.value.style.height, 10) });
+    });
 
-  watchEffect(() => {
-    monaco.editor.defineTheme(`chalk-${theme.value.key}`, theme.value.monaco);
-    monaco.editor.setTheme(`chalk-${theme.value.key}`);
-  });
+    editor.onDidChangeModelContent(() => {
+      store.value.content = editor.getModel()?.getValue() || "";
+      diffEditorOriginalModel.setValue(store.value.content);
+      diffEditorModifiedModel.setValue(store.value.content);
+    });
 
-  watchEffect(() => {
-    monaco.editor.setModelLanguage(editorModel, store.value.language);
-    monaco.editor.setModelLanguage(diffEditorOriginalModel, store.value.language);
-    monaco.editor.setModelLanguage(diffEditorModifiedModel, store.value.language);
-  });
+    activeEditor.value.onDidBlurEditorWidget(() => {
+      activeEditor.value.setSelection(new monaco.Selection(0, 0, 0, 0));
+    });
+
+    diffEditor.getModifiedEditor().onDidContentSizeChange(autoHeight);
+    autoHeight();
+
+    watch(() => store.value.diff, autoHeight);
+
+    watchEffect(() => {
+      monaco.editor.defineTheme(`chalk-${theme.value.key}`, theme.value.monaco);
+      monaco.editor.setTheme(`chalk-${theme.value.key}`);
+    });
+
+    watch(
+      () => store.value.showLineNumbers,
+      (show) => {
+        editor.updateOptions({
+          lineDecorationsWidth: show ? 16 : 0,
+          lineNumbersMinChars: 1,
+          lineNumbers: show ? "on" : "off",
+        });
+        diffEditor.updateOptions({
+          lineDecorationsWidth: show ? 16 : 0,
+          lineNumbersMinChars: 1,
+          lineNumbers: show ? "on" : "off",
+        });
+      },
+      { immediate: true }
+    );
+
+    watchEffect(() => {
+      monaco.editor.setModelLanguage(editorModel, store.value.language);
+      monaco.editor.setModelLanguage(diffEditorOriginalModel, store.value.language);
+      monaco.editor.setModelLanguage(diffEditorModifiedModel, store.value.language);
+    });
+  }
 
   watch(
-    () => store.value.showLineNumbers,
-    (show) => {
+    preview,
+    async (data) => {
+      if (!data) return;
       editor.updateOptions({
-        lineDecorationsWidth: show ? 16 : 0,
-        lineNumbersMinChars: 1,
-        lineNumbers: show ? "on" : "off",
+        wordWrap: "off",
+        lineNumbersMinChars: data.showLineNumbers ? 1 : 0,
+        lineDecorationsWidth: data.showLineNumbers ? 16 : 0,
+        lineNumbers: data.showLineNumbers ? "on" : "off",
       });
-      diffEditor.updateOptions({
-        lineDecorationsWidth: show ? 16 : 0,
-        lineNumbersMinChars: 1,
-        lineNumbers: show ? "on" : "off",
-      });
+      editorModel.setValue(data.content);
+      await nextTick();
+      if (!activeContainer.value) return;
+      const height = getEditorHeight();
+      activeContainer.value.style.width = `${editorWidth.value}px`;
+      activeContainer.value.style.height = `${height}px`;
+      activeEditor.value.layout();
+      monaco.editor.setModelLanguage(editorModel, data.language);
+      monaco.editor.defineTheme(`chalk-${theme.value.key}`, theme.value.monaco);
+      monaco.editor.setTheme(`chalk-${theme.value.key}`);
     },
-    { immediate: true }
+    {
+      immediate: true,
+    }
   );
 
   await document.fonts.load("12px JetBrains Mono");

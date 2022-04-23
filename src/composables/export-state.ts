@@ -5,6 +5,8 @@ export enum ExportState {
   PreparingToCopy,
   PreparingToDownload,
   JustCopied,
+  JustCopiedLink,
+  JustCopiedContent,
   JustDownloaded,
   CopyFailure,
 }

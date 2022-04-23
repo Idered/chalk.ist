@@ -208,6 +208,15 @@
         >
           <label class="font-semibold text-xs hidden sm:block">Export</label>
           <BaseButton
+            class="px-4 w-full bg-blue-600/30 text-blue-500 hover:bg-blue-600/40 group"
+            @click="handleCopyLink"
+          >
+            <IconClipboardLink width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
+            <span class="truncate">
+              {{ exportState === ExportState.JustCopiedLink ? "Copied!" : "Copy Link to Clipboard" }}
+            </span>
+          </BaseButton>
+          <BaseButton
             class="px-4 w-full bg-emerald-600/30 text-emerald-500 hover:bg-emerald-600/40 group"
             @click="handleCopy"
           >
@@ -220,7 +229,7 @@
                   ? "Copied!"
                   : exportState === ExportState.CopyFailure
                   ? "Error! Try to download"
-                  : "Copy to Clipboard"
+                  : "Copy Image to Clipboard"
               }}
             </span>
           </BaseButton>
@@ -307,6 +316,7 @@ import IconChevronDown from "./IconChevronDown.vue";
 import { useElementSize } from "@vueuse/core";
 import { ChalkTheme } from "~/composables/theme-utils";
 import { exportState, ExportState } from "~/composables/export-state";
+import IconClipboardLink from "./IconClipboardLink.vue";
 import { resizeImage, cropImage } from "~/composables/image";
 
 const isExpanded = ref(false);
@@ -364,6 +374,39 @@ const handleCopy = async () => {
     isExporting.value = false;
     copyToClipboard(canvas);
   });
+};
+
+const handleCopyLink = async () => {
+  const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
+  if (!frame) return;
+  umami.trackEvent("Copy Link", "export");
+
+  // copy location.href to clipboard
+  const { content } = store.value;
+  const str = window.btoa(
+    JSON.stringify({
+      c: content,
+      t: store.value.currentTheme,
+      l: store.value.language,
+      px: store.value.paddingX,
+      py: store.value.paddingY,
+      w: store.value.frameWidth,
+      n: store.value.name,
+      u: store.value.username,
+      b: store.value.showTwitterBadge,
+      r: store.value.reflection,
+      ln: store.value.showLineNumbers,
+      wc: store.value.showWindowControls,
+    })
+  );
+  const url = `${window.location.origin}/share/${str}`;
+  navigator.clipboard.writeText(url);
+
+  exportState.value = ExportState.JustCopiedLink;
+  clearTimeout(timeout.value);
+  timeout.value = setTimeout(() => {
+    exportState.value = ExportState.Idle;
+  }, 1000);
 };
 
 const handleDownload = async () => {

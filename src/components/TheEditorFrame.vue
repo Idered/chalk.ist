@@ -3,30 +3,37 @@
     <div
       class="grid justify-items-center items-start h-0"
       :style="{
-        transform:
-          store.frameWidth > containerWidth && !isExporting ? `scale(${containerWidth / store.frameWidth})` : undefined,
+        transform: frameWidth > containerWidth && !isExporting ? `scale(${containerWidth / frameWidth})` : undefined,
         transformOrigin: 'left top',
       }"
       :class="{
-        'sm:items-center h-auto': store.frameWidth < containerWidth,
+        'sm:items-center h-auto': frameWidth < containerWidth,
       }"
     >
       <div
         ref="editorFrame"
         data-editor-frame
         class="grid justify-items-center items-center relative"
-        :style="{
-          width: `${store.frameWidth}px`,
-          // minHeight: `${(store.frameWidth / 16) * 9 + 1}px`,
-        }"
+        :style="{ width: `${frameWidth}px` }"
       >
+        <BaseButton
+          v-if="preview"
+          class="px-4 absolute top-full left-0 mt-2 bg-emerald-600/30 text-emerald-500 hover:bg-emerald-600/40 group"
+          @click="handleCopy"
+        >
+          <IconClipboard width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
+
+          {{ exportState === ExportState.JustCopiedContent ? "Copied!" : "Copy to Clipboard" }}
+        </BaseButton>
         <div
+          v-if="!preview"
           class="absolute bottom-full right-0 mb-2 bg-slate-700 text-white/75 text-[11px] uppercase font-bold tracking-wider px-2.5 h-6 transition grid items-center rounded"
         >
-          {{ store.frameWidth }} x {{ store.frameHeight }}
+          {{ frameWidth }} x {{ store.frameHeight }}
         </div>
+
         <div
-          v-if="exportState === ExportState.Idle"
+          v-if="exportState === ExportState.Idle && !preview"
           class="flex w-6 h-6 absolute top-1/2 z-50 -translate-y-3 -right-3 items-center justify-center group cursor-ew-resize select-none"
           @mousedown="startResize($event, 'right')"
         >
@@ -36,7 +43,7 @@
         </div>
 
         <div
-          v-if="exportState === ExportState.Idle"
+          v-if="exportState === ExportState.Idle && !preview"
           class="flex w-6 h-6 absolute top-1/2 z-10 -translate-y-3 -left-3 items-center justify-center group cursor-ew-resize"
           @mousedown="startResize($event, 'left')"
         >
@@ -53,10 +60,10 @@
         ></div>
         <div
           :style="{
-            paddingLeft: `${store.paddingX}px`,
-            paddingRight: `${store.paddingX}px`,
-            paddingTop: `${store.paddingY}px`,
-            paddingBottom: `${store.paddingY}px`,
+            paddingLeft: `${preview ? preview.paddingX : store.paddingX}px`,
+            paddingRight: `${preview ? preview.paddingX : store.paddingX}px`,
+            paddingTop: `${preview ? preview.paddingY : store.paddingY}px`,
+            paddingBottom: `${preview ? preview.paddingY : store.paddingY}px`,
           }"
         >
           <div
@@ -93,7 +100,10 @@
                 </defs>
               </svg>
             </div>
-            <div v-if="store.showWindowControls" class="pt-4 grid justify-start gap-x-2 grid-flow-col">
+            <div
+              v-if="preview ? preview.showWindowControls : store.showWindowControls"
+              class="pt-4 grid justify-start gap-x-2 grid-flow-col"
+            >
               <div class="w-3 h-3 bg-white/25 rounded-full"></div>
               <div class="w-3 h-3 bg-white/25 rounded-full"></div>
               <div class="w-3 h-3 bg-white/25 rounded-full"></div>
@@ -103,28 +113,33 @@
             </div>
           </div>
           <div class="flex justify-end">
-            <div
+            <component
+              :is="author.username ? 'a' : 'div'"
+              :href="author.username ? `https://twitter.com/${author.username}` : undefined"
               class="rounded-full z-10 relative p-1 bg-black/70 text-white mt-4 flex items-center"
-              v-if="(store.username || store.name || store.picture) && store.showTwitterBadge"
+              :class="{
+                'hover:bg-black/50': author.username,
+              }"
+              v-if="(author.username || author.name || author.picture) && author.showTwitterBadge"
             >
-              <img v-if="store.picture" :src="store.picture" width="32" height="32" class="rounded-full" alt="" />
+              <img v-if="author.picture" :src="author.picture" width="32" height="32" class="rounded-full" alt="" />
               <IconTwitter v-else :width="32" />
-              <div v-if="store.name || store.username" class="ml-2 pr-4">
-                <div class="font-semibold text-xs" v-if="store.name">
-                  {{ store.name }}
+              <div v-if="author.name || author.username" class="ml-2 pr-4">
+                <div class="font-semibold text-xs" v-if="author.name">
+                  {{ author.name }}
                 </div>
                 <div
                   class="font-medium leading-3"
-                  v-if="store.username"
+                  v-if="author.username"
                   :class="{
-                    'text-sm': !store.name,
-                    'text-[11px] text-white/50': store.name,
+                    'text-sm': !author.name,
+                    'text-[11px] text-white/50': author.name,
                   }"
                 >
-                  @{{ store.username }}
+                  @{{ author.username }}
                 </div>
               </div>
-            </div>
+            </component>
           </div>
         </div>
       </div>
@@ -136,18 +151,25 @@
 import Editor from "./TheEditor.vue";
 import IconTwitter from "./IconTwitter.vue";
 import { useElementSize, useEventListener } from "@vueuse/core";
-import { theme, store, isExporting } from "~/composables/store";
-import { ref, watch } from "vue";
+import { theme, store, isExporting, preview } from "~/composables/store";
+import { computed, ref, watch } from "vue";
 import { MAX_FRAME_WIDTH, MIN_FRAME_WIDTH } from "~/constants";
 import { ExportState, exportState } from "~/composables/export-state";
+import BaseButton from "./BaseButton.vue";
+import IconClipboard from "./IconClipboard.vue";
 
 const container = ref<HTMLDivElement>();
 const editorFrame = ref<HTMLDivElement>();
 const { width: containerWidth } = useElementSize(container);
+const frameWidth = computed(() => (preview.value ? preview.value.frameWidth : store.value.frameWidth));
 const resizeStartX = ref(0);
 const resizeStartWidth = ref(0);
 const activeResizeHandle = ref<"left" | "right" | null>(null);
 const { height: frameHeight } = useElementSize(editorFrame);
+
+const author = computed(() => {
+  return preview.value ? preview.value : store.value;
+});
 
 function startResize(event: MouseEvent, handle: "left" | "right") {
   event.preventDefault();
@@ -170,6 +192,18 @@ useEventListener("mousemove", (event: MouseEvent) => {
   const nextWidth = resizeStartWidth.value + 2 * (event.clientX - resizeStartX.value) * direction;
   store.value.frameWidth = Math.min(Math.max(nextWidth, MIN_FRAME_WIDTH), MAX_FRAME_WIDTH);
 });
+
+const timeout = ref();
+
+function handleCopy() {
+  if (!preview.value) return;
+  navigator.clipboard.writeText(preview.value.content);
+  exportState.value = ExportState.JustCopiedContent;
+  clearTimeout(timeout.value);
+  timeout.value = setTimeout(() => {
+    exportState.value = ExportState.Idle;
+  }, 1000);
+}
 </script>
 
 <style>
