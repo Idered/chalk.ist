@@ -320,7 +320,7 @@
             >
             <BaseButton
               is="a"
-              class="px-4 w-full border border-stone-500/30 text-stone-300 hover:bg-stone-500/40 group"
+              class="px-4 w-full border border-stone-500/30 text-slate-600 hover:bg-stone-500/40 group"
               href="https://github.com/Idered/chalk.ist"
               target="_blank"
             >
@@ -329,7 +329,7 @@
             </BaseButton>
             <BaseButton
               is="a"
-              class="px-4 w-full border border-stone-500/30 text-stone-300 hover:bg-stone-500/40 group"
+              class="px-4 w-full border border-stone-500/30 text-slate-600 hover:bg-stone-500/40 group"
               href="https://umami.kasper.io/share/WCDyKkOU/chalk.ist"
               target="_blank"
             >
