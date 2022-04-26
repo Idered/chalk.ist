@@ -1,5 +1,6 @@
 <template>
-  <button
+  <component
+    :is="is"
     type="button"
     class="focus:outline-none focus-visible:ring-[3px] ring-blue-600/30 rounded font-semibold grid grid-flow-col gap-x-3 text-xs transition items-center"
     :class="[
@@ -10,7 +11,7 @@
     ]"
   >
     <slot />
-  </button>
+  </component>
 </template>
 
 <script setup lang="ts">
@@ -18,6 +19,10 @@ defineProps({
   square: {
     type: String,
     default: "",
+  },
+  is: {
+    type: String,
+    default: "button",
   },
 });
 </script>

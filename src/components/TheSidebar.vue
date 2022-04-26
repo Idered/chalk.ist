@@ -263,36 +263,90 @@
           </BaseButton>
         </div>
 
-        <div class="px-3 text-xs space-x-2 mt-4 opacity-75 hidden sm:flex">
-          <a
-            href="https://github.com/Idered/chalk.ist"
-            class="hover:text-white transition outline-none focus:text-white"
-          >
-            GitHub
-          </a>
-          <span class="opacity-40 font-bold">/</span>
-          <a
-            href="https://umami.kasper.io/share/WCDyKkOU/chalk.ist"
-            class="hover:text-white transition outline-none focus:text-white"
-          >
-            Analytics
-          </a>
-          <span class="opacity-40 font-bold">/</span>
-          <a
-            href="https://www.buymeacoffee.com/idered"
-            class="hover:text-white transition outline-none focus:text-white"
-          >
-            Buy coffee
-          </a>
-        </div>
-        <div class="px-3 text-xs my-2 hidden sm:block">
-          <span class="opacity-75">Created by</span>
-          <a
-            href="https://twitter.com/Idered"
-            class="hover:text-white transition outline-none font-medium focus:text-white"
-          >
-            Kasper Mikiewicz
-          </a>
+        <div
+          class="sm:grid grid-cols-[1fr_auto_1fr] sm:grid-cols-1 gap-2 bg-slate-800 hidden sm:static sm:bg-transparent sm:px-3 sm:py-0 mt-4"
+        >
+          <div class="grid grid-flow-col gap-y-2 items-center grid-cols-[1fr_auto] gap-x-2">
+            <label
+              class="font-semibold text-xs hidden sm:block"
+              :class="{
+                'opacity-0': !store.expandSupportSection,
+              }"
+              >Support</label
+            >
+            <BaseButton
+              class="px-2.5 font-semibold text-xs hover:bg-blue-600/40 h-5 rounded"
+              :class="{
+                'bg-slate-700 ': !store.expandSupportSection,
+                'bg-blue-600/30 text-blue-500': store.expandSupportSection,
+              }"
+              @click="store.expandSupportSection = !store.expandSupportSection"
+            >
+              <IconChevronDown
+                width="12"
+                class="transition-transform"
+                :class="{
+                  'rotate-180': store.expandSupportSection,
+                }"
+              />
+            </BaseButton>
+          </div>
+
+          <div class="grid gap-y-2" v-if="store.expandSupportSection">
+            <BaseButton
+              is="a"
+              class="px-4 w-full bg-[#1da1f2]/30 text-[#1da1f2] hover:bg-[#1da1f2]/40 group"
+              href="https://twitter.com/intent/follow?screen_name=Idered"
+              target="_blank"
+            >
+              <IconTwitter width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
+              <span class="truncate">Follow on Twitter</span>
+            </BaseButton>
+            <BaseButton
+              is="a"
+              class="px-4 w-full bg-yellow-500/30 text-yellow-300 hover:bg-yellow-500/40 group"
+              href="https://www.buymeacoffee.com/idered"
+              target="_blank"
+            >
+              <IconCoffee width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
+              <span class="truncate">Buy me a coffee</span>
+            </BaseButton>
+            <label
+              class="font-semibold text-xs hidden sm:block mt-1"
+              :class="{
+                'opacity-0': !store.expandSupportSection,
+              }"
+              >Learn</label
+            >
+            <BaseButton
+              is="a"
+              class="px-4 w-full bg-stone-500/30 text-stone-300 hover:bg-stone-500/40 group"
+              href="https://github.com/Idered/chalk.ist"
+              target="_blank"
+            >
+              <IconGithub width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
+              <span class="truncate">View on GitHub</span>
+            </BaseButton>
+            <BaseButton
+              is="a"
+              class="px-4 w-full bg-stone-500/30 text-stone-300 hover:bg-stone-500/40 group"
+              href="https://umami.kasper.io/share/WCDyKkOU/chalk.ist"
+              target="_blank"
+            >
+              <IconAnalytics width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
+              <span class="truncate">View Analytics</span>
+            </BaseButton>
+
+            <div class="text-xs hidden sm:block mt-2">
+              <span class="opacity-75">Created by</span>
+              <a
+                href="https://twitter.com/Idered"
+                class="hover:text-white transition outline-none font-medium focus:text-white"
+              >
+                Kasper Mikiewicz
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </aside>
@@ -318,6 +372,10 @@ import { ChalkTheme } from "~/composables/theme-utils";
 import { exportState, ExportState } from "~/composables/export-state";
 import IconClipboardLink from "./IconClipboardLink.vue";
 import { resizeImage, cropImage } from "~/composables/image";
+import IconCoffee from "./IconCoffee.vue";
+import IconTwitter from "./IconTwitter.vue";
+import IconGithub from "./IconGithub.vue";
+import IconAnalytics from "./IconAnalytics.vue";
 
 const isExpanded = ref(false);
 const timeout = ref();

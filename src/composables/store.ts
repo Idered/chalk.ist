@@ -29,6 +29,7 @@ export const store = useStorage("chalk-store", {
   picture: "",
   showTwitterBadge: true,
   expandTwitterOptions: true,
+  expandSupportSection: true,
   showBackground: true,
   reflection: true,
   showLineNumbers: true,
@@ -55,6 +56,7 @@ export const theme = computed(
 // Data migrations
 store.value.showLineNumbers = store.value.showLineNumbers ?? true;
 store.value.showWindowControls = store.value.showWindowControls ?? true;
+store.value.expandSupportSection = store.value.expandSupportSection ?? true;
 store.value.paddingX = store.value.paddingX || 32;
 store.value.paddingY = store.value.paddingY || 32;
 store.value.frameWidth = store.value.frameWidth || MIN_FRAME_WIDTH;
