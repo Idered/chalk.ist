@@ -295,7 +295,7 @@
           <div class="grid gap-y-2" v-if="store.expandSupportSection">
             <BaseButton
               is="a"
-              class="px-4 w-full bg-[#1da1f2]/30 text-[#1da1f2] hover:bg-[#1da1f2]/40 group"
+              class="px-4 w-full border border-[#1da1f2]/10 text-[#1da1f2] hover:bg-[#1da1f2]/30 group"
               href="https://twitter.com/intent/follow?screen_name=Idered"
               target="_blank"
             >
@@ -304,7 +304,7 @@
             </BaseButton>
             <BaseButton
               is="a"
-              class="px-4 w-full bg-yellow-500/30 text-yellow-300 hover:bg-yellow-500/40 group"
+              class="px-4 w-full border border-yellow-500/10 text-yellow-300 hover:bg-yellow-500/40 group"
               href="https://www.buymeacoffee.com/idered"
               target="_blank"
             >
@@ -320,7 +320,7 @@
             >
             <BaseButton
               is="a"
-              class="px-4 w-full bg-stone-500/30 text-stone-300 hover:bg-stone-500/40 group"
+              class="px-4 w-full border border-stone-500/30 text-stone-300 hover:bg-stone-500/40 group"
               href="https://github.com/Idered/chalk.ist"
               target="_blank"
             >
@@ -329,7 +329,7 @@
             </BaseButton>
             <BaseButton
               is="a"
-              class="px-4 w-full bg-stone-500/30 text-stone-300 hover:bg-stone-500/40 group"
+              class="px-4 w-full border border-stone-500/30 text-stone-300 hover:bg-stone-500/40 group"
               href="https://umami.kasper.io/share/WCDyKkOU/chalk.ist"
               target="_blank"
             >
