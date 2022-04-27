@@ -1,14 +1,14 @@
 import * as monaco from "monaco-editor";
 
-export type ChalkTheme = {
+export type ChalkTheme = ReturnType<typeof createTheme>;
+
+export const createTheme = (theme: {
   key: string;
   name: string;
   shadow: string;
   background: string;
   monaco: CustomMonacoTheme;
-};
-
-export const createTheme = (theme: ChalkTheme) => ({
+}) => ({
   ...theme,
   shadow: trimHSL(theme.shadow),
   monaco: createMonacoTheme({
