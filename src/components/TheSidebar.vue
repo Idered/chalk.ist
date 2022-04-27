@@ -295,21 +295,21 @@
           <div class="grid gap-y-2" v-if="store.expandSupportSection">
             <BaseButton
               is="a"
-              class="px-4 w-full border border-[#1da1f2]/10 text-[#1da1f2] hover:bg-[#1da1f2]/30 group"
+              class="px-4 w-full border border-[#1da1f2]/10 text-[#1da1f2]/90 hover:border-[#1da1f2]/40 group"
               href="https://twitter.com/intent/follow?screen_name=Idered"
               target="_blank"
             >
               <IconTwitter width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
-              <span class="truncate">Follow on Twitter</span>
+              <span class="truncate text-slate-600">Follow on Twitter</span>
             </BaseButton>
             <BaseButton
               is="a"
-              class="px-4 w-full border border-yellow-500/10 text-yellow-300 hover:bg-yellow-500/40 group"
+              class="px-4 w-full border border-yellow-500/10 text-yellow-300/80 hover:border-yellow-400/40 hover:text- group"
               href="https://www.buymeacoffee.com/idered"
               target="_blank"
             >
               <IconCoffee width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
-              <span class="truncate">Buy me a coffee</span>
+              <span class="truncate text-slate-500">Buy me a coffee</span>
             </BaseButton>
             <label
               class="font-semibold text-xs hidden sm:block mt-1"
@@ -320,7 +320,7 @@
             >
             <BaseButton
               is="a"
-              class="px-4 w-full border border-stone-500/30 text-slate-600 hover:bg-stone-500/40 group"
+              class="px-4 w-full border border-slate-700 text-slate-600 hover:border-slate-600/40 group"
               href="https://github.com/Idered/chalk.ist"
               target="_blank"
             >
@@ -329,7 +329,7 @@
             </BaseButton>
             <BaseButton
               is="a"
-              class="px-4 w-full border border-stone-500/30 text-slate-600 hover:bg-stone-500/40 group"
+              class="px-4 w-full border border-slate-700 text-slate-600 hover:border-slate-600/40 group"
               href="https://umami.kasper.io/share/WCDyKkOU/chalk.ist"
               target="_blank"
             >
