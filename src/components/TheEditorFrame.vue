@@ -123,7 +123,7 @@
               v-if="(author.username || author.name || author.picture) && author.showTwitterBadge"
             >
               <img v-if="author.picture" :src="author.picture" width="32" height="32" class="rounded-full" alt="" />
-              <IconTwitter v-else :width="32" />
+              <IconTwitterCircle v-else :width="32" />
               <div v-if="author.name || author.username" class="ml-2 pr-4">
                 <div class="font-semibold text-xs" v-if="author.name">
                   {{ author.name }}
@@ -149,7 +149,6 @@
 
 <script setup lang="ts">
 import Editor from "./TheEditor.vue";
-import IconTwitter from "./IconTwitter.vue";
 import { useElementSize, useEventListener } from "@vueuse/core";
 import { theme, store, isExporting, preview } from "~/composables/store";
 import { computed, ref, watch } from "vue";
@@ -157,6 +156,7 @@ import { MAX_FRAME_WIDTH, MIN_FRAME_WIDTH } from "~/constants";
 import { ExportState, exportState } from "~/composables/export-state";
 import BaseButton from "./BaseButton.vue";
 import IconClipboard from "./IconClipboard.vue";
+import IconTwitterCircle from "./IconTwitterCircle.vue";
 
 const container = ref<HTMLDivElement>();
 const editorFrame = ref<HTMLDivElement>();
