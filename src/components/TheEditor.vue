@@ -204,4 +204,7 @@ onMounted(async () => {
 .monaco-editor .line-numbers.active-line-number {
   color: #858585 !important;
 }
+.monaco-editor .squiggly-error {
+  display: none;
+}
 </style>
