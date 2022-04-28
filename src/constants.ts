@@ -22,6 +22,7 @@ export const DEFAULT_EDITOR_CONFIG: monaco.editor.IStandaloneDiffEditorConstruct
   selectionHighlight: false,
   scrollBeyondLastLine: false,
   fontFamily: "JetBrains Mono",
+  fontWeight: "500",
   fontSize: 14,
   quickSuggestions: false,
   renderLineHighlight: "none",

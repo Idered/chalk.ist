@@ -354,7 +354,6 @@
 </template>
 
 <script setup lang="ts">
-import html2canvas from "html2canvas";
 import { nextTick, ref } from "vue";
 import { OnClickOutside } from "@vueuse/components";
 import { isExporting, store } from "~/composables/store";
@@ -376,47 +375,44 @@ import IconCoffee from "./IconCoffee.vue";
 import IconTwitter from "./IconTwitter.vue";
 import IconGithub from "./IconGithub.vue";
 import IconAnalytics from "./IconAnalytics.vue";
+import * as htmlToImage from "html-to-image";
 
 const isExpanded = ref(false);
 const timeout = ref();
 const expandableContent = ref();
 const { height: expandableContentHeight } = useElementSize(expandableContent);
 
-const downloadPng = (canvas: HTMLCanvasElement) => {
-  canvas.toBlob(function (blob) {
-    if (!blob) return;
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "screenshot.png";
-    link.click();
-    exportState.value = ExportState.JustDownloaded;
+const downloadPng = (blob: Blob | null) => {
+  if (!blob) return;
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "screenshot.png";
+  link.click();
+  exportState.value = ExportState.JustDownloaded;
+  clearTimeout(timeout.value);
+  timeout.value = setTimeout(() => {
+    exportState.value = ExportState.Idle;
+  }, 1000);
+};
+
+const copyToClipboard = (blob: Blob | null) => {
+  if (!blob) return;
+  try {
+    const item = new ClipboardItem({ "image/png": blob });
+    navigator.clipboard.write([item]);
+    exportState.value = ExportState.JustCopied;
     clearTimeout(timeout.value);
     timeout.value = setTimeout(() => {
       exportState.value = ExportState.Idle;
     }, 1000);
-  });
-};
-
-const copyToClipboard = (canvas: HTMLCanvasElement) => {
-  canvas.toBlob(function (blob) {
-    if (!blob) return;
-    try {
-      const item = new ClipboardItem({ "image/png": blob });
-      navigator.clipboard.write([item]);
-      exportState.value = ExportState.JustCopied;
-      clearTimeout(timeout.value);
-      timeout.value = setTimeout(() => {
-        exportState.value = ExportState.Idle;
-      }, 1000);
-    } catch {
-      exportState.value = ExportState.CopyFailure;
-      clearTimeout(timeout.value);
-      timeout.value = setTimeout(() => {
-        exportState.value = ExportState.Idle;
-      }, 1000);
-    }
-  }, "image/png");
+  } catch {
+    exportState.value = ExportState.CopyFailure;
+    clearTimeout(timeout.value);
+    timeout.value = setTimeout(() => {
+      exportState.value = ExportState.Idle;
+    }, 1000);
+  }
 };
 
 const handleCopy = async () => {
@@ -426,11 +422,9 @@ const handleCopy = async () => {
   exportState.value = ExportState.PreparingToCopy;
   isExporting.value = true;
   await nextTick();
-  html2canvas(frame, {
-    backgroundColor: "transparent",
-  }).then((canvas) => {
+  htmlToImage.toBlob(frame).then(function (blob) {
     isExporting.value = false;
-    copyToClipboard(canvas);
+    copyToClipboard(blob);
   });
 };
 
@@ -474,11 +468,9 @@ const handleDownload = async () => {
   exportState.value = ExportState.PreparingToDownload;
   isExporting.value = true;
   await nextTick();
-  html2canvas(frame, {
-    backgroundColor: "transparent",
-  }).then((canvas) => {
+  htmlToImage.toBlob(frame).then(function (blob) {
     isExporting.value = false;
-    downloadPng(canvas);
+    downloadPng(blob);
   });
 };
 

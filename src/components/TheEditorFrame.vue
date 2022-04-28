@@ -3,8 +3,8 @@
     <div
       class="grid justify-items-center items-start h-0"
       :style="{
-        transform: frameWidth > containerWidth && !isExporting ? `scale(${containerWidth / frameWidth})` : undefined,
-        transformOrigin: 'left top',
+        transform: frameWidth > containerWidth ? `scale(${containerWidth / frameWidth})` : undefined,
+        transformOrigin: 'top left',
       }"
       :class="{
         'sm:items-center h-auto': frameWidth < containerWidth,
@@ -150,7 +150,7 @@
 <script setup lang="ts">
 import Editor from "./TheEditor.vue";
 import { useElementSize, useEventListener } from "@vueuse/core";
-import { theme, store, isExporting, preview } from "~/composables/store";
+import { theme, store, preview } from "~/composables/store";
 import { computed, ref, watch } from "vue";
 import { MAX_FRAME_WIDTH, MIN_FRAME_WIDTH } from "~/constants";
 import { ExportState, exportState } from "~/composables/export-state";

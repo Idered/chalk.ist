@@ -201,8 +201,9 @@ onMounted(async () => {
 .monaco-diff-editor .codicon-diff-insert {
   opacity: 0 !important;
 }
+.monaco-editor .line-numbers,
 .monaco-editor .line-numbers.active-line-number {
-  color: #858585 !important;
+  color: rgba(255, 255, 255, 0.25) !important;
 }
 .monaco-editor .squiggly-error {
   display: none;
