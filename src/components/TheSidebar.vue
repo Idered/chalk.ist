@@ -367,7 +367,7 @@ import IconDownload from "./IconDownload.vue";
 import IconClipboard from "./IconClipboard.vue";
 import IconChevronDown from "./IconChevronDown.vue";
 import { useElementSize } from "@vueuse/core";
-import { ChalkTheme } from "~/composables/theme-utils";
+import { Theme } from "~/composables/theme-utils";
 import { exportState, ExportState } from "~/composables/export-state";
 import IconClipboardLink from "./IconClipboardLink.vue";
 import { resizeImage, cropImage } from "~/composables/image";
@@ -489,7 +489,7 @@ function handlePicture(event: Event) {
   }
 }
 
-function setTheme(theme: ChalkTheme) {
+function setTheme(theme: Theme) {
   store.value.currentTheme = theme.key;
   umami.trackEvent(store.value.currentTheme, "theme");
 }
