@@ -1,14 +1,19 @@
 import * as monaco from "monaco-editor";
+import { CSSProperties } from "vue";
 
 export type ChalkTheme = ReturnType<typeof createTheme>;
 
-export const createTheme = (theme: {
+export type Theme = {
   key: string;
   name: string;
   shadow: string;
+  shadowStyle?: CSSProperties;
+  backgroundStyle?: CSSProperties;
   background: string;
   monaco: CustomMonacoTheme;
-}) => ({
+};
+
+export const createTheme = (theme: Theme) => ({
   ...theme,
   shadow: trimHSL(theme.shadow),
   monaco: createMonacoTheme({
@@ -22,7 +27,7 @@ export const createTheme = (theme: {
   }),
 });
 
-export const trimHSL = (hsl: string) => hsl.slice(4).replace(/[\)\,]/g, "");
+export const trimHSL = (hsl: string) => hsl.replace(/hsla?\(/, "").replace(/[\)\,]/g, "");
 
 export function hslToHex(hsl: string) {
   let [h, s, l] = hsl

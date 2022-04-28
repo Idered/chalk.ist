@@ -1,6 +1,6 @@
-import { createTheme } from "~/composables/theme-utils";
+import { Theme } from "~/composables/theme-utils";
 
-export const tailwindcss = createTheme({
+export const tailwindcss: Theme = {
   key: "tailwindcss",
   name: "Tailwind CSS",
   shadow: "hsl(198, 93%, 6%)",
@@ -20,4 +20,4 @@ export const tailwindcss = createTheme({
     numbers: "hsl(160, 65%, 51%)",
     regexp: "hsl(160, 65%, 71%)",
   },
-});
+};

@@ -1,6 +1,6 @@
-import { createTheme } from "~/composables/theme-utils";
+import { Theme } from "~/composables/theme-utils";
 
-export const dawn = createTheme({
+export const dawn: Theme = {
   key: "dawn",
   name: "Dawn",
   shadow: "hsl(8, 45%, 13%)",
@@ -19,4 +19,4 @@ export const dawn = createTheme({
     numbers: "hsl(266, 21%, 94%)",
     regexp: "hsl(20, 51%, 64%)",
   },
-});
+};

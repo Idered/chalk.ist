@@ -1,6 +1,6 @@
-import { createTheme } from "~/composables/theme-utils";
+import { Theme } from "~/composables/theme-utils";
 
-export const lavender = createTheme({
+export const lavender: Theme = {
   key: "lavender",
   name: "Lavender",
   shadow: "hsl(231, 65%, 10%)",
@@ -19,5 +19,5 @@ export const lavender = createTheme({
     strings: "hsl(292, 37%, 70%)",
     numbers: "hsl(162, 56%, 74%)",
     regexp: "hsl(292, 56%, 61%)",
-  }
-})
+  },
+};

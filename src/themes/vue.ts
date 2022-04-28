@@ -1,6 +1,6 @@
-import { createTheme } from "~/composables/theme-utils";
+import { Theme } from "~/composables/theme-utils";
 
-export const vue = createTheme({
+export const vue: Theme = {
   key: "vue",
   name: "Vue",
   shadow: "hsl(153, 50%, 6%)",
@@ -20,4 +20,4 @@ export const vue = createTheme({
     numbers: "hsl(66, 60%, 61%)",
     regexp: "hsl(66, 60%, 81%)",
   },
-})
+};

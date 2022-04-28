@@ -309,7 +309,7 @@
               target="_blank"
             >
               <IconCoffee width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
-              <span class="truncate text-slate-500">Buy me a coffee</span>
+              <span class="truncate text-slate-600">Buy me a coffee</span>
             </BaseButton>
             <label
               class="font-semibold text-xs hidden sm:block mt-1"

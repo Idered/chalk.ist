@@ -52,12 +52,16 @@
           />
         </div>
 
-        <div
-          class="absolute bg-frame inset-0 transition"
-          :class="{
-            'opacity-0': !store.showBackground,
-          }"
-        ></div>
+        <div class="absolute inset-0 bg-slate-800">
+          <div
+            class="absolute bg-frame inset-0 transition"
+            :class="{
+              'opacity-0': !store.showBackground,
+            }"
+            :style="theme.backgroundStyle"
+          />
+        </div>
+
         <div
           :style="{
             paddingLeft: `${preview ? preview.paddingX : store.paddingX}px`,
@@ -66,12 +70,14 @@
             paddingBottom: `${preview ? preview.paddingY : store.paddingY}px`,
           }"
         >
-          <div
-            class="bg-black/80 rounded-md px-5 relative transition-shadow"
-            :class="{
-              'shadow-app': store.showBackground,
-            }"
-          >
+          <div class="bg-black/80 rounded-md px-5 relative">
+            <div
+              class="absolute inset-0 transition-shadow rounded-md"
+              :class="{
+                'shadow-app': store.showBackground,
+              }"
+              :style="theme.shadowStyle"
+            ></div>
             <div
               class="absolute inset-0 overflow-hidden pointer-events-none rounded-md transition"
               :class="{
@@ -208,12 +214,14 @@ function handleCopy() {
 
 <style>
 .shadow-app {
-  box-shadow: 0px 0.6px 0.7px hsl(v-bind("theme.shadow") / 0.3), 0px 3.5px 4px -0.3px hsl(v-bind("theme.shadow") / 0.31),
-    0px 6.4px 7.4px -0.7px hsl(v-bind("theme.shadow") / 0.32), 0px 10.4px 12px -1px hsl(v-bind("theme.shadow") / 0.32),
-    0px 16.3px 18.8px -1.3px hsl(v-bind("theme.shadow") / 0.33),
-    0px 25.2px 29.1px -1.6px hsl(v-bind("theme.shadow") / 0.33),
-    0px 37.9px 43.8px -2px hsl(v-bind("theme.shadow") / 0.34),
-    0px 55.6px 64.2px -2.3px hsl(v-bind("theme.shadow") / 0.35);
+  /* prettier-ignore */
+  box-shadow:
+    5px 8.5px 3.3px -10px hsla(v-bind("theme.shadow") / 24%),
+    8.7px 14.6px 8.7px -10px hsla(v-bind("theme.shadow") / 24%),
+    12.1px 20.4px 18.2px -10px hsla(v-bind("theme.shadow") / 30%),
+    18.8px 31.6px 36.5px -10px hsla(v-bind("theme.shadow") / 46%),
+    60px 101px 90px -10px hsla(v-bind("theme.shadow") / 70%)
+  ;
 }
 .bg-frame {
   background: v-bind("theme.background");
