@@ -208,4 +208,7 @@ onMounted(async () => {
 .monaco-editor .squiggly-error {
   display: none;
 }
+.monaco-editor .unicode-highlight {
+  display: none;
+}
 </style>
