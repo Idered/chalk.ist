@@ -6,6 +6,8 @@ const hue = 292;
 export const linear: Theme = {
   key: "linear",
   name: "Linear",
+  inspiration: "Linear",
+  inspirationUrl: "https://linear.app",
   shadow: "hsl(305, 70%, 24%)",
   shadowStyle: {
     opacity: 0.15,

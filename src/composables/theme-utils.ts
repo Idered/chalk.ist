@@ -11,6 +11,8 @@ export type Theme = {
   backgroundStyle?: CSSProperties;
   appStyle?: CSSProperties;
   background: string;
+  inspiration?: string;
+  inspirationUrl?: string;
   monaco: CustomMonacoTheme;
 };
 

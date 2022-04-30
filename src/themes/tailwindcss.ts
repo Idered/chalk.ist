@@ -2,6 +2,8 @@ import { Theme } from "~/composables/theme-utils";
 
 export const tailwindcss: Theme = {
   key: "tailwindcss",
+  inspiration: "Tailwind CSS",
+  inspirationUrl: "https://tailwindcss.com/",
   name: "Tailwind CSS",
   shadow: "hsl(198, 93%, 6%)",
   background: `linear-gradient(

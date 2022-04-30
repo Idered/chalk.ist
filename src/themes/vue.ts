@@ -3,6 +3,8 @@ import { Theme } from "~/composables/theme-utils";
 export const vue: Theme = {
   key: "vue",
   name: "Vue",
+  inspiration: "Vue.js",
+  inspirationUrl: "https://vuejs.org/",
   shadow: "hsl(153, 50%, 6%)",
   background: `linear-gradient(
     140deg, 
