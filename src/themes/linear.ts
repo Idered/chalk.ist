@@ -42,8 +42,8 @@ export const linear: Theme = {
     hsl(260, 100%, 56%) 360deg
   )`,
   monaco: {
-    foreground: `hsl(${hue + 90}, 78%, 62%)`,
-    comments: `hsl(${hue + 325}, 27%, 42%)`,
+    foreground: `hsl(${hue + 90}, 85%, 64%)`,
+    comments: `hsl(${hue + 325}, 20%, 43%)`,
     keywords: `hsl(${hue + 35}, 85%, 41%)`,
     delimiters: `hsl(${hue - 57}, 25%, 40%)`,
     strings: `hsl(${hue + 88}, 67%, 73%)`,

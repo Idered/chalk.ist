@@ -90,7 +90,7 @@ export const createMonacoTheme = (
       { token: "tag.class.pug", foreground: "#000000" },
       { token: "meta.scss", foreground: theme.foreground },
       { token: "meta.tag", foreground: "#000000" },
-      { token: "metatag", foreground: "#000000" },
+      { token: "metatag", foreground: theme.keywords },
       { token: "metatag.content.html", foreground: "#000000" },
       { token: "metatag.html", foreground: "#000000" },
       { token: "metatag.xml", foreground: "#000000" },

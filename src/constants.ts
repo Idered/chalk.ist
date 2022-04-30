@@ -78,4 +78,11 @@ export const AVAILABLE_LANGUAGES = [
       { value: "scss", label: "SCSS" },
     ],
   },
+  {
+    group: "Console",
+    children: [
+      { value: "shell", label: "Bash" },
+      { value: "powershell", label: "PowerShell" },
+    ],
+  },
 ]; //.sort((a, b) => a.label.localeCompare(b.label));
