@@ -9,6 +9,7 @@ export type Theme = {
   shadow: string;
   shadowStyle?: CSSProperties;
   backgroundStyle?: CSSProperties;
+  appStyle?: CSSProperties;
   background: string;
   monaco: CustomMonacoTheme;
 };

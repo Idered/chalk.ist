@@ -52,7 +52,7 @@
           />
         </div>
 
-        <div class="absolute inset-0 bg-slate-800">
+        <div class="absolute inset-0 bg-slate-800 overflow-hidden">
           <div
             class="absolute bg-frame inset-0 transition"
             :class="{
@@ -63,6 +63,7 @@
         </div>
 
         <div
+          class="overflow-clip"
           :style="{
             paddingLeft: `${preview ? preview.paddingX : store.paddingX}px`,
             paddingRight: `${preview ? preview.paddingX : store.paddingX}px`,
@@ -70,7 +71,13 @@
             paddingBottom: `${preview ? preview.paddingY : store.paddingY}px`,
           }"
         >
-          <div class="bg-black/80 rounded-md px-5 relative">
+          <div
+            class="bg-black/80 rounded-md px-5 relative"
+            :class="{
+              'bg-black/80': !theme.appStyle,
+            }"
+            :style="theme.appStyle"
+          >
             <div
               class="absolute inset-0 transition-shadow rounded-md"
               :class="{
@@ -78,6 +85,7 @@
               }"
               :style="theme.shadowStyle"
             ></div>
+            <!-- <div class="absolute inset-x-20 h-12 transition-shadow rounded-md bg-[#3208a7] -bottom-14 blur-3xl"></div> -->
             <div
               class="absolute inset-0 overflow-hidden pointer-events-none rounded-md transition"
               :class="{
@@ -220,9 +228,9 @@ function handleCopy() {
     8.7px 14.6px 8.7px -10px hsla(v-bind("theme.shadow") / 24%),
     12.1px 20.4px 18.2px -10px hsla(v-bind("theme.shadow") / 30%),
     18.8px 31.6px 36.5px -10px hsla(v-bind("theme.shadow") / 46%),
-    60px 101px 90px -10px hsla(v-bind("theme.shadow") / 70%)
-  ;
+    60px 101px 90px -10px hsla(v-bind("theme.shadow") / 70%);
 }
+
 .bg-frame {
   background: v-bind("theme.background");
 }

@@ -1,35 +1,53 @@
 import { Theme } from "~/composables/theme-utils";
 
+const hue = 292;
+
 // Inspired by https://linear.app
 export const linear: Theme = {
   key: "linear",
   name: "Linear",
-  shadow: "hsl(275, 89%, 14%)",
+  shadow: "hsl(305, 70%, 24%)",
   shadowStyle: {
-    opacity: 0.95,
+    opacity: 0.15,
   },
   backgroundStyle: {
     filter: `blur(120px)`,
-    opacity: 0.9,
-    transform: `scale(.575)`,
+    transform: `scale(.685)`,
   },
+  appStyle: {
+    backgroundColor: `hsl(251deg 14% 7% / 80%)`,
+    boxShadow: `
+      inset 0 0 0 1px rgb(0 0 0 / 60%),
+      inset 0 2px 0 0 rgb(255 255 255 / 6%), 
+      0 0 8px 1px rgb(0 0 0 / 60%)
+    `,
+  },
+  // background: `conic-gradient(
+  //   from 230.29deg at 51.63% 52.16%,
+  //   hsl(238, 100%, 60%) 0deg,
+  //   hsl(283, 71%, 38%) 67.5deg,
+  //   hsl(230, 50%, 50%) 198.75deg,
+  //   hsl(8, 100%, 60%) 251.25deg,
+  //   hsl(280, 93%, 73%) 301.88deg,
+  //   hsl(300, 100%, 101%) 360deg
+  //   )
+  // `,
   background: `conic-gradient(
-    from 230.29deg at 51.63% 52.16%, 
-    hsl(238, 100%, 50%) 0deg, 
-    hsl(283, 71%, 18%) 67.5deg, 
-    hsl(230, 100%, 50%) 198.75deg, 
-    hsl(8, 100%, 50%) 251.25deg, 
-    hsl(280, 53%, 73%) 301.88deg, 
-    hsl(300, 100%, 61%) 360deg
-    )
-  `,
+    from 230.29deg at 51.63%52.16%,
+    #2400ff 0deg,
+    #0087ff 67.5deg,
+    #ff1d7a 198.75deg,
+    #f5381b 251.25deg,
+    #ff5335 301.88deg,
+    hsl(260, 100%, 56%) 360deg
+  )`,
   monaco: {
-    foreground: "hsl(235, 20%, 42%)",
-    comments: "hsl(238, 34%, 24%)",
-    keywords: "hsl(237, 48%, 47%)",
-    delimiters: "hsl(228, 35%, 32%)",
-    strings: "hsl(290, 44%, 53%)",
-    numbers: "hsl(250, 33%, 74%)",
-    regexp: "hsl(242, 30%, 56%)",
+    foreground: `hsl(${hue + 90}, 78%, 62%)`,
+    comments: `hsl(${hue + 325}, 27%, 42%)`,
+    keywords: `hsl(${hue + 35}, 85%, 41%)`,
+    delimiters: `hsl(${hue - 57}, 25%, 40%)`,
+    strings: `hsl(${hue + 88}, 67%, 73%)`,
+    numbers: `hsl(${hue - 323}, 76%, 74%)`,
+    regexp: `hsl(${hue + 107}, 86%, 61%)`,
   },
 };
