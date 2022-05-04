@@ -354,7 +354,7 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, onMounted, ref } from "vue";
+import { nextTick, ref } from "vue";
 import { OnClickOutside } from "@vueuse/components";
 import { isExporting, store } from "~/composables/store";
 import * as themes from "~/themes";
@@ -382,13 +382,13 @@ const timeout = ref();
 const expandableContent = ref();
 const { height: expandableContentHeight } = useElementSize(expandableContent);
 
-const fontEmbedCSS = ref("");
+// const fontEmbedCSS = ref("");
 
-onMounted(async () => {
-  const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
-  if (!frame) return;
-  fontEmbedCSS.value = await htmlToImage.getFontEmbedCSS(frame);
-});
+// onMounted(async () => {
+//   const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
+//   if (!frame) return;
+//   fontEmbedCSS.value = await htmlToImage.getFontEmbedCSS(frame);
+// });
 
 const downloadPng = (blob: Blob | null) => {
   if (!blob) return;
@@ -432,7 +432,7 @@ const handleCopy = async () => {
   await nextTick();
   htmlToImage
     .toBlob(frame, {
-      fontEmbedCSS: fontEmbedCSS.value,
+      // fontEmbedCSS: fontEmbedCSS.value,
     })
     .then(function (blob) {
       isExporting.value = false;
