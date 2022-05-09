@@ -143,9 +143,9 @@
               v-if="preview ? preview.showWindowControls : store.showWindowControls"
               class="pt-4 grid justify-start gap-x-2 grid-flow-col"
             >
-              <div class="w-3 h-3 bg-white/25 rounded-full"></div>
-              <div class="w-3 h-3 bg-white/25 rounded-full"></div>
-              <div class="w-3 h-3 bg-white/25 rounded-full"></div>
+              <div class="w-3 h-3 bg-white/25 rounded-full bg-red-600"></div>
+              <div class="w-3 h-3 bg-white/25 rounded-full bg-yellow-600"></div>
+              <div class="w-3 h-3 bg-white/25 rounded-full bg-green-600"></div>
             </div>
             <div class="py-6">
               <Editor ref="editor" />
