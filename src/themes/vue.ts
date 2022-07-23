@@ -5,6 +5,7 @@ export const vue: Theme = {
   name: "Vue",
   inspiration: "Vue.js",
   inspirationUrl: "https://vuejs.org/",
+  mode: 'dark',
   shadow: "hsl(153, 50%, 6%)",
   background: `linear-gradient(
     140deg, 

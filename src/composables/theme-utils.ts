@@ -8,6 +8,7 @@ export type Theme = {
   name: string;
   shadow: string;
   shadowStyle?: CSSProperties;
+  mode: 'light' | 'dark';
   backgroundStyle?: CSSProperties;
   appStyle?: CSSProperties;
   background: string;
@@ -21,6 +22,7 @@ export const createTheme = (theme: Theme) => ({
   shadow: trimHSL(theme.shadow),
   monaco: createMonacoTheme({
     foreground: hslToHex(theme.monaco.foreground),
+    functions: theme.monaco.functions ? hslToHex(theme.monaco.functions) : undefined,
     comments: hslToHex(theme.monaco.comments),
     keywords: hslToHex(theme.monaco.keywords),
     delimiters: hslToHex(theme.monaco.delimiters),
@@ -53,6 +55,7 @@ type CustomMonacoTheme = {
   comments: string;
   delimiters: string;
   foreground: string;
+  functions?: string;
   keywords: string;
   strings: string;
   numbers: string;
@@ -67,7 +70,7 @@ export const createMonacoTheme = (
     base: "vs-dark",
     inherit: false,
     rules: [
-      { token: "", foreground: theme.foreground, background: "#000000" },
+      { token: "", foreground: theme.foreground, background: "#000000"  },
       { token: "invalid", foreground: "#000000" },
       { token: "emphasis", fontStyle: "italic" },
       { token: "strong", fontStyle: "bold" },
@@ -115,6 +118,7 @@ export const createMonacoTheme = (
       { token: "keyword.flow", foreground: "#000000" },
       { token: "keyword.json", foreground: theme.keywords },
       { token: "keyword.flow.scss", foreground: "#000000" },
+      { token: "function", foreground: theme.functions },
 
       { token: "operator.scss", foreground: theme.delimiters },
       { token: "operator.sql", foreground: theme.delimiters },

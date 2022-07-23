@@ -27,7 +27,7 @@ const data: {
   b: boolean; // showTwitterBadge
   r: boolean; // reflection
   ln: boolean; // showLineNumbers
-  wc: boolean; // showWindowControls
+  wc: WindowControls; // windowControls
 } = JSON.parse(window.atob(props.str));
 
 preview.value = {
@@ -43,6 +43,6 @@ preview.value = {
   reflection: data.r,
   picture: "",
   showLineNumbers: data.ln,
-  showWindowControls: data.wc,
+  windowControls: data.wc,
 };
 </script>

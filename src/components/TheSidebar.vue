@@ -30,17 +30,32 @@
               </div>
             </div>
 
-            <div class="grid gap-y-1">
-              <label for="language" class="font-semibold text-xs">Language</label>
-              <BaseSelect
-                id="language"
-                :model-value="store.language"
-                @update:model-value="setLanguage"
-                :options="AVAILABLE_LANGUAGES"
-              />
-            </div>
-
             <div class="grid gap-y-2">
+              <div class="grid gap-y-1">
+                <label for="language" class="font-semibold text-xs">Language</label>
+                <BaseSelect
+                  id="language"
+                  :model-value="store.language"
+                  @update:model-value="setLanguage"
+                  :options="AVAILABLE_LANGUAGES"
+                />
+              </div>
+
+              <div class="grid gap-y-1">
+                <label for="windowControls" class="font-semibold text-xs">Window controls</label>
+                <BaseSelect
+                  id="windowControls"
+                  :model-value="store.windowControls"
+                  @update:model-value="store.windowControls = $event"
+                  :options="[
+                    { label: 'None', value: WindowControls.None },
+                    { label: 'macOS - Color', value: WindowControls.MacColor },
+                    { label: 'macOS - Gray', value: WindowControls.MacGray },
+                    { label: 'macOS - Outline', value: WindowControls.MacOutline },
+                  ]"
+                />
+              </div>
+
               <div class="grid grid-flow-col gap-y-2 items-center grid-cols-[1fr_auto_auto] gap-x-2">
                 <label class="font-semibold text-xs select-none cursor-pointer" for="showTwitterBadge"
                   >Twitter Badge</label
@@ -137,13 +152,6 @@
                     v-model="store.username"
                   />
                 </div>
-              </div>
-
-              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-                <label class="font-semibold text-xs select-none cursor-pointer" for="showWindowControls"
-                  >Window controls</label
-                >
-                <BaseSwitch v-model="store.showWindowControls" id="showWindowControls" />
               </div>
 
               <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
@@ -375,6 +383,7 @@ import IconCoffee from "./IconCoffee.vue";
 import IconTwitter from "./IconTwitter.vue";
 import IconGithub from "./IconGithub.vue";
 import IconAnalytics from "./IconAnalytics.vue";
+import { WindowControls } from "~/types";
 import * as htmlToImage from "html-to-image";
 
 const isExpanded = ref(false);
@@ -460,7 +469,7 @@ const handleCopyLink = async () => {
       b: store.value.showTwitterBadge,
       r: store.value.reflection,
       ln: store.value.showLineNumbers,
-      wc: store.value.showWindowControls,
+      wc: store.value.windowControls,
     })
   );
   const url = `${window.location.origin}/share/${str}`;

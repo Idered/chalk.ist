@@ -8,6 +8,7 @@ export const linear: Theme = {
   name: "Linear",
   inspiration: "Linear",
   inspirationUrl: "https://linear.app",
+  mode: 'dark',
   shadow: "hsl(305, 70%, 24%)",
   shadowStyle: {
     opacity: 0.15,

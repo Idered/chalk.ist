@@ -61,7 +61,7 @@ export const AVAILABLE_LANGUAGES = [
     ],
   },
   {
-    group: "Script",
+    group: "Code",
     children: [
       { value: "go", label: "Go" },
       { value: "python", label: "Python" },

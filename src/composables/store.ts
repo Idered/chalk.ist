@@ -3,6 +3,7 @@ import * as themes from "~/themes";
 import { computed, ref, watch } from "vue";
 import { createTheme, Theme } from "./theme-utils";
 import { DEFAULT_CONTENT, DEFAULT_THEME, MIN_FRAME_WIDTH } from "~/constants";
+import { WindowControls } from "~/types";
 
 export const preview = ref<{
   content: string;
@@ -17,7 +18,7 @@ export const preview = ref<{
   reflection: boolean;
   showTwitterBadge: boolean;
   showLineNumbers: boolean;
-  showWindowControls: boolean;
+  windowControls: WindowControls;
 } | null>(null);
 
 export const store = useStorage("chalk-store", {
@@ -33,7 +34,7 @@ export const store = useStorage("chalk-store", {
   showBackground: true,
   reflection: true,
   showLineNumbers: true,
-  showWindowControls: true,
+  windowControls: WindowControls.MacOutline,
   modifiedContent: "",
   paddingX: 72,
   paddingY: 64,
@@ -59,13 +60,10 @@ watch(
     theme.value = createTheme((themes as Record<string, Theme>)[newTheme]);
   }
 );
-// export let theme = computed(() => {
-//   return createTheme((themes as Record<string, Theme>)[preview.value ? preview.value.theme : store.value.currentTheme]);
-// });
 
 // Data migrations
 store.value.showLineNumbers = store.value.showLineNumbers ?? true;
-store.value.showWindowControls = store.value.showWindowControls ?? true;
+store.value.windowControls = store.value.windowControls ?? WindowControls.MacOutline;
 store.value.expandSupportSection = store.value.expandSupportSection ?? true;
 store.value.paddingX = store.value.paddingX || 32;
 store.value.paddingY = store.value.paddingY || 32;

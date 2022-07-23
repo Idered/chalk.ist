@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="[`[--lineNumbersColor:${theme.mode === 'dark' ? 'rgba(255, 255, 255, 0.25)' : 'rgba(0, 0, 0, 0.25)'}]`]">
     <div id="diff-editor" ref="diffContainer" class="-mb-3" :class="{ hidden: !store.diff }" />
     <div id="editor" ref="container" class="-mb-3" :class="{ hidden: store.diff }" />
   </div>
@@ -61,6 +61,20 @@ onMounted(async () => {
   editor.updateOptions({ tabSize: 2 });
   diffEditor.getOriginalEditor().updateOptions({ tabSize: 2 });
   diffEditor.getModifiedEditor().updateOptions({ tabSize: 2 });
+
+  monaco.languages
+    .getLanguages()
+    .find((l) => l.id === "javascript")
+    ?.loader()
+    .then(({ language }) => {
+      monaco.languages.setMonarchTokensProvider("javascript", {
+        ...language,
+        tokenizer: {
+          ...language.tokenizer,
+          common: [[/\b(?:\w+(?=\())\b/, "function"], ...language.tokenizer.common],
+        },
+      });
+    });
 
   monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
     noSuggestionDiagnostics: true,
@@ -203,7 +217,7 @@ onMounted(async () => {
 }
 .monaco-editor .line-numbers,
 .monaco-editor .line-numbers.active-line-number {
-  color: rgba(255, 255, 255, 0.25) !important;
+  color: var(--lineNumbersColor) !important;
 }
 .monaco-editor .squiggly-error {
   display: none;

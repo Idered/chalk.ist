@@ -3,6 +3,7 @@ import { Theme } from "~/composables/theme-utils";
 export const lavender: Theme = {
   key: "lavender",
   name: "Lavender",
+  mode: 'dark',
   shadow: "hsl(231, 65%, 10%)",
   background: `linear-gradient(
     140deg, 

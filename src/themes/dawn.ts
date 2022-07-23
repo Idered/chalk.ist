@@ -3,6 +3,7 @@ import { Theme } from "~/composables/theme-utils";
 export const dawn: Theme = {
   key: "dawn",
   name: "Dawn",
+  mode: 'dark',
   shadow: "hsl(8, 45%, 13%)",
   background: `linear-gradient(
     140deg, 

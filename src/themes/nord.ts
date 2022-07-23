@@ -5,6 +5,7 @@ export const nord: Theme = {
   name: "Nord",
   inspiration: "Nord Theme",
   inspirationUrl: "https://www.nordtheme.com/",
+  mode: 'dark',
   shadow: "hsl(220, 17%, 17%)",
   background: `linear-gradient(
     140deg,

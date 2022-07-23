@@ -139,14 +139,44 @@
                 </defs>
               </svg>
             </div>
+
             <div
-              v-if="preview ? preview.showWindowControls : store.showWindowControls"
-              class="pt-4 grid justify-start gap-x-2 grid-flow-col"
+              class="grid grid-flow-col justify-start gap-x-2 pt-4"
+              v-if="(preview || store).windowControls === WindowControls.MacColor"
             >
-              <div class="w-3 h-3 bg-white/25 rounded-full"></div>
-              <div class="w-3 h-3 bg-white/25 rounded-full"></div>
-              <div class="w-3 h-3 bg-white/25 rounded-full"></div>
+              <div class="h-3 w-3 rounded-full bg-[#EC6A5E]"></div>
+              <div class="h-3 w-3 rounded-full bg-[#F3BF4F]"></div>
+              <div class="h-3 w-3 rounded-full bg-[#61C554]"></div>
             </div>
+
+            <div
+              class="grid grid-flow-col justify-start gap-x-2 pt-4"
+              v-if="(preview || store).windowControls === WindowControls.MacGray"
+            >
+              <div
+                v-for="_i in [1, 2, 3]"
+                class="h-3 w-3 rounded-full"
+                :class="{
+                  'bg-white/25': theme.mode === 'dark',
+                  'bg-black/25': theme.mode === 'light',
+                }"
+              />
+            </div>
+
+            <div
+              class="grid grid-flow-col justify-start gap-x-2 pt-4"
+              v-if="(preview || store).windowControls === WindowControls.MacOutline"
+            >
+              <div
+                v-for="_i in [1, 2, 3]"
+                class="h-3 w-3 rounded-full border"
+                :class="{
+                  'border-white/25': theme.mode === 'dark',
+                  'border-black/25': theme.mode === 'light',
+                }"
+              />
+            </div>
+
             <div class="py-6">
               <Editor ref="editor" />
             </div>
@@ -196,6 +226,7 @@ import { ExportState, exportState } from "~/composables/export-state";
 import BaseButton from "./BaseButton.vue";
 import IconClipboard from "./IconClipboard.vue";
 import IconTwitterCircle from "./IconTwitterCircle.vue";
+import { WindowControls } from "~/types";
 
 const container = ref<HTMLDivElement>();
 const editorFrame = ref<HTMLDivElement>();
