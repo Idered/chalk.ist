@@ -8,10 +8,11 @@ export type Theme = {
   name: string;
   shadow: string;
   shadowStyle?: CSSProperties;
-  mode: 'light' | 'dark';
+  mode: "light" | "dark";
   backgroundStyle?: CSSProperties;
   appStyle?: CSSProperties;
   background: string;
+  backgroundAlt?: string;
   inspiration?: string;
   inspirationUrl?: string;
   monaco: CustomMonacoTheme;
@@ -29,6 +30,7 @@ export const createTheme = (theme: Theme) => ({
     strings: hslToHex(theme.monaco.strings),
     numbers: hslToHex(theme.monaco.numbers),
     regexp: hslToHex(theme.monaco.regexp),
+    selectionBackground: hslToHex(theme.monaco.selectionBackground || "hsla(0, 0%, 100%, 0.102)"),
   }),
 });
 
@@ -60,6 +62,7 @@ type CustomMonacoTheme = {
   strings: string;
   numbers: string;
   regexp: string;
+  selectionBackground?: string;
 };
 
 export const createMonacoTheme = (
@@ -70,10 +73,10 @@ export const createMonacoTheme = (
     base: "vs-dark",
     inherit: false,
     rules: [
-      { token: "", foreground: theme.foreground, background: "#000000"  },
+      { token: "", foreground: theme.foreground, background: "#000000" },
       { token: "invalid", foreground: "#000000" },
       { token: "emphasis", fontStyle: "italic" },
-      { token: "strong", fontStyle: "bold" },
+      { token: "strong", fontStyle: "400" },
 
       { token: "variable", foreground: theme.delimiters },
       { token: "variable.predefined", foreground: theme.delimiters },
@@ -114,7 +117,7 @@ export const createMonacoTheme = (
       { token: "string", foreground: theme.strings },
       { token: "string.sql", foreground: "#000000" },
 
-      { token: "keyword", foreground: theme.keywords },
+      { token: "keyword", foreground: theme.keywords, fontStyle: "bold" },
       { token: "keyword.flow", foreground: "#000000" },
       { token: "keyword.json", foreground: theme.keywords },
       { token: "keyword.flow.scss", foreground: "#000000" },
@@ -129,6 +132,6 @@ export const createMonacoTheme = (
     ],
     colors: {
       "editor.background": "#ffffff00",
-      "editor.selectionBackground": "#FFFFFF1A",
+      "editor.selectionBackground": theme.selectionBackground,
     },
   } as monaco.editor.IStandaloneThemeData);

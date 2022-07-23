@@ -288,6 +288,6 @@ function handleCopy() {
 }
 
 .bg-frame {
-  background: v-bind("theme.background");
+  background: v-bind("store.useAltBackground ? theme.backgroundAlt : theme.background");
 }
 </style>

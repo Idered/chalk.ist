@@ -5,32 +5,31 @@ export const vercel: Theme = {
   name: "Vercel",
   inspiration: "Vercel",
   inspirationUrl: "https://vercel.com",
-  mode: 'light',
+  mode: "light",
   shadow: "hsl(305, 70%, 24%)",
   shadowStyle: {
     opacity: 0,
   },
+  background: `#fafafa`,
+  backgroundAlt: `#000 url(https://pbs.twimg.com/profile_banners/81712767/1635828256/1500x500)`,
   backgroundStyle: {
-    backgroundSize: 'contain',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'bottom'
-    // filter: `blur(120px)`,
-    // transform: `scale(.685)`,
+    backgroundSize: "contain",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "bottom",
   },
   appStyle: {
-    backgroundColor: `white`,
+    backgroundColor: `#ffffff`,
     boxShadow: `0px 2px 4px rgba(0,0,0,.1) `,
   },
-  // background: `#000 url(https://pbs.twimg.com/profile_banners/81712767/1635828256/1500x500)`,
-  background: `white`,
   monaco: {
     foreground: `hsl(0deg, 0%, 0%)`,
     functions: `hsl(212deg, 100%, 48%)`,
     comments: `hsl(0deg, 0%, 60%)`,
     keywords: "hsl(332deg, 100%, 50%)",
     delimiters: `hsl(0deg, 0%, 0%)`,
-    strings: `hsl(0deg, 0%, 0%)`,
+    strings: `hsl(166deg, 97%, 26%)`,
     numbers: `hsl(212deg, 100%, 48%)`,
-    regexp: `hsl(0deg, 0%, 0%)`
+    regexp: `hsl(0deg, 0%, 0%)`,
+    selectionBackground: `hsl(167deg, 100%, 74%)`,
   },
 };

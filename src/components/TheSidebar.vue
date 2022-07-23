@@ -15,7 +15,7 @@
               <div class="grid grid-flow-col items-center gap-x-2">
                 <button
                   v-for="theme in themes"
-                  @click="setTheme(theme)"
+                  @click="setTheme(theme, $event)"
                   class="group rounded-full focus:outline-none"
                   :title="`Use ${theme.name} theme`"
                 >
@@ -24,7 +24,7 @@
                     :class="{
                       'opacity-50': store.currentTheme !== theme.key,
                     }"
-                    :style="{ backgroundImage: theme.background }"
+                    :style="{ background: theme.background }"
                   ></div>
                 </button>
               </div>
@@ -510,8 +510,9 @@ function handlePicture(event: Event) {
   }
 }
 
-function setTheme(theme: Theme) {
+function setTheme(theme: Theme, event: MouseEvent) {
   store.value.currentTheme = theme.key;
+  store.value.useAltBackground = event.altKey;
   umami.trackEvent(store.value.currentTheme, "theme");
 }
 

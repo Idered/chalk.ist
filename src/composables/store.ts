@@ -23,6 +23,7 @@ export const preview = ref<{
 
 export const store = useStorage("chalk-store", {
   currentTheme: DEFAULT_THEME,
+  useAltBackground: false,
   language: "typescript",
   name: "",
   username: "",

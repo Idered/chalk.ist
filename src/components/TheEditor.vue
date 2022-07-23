@@ -62,19 +62,19 @@ onMounted(async () => {
   diffEditor.getOriginalEditor().updateOptions({ tabSize: 2 });
   diffEditor.getModifiedEditor().updateOptions({ tabSize: 2 });
 
-  monaco.languages
-    .getLanguages()
-    .find((l) => l.id === "javascript")
-    ?.loader()
-    .then(({ language }) => {
-      monaco.languages.setMonarchTokensProvider("javascript", {
-        ...language,
-        tokenizer: {
-          ...language.tokenizer,
-          common: [[/\b(?:\w+(?=\())\b/, "function"], ...language.tokenizer.common],
-        },
-      });
-    });
+  // monaco.languages
+  //   .getLanguages()
+  //   .find((l) => l.id === "javascript")
+  //   ?.loader()
+  //   .then(({ language }) => {
+  //     monaco.languages.setMonarchTokensProvider("javascript", {
+  //       ...language,
+  //       tokenizer: {
+  //         ...language.tokenizer,
+  //         common: [[/\b(?:\w+(?=\())\b/, "function"], ...language.tokenizer.common],
+  //       },
+  //     });
+  //   });
 
   monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
     noSuggestionDiagnostics: true,
