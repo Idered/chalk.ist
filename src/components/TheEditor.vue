@@ -1,5 +1,9 @@
 <template>
-  <div :class="[`[--lineNumbersColor:${theme.mode === 'dark' ? 'rgba(255, 255, 255, 0.25)' : 'rgba(0, 0, 0, 0.25)'}]`]">
+  <div
+    :style="{
+      '--lineNumbersColor': theme.mode === 'dark' ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.25)',
+    } as any"
+  >
     <div id="diff-editor" ref="diffContainer" class="-mb-3" :class="{ hidden: !store.diff }" />
     <div id="editor" ref="container" class="-mb-3" :class="{ hidden: store.diff }" />
   </div>
