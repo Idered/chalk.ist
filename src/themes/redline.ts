@@ -13,7 +13,7 @@ export const redline: Theme = {
   background: `#fbb739`,
   appStyle: {
     backgroundColor: `white`,
-    border: "1.5px solid black",
+    border: "2px solid black",
   },
   monaco: {
     foreground: `hsl(0, 0%, 0%)`,
