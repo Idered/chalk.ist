@@ -12,7 +12,7 @@
           <div class="grid gap-y-5 px-3 py-4">
             <div class="grid gap-y-2 justify-start">
               <label class="font-semibold text-xs">Theme</label>
-              <div class="grid grid-flow-col items-center gap-x-2">
+              <div class="grid items-center gap-2 grid-cols-7">
                 <button
                   v-for="theme in themes"
                   @click="setTheme(theme, $event)"
