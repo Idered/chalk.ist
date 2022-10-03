@@ -110,7 +110,6 @@
               }"
               :style="theme.shadowStyle"
             ></div>
-            <!-- <div class="absolute inset-x-20 h-12 transition-shadow rounded-md bg-[#3208a7] -bottom-14 blur-3xl"></div> -->
             <div
               class="absolute inset-0 overflow-hidden pointer-events-none rounded-md transition"
               :class="{
@@ -140,40 +139,56 @@
               </svg>
             </div>
 
-            <div
-              class="grid grid-flow-col justify-start gap-x-2 pt-4"
-              v-if="(preview || store).windowControls === WindowControls.MacColor"
-            >
-              <div class="h-3 w-3 rounded-full bg-[#EC6A5E]"></div>
-              <div class="h-3 w-3 rounded-full bg-[#F3BF4F]"></div>
-              <div class="h-3 w-3 rounded-full bg-[#61C554]"></div>
-            </div>
-
-            <div
-              class="grid grid-flow-col justify-start gap-x-2 pt-4"
-              v-if="(preview || store).windowControls === WindowControls.MacGray"
-            >
+            <div class="grid grid-cols-[62px_auto_62px] justify-items-center items-center">
               <div
-                v-for="_i in [1, 2, 3]"
-                class="h-3 w-3 rounded-full"
-                :class="{
-                  'bg-white/25': theme.mode === 'dark',
-                  'bg-black/25': theme.mode === 'light',
-                }"
-              />
-            </div>
+                class="grid grid-flow-col justify-start gap-x-2 pt-4"
+                v-if="(preview || store).windowControls === WindowControls.MacColor"
+              >
+                <div class="h-3 w-3 rounded-full bg-[#EC6A5E]"></div>
+                <div class="h-3 w-3 rounded-full bg-[#F3BF4F]"></div>
+                <div class="h-3 w-3 rounded-full bg-[#61C554]"></div>
+              </div>
 
-            <div
-              class="grid grid-flow-col justify-start gap-x-2 pt-4"
-              v-if="(preview || store).windowControls === WindowControls.MacOutline"
-            >
               <div
-                v-for="_i in [1, 2, 3]"
-                class="h-3 w-3 rounded-full border"
+                class="grid grid-flow-col justify-start gap-x-2 pt-4"
+                v-if="(preview || store).windowControls === WindowControls.MacGray"
+              >
+                <div
+                  v-for="_i in [1, 2, 3]"
+                  class="h-3 w-3 rounded-full"
+                  :class="{
+                    'bg-white/25': theme.mode === 'dark',
+                    'bg-black/25': theme.mode === 'light',
+                  }"
+                />
+              </div>
+
+              <div
+                class="grid grid-flow-col justify-start gap-x-2 pt-4"
+                v-if="(preview || store).windowControls === WindowControls.MacOutline"
+              >
+                <div
+                  v-for="_i in [1, 2, 3]"
+                  class="h-3 w-3 rounded-full border"
+                  :class="{
+                    'border-white/25': theme.mode === 'dark',
+                    'border-black/25': theme.mode === 'light',
+                  }"
+                />
+              </div>
+
+              <div v-if="(preview || store).windowControls === WindowControls.None"></div>
+
+              <input
+                v-if="exportState === ExportState.Idle || (preview || store).title"
+                :value="(preview || store).title"
+                @input="store.title = ($event.target as HTMLInputElement).value"
+                placeholder="Untitled"
                 :class="{
-                  'border-white/25': theme.mode === 'dark',
-                  'border-black/25': theme.mode === 'light',
+                  'text-white/60 placeholder:text-white/30 ': theme.mode === 'dark',
+                  'text-black/60 placeholder:text-black/30': theme.mode === 'light',
                 }"
+                class="bg-transparent z-10 h-7 pt-4 border-none text-xs text-center w-full focus:outline-none"
               />
             </div>
 

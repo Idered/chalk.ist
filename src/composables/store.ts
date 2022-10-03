@@ -10,6 +10,7 @@ export const preview = ref<{
   language: string;
   theme: string;
   name: string;
+  title: string;
   username: string;
   paddingX: number;
   paddingY: number;
@@ -29,6 +30,7 @@ export const store = useStorage("chalk-store", {
   username: "",
   diff: false,
   picture: "",
+  title: "",
   showTwitterBadge: true,
   expandTwitterOptions: true,
   expandSupportSection: true,
@@ -69,6 +71,7 @@ store.value.expandSupportSection = store.value.expandSupportSection ?? true;
 store.value.paddingX = store.value.paddingX || 32;
 store.value.paddingY = store.value.paddingY || 32;
 store.value.frameWidth = store.value.frameWidth || MIN_FRAME_WIDTH;
+store.value.title = store.value.title || "";
 
 if (import.meta.hot) {
   import.meta.hot.accept("../themes/index.ts", (newModule) => {

@@ -4,7 +4,7 @@ export const tailwindcss: Theme = {
   key: "tailwindcss",
   inspiration: "Tailwind CSS",
   inspirationUrl: "https://tailwindcss.com/",
-  mode: 'dark',
+  mode: "dark",
   name: "Tailwind CSS",
   shadow: "hsl(198, 93%, 6%)",
   background: `linear-gradient(

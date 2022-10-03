@@ -460,6 +460,7 @@ const handleCopyLink = async () => {
     JSON.stringify({
       c: encodeURIComponent(content),
       t: store.value.currentTheme,
+      tt: store.value.title,
       l: store.value.language,
       px: store.value.paddingX,
       py: store.value.paddingY,

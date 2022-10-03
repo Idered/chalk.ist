@@ -19,6 +19,7 @@ const props = defineProps({
 const data: {
   c: string; // content
   t: string; // theme
+  tt: string; // title
   l: string; // language
   px: number; // padding x
   py: number; // padding y
@@ -34,6 +35,7 @@ const data: {
 preview.value = {
   content: decodeURIComponent(data.c),
   theme: data.t,
+  title: data.tt,
   language: data.l,
   paddingX: data.px,
   paddingY: data.py,
