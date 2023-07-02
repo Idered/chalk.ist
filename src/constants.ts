@@ -69,6 +69,8 @@ export const AVAILABLE_LANGUAGES = [
       { value: "csharp", label: "C#" },
       { value: "javascript", label: "JavaScript" },
       { value: "typescript", label: "TypeScript" },
+      { value: "kotlin", label: "Kotlin" },
+      { value: "java", label: "Java" },
     ],
   },
   {
