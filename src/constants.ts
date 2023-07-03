@@ -72,6 +72,7 @@ export const AVAILABLE_LANGUAGES = [
       { value: "kotlin", label: "Kotlin" },
       { value: "java", label: "Java" },
       { value: "ruby", label: "Ruby" },
+      { value: "sol", label: "Solidity" },
     ],
   },
   {
