@@ -71,6 +71,7 @@ export const AVAILABLE_LANGUAGES = [
       { value: "typescript", label: "TypeScript" },
       { value: "kotlin", label: "Kotlin" },
       { value: "java", label: "Java" },
+      { value: "ruby", label: "Ruby" },
     ],
   },
   {
