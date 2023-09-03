@@ -18,21 +18,23 @@ export type Theme = {
   monaco: CustomMonacoTheme;
 };
 
-export const createTheme = (theme: Theme) => ({
-  ...theme,
-  shadow: trimHSL(theme.shadow),
-  monaco: createMonacoTheme({
-    foreground: hslToHex(theme.monaco.foreground),
-    functions: theme.monaco.functions ? hslToHex(theme.monaco.functions) : undefined,
-    comments: hslToHex(theme.monaco.comments),
-    keywords: hslToHex(theme.monaco.keywords),
-    delimiters: hslToHex(theme.monaco.delimiters),
-    strings: hslToHex(theme.monaco.strings),
-    numbers: hslToHex(theme.monaco.numbers),
-    regexp: hslToHex(theme.monaco.regexp),
-    selectionBackground: hslToHex(theme.monaco.selectionBackground || "hsla(0, 0%, 100%, 0.102)"),
-  }),
-});
+export const createTheme = (theme: Theme) => {
+  return {
+    ...theme,
+    shadow: trimHSL(theme.shadow),
+    monaco: createMonacoTheme({
+      foreground: hslToHex(theme.monaco.foreground),
+      functions: theme.monaco.functions ? hslToHex(theme.monaco.functions) : undefined,
+      comments: hslToHex(theme.monaco.comments),
+      keywords: hslToHex(theme.monaco.keywords),
+      delimiters: hslToHex(theme.monaco.delimiters),
+      strings: hslToHex(theme.monaco.strings),
+      numbers: hslToHex(theme.monaco.numbers),
+      regexp: hslToHex(theme.monaco.regexp),
+      selectionBackground: `${hslToHex(theme.monaco.selectionBackground || "hsl(0, 0%, 100%)")}33`,
+    }),
+  };
+};
 
 export const trimHSL = (hsl: string) => hsl.replace(/hsla?\(/, "").replace(/[\)\,]/g, "");
 
@@ -94,17 +96,17 @@ export const createMonacoTheme = (
       { token: "delimiter.xml", foreground: "#000000" },
 
       { token: "tag", foreground: theme.foreground },
-      { token: "tag.id.pug", foreground: "#000000" },
-      { token: "tag.class.pug", foreground: "#000000" },
+      { token: "tag.id.pug", foreground: theme.foreground },
+      { token: "tag.class.pug", foreground: theme.foreground },
       { token: "meta.scss", foreground: theme.foreground },
-      { token: "meta.tag", foreground: "#000000" },
+      { token: "meta.tag", foreground: theme.foreground },
       { token: "metatag", foreground: theme.keywords },
-      { token: "metatag.content.html", foreground: "#000000" },
-      { token: "metatag.html", foreground: "#000000" },
-      { token: "metatag.xml", foreground: "#000000" },
+      { token: "metatag.content.html", foreground: theme.foreground },
+      { token: "metatag.html", foreground: theme.keywords },
+      { token: "metatag.xml", foreground: theme.keywords },
       { token: "metatag.php", fontStyle: "bold", foreground: theme.keywords },
 
-      { token: "key", foreground: "#000000" },
+      { token: "key", foreground: theme.foreground },
       { token: "string.key.json", foreground: theme.foreground },
       { token: "string.value.json", foreground: theme.strings },
 

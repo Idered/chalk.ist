@@ -2,7 +2,7 @@ import * as monaco from "monaco-editor";
 
 export const MAX_FRAME_WIDTH = 980;
 export const MIN_FRAME_WIDTH = 520;
-export const DEFAULT_THEME = "dawn";
+export const DEFAULT_THEME = "chrome";
 export const DEFAULT_CONTENT = `const btn = document.getElementById('btn')
 let count = 0
 function render() {
@@ -42,6 +42,12 @@ export const DEFAULT_EDITOR_CONFIG: monaco.editor.IStandaloneDiffEditorConstruct
   minimap: { enabled: false },
   scrollbar: { vertical: "hidden" },
 };
+
+export const AVAILABLE_FONTS = ["JetBrains Mono", "Fira Code", "Source Code Pro", "IBM Plex Mono"]
+  .map((font) => ({ value: font, label: font }))
+  .sort((a, b) => a.label.localeCompare(b.label));
+
+export const LIGATURE_FONTS = ["Fira Code", "JetBrains Mono"];
 
 export const AVAILABLE_LANGUAGES = [
   {

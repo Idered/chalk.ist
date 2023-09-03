@@ -28,8 +28,10 @@
                 break;
               case 'Enter':
                 if (activeIndex > -1) {
+                  originalValue = results[activeIndex].item.value;
                   $emit('update:modelValue', results[activeIndex].item.value);
                 } else if (results.length) {
+                  originalValue = results[0].item.value;
                   $emit('update:modelValue', results[0].item.value);
                 }
                 return close();
@@ -41,7 +43,8 @@
           }
         "
         @keyup.esc="close"
-        v-model="search"
+        :model-value="value"
+        @update:model-value="search = $event"
         :placeholder="isFocused ? 'Search' : selected?.label"
         :class="{
           'bg-slate-900': isFocused,
@@ -110,7 +113,7 @@
 <script setup lang="ts">
 import { OnClickOutside } from "@vueuse/components";
 import { useWindowSize } from "@vueuse/core";
-import { computed, PropType, ref } from "vue";
+import { computed, PropType, ref, watch } from "vue";
 import IconChevronDown from "./IconChevronDown.vue";
 import { useFuse } from "@vueuse/integrations/useFuse";
 import IconCheck from "./IconCheck.vue";
@@ -129,6 +132,14 @@ type OptionGroup = {
 const emit = defineEmits(["update:modelValue"]);
 
 const props = defineProps({
+  previewOnFocus: {
+    type: Boolean,
+    default: false,
+  },
+  label: {
+    type: Function as PropType<(option: Option) => string>,
+    default: (option: Option) => option.label,
+  },
   modelValue: {
     type: String,
     default: "",
@@ -183,6 +194,7 @@ const groups = computed(() => {
 const selected = computed(() => {
   return flatOptions.value.find((option) => option.value === props.modelValue);
 });
+const originalValue = ref("");
 const { results } = useFuse(search, flatOptions, {
   matchAllWhenSearchEmpty: true,
   fuseOptions: {
@@ -194,6 +206,7 @@ function open() {
   activeIndex.value = -1;
   isOpen.value = true;
   isFocused.value = true;
+  originalValue.value = props.modelValue;
 }
 
 function close() {
@@ -204,9 +217,27 @@ function close() {
 }
 
 function handleSelect(option: Option) {
+  originalValue.value = option.value;
   emit("update:modelValue", option.value);
   close();
 }
+
+const value = computed(() => {
+  if (isFocused.value) return search.value;
+  if (selected.value) return props.label(selected.value);
+  return "";
+});
+
+watch(activeIndex, (index) => {
+  if (!isOpen.value || !props.previewOnFocus) return;
+  // if (results.value[index]?.item.type === "divider") return;
+  // if (results.value[index]?.item.onSelect) return;
+  if (results.value[index]) {
+    emit("update:modelValue", results.value[index]?.item.value);
+  } else {
+    emit("update:modelValue", originalValue.value);
+  }
+});
 </script>
 
 <style scoped>

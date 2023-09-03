@@ -1,8 +1,8 @@
 <template>
   <div
-    :style="{
+    :style="({
       '--lineNumbersColor': theme.mode === 'dark' ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.25)',
-    } as any"
+    } as any)"
   >
     <div id="diff-editor" ref="diffContainer" class="-mb-3" :class="{ hidden: !store.diff }" />
     <div id="editor" ref="container" class="-mb-3" :class="{ hidden: store.diff }" />
@@ -39,6 +39,7 @@ import { DEFAULT_EDITOR_CONFIG } from "~/constants";
   },
 };
 
+const editorRef = ref<monaco.editor.IStandaloneCodeEditor>();
 const container = ref<HTMLDivElement>();
 const diffContainer = ref<HTMLDivElement>();
 
@@ -49,6 +50,7 @@ onMounted(async () => {
   const editor = monaco.editor.create(container.value, {
     ...DEFAULT_EDITOR_CONFIG,
   });
+  editorRef.value = editor;
   const diffEditor = monaco.editor.createDiffEditor(diffContainer.value, DEFAULT_EDITOR_CONFIG);
   const activeContainer = computed(() => (store.value.diff && !preview.value ? diffContainer.value : container.value));
   const activeEditor = computed(() => (store.value.diff && !preview.value ? diffEditor.getModifiedEditor() : editor));
@@ -184,10 +186,6 @@ onMounted(async () => {
     }
   );
 
-  await document.fonts.load("12px JetBrains Mono");
-
-  monaco.editor.remeasureFonts();
-
   const source = container.value.querySelector(".monaco-editor");
   const diffSource = diffContainer.value.querySelector(".modified-in-monaco-diff-editor");
   const target = document.querySelector<HTMLDivElement>("[data-editor-frame-container]");
@@ -197,6 +195,29 @@ onMounted(async () => {
   };
   source?.addEventListener("wheel", handleScroll);
   diffSource?.addEventListener("wheel", handleScroll);
+
+  watch(
+    () => store.value.fontLigatures,
+    async (fontLigatures) => {
+      editor.updateOptions({ fontLigatures });
+      monaco.editor.remeasureFonts();
+    },
+    {
+      immediate: true,
+    }
+  );
+
+  watch(
+    () => store.value.fontFamily,
+    async (fontFamily) => {
+      await document.fonts.load(`12px ${fontFamily}`);
+      editor.updateOptions({ fontFamily });
+      monaco.editor.remeasureFonts();
+    },
+    {
+      immediate: true,
+    }
+  );
 });
 </script>
 

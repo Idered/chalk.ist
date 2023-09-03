@@ -1,15 +1,15 @@
 import { Theme } from "~/composables/theme-utils";
 
-const hue = -53;
+const hue = 0;
 
 const genColor = (hShift: number, sShift: number, lShift: number) => (h: number, s: number, l: number) =>
   `hsl(${h + hShift}, ${s + sShift}%, ${l + lShift}%)`;
 
 const bg = genColor(0, 0, 0);
 
-export const kozuchi: Theme = {
-  key: "kozuchi",
-  name: "Kozuchi",
+export const lakka: Theme = {
+  key: "lakka",
+  name: "Lakka",
   mode: "dark",
   shadow: "hsl(0, 68%, 14%)",
   shadowStyle: {
@@ -27,26 +27,26 @@ export const kozuchi: Theme = {
       0 0 18px 1px rgba(0,0,0,.6)
     `,
   },
+  //   background: `conic-gradient(
+  //     from 80deg at 47% 42%,
+  //     ${bg(248, 20, 20)} 0deg,
+  //     ${bg(243, 41, 29)} 60deg,
+  //     ${bg(230, 50, 32)} 140deg,
+  //     ${bg(268, 30, 46)} 200deg,
+  //     ${bg(270, 56, 40)} 280deg,
+  //     ${bg(300, 60, 12)} 360deg
+  //     )
+  //   `,
   background: `conic-gradient(
-    from 80deg at 47% 42%,
-    ${bg(248, 20, 20)} 0deg,
-    ${bg(243, 41, 29)} 60deg,
-    ${bg(230, 50, 32)} 140deg,
-    ${bg(268, 30, 46)} 200deg,
-    ${bg(270, 56, 40)} 280deg,
-    ${bg(300, 60, 12)} 360deg
+    from 230.29deg at 51.63% 52.16%,
+    hsl(238, 100%, 60%) 0deg,
+    hsl(283, 71%, 38%) 67.5deg,
+    hsl(230, 50%, 50%) 198.75deg,
+    hsl(8, 100%, 60%) 251.25deg,
+    hsl(280, 93%, 73%) 301.88deg,
+    hsl(300, 100%, 101%) 360deg
     )
   `,
-  // background: `conic-gradient(
-  //   from 230.29deg at 51.63% 52.16%,
-  //   hsl(238, 100%, 60%) 0deg,
-  //   hsl(283, 71%, 38%) 67.5deg,
-  //   hsl(230, 50%, 50%) 198.75deg,
-  //   hsl(8, 100%, 60%) 251.25deg,
-  //   hsl(280, 93%, 73%) 301.88deg,
-  //   hsl(300, 100%, 101%) 360deg
-  //   )
-  // `,
   monaco: {
     foreground: `hsl(${hue + 238}, 75%, 70%)`,
     comments: `hsl(${hue + 305}, 25%, 49%)`,

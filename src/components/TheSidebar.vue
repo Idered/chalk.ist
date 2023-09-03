@@ -12,7 +12,7 @@
           <div class="grid gap-y-5 px-3 py-4">
             <div class="grid gap-y-2 justify-start">
               <label class="font-semibold text-xs">Theme</label>
-              <div class="grid items-center gap-2 grid-cols-7">
+              <div class="grid items-center gap-2 grid-flow-col sm:grid-flow-row sm:grid-cols-7">
                 <button
                   v-for="theme in themes"
                   @click="setTheme(theme, $event)"
@@ -45,6 +45,7 @@
                 <label for="windowControls" class="font-semibold text-xs">Window controls</label>
                 <BaseSelect
                   id="windowControls"
+                  preview-on-focus
                   :model-value="store.windowControls"
                   @update:model-value="store.windowControls = $event"
                   :options="[
@@ -53,6 +54,28 @@
                     { label: 'macOS - Gray', value: WindowControls.MacGray },
                     { label: 'macOS - Outline', value: WindowControls.MacOutline },
                   ]"
+                />
+              </div>
+
+              <div class="grid gap-y-1">
+                <label for="fontFamily" class="font-semibold text-xs">Font</label>
+                <BaseSelect
+                  id="fontFamily"
+                  preview-on-focus
+                  :model-value="store.fontFamily"
+                  @update:model-value="setFontFamily"
+                  :options="AVAILABLE_FONTS"
+                />
+              </div>
+
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label class="font-semibold text-xs select-none cursor-pointer" for="fontLigatures"
+                  >Font Ligatures</label
+                >
+                <BaseSwitch
+                  :disabled="!LIGATURE_FONTS.includes(store.fontFamily)"
+                  v-model="store.fontLigatures"
+                  id="fontLigatures"
                 />
               </div>
 
@@ -215,7 +238,7 @@
           class="grid grid-cols-[1fr_auto_1fr] sm:grid-cols-1 gap-2 fixed inset-x-0 bottom-0 py-2 px-3 bg-slate-800 sm:static sm:bg-transparent sm:px-3 sm:py-0"
         >
           <label class="font-semibold text-xs hidden sm:block">Export</label>
-          <BaseButton
+          <!-- <BaseButton
             class="px-4 w-full bg-blue-600/30 text-blue-500 hover:bg-blue-600/40 group"
             @click="handleCopyLink"
           >
@@ -223,7 +246,7 @@
             <span class="truncate">
               {{ exportState === ExportState.JustCopiedLink ? "Copied!" : "Copy Link to Clipboard" }}
             </span>
-          </BaseButton>
+          </BaseButton> -->
           <BaseButton
             class="px-4 w-full hidden sm:flex bg-emerald-600/30 text-emerald-500 hover:bg-emerald-600/40 group"
             @click="handleCopy"
@@ -274,7 +297,7 @@
         <div
           class="sm:grid grid-cols-[1fr_auto_1fr] sm:grid-cols-1 gap-2 bg-slate-800 hidden sm:static sm:bg-transparent sm:px-3 sm:py-0 mt-4"
         >
-          <div class="grid grid-flow-col gap-y-2 items-center grid-cols-[1fr_auto] gap-x-2">
+          <!-- <div class="grid grid-flow-col gap-y-2 items-center grid-cols-[1fr_auto] gap-x-2">
             <label
               class="font-semibold text-xs hidden sm:block"
               :class="{
@@ -298,10 +321,10 @@
                 }"
               />
             </BaseButton>
-          </div>
+          </div> -->
 
           <div class="grid gap-y-2" v-if="store.expandSupportSection">
-            <BaseButton
+            <!-- <BaseButton
               is="a"
               class="px-4 w-full border border-[#1da1f2]/10 text-[#1da1f2]/90 hover:border-[#1da1f2]/40 group"
               href="https://twitter.com/intent/follow?screen_name=Idered"
@@ -309,8 +332,8 @@
             >
               <IconTwitter width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
               <span class="truncate text-slate-600">Follow on Twitter</span>
-            </BaseButton>
-            <BaseButton
+            </BaseButton> -->
+            <!-- <BaseButton
               is="a"
               class="px-4 w-full border border-yellow-500/10 text-yellow-300/80 hover:border-yellow-400/40 hover:text- group"
               href="https://www.buymeacoffee.com/idered"
@@ -318,15 +341,15 @@
             >
               <IconCoffee width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
               <span class="truncate text-slate-600">Buy me a coffee</span>
-            </BaseButton>
-            <label
+            </BaseButton> -->
+            <!-- <label
               class="font-semibold text-xs hidden sm:block mt-1"
               :class="{
                 'opacity-0': !store.expandSupportSection,
               }"
               >Learn</label
-            >
-            <BaseButton
+            > -->
+            <!-- <BaseButton
               is="a"
               class="px-4 w-full border border-slate-700 text-slate-600 hover:border-slate-600/40 group"
               href="https://github.com/Idered/chalk.ist"
@@ -334,8 +357,8 @@
             >
               <IconGithub width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
               <span class="truncate">View on GitHub</span>
-            </BaseButton>
-            <BaseButton
+            </BaseButton> -->
+            <!-- <BaseButton
               is="a"
               class="px-4 w-full border border-slate-700 text-slate-600 hover:border-slate-600/40 group"
               href="https://umami.kasper.io/share/WCDyKkOU/chalk.ist"
@@ -343,15 +366,15 @@
             >
               <IconAnalytics width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
               <span class="truncate">View Analytics</span>
-            </BaseButton>
+            </BaseButton> -->
 
-            <div class="text-xs hidden sm:block mt-2">
-              <span class="opacity-75">Created by</span>
+            <div class="text-xs hidden sm:block text-center">
+              <span class="opacity-75">Made by</span>
               <a
                 href="https://twitter.com/Idered"
                 class="hover:text-white transition outline-none font-medium focus:text-white"
               >
-                Kasper Mikiewicz
+                Idered
               </a>
             </div>
           </div>
@@ -368,7 +391,7 @@ import { isExporting, store } from "~/composables/store";
 import * as themes from "~/themes";
 import BaseSwitch from "./BaseSwitch.vue";
 import BaseSelect from "./BaseSelect.vue";
-import { AVAILABLE_LANGUAGES } from "~/constants";
+import { AVAILABLE_FONTS, AVAILABLE_LANGUAGES, LIGATURE_FONTS } from "~/constants";
 import BaseInput from "./BaseInput.vue";
 import BaseButton from "./BaseButton.vue";
 import IconDownload from "./IconDownload.vue";
@@ -377,12 +400,7 @@ import IconChevronDown from "./IconChevronDown.vue";
 import { useElementSize } from "@vueuse/core";
 import { Theme } from "~/composables/theme-utils";
 import { exportState, ExportState } from "~/composables/export-state";
-import IconClipboardLink from "./IconClipboardLink.vue";
 import { resizeImage, cropImage } from "~/composables/image";
-import IconCoffee from "./IconCoffee.vue";
-import IconTwitter from "./IconTwitter.vue";
-import IconGithub from "./IconGithub.vue";
-import IconAnalytics from "./IconAnalytics.vue";
 import { WindowControls } from "~/types";
 import * as htmlToImage from "html-to-image";
 
@@ -449,39 +467,39 @@ const handleCopy = async () => {
     });
 };
 
-const handleCopyLink = async () => {
-  const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
-  if (!frame) return;
-  umami.trackEvent("Copy Link", "export");
+// const handleCopyLink = async () => {
+//   const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
+//   if (!frame) return;
+//   umami.trackEvent("Copy Link", "export");
 
-  // copy location.href to clipboard
-  const { content } = store.value;
-  const str = window.btoa(
-    JSON.stringify({
-      c: encodeURIComponent(content),
-      t: store.value.currentTheme,
-      tt: store.value.title,
-      l: store.value.language,
-      px: store.value.paddingX,
-      py: store.value.paddingY,
-      w: store.value.frameWidth,
-      n: store.value.name,
-      u: store.value.username,
-      b: store.value.showTwitterBadge,
-      r: store.value.reflection,
-      ln: store.value.showLineNumbers,
-      wc: store.value.windowControls,
-    })
-  );
-  const url = `${window.location.origin}/share/${str}`;
-  navigator.clipboard.writeText(url);
+//   // copy location.href to clipboard
+//   const { content } = store.value;
+//   const str = window.btoa(
+//     JSON.stringify({
+//       c: encodeURIComponent(content),
+//       t: store.value.currentTheme,
+//       tt: store.value.title,
+//       l: store.value.language,
+//       px: store.value.paddingX,
+//       py: store.value.paddingY,
+//       w: store.value.frameWidth,
+//       n: store.value.name,
+//       u: store.value.username,
+//       b: store.value.showTwitterBadge,
+//       r: store.value.reflection,
+//       ln: store.value.showLineNumbers,
+//       wc: store.value.windowControls,
+//     })
+//   );
+//   const url = `${window.location.origin}/share/${str}`;
+//   navigator.clipboard.writeText(url);
 
-  exportState.value = ExportState.JustCopiedLink;
-  clearTimeout(timeout.value);
-  timeout.value = setTimeout(() => {
-    exportState.value = ExportState.Idle;
-  }, 1000);
-};
+//   exportState.value = ExportState.JustCopiedLink;
+//   clearTimeout(timeout.value);
+//   timeout.value = setTimeout(() => {
+//     exportState.value = ExportState.Idle;
+//   }, 1000);
+// };
 
 const handleDownload = async () => {
   const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
@@ -520,5 +538,9 @@ function setTheme(theme: Theme, event: MouseEvent) {
 function setLanguage(language: string) {
   store.value.language = language;
   umami.trackEvent(store.value.language, "language");
+}
+
+function setFontFamily(fontFamily: string) {
+  store.value.fontFamily = fontFamily;
 }
 </script>

@@ -9,6 +9,7 @@ export const preview = ref<{
   content: string;
   language: string;
   theme: string;
+  fontFamily: string;
   name: string;
   title: string;
   username: string;
@@ -28,6 +29,8 @@ export const store = useStorage("chalk-store", {
   language: "typescript",
   name: "",
   username: "",
+  fontFamily: "JetBrains Mono",
+  fontLigatures: true,
   diff: false,
   picture: "",
   title: "",
@@ -72,6 +75,8 @@ store.value.paddingX = store.value.paddingX || 32;
 store.value.paddingY = store.value.paddingY || 32;
 store.value.frameWidth = store.value.frameWidth || MIN_FRAME_WIDTH;
 store.value.title = store.value.title || "";
+store.value.fontFamily = store.value.fontFamily || "JetBrains Mono";
+store.value.fontLigatures = store.value.fontLigatures || true;
 
 if (import.meta.hot) {
   import.meta.hot.accept("../themes/index.ts", (newModule) => {

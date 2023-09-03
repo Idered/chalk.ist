@@ -12,8 +12,11 @@
     "printWidth": 120
   },
   "dependencies": {
+    "@fontsource/fira-code": "4.5.13",
+    "@fontsource/ibm-plex-mono": "4.5.13",
     "@fontsource/inter": "4.5.10",
     "@fontsource/jetbrains-mono": "4.5.8",
+    "@fontsource/source-code-pro": "4.5.14",
     "@vueuse/components": "8.0.1",
     "@vueuse/core": "7.7.1",
     "@vueuse/integrations": "8.0.1",
