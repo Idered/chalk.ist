@@ -2,10 +2,10 @@ import { Theme } from "~/composables/theme-utils";
 
 const hue = 0;
 
-const genColor = (hShift: number, sShift: number, lShift: number) => (h: number, s: number, l: number) =>
-  `hsl(${h + hShift}, ${s + sShift}%, ${l + lShift}%)`;
+// const genColor = (hShift: number, sShift: number, lShift: number) => (h: number, s: number, l: number) =>
+//   `hsl(${h + hShift}, ${s + sShift}%, ${l + lShift}%)`;
 
-const bg = genColor(0, 0, 0);
+// const bg = genColor(0, 0, 0);
 
 export const lakka: Theme = {
   key: "lakka",

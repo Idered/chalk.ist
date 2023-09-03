@@ -24,6 +24,7 @@ const data: {
   px: number; // padding x
   py: number; // padding y
   w: number; // width
+  ff: string; // font family
   n: string; // name
   u: string; // username
   b: boolean; // showTwitterBadge
@@ -40,6 +41,7 @@ preview.value = {
   paddingX: data.px,
   paddingY: data.py,
   frameWidth: data.w,
+  fontFamily: data.ff,
   name: data.n,
   username: data.u,
   showTwitterBadge: data.b,
