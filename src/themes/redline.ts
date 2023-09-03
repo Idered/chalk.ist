@@ -9,7 +9,7 @@ export const redline: Theme = {
   shadow: "white",
   shadowStyle: {
     opacity: 0,
-  },
+},
   background: `#fbb739`,
   appStyle: {
     backgroundColor: `white`,
