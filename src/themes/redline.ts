@@ -7,9 +7,6 @@ export const redline: Theme = {
   inspirationUrl: "https://myanimelist.net/anime/6675/Redline",
   mode: "light",
   shadow: "white",
-  shadowStyle: {
-    opacity: 0,
-},
   background: `#fbb739`,
   appStyle: {
     backgroundColor: `white`,
