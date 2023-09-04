@@ -1,7 +1,5 @@
 import { useStorage } from "@vueuse/core";
-import * as themes from "~/themes";
-import { computed, ref, watch } from "vue";
-import { createTheme, Theme } from "./theme-utils";
+import { computed, ref } from "vue";
 import { DEFAULT_CONTENT, DEFAULT_THEME, MIN_FRAME_WIDTH } from "~/constants";
 import { WindowControls } from "~/types";
 
@@ -12,6 +10,7 @@ export const preview = ref<{
   fontFamily: string;
   name: string;
   title: string;
+  windowStyle: string;
   username: string;
   paddingX: number;
   paddingY: number;
@@ -24,11 +23,13 @@ export const preview = ref<{
 } | null>(null);
 
 export const store = useStorage("chalk-store", {
+  currentThemeSupportsWindowVariants: true,
   currentTheme: DEFAULT_THEME,
   useAltBackground: false,
   language: "typescript",
   name: "",
   username: "",
+  windowStyle: "variant-1",
   fontFamily: "JetBrains Mono",
   fontLigatures: true,
   diff: false,
@@ -56,16 +57,17 @@ export const editorWidth = computed(
     20 * 2
 );
 export const isExporting = ref(false);
-export const theme = ref(
-  createTheme((themes as Record<string, Theme>)[preview.value ? preview.value.theme : store.value.currentTheme])
-);
+// export const theme = ref(
+//   createTheme((themes as Record<string, Theme>)[preview.value ? preview.value.theme : store.value.currentTheme])
+// );
 
-watch(
-  () => store.value.currentTheme,
-  (newTheme) => {
-    theme.value = createTheme((themes as Record<string, Theme>)[newTheme]);
-  }
-);
+// watch(
+//   () => store.value.currentTheme,
+//   async (newTheme) => {
+//     await nextTick();
+//     theme.value = createTheme((themes as Record<string, Theme>)[newTheme]);
+//   }
+// );
 
 // Data migrations
 store.value.showLineNumbers = store.value.showLineNumbers ?? true;
@@ -73,13 +75,14 @@ store.value.windowControls = store.value.windowControls ?? WindowControls.MacOut
 store.value.expandSupportSection = store.value.expandSupportSection ?? true;
 store.value.paddingX = store.value.paddingX || 32;
 store.value.paddingY = store.value.paddingY || 32;
+store.value.windowStyle = store.value.windowStyle || "variant-1";
 store.value.frameWidth = store.value.frameWidth || MIN_FRAME_WIDTH;
 store.value.title = store.value.title || "";
 store.value.fontFamily = store.value.fontFamily || "JetBrains Mono";
 store.value.fontLigatures = store.value.fontLigatures || true;
 
-if (import.meta.hot) {
-  import.meta.hot.accept("../themes/index.ts", (newModule) => {
-    theme.value = createTheme((newModule as Record<string, Theme>)[store.value.currentTheme]);
-  });
-}
+// if (import.meta.hot) {
+//   import.meta.hot.accept("../themes/index.ts", (newModule) => {
+//     theme.value = createTheme((newModule as Record<string, Theme>)[store.value.currentTheme]);
+//   });
+// }

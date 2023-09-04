@@ -1,5 +1,12 @@
 import * as monaco from "monaco-editor";
 
+export const FRAME_STYLES = [
+  { value: "none", label: "None" },
+  { value: "variant-1", label: "Variant 1" },
+  { value: "variant-2", label: "Variant 2" },
+  { value: "variant-3", label: "Variant 3" },
+  { value: "variant-4", label: "Variant 4" },
+];
 export const MAX_FRAME_WIDTH = 980;
 export const MIN_FRAME_WIDTH = 520;
 export const DEFAULT_THEME = "chrome";

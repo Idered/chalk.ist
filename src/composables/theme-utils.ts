@@ -6,9 +6,8 @@ export type ChalkTheme = ReturnType<typeof createTheme>;
 export type Theme = {
   key: string;
   name: string;
-  shadow: string;
-  shadowStyle?: CSSProperties;
   mode: "light" | "dark";
+  windowVariants?: boolean;
   backgroundStyle?: CSSProperties;
   appStyle?: CSSProperties;
   background: string;
@@ -16,12 +15,17 @@ export type Theme = {
   inspiration?: string;
   inspirationUrl?: string;
   monaco: CustomMonacoTheme;
+  shadow?: string;
+  lightsOpacity?: number;
+  shadowsOpacity?: number;
 };
 
 export const createTheme = (theme: Theme) => {
   return {
     ...theme,
-    shadow: trimHSL(theme.shadow),
+    shadow: theme.shadow ? trimHSL(theme.shadow).split(" ").join(", ") : undefined,
+    lightsOpacity: theme.lightsOpacity ?? 0.2,
+    shadowsOpacity: theme.shadowsOpacity ?? 0.8,
     monaco: createMonacoTheme({
       foreground: hslToHex(theme.monaco.foreground),
       functions: theme.monaco.functions ? hslToHex(theme.monaco.functions) : undefined,
@@ -35,6 +39,8 @@ export const createTheme = (theme: Theme) => {
     }),
   };
 };
+
+export type CompiledTheme = ReturnType<typeof createTheme>;
 
 export const trimHSL = (hsl: string) => hsl.replace(/hsla?\(/, "").replace(/[\)\,]/g, "");
 
@@ -53,6 +59,21 @@ export function hslToHex(hsl: string) {
       .padStart(2, "0");
   };
   return `#${f(0)}${f(8)}${f(4)}`;
+}
+
+export function hslToRGB(hsl: string) {
+  let [h, s, l] = hsl
+    .slice(4, -1)
+    .split(",")
+    .map((x) => parseInt(x, 10));
+  l /= 100;
+  const a = (s * Math.min(l, 1 - l)) / 100;
+  const f = (n: number) => {
+    const k = (n + h / 30) % 12;
+    const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+    return Math.round(255 * color);
+  };
+  return `rgb(${f(0)}, ${f(8)}, ${f(4)})`;
 }
 
 type CustomMonacoTheme = {

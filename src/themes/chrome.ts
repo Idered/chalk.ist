@@ -6,22 +6,15 @@ export const chrome: Theme = {
   key: "chrome",
   name: "Chrome",
   mode: "dark",
-  shadow: "hsl(0, 68%, 14%)",
-  shadowStyle: {
-    opacity: 0.15,
-  },
+  shadow: "hsl(300, 50%, 6%)",
+  lightsOpacity: 0.09,
+  shadowsOpacity: 1,
   backgroundStyle: {
     filter: `blur(30px)`,
     transform: `scale(1.385)`,
   },
-
   appStyle: {
-    backgroundColor: "#140a177c",
-    boxShadow: `
-      0 0 0px 1px rgba(17, 4, 14, 0.7),
-      inset 0 0 0 1px rgba(255,255,255,.07), 
-      0 0 18px 1px rgba(0,0,0,.6)
-    `,
+    backgroundColor: "#140a17cc",
   },
   background: `conic-gradient(
     from 230.29deg at 51.63% 52.16%,
@@ -31,8 +24,7 @@ export const chrome: Theme = {
     hsl(8, 100%, 60%) 251.25deg,
     hsl(280, 93%, 73%) 301.88deg,
     hsl(300, 100%, 9%) 360deg
-    )
-  `,
+  )`,
   monaco: {
     foreground: `hsl(${hue + 90}, 85%, 64%)`,
     comments: `hsl(${hue + 325}, 20%, 43%)`,

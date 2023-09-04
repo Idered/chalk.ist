@@ -12,7 +12,7 @@
           <div class="grid gap-y-5 px-3 py-4">
             <div class="grid gap-y-2 justify-start">
               <label class="font-semibold text-xs">Theme</label>
-              <div class="grid items-center gap-2 grid-flow-col sm:grid-flow-row sm:grid-cols-7">
+              <div class="grid items-center gap-2 grid-flow-col sm:grid-flow-row sm:grid-cols-4">
                 <button
                   v-for="theme in themes"
                   @click="setTheme(theme, $event)"
@@ -20,7 +20,7 @@
                   :title="`Use ${theme.name} theme`"
                 >
                   <div
-                    class="w-6 h-6 rounded-full group-hover:opacity-100 transition group-hover:scale-105 group-active:scale-95 group-focus:shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] group-focus:ring-[3px] ring-blue-800"
+                    class="w-12 h-6 rounded group-hover:opacity-100 transition group-hover:scale-105 group-active:scale-95 group-focus:shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] group-focus:ring-[3px] ring-blue-800"
                     :class="{
                       'opacity-50': store.currentTheme !== theme.key,
                     }"
@@ -38,6 +38,18 @@
                   :model-value="store.language"
                   @update:model-value="setLanguage"
                   :options="AVAILABLE_LANGUAGES"
+                />
+              </div>
+
+              <div class="grid gap-y-1">
+                <label for="windowStyle" class="font-semibold text-xs">Window style</label>
+                <BaseSelect
+                  id="windowStyle"
+                  preview-on-focus
+                  :disabled="!store.currentThemeSupportsWindowVariants"
+                  :model-value="store.windowStyle"
+                  @update:model-value="store.windowStyle = $event"
+                  :options="FRAME_STYLES"
                 />
               </div>
 
@@ -391,7 +403,7 @@ import { isExporting, store } from "~/composables/store";
 import * as themes from "~/themes";
 import BaseSwitch from "./BaseSwitch.vue";
 import BaseSelect from "./BaseSelect.vue";
-import { AVAILABLE_FONTS, AVAILABLE_LANGUAGES, LIGATURE_FONTS } from "~/constants";
+import { AVAILABLE_FONTS, AVAILABLE_LANGUAGES, FRAME_STYLES, LIGATURE_FONTS } from "~/constants";
 import BaseInput from "./BaseInput.vue";
 import BaseButton from "./BaseButton.vue";
 import IconDownload from "./IconDownload.vue";

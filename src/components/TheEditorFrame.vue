@@ -97,7 +97,7 @@
           }"
         >
           <div
-            class="bg-black/80 rounded-md px-5 relative"
+            class="rounded-md px-5 relative"
             :class="{
               'bg-black/80': !theme.appStyle,
             }"
@@ -106,9 +106,46 @@
             <div
               class="absolute inset-0 transition-shadow rounded-md"
               :class="{
-                'shadow-app': store.showBackground,
+                // 'shadow-app': store.showBackground,
               }"
-              :style="theme.shadowStyle"
+              :style="
+                theme.windowVariants === false
+                  ? ''
+                  : {
+                      none: '',
+                      'variant-1': {
+                        boxShadow: `
+                          0 0 0px 1px rgba(17, 4, 14, ${theme.shadowsOpacity}),
+                          inset 0 0 0 1px rgba(255,255,255,${theme.lightsOpacity}),
+                          0 0 18px 1px rgba(0,0,0,.6)
+                        `,
+                      },
+                      'variant-2': {
+                        boxShadow: `
+                          0 0 0px 1px rgba(17, 4, 14, ${theme.shadowsOpacity}),
+                          inset 0 1px 0 rgba(255,255,255,${theme.lightsOpacity}),
+                          0 0 18px 1px rgba(0,0,0,.6)
+                        `,
+                      },
+                      'variant-3': {
+                        boxShadow: `
+                          0 0 0px 1px rgba(17, 4, 14, ${theme.shadowsOpacity}),
+                          0 0 18px 1px rgba(0,0,0,.6)
+                        `,
+                      },
+                      'variant-4': {
+                        boxShadow: theme.shadow
+                          ? `
+                          5px 8.5px 3.3px -10px hsla(${theme.shadow}, 0.24),
+                          8.7px 14.6px 8.7px -10px hsla(${theme.shadow}, 0.24),
+                          12.1px 20.4px 18.2px -10px hsla(${theme.shadow}, 0.30),
+                          18.8px 31.6px 36.5px -10px hsla(${theme.shadow}, 0.46),
+                          60px 101px 90px -10px hsla(${theme.shadow}, 0.7)
+                        `
+                          : undefined,
+                      },
+                    }[store.windowStyle] || ''
+              "
             ></div>
             <div
               class="absolute inset-0 overflow-hidden pointer-events-none rounded-md transition"
@@ -195,7 +232,7 @@
             </div>
 
             <div class="py-6">
-              <Editor ref="editor" />
+              <Editor ref="editor" :theme="theme" />
             </div>
           </div>
           <div class="flex justify-end">
@@ -236,7 +273,7 @@
 <script setup lang="ts">
 import Editor from "./TheEditor.vue";
 import { useElementSize, useEventListener } from "@vueuse/core";
-import { theme, store, preview } from "~/composables/store";
+import { store, preview } from "~/composables/store";
 import { computed, ref, watch } from "vue";
 import { MAX_FRAME_WIDTH, MIN_FRAME_WIDTH } from "~/constants";
 import { ExportState, exportState } from "~/composables/export-state";
@@ -244,6 +281,27 @@ import BaseButton from "./BaseButton.vue";
 import IconClipboard from "./IconClipboard.vue";
 import IconTwitterCircle from "./IconTwitterCircle.vue";
 import { WindowControls } from "~/types";
+import { Theme, createTheme } from "~/composables/theme-utils";
+import * as themes from "~/themes";
+
+const hotTheme = ref();
+
+const theme = computed(() => {
+  return (
+    hotTheme.value ||
+    createTheme((themes as Record<string, Theme>)[preview.value ? preview.value.theme : store.value.currentTheme])
+  );
+});
+
+if (import.meta.hot) {
+  import.meta.hot.accept("../themes/index.ts", (newModule) => {
+    hotTheme.value = createTheme((newModule as Record<string, Theme>)[store.value.currentTheme]);
+  });
+}
+
+watch(theme, () => {
+  store.value.currentThemeSupportsWindowVariants = theme.value.windowVariants !== false;
+});
 
 const container = ref<HTMLDivElement>();
 const editorFrame = ref<HTMLDivElement>();
@@ -296,12 +354,12 @@ function handleCopy() {
 <style>
 .shadow-app {
   /* prettier-ignore */
-  box-shadow:
+  /* box-shadow:
     5px 8.5px 3.3px -10px hsla(v-bind("theme.shadow") / 24%),
     8.7px 14.6px 8.7px -10px hsla(v-bind("theme.shadow") / 24%),
     12.1px 20.4px 18.2px -10px hsla(v-bind("theme.shadow") / 30%),
     18.8px 31.6px 36.5px -10px hsla(v-bind("theme.shadow") / 46%),
-    60px 101px 90px -10px hsla(v-bind("theme.shadow") / 70%);
+    60px 101px 90px -10px hsla(v-bind("theme.shadow") / 70%); */
 }
 
 .bg-frame {

@@ -9,4 +9,4 @@ export * from "./liveblocks";
 export * from "./chrome";
 export * from "./kozuchi";
 //export * from "./redline";
-// export * from "./lakka"; // wip
+export * from "./lakka"; // wip

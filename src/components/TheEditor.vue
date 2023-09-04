@@ -18,8 +18,13 @@ import CssWorker from "monaco-editor/esm/vs/language/css/css.worker?worker";
 import JSONWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
 import HtmlWorker from "monaco-editor/esm/vs/language/html/html.worker?worker";
 import TsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
-import { editorWidth, preview, store, theme } from "~/composables/store";
+import { editorWidth, preview, store } from "~/composables/store";
 import { DEFAULT_EDITOR_CONFIG } from "~/constants";
+import { CompiledTheme } from "~/composables/theme-utils";
+
+const props = defineProps<{
+  theme: CompiledTheme;
+}>();
 
 (self as any).MonacoEnvironment = {
   getWorker(_: string, label: string) {
@@ -132,8 +137,8 @@ onMounted(async () => {
     watch(() => store.value.diff, autoHeight);
 
     watchEffect(() => {
-      monaco.editor.defineTheme(`chalk-${theme.value.key}`, theme.value.monaco);
-      monaco.editor.setTheme(`chalk-${theme.value.key}`);
+      monaco.editor.defineTheme(`chalk-${props.theme.key}`, props.theme.monaco);
+      monaco.editor.setTheme(`chalk-${props.theme.key}`);
     });
 
     watch(
@@ -178,8 +183,8 @@ onMounted(async () => {
       activeContainer.value.style.height = `${height}px`;
       activeEditor.value.layout();
       monaco.editor.setModelLanguage(editorModel, data.language);
-      monaco.editor.defineTheme(`chalk-${theme.value.key}`, theme.value.monaco);
-      monaco.editor.setTheme(`chalk-${theme.value.key}`);
+      monaco.editor.defineTheme(`chalk-${props.theme.key}`, props.theme.monaco);
+      monaco.editor.setTheme(`chalk-${props.theme.key}`);
     },
     {
       immediate: true,

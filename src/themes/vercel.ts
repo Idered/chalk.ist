@@ -6,20 +6,19 @@ export const vercel: Theme = {
   inspiration: "Vercel",
   inspirationUrl: "https://vercel.com",
   mode: "light",
-  shadow: "hsl(305, 70%, 24%)",
-  shadowStyle: {
-    opacity: 0,
-  },
+  windowVariants: false,
+  lightsOpacity: 0.0,
+  shadowsOpacity: 0.0,
   background: `#fafafa`,
-  backgroundAlt: `#000 url(https://pbs.twimg.com/profile_banners/81712767/1635828256/1500x500)`,
-  backgroundStyle: {
-    backgroundSize: "contain",
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "bottom",
-  },
+  // backgroundAlt: `#000 url(https://pbs.twimg.com/profile_banners/81712767/1635828256/1500x500)`,
+  // backgroundStyle: {
+  //   backgroundSize: "contain",
+  //   backgroundRepeat: "no-repeat",
+  //   backgroundPosition: "bottom",
+  // },
   appStyle: {
     backgroundColor: `#ffffff`,
-    boxShadow: `0px 2px 4px rgba(0,0,0,.1) `,
+    boxShadow: `0px 2px 4px rgba(0,0,0,.1)`,
   },
   monaco: {
     foreground: `hsl(0deg, 0%, 0%)`,

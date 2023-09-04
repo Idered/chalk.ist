@@ -11,21 +11,15 @@ export const kozuchi: Theme = {
   key: "kozuchi",
   name: "Kozuchi",
   mode: "dark",
-  shadow: "hsl(0, 68%, 14%)",
-  shadowStyle: {
-    opacity: 0.15,
-  },
+  shadow: "hsl(220, 80%, 9%)",
+  lightsOpacity: 0.13,
+  shadowsOpacity: 1,
   backgroundStyle: {
     filter: `blur(30px)`,
     transform: `scale(1.385)`,
   },
   appStyle: {
-    backgroundColor: "#140a177c",
-    boxShadow: `
-      0 0 0px 1px rgba(17, 4, 14, 0.7),
-      inset 0 0 0 1px rgba(255,255,255,.08), 
-      0 0 18px 1px rgba(0,0,0,.6)
-    `,
+    backgroundColor: "#140a17cc",
   },
   background: `conic-gradient(
     from 80deg at 47% 42%,
@@ -35,8 +29,7 @@ export const kozuchi: Theme = {
     ${bg(268, 30, 46)} 200deg,
     ${bg(270, 56, 40)} 280deg,
     ${bg(300, 60, 12)} 360deg
-    )
-  `,
+  )`,
   // background: `conic-gradient(
   //   from 230.29deg at 51.63% 52.16%,
   //   hsl(238, 100%, 60%) 0deg,
@@ -45,8 +38,7 @@ export const kozuchi: Theme = {
   //   hsl(8, 100%, 60%) 251.25deg,
   //   hsl(280, 93%, 73%) 301.88deg,
   //   hsl(300, 100%, 101%) 360deg
-  //   )
-  // `,
+  // )`,
   monaco: {
     foreground: `hsl(${hue + 238}, 75%, 70%)`,
     comments: `hsl(${hue + 305}, 25%, 49%)`,

@@ -8,22 +8,16 @@ export const linear: Theme = {
   name: "Linear",
   inspiration: "Linear",
   inspirationUrl: "https://linear.app",
-  mode: 'dark',
-  shadow: "hsl(305, 70%, 24%)",
-  shadowStyle: {
-    opacity: 0.15,
-  },
+  mode: "dark",
+  shadow: "hsl(23, 60%, 6%)",
+  shadowsOpacity: 1,
+  lightsOpacity: 0.08,
   backgroundStyle: {
     filter: `blur(120px)`,
     transform: `scale(.685)`,
   },
   appStyle: {
-    backgroundColor: `hsl(251deg 14% 7% / 80%)`,
-    boxShadow: `
-      inset 0 0 0 1px rgb(0 0 0 / 60%),
-      inset 0 2px 0 0 rgb(255 255 255 / 6%), 
-      0 0 8px 1px rgb(0 0 0 / 60%)
-    `,
+    backgroundColor: `rgba(16, 15, 20, 0.8)`,
   },
   // background: `conic-gradient(
   //   from 230.29deg at 51.63% 52.16%,
