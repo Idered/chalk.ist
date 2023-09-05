@@ -65,6 +65,7 @@
                     { label: 'macOS - Color', value: WindowControls.MacColor },
                     { label: 'macOS - Gray', value: WindowControls.MacGray },
                     { label: 'macOS - Outline', value: WindowControls.MacOutline },
+                    { label: 'Windows', value: WindowControls.Windows },
                   ]"
                 />
               </div>
