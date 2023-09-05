@@ -1,10 +1,6 @@
-/**
- * register php-snippet language
- * change from https://github.com/microsoft/monaco-languages/blob/main/src/php/php.ts
- *
- * @param {monaco.languages} languages
- */
-export const registerPHPSnippetLanguage = (languages) => {
+import monaco from "monaco-editor";
+
+export const registerPHPSnippetLanguage = (languages: typeof monaco.languages) => {
   const languageId = "php-snippet";
 
   languages.register({ id: languageId });
