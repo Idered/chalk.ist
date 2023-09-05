@@ -69,7 +69,7 @@ export const registerPHPSnippetLanguage = (languages: typeof monaco.languages) =
         [/[()]/, "delimiter.parenthesis.php"],
 
         // whitespace
-        [/[ \t\r\n]+/],
+        [/[ \t\r\n]+/] as any,
 
         // comments
         [/(#|\/\/)$/, "comment.php"],
