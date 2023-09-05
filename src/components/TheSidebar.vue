@@ -387,7 +387,13 @@
                 href="https://twitter.com/Idered"
                 class="hover:text-white transition outline-none font-medium focus:text-white"
               >
-                Idered
+                Idered</a
+              >. <span class="opacity-75">Code on</span>
+              <a
+                href="https://github.com/Idered/chalk.ist"
+                class="hover:text-white transition outline-none font-medium focus:text-white"
+              >
+                GitHub
               </a>
             </div>
           </div>
