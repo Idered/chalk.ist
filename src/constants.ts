@@ -78,7 +78,7 @@ export const AVAILABLE_LANGUAGES = [
     children: [
       { value: "go", label: "Go" },
       { value: "python", label: "Python" },
-      { value: "php", label: "PHP" },
+      { value: "php-snippet", label: "PHP" },
       { value: "csharp", label: "C#" },
       { value: "javascript", label: "JavaScript" },
       { value: "typescript", label: "TypeScript" },

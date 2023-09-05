@@ -14,6 +14,7 @@ import * as monaco from "monaco-editor";
 import { computed, nextTick, onMounted, ref, watch, watchEffect } from "vue";
 
 import EditorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
+import { registerPHPSnippetLanguage } from "~/lib/register-php-snippet";
 import CssWorker from "monaco-editor/esm/vs/language/css/css.worker?worker";
 import JSONWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
 import HtmlWorker from "monaco-editor/esm/vs/language/html/html.worker?worker";
@@ -86,6 +87,8 @@ onMounted(async () => {
   //       },
   //     });
   //   });
+
+  registerPHPSnippetLanguage(monaco.languages);
 
   monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
     noSuggestionDiagnostics: true,
