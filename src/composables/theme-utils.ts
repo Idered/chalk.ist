@@ -28,6 +28,7 @@ export const createTheme = (theme: Theme) => {
     shadowsOpacity: theme.shadowsOpacity ?? 0.8,
     monaco: createMonacoTheme({
       foreground: hslToHex(theme.monaco.foreground),
+      variables: hslToHex(theme.monaco.variables || theme.monaco.foreground),
       functions: theme.monaco.functions ? hslToHex(theme.monaco.functions) : undefined,
       comments: hslToHex(theme.monaco.comments),
       keywords: hslToHex(theme.monaco.keywords),
@@ -80,6 +81,7 @@ type CustomMonacoTheme = {
   comments: string;
   delimiters: string;
   foreground: string;
+  variables: string;
   functions?: string;
   keywords: string;
   strings: string;
@@ -101,9 +103,10 @@ export const createMonacoTheme = (
       { token: "emphasis", fontStyle: "italic" },
       { token: "strong", fontStyle: "400" },
 
-      { token: "variable", foreground: theme.delimiters },
-      { token: "variable.predefined", foreground: theme.delimiters },
-      { token: "variable.parameter", foreground: theme.delimiters },
+      { token: "variable", foreground: theme.variables },
+      { token: "variable.predefined", foreground: theme.variables },
+      { token: "variable.parameter", foreground: theme.variables },
+      { token: "variable.parameter.function", foreground: theme.variables },
       { token: "constant", foreground: "#000000" },
       { token: "comment", foreground: theme.comments },
       { token: "number", foreground: theme.numbers },

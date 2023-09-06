@@ -28,6 +28,7 @@ export const liveblocks: Theme = {
   },
   monaco: {
     foreground: `hsl(270, 6%, 93%)`,
+    variables: "hsl(270, 50%, 70%)",
     functions: `hsl(341, 90%, 70%)`,
     comments: `hsl(266, 4%, 38%)`,
     keywords: "hsl(250, 95%, 77%)",

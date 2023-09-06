@@ -41,6 +41,7 @@ export const kozuchi: Theme = {
   // )`,
   monaco: {
     foreground: `hsl(${hue + 238}, 75%, 70%)`,
+    variables: `hsl(${hue + 238}, 85%, 90%)`,
     comments: `hsl(${hue + 305}, 25%, 49%)`,
     keywords: `hsl(${hue + 314}, 62%, 66%)`,
     delimiters: `hsl(${hue + 90}, 17%, 42%)`,

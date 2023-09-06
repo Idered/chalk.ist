@@ -22,6 +22,7 @@ export const vercel: Theme = {
   },
   monaco: {
     foreground: `hsl(0deg, 0%, 0%)`,
+    variables: "hsl(0deg, 0%, 50%)",
     functions: `hsl(212deg, 100%, 48%)`,
     comments: `hsl(0deg, 0%, 60%)`,
     keywords: "hsl(332deg, 100%, 50%)",

@@ -26,9 +26,10 @@ export const lakka: Theme = {
     hsl(300, 100%, 101%) 360deg
   )`,
   monaco: {
-    foreground: `hsl(${hue + 188}, 50%, 80%)`,
+    foreground: `hsl(${hue + 40}, 90%, 65%)`,
+    variables: `hsl(${hue + 188}, 90%, 92%)`,
     comments: `hsl(${hue + 176}, 10%, 45%)`,
-    keywords: `hsl(${hue + 176}, 90%, 50%)`,
+    keywords: `hsl(${hue + 206}, 90%, 50%)`,
     delimiters: `hsl(${hue + 100}, 17%, 90%)`,
     strings: `hsl(${hue + 0}, 80%, 70%)`,
     numbers: `hsl(${hue + 210}, 86%, 54%)`,

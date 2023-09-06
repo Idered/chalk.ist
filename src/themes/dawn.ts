@@ -13,6 +13,7 @@ export const dawn: Theme = {
     )`,
   monaco: {
     foreground: "hsl(11, 28%, 58%)",
+    variables: `hsl(11, 70%, 70%)`,
     comments: "hsl(30, 52%, 30%)",
     keywords: "hsl(20, 66%, 52%)",
     delimiters: "hsl(265, 29%, 79%)",

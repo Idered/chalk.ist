@@ -5,17 +5,18 @@ export const nord: Theme = {
   name: "Nord",
   inspiration: "Nord Theme",
   inspirationUrl: "https://www.nordtheme.com/",
-  mode: 'dark',
+  mode: "dark",
   shadow: "hsl(220, 17%, 17%)",
   background: `linear-gradient(
     140deg,
-	hsl(220, 16%, 36%),
-	hsl(220, 17%, 32%),
-	hsl(222, 16%, 28%),
-	hsl(220, 16%, 22%)
+    hsl(220, 16%, 36%),
+    hsl(220, 17%, 32%),
+    hsl(222, 16%, 28%),
+    hsl(220, 16%, 22%)
   )`,
   monaco: {
     foreground: "hsl(218, 27%, 94%)",
+    variables: "hsl(218, 10%, 60%)",
     comments: "hsl(220, 16%, 36%)",
     keywords: "hsl(213, 32%, 52%)",
     delimiters: "hsl(219, 28%, 88%)",

@@ -242,29 +242,29 @@
                 <div
                   class="h-8 w-10 flex items-center justify-center"
                   :class="{
-                    // 'border-white/25': theme.mode === 'dark',
-                    // 'border-black/25': theme.mode === 'light',
+                    'text-white': theme.mode === 'dark',
+                    'text-black': theme.mode === 'light',
                   }"
                 >
                   <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect y="5" width="10" height="1" fill="white" fill-opacity="0.5" />
+                    <rect y="5" width="10" height="1" fill="currentColor" fill-opacity="0.5" />
                   </svg>
                 </div>
 
                 <div
                   class="h-8 w-10 flex items-center justify-center"
                   :class="{
-                    // 'border-white/25': theme.mode === 'dark',
-                    // 'border-black/25': theme.mode === 'light',
+                    'text-white': theme.mode === 'dark',
+                    'text-black': theme.mode === 'light',
                   }"
                 >
                   <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 1H9V7H8V8H10V0H2V2H3V1Z" fill="white" fill-opacity="0.5" />
+                    <path d="M3 1H9V7H8V8H10V0H2V2H3V1Z" fill="currentColor" fill-opacity="0.5" />
                     <path
                       fill-rule="evenodd"
                       clip-rule="evenodd"
                       d="M0 2.00002H8V10H0V2.00002ZM7 3.00002H1V9.00002H7V3.00002Z"
-                      fill="white"
+                      fill="currentColor"
                       fill-opacity="0.5"
                     />
                   </svg>
@@ -273,8 +273,8 @@
                 <div
                   class="h-8 w-11 flex items-center justify-center"
                   :class="{
-                    // 'border-white/25': theme.mode === 'dark',
-                    // 'border-black/25': theme.mode === 'light',
+                    'text-white': theme.mode === 'dark',
+                    'text-black': theme.mode === 'light',
                   }"
                 >
                   <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -282,7 +282,7 @@
                       fill-rule="evenodd"
                       clip-rule="evenodd"
                       d="M4.14645 4.85355L0 0.707107L0.707107 0L4.85355 4.14645L9 0L9.70711 0.707107L5.56066 4.85355L9.70711 9L9 9.70711L4.85355 5.56066L0.707107 9.70711L0 9L4.14645 4.85355Z"
-                      fill="white"
+                      fill="currentColor"
                       fill-opacity="0.5"
                     />
                   </svg>

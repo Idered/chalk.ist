@@ -27,6 +27,7 @@ export const chrome: Theme = {
   )`,
   monaco: {
     foreground: `hsl(${hue + 90}, 85%, 64%)`,
+    variables: `hsl(${hue + 90}, 70%, 80%)`,
     comments: `hsl(${hue + 325}, 20%, 43%)`,
     keywords: `hsl(${hue + 35}, 85%, 41%)`,
     delimiters: `hsl(${hue - 57}, 25%, 40%)`,

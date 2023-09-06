@@ -16,6 +16,7 @@ export const tailwindcss: Theme = {
   )`,
   monaco: {
     foreground: "hsl(198, 86%, 70%)",
+    variables: "hsl(200, 85%, 50%)",
     comments: "hsl(198, 73%, 35%)",
     keywords: "hsl(327, 67%, 64%)",
     delimiters: "hsl(198, 16%, 47%)",

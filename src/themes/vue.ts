@@ -5,7 +5,7 @@ export const vue: Theme = {
   name: "Vue",
   inspiration: "Vue.js",
   inspirationUrl: "https://vuejs.org/",
-  mode: 'dark',
+  mode: "dark",
   shadow: "hsl(153, 50%, 6%)",
   background: `linear-gradient(
     140deg, 
@@ -16,6 +16,7 @@ export const vue: Theme = {
   )`,
   monaco: {
     foreground: "hsl(153, 47%, 49%)",
+    variables: "hsl(153, 15%, 87%)",
     comments: "hsl(152, 34%, 33%)",
     keywords: "hsl(230, 100%, 70%)",
     delimiters: "hsl(150, 13%, 91%)",
