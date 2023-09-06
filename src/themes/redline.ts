@@ -15,6 +15,7 @@ export const redline: Theme = {
   },
   monaco: {
     foreground: `hsl(0, 0%, 0%)`,
+    variables: `hsl(0, 0%, 0%)`,
     comments: `hsl(0, 0%, 60%)`,
     numbers: "hsl(219, 50%, 44%)",
     delimiters: `hsl(0, 0%, 0%)`,
