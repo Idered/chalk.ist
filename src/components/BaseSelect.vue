@@ -133,7 +133,7 @@ const groups = computed(() => {
 const selected = computed(() => {
   return flatOptions.value.find((option) => option.value === props.modelValue);
 });
-const originalValue = ref("");
+const originalValue = ref<string | number>("");
 const { results } = useFuse(search, flatOptions, {
   matchAllWhenSearchEmpty: true,
   fuseOptions: {
@@ -191,7 +191,7 @@ watch(activeIndex, (index) => {
         :disabled="disabled"
         @click="open"
         @keydown="
-          (e) => {
+          (e: KeyboardEvent) => {
             if (!isOpen && !['Enter', 'ArrowDown', 'ArrowUp', 'Space'].includes(e.code)) {
               return;
             }
