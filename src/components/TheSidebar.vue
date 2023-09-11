@@ -1,3 +1,158 @@
+<script setup lang="ts">
+import { nextTick, ref } from "vue";
+import { OnClickOutside } from "@vueuse/components";
+import { addEditorBlock, isExporting, store } from "~/composables/store";
+import * as themes from "~/themes";
+import BaseSwitch from "./BaseSwitch.vue";
+import BaseSelect from "./BaseSelect.vue";
+import { AVAILABLE_FONTS, FRAME_STYLES, LIGATURE_FONTS } from "~/constants";
+import BaseInput from "./BaseInput.vue";
+import BaseButton from "./BaseButton.vue";
+import IconDownload from "./IconDownload.vue";
+import IconClipboard from "./IconClipboard.vue";
+import IconChevronDown from "./IconChevronDown.vue";
+import { useElementSize } from "@vueuse/core";
+import { Theme } from "~/composables/theme-utils";
+import { exportState, ExportState } from "~/composables/export-state";
+import { resizeImage, cropImage } from "~/composables/image";
+import { WindowControls } from "~/types";
+import * as htmlToImage from "html-to-image";
+
+const isExpanded = ref(false);
+const timeout = ref();
+const expandableContent = ref();
+const { height: expandableContentHeight } = useElementSize(expandableContent);
+
+// const fontEmbedCSS = ref("");
+
+// onMounted(async () => {
+//   const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
+//   if (!frame) return;
+//   fontEmbedCSS.value = await htmlToImage.getFontEmbedCSS(frame);
+// });
+
+const downloadPng = (blob: Blob | null) => {
+  if (!blob) return;
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "screenshot.png";
+  link.click();
+  exportState.value = ExportState.JustDownloaded;
+  clearTimeout(timeout.value);
+  timeout.value = setTimeout(() => {
+    exportState.value = ExportState.Idle;
+  }, 1000);
+};
+
+const copyToClipboard = (blob: Blob | null) => {
+  if (!blob) return;
+  try {
+    const item = new ClipboardItem({ "image/png": blob });
+    navigator.clipboard.write([item]);
+    exportState.value = ExportState.JustCopied;
+    clearTimeout(timeout.value);
+    timeout.value = setTimeout(() => {
+      exportState.value = ExportState.Idle;
+    }, 1000);
+  } catch {
+    exportState.value = ExportState.CopyFailure;
+    clearTimeout(timeout.value);
+    timeout.value = setTimeout(() => {
+      exportState.value = ExportState.Idle;
+    }, 1000);
+  }
+};
+
+const handleCopy = async () => {
+  const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
+  if (!frame) return;
+  umami.trackEvent("Copy to Clipboard", "export");
+  exportState.value = ExportState.PreparingToCopy;
+  isExporting.value = true;
+  await nextTick();
+  htmlToImage
+    .toBlob(frame, {
+      // fontEmbedCSS: fontEmbedCSS.value,
+    })
+    .then(function (blob) {
+      isExporting.value = false;
+      copyToClipboard(blob);
+    });
+};
+
+// const handleCopyLink = async () => {
+//   const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
+//   if (!frame) return;
+//   umami.trackEvent("Copy Link", "export");
+
+//   // copy location.href to clipboard
+//   const { content } = store.value;
+//   const str = window.btoa(
+//     JSON.stringify({
+//       c: encodeURIComponent(content),
+//       t: store.value.currentTheme,
+//       tt: store.value.title,
+//       l: store.value.language,
+//       px: store.value.paddingX,
+//       py: store.value.paddingY,
+//       w: store.value.frameWidth,
+//       n: store.value.name,
+//       u: store.value.username,
+//       b: store.value.showTwitterBadge,
+//       r: store.value.reflection,
+//       ln: store.value.showLineNumbers,
+//       wc: store.value.windowControls,
+//     })
+//   );
+//   const url = `${window.location.origin}/share/${str}`;
+//   navigator.clipboard.writeText(url);
+
+//   exportState.value = ExportState.JustCopiedLink;
+//   clearTimeout(timeout.value);
+//   timeout.value = setTimeout(() => {
+//     exportState.value = ExportState.Idle;
+//   }, 1000);
+// };
+
+const handleDownload = async () => {
+  const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
+  if (!frame) return;
+  umami.trackEvent("Download PNG", "export");
+  exportState.value = ExportState.PreparingToDownload;
+  isExporting.value = true;
+  await nextTick();
+  htmlToImage.toBlob(frame).then(function (blob) {
+    isExporting.value = false;
+    downloadPng(blob);
+  });
+};
+
+function handlePicture(event: Event) {
+  const target = event.target as HTMLInputElement;
+  if (target.files) {
+    const file = target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const croppedImage = await cropImage(reader.result as string, 1);
+      const resizedImage = await resizeImage(croppedImage, 56 * 2);
+      store.value.picture = resizedImage.toDataURL(file.type);
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+function setTheme(theme: Theme, event: MouseEvent) {
+  store.value.currentTheme = theme.key;
+  store.value.useAltBackground = event.altKey;
+}
+
+function setFontFamily(fontFamily: string) {
+  store.value.fontFamily = fontFamily;
+}
+</script>
+
 <template>
   <OnClickOutside @trigger="isExpanded = false">
     <aside>
@@ -30,8 +185,8 @@
               </div>
             </div>
 
-            <div class="grid gap-y-2">
-              <div class="grid gap-y-1">
+            <div class="grid gap-y-2.5">
+              <!-- <div class="grid gap-y-1">
                 <label for="language" class="font-semibold text-xs">Language</label>
                 <BaseSelect
                   id="language"
@@ -39,6 +194,42 @@
                   @update:model-value="setLanguage"
                   :options="AVAILABLE_LANGUAGES"
                 />
+              </div> -->
+
+              <div class="grid gap-1">
+                <label class="font-semibold text-xs">Layout</label>
+                <!-- <button
+                class="h-7 flex items-center justify-center disabled:opacity-50 disabled:text-white/40 text-white/60 bg-slate-800 border hover:border-slate-600/40 focus:outline-none focus:ring-[3px] focus:border-blue-800 ring-blue-900/20 border-slate-700 px-2 rounded-md shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px] text-[13px] font-mono"
+                type="button"
+                >
+              </button> -->
+                <BaseButton
+                  class="px-4 w-full border border-slate-600/30 text-slate-500 hover:bg-slate-700/10 hover:border-slate-600/40 group"
+                  @click="() => addEditorBlock()"
+                  :disabled="store.blocks.length >= 16"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256">
+                    <path
+                      fill="currentColor"
+                      d="M128 20a108 108 0 1 0 108 108A108.1 108.1 0 0 0 128 20Zm0 192a84 84 0 1 1 84-84a84.1 84.1 0 0 1-84 84Zm52-84a12 12 0 0 1-12 12h-28v28a12 12 0 0 1-24 0v-28H88a12 12 0 0 1 0-24h28V88a12 12 0 0 1 24 0v28h28a12 12 0 0 1 12 12Z"
+                    />
+                  </svg>
+                  Add editor
+                </BaseButton>
+                <!-- <button
+                  @click="() => addEditorBlock()"
+                  class="h-7 flex items-center justify-center disabled:opacity-50 disabled:text-white/40 text-white/60 bg-slate-800 border hover:border-slate-600/40 focus:outline-none focus:ring-[3px] focus:border-blue-800 ring-blue-900/20 border-slate-700 px-2 rounded-md shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px] text-[13px] font-mono"
+                  type="button"
+                  title="Remove"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-2.5 mr-1" viewBox="0 0 256 256">
+                    <path
+                      fill="currentColor"
+                      d="M224 128a8 8 0 0 1-8 8h-80v80a8 8 0 0 1-16 0v-80H40a8 8 0 0 1 0-16h80V40a8 8 0 0 1 16 0v80h80a8 8 0 0 1 8 8Z"
+                    />
+                  </svg>
+                  Add image
+                </button> -->
               </div>
 
               <div class="grid gap-y-1">
@@ -214,7 +405,7 @@
                     id="paddingX"
                     class="accent-blue-700"
                     type="range"
-                    min="32"
+                    min="16"
                     max="256"
                     step="8"
                     :value="store.paddingX"
@@ -230,7 +421,7 @@
                     id="paddingY"
                     class="accent-blue-700"
                     type="range"
-                    min="32"
+                    min="16"
                     max="128"
                     step="8"
                     :value="store.paddingY"
@@ -388,7 +579,11 @@
                 class="hover:text-white transition outline-none font-medium focus:text-white"
               >
                 Idered</a
-              >. <span class="opacity-75">Code on</span>
+              >
+            </div>
+
+            <div class="text-xs hidden sm:block text-center pb-4">
+              <span class="opacity-75">Source on</span>
               <a
                 href="https://github.com/Idered/chalk.ist"
                 class="hover:text-white transition outline-none font-medium focus:text-white"
@@ -402,164 +597,3 @@
     </aside>
   </OnClickOutside>
 </template>
-
-<script setup lang="ts">
-import { nextTick, ref } from "vue";
-import { OnClickOutside } from "@vueuse/components";
-import { isExporting, store } from "~/composables/store";
-import * as themes from "~/themes";
-import BaseSwitch from "./BaseSwitch.vue";
-import BaseSelect from "./BaseSelect.vue";
-import { AVAILABLE_FONTS, AVAILABLE_LANGUAGES, FRAME_STYLES, LIGATURE_FONTS } from "~/constants";
-import BaseInput from "./BaseInput.vue";
-import BaseButton from "./BaseButton.vue";
-import IconDownload from "./IconDownload.vue";
-import IconClipboard from "./IconClipboard.vue";
-import IconChevronDown from "./IconChevronDown.vue";
-import { useElementSize } from "@vueuse/core";
-import { Theme } from "~/composables/theme-utils";
-import { exportState, ExportState } from "~/composables/export-state";
-import { resizeImage, cropImage } from "~/composables/image";
-import { WindowControls } from "~/types";
-import * as htmlToImage from "html-to-image";
-
-const isExpanded = ref(false);
-const timeout = ref();
-const expandableContent = ref();
-const { height: expandableContentHeight } = useElementSize(expandableContent);
-
-// const fontEmbedCSS = ref("");
-
-// onMounted(async () => {
-//   const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
-//   if (!frame) return;
-//   fontEmbedCSS.value = await htmlToImage.getFontEmbedCSS(frame);
-// });
-
-const downloadPng = (blob: Blob | null) => {
-  if (!blob) return;
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = "screenshot.png";
-  link.click();
-  exportState.value = ExportState.JustDownloaded;
-  clearTimeout(timeout.value);
-  timeout.value = setTimeout(() => {
-    exportState.value = ExportState.Idle;
-  }, 1000);
-};
-
-const copyToClipboard = (blob: Blob | null) => {
-  if (!blob) return;
-  try {
-    const item = new ClipboardItem({ "image/png": blob });
-    navigator.clipboard.write([item]);
-    exportState.value = ExportState.JustCopied;
-    clearTimeout(timeout.value);
-    timeout.value = setTimeout(() => {
-      exportState.value = ExportState.Idle;
-    }, 1000);
-  } catch {
-    exportState.value = ExportState.CopyFailure;
-    clearTimeout(timeout.value);
-    timeout.value = setTimeout(() => {
-      exportState.value = ExportState.Idle;
-    }, 1000);
-  }
-};
-
-const handleCopy = async () => {
-  const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
-  if (!frame) return;
-  umami.trackEvent("Copy to Clipboard", "export");
-  exportState.value = ExportState.PreparingToCopy;
-  isExporting.value = true;
-  await nextTick();
-  htmlToImage
-    .toBlob(frame, {
-      // fontEmbedCSS: fontEmbedCSS.value,
-    })
-    .then(function (blob) {
-      isExporting.value = false;
-      copyToClipboard(blob);
-    });
-};
-
-// const handleCopyLink = async () => {
-//   const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
-//   if (!frame) return;
-//   umami.trackEvent("Copy Link", "export");
-
-//   // copy location.href to clipboard
-//   const { content } = store.value;
-//   const str = window.btoa(
-//     JSON.stringify({
-//       c: encodeURIComponent(content),
-//       t: store.value.currentTheme,
-//       tt: store.value.title,
-//       l: store.value.language,
-//       px: store.value.paddingX,
-//       py: store.value.paddingY,
-//       w: store.value.frameWidth,
-//       n: store.value.name,
-//       u: store.value.username,
-//       b: store.value.showTwitterBadge,
-//       r: store.value.reflection,
-//       ln: store.value.showLineNumbers,
-//       wc: store.value.windowControls,
-//     })
-//   );
-//   const url = `${window.location.origin}/share/${str}`;
-//   navigator.clipboard.writeText(url);
-
-//   exportState.value = ExportState.JustCopiedLink;
-//   clearTimeout(timeout.value);
-//   timeout.value = setTimeout(() => {
-//     exportState.value = ExportState.Idle;
-//   }, 1000);
-// };
-
-const handleDownload = async () => {
-  const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
-  if (!frame) return;
-  umami.trackEvent("Download PNG", "export");
-  exportState.value = ExportState.PreparingToDownload;
-  isExporting.value = true;
-  await nextTick();
-  htmlToImage.toBlob(frame).then(function (blob) {
-    isExporting.value = false;
-    downloadPng(blob);
-  });
-};
-
-function handlePicture(event: Event) {
-  const target = event.target as HTMLInputElement;
-  if (target.files) {
-    const file = target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      const croppedImage = await cropImage(reader.result as string, 1);
-      const resizedImage = await resizeImage(croppedImage, 56 * 2);
-      store.value.picture = resizedImage.toDataURL(file.type);
-    };
-    reader.readAsDataURL(file);
-  }
-}
-
-function setTheme(theme: Theme, event: MouseEvent) {
-  store.value.currentTheme = theme.key;
-  store.value.useAltBackground = event.altKey;
-  umami.trackEvent(store.value.currentTheme, "theme");
-}
-
-function setLanguage(language: string) {
-  store.value.language = language;
-  umami.trackEvent(store.value.language, "language");
-}
-
-function setFontFamily(fontFamily: string) {
-  store.value.fontFamily = fontFamily;
-}
-</script>

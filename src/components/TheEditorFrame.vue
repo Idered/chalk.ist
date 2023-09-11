@@ -1,3 +1,79 @@
+<script setup lang="ts">
+import { useElementSize, useEventListener } from "@vueuse/core";
+import { store, preview } from "~/composables/store";
+import { computed, ref, watch } from "vue";
+import { MAX_FRAME_WIDTH, MIN_FRAME_WIDTH } from "~/constants";
+import { ExportState, exportState } from "~/composables/export-state";
+import BaseButton from "./BaseButton.vue";
+import IconClipboard from "./IconClipboard.vue";
+import { Theme, createTheme } from "~/composables/theme-utils";
+import * as themes from "~/themes";
+import TheEditorWindow from "./TheEditorWindow.vue";
+import TheFooter from "./TheFooter.vue";
+
+const hotTheme = ref();
+
+const theme = computed(() => {
+  return (
+    hotTheme.value ||
+    createTheme((themes as Record<string, Theme>)[preview.value ? preview.value.theme : store.value.currentTheme])
+  );
+});
+
+if (import.meta.hot) {
+  import.meta.hot.accept("../themes/index.ts", (newModule) => {
+    hotTheme.value = createTheme((newModule as Record<string, Theme>)[store.value.currentTheme]);
+  });
+}
+
+watch(theme, () => {
+  store.value.currentThemeSupportsWindowVariants = theme.value.windowVariants !== false;
+});
+
+const container = ref<HTMLDivElement>();
+const editorFrame = ref<HTMLDivElement>();
+const { width: containerWidth } = useElementSize(container);
+const frameWidth = computed(() => (preview.value ? preview.value.frameWidth : store.value.frameWidth));
+const resizeStartX = ref(0);
+const resizeStartWidth = ref(0);
+const activeResizeHandle = ref<"left" | "right" | null>(null);
+const { height: frameHeight } = useElementSize(editorFrame);
+
+function startResize(event: MouseEvent, handle: "left" | "right") {
+  event.preventDefault();
+  activeResizeHandle.value = handle;
+  resizeStartX.value = event.clientX;
+  resizeStartWidth.value = store.value.frameWidth;
+}
+
+watch(frameHeight, (value) => {
+  store.value.frameHeight = Math.round(value);
+});
+
+useEventListener("mouseup", () => {
+  activeResizeHandle.value = null;
+});
+
+useEventListener("mousemove", (event: MouseEvent) => {
+  if (!editorFrame.value || !activeResizeHandle.value) return;
+  const direction = activeResizeHandle.value === "left" ? -1 : 1;
+  const nextWidth = resizeStartWidth.value + 2 * (event.clientX - resizeStartX.value) * direction;
+  store.value.frameWidth = Math.min(Math.max(nextWidth, MIN_FRAME_WIDTH), MAX_FRAME_WIDTH);
+});
+
+const timeout = ref();
+
+function handleCopy() {
+  if (!preview.value) return;
+  navigator.clipboard.writeText(preview.value.content);
+  exportState.value = ExportState.JustCopiedContent;
+  clearTimeout(timeout.value);
+  timeout.value = setTimeout(() => {
+    exportState.value = ExportState.Idle;
+  }, 1000);
+}
+</script>
+
 <template>
   <div data-editor-frame-container ref="container" class="overflow-y-auto overflow-x-hidden grid p-1">
     <div
@@ -88,7 +164,7 @@
         </div>
 
         <div
-          class="overflow-clip"
+          class="overflow-hidden"
           :style="{
             paddingLeft: `${preview ? preview.paddingX : store.paddingX}px`,
             paddingRight: `${preview ? preview.paddingX : store.paddingX}px`,
@@ -96,331 +172,26 @@
             paddingBottom: `${preview ? preview.paddingY : store.paddingY}px`,
           }"
         >
-          <div
-            class="rounded-md px-5 relative"
-            :class="{
-              'bg-black/80': !theme.appStyle,
-            }"
-            :style="theme.appStyle"
-          >
+          <div class="grid grid-cols-12 gap-4">
             <div
-              class="absolute inset-0 transition-shadow rounded-md"
-              :class="{
-                // 'shadow-app': store.showBackground,
-              }"
-              :style="
-                theme.windowVariants === false
-                  ? ''
-                  : {
-                      none: '',
-                      'variant-1': {
-                        boxShadow: `
-                          0 0 0px 1px rgba(17, 4, 14, ${theme.shadowsOpacity}),
-                          inset 0 0 0 1px rgba(255,255,255,${theme.lightsOpacity}),
-                          0 0 18px 1px rgba(0,0,0,.6)
-                        `,
-                      },
-                      'variant-2': {
-                        boxShadow: `
-                          0 0 0px 1px rgba(17, 4, 14, ${theme.shadowsOpacity}),
-                          inset 0 1px 0 rgba(255,255,255,${theme.lightsOpacity}),
-                          0 0 18px 1px rgba(0,0,0,.6)
-                        `,
-                      },
-                      'variant-3': {
-                        boxShadow: `
-                          0 0 0px 1px rgba(17, 4, 14, ${theme.shadowsOpacity}),
-                          0 0 18px 1px rgba(0,0,0,.6)
-                        `,
-                      },
-                      'variant-4': {
-                        boxShadow: theme.shadow
-                          ? `
-                          5px 8.5px 3.3px -10px hsla(${theme.shadow}, 0.24),
-                          8.7px 14.6px 8.7px -10px hsla(${theme.shadow}, 0.24),
-                          12.1px 20.4px 18.2px -10px hsla(${theme.shadow}, 0.30),
-                          18.8px 31.6px 36.5px -10px hsla(${theme.shadow}, 0.46),
-                          60px 101px 90px -10px hsla(${theme.shadow}, 0.7)
-                        `
-                          : undefined,
-                      },
-                    }[store.windowStyle] || ''
-              "
-            ></div>
-            <div
-              class="absolute inset-0 overflow-hidden pointer-events-none rounded-md transition"
-              :class="{
-                'opacity-0': !store.reflection,
+              v-for="block in store.blocks"
+              :key="block.id"
+              :style="{
+                gridColumn: `span ${block.columnSpan}`,
+                gridRow: `span ${block.rowSpan}`,
               }"
             >
-              <svg
-                class="absolute left-0 top-0 w-3/6"
-                viewBox="0 0 100 172"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M0 0H100L47 172H0V0Z" fill="url(#paint0_linear_47_2)" />
-                <defs>
-                  <linearGradient
-                    id="paint0_linear_47_2"
-                    x1="50"
-                    y1="0"
-                    x2="50"
-                    y2="100"
-                    gradientUnits="userSpaceOnUse"
-                  >
-                    <stop stop-color="white" stop-opacity="0.035" />
-                    <stop offset="1" stop-color="white" stop-opacity="0" />
-                  </linearGradient>
-                </defs>
-              </svg>
-            </div>
-
-            <div
-              class="grid grid-cols-[62px_auto_62px] justify-items-center items-center"
-              :class="{
-                'grid-cols-[62px_auto_62px]': (preview || store).windowControls !== WindowControls.Windows,
-                'grid-cols-[auto_124px] -mx-5': (preview || store).windowControls === WindowControls.Windows,
-              }"
-            >
-              <div
-                class="grid grid-flow-col justify-start gap-x-2 pt-4"
-                v-if="(preview || store).windowControls === WindowControls.MacColor"
-              >
-                <div class="h-3 w-3 rounded-full bg-[#EC6A5E]"></div>
-                <div class="h-3 w-3 rounded-full bg-[#F3BF4F]"></div>
-                <div class="h-3 w-3 rounded-full bg-[#61C554]"></div>
-              </div>
-
-              <div
-                class="grid grid-flow-col justify-start gap-x-2 pt-4"
-                v-if="(preview || store).windowControls === WindowControls.MacGray"
-              >
-                <div
-                  v-for="_i in [1, 2, 3]"
-                  class="h-3 w-3 rounded-full"
-                  :class="{
-                    'bg-white/25': theme.mode === 'dark',
-                    'bg-black/25': theme.mode === 'light',
-                  }"
-                />
-              </div>
-
-              <div
-                class="grid grid-flow-col justify-start gap-x-2 pt-4"
-                v-if="(preview || store).windowControls === WindowControls.MacOutline"
-              >
-                <div
-                  v-for="_i in [1, 2, 3]"
-                  class="h-3 w-3 rounded-full border"
-                  :class="{
-                    'border-white/25': theme.mode === 'dark',
-                    'border-black/25': theme.mode === 'light',
-                  }"
-                />
-              </div>
-
-              <div v-if="(preview || store).windowControls === WindowControls.None"></div>
-
-              <input
-                v-if="exportState === ExportState.Idle || (preview || store).title"
-                :value="(preview || store).title"
-                @input="store.title = ($event.target as HTMLInputElement).value"
-                placeholder="Untitled"
-                spellcheck="false"
-                autocomplete="off"
-                :class="{
-                  'text-white/60 placeholder:text-white/30 ': theme.mode === 'dark',
-                  'text-black/60 placeholder:text-black/30': theme.mode === 'light',
-                  'text-center': (preview || store).windowControls !== WindowControls.Windows,
-                  'pl-5': (preview || store).windowControls === WindowControls.Windows,
-                }"
-                class="bg-transparent z-10 mt-4 border-none text-xs w-full focus:outline-none"
-              />
-
-              <div class="grid grid-flow-col" v-if="(preview || store).windowControls === WindowControls.Windows">
-                <div
-                  class="h-8 w-10 flex items-center justify-center"
-                  :class="{
-                    'text-white': theme.mode === 'dark',
-                    'text-black': theme.mode === 'light',
-                  }"
-                >
-                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect y="5" width="10" height="1" fill="currentColor" fill-opacity="0.5" />
-                  </svg>
-                </div>
-
-                <div
-                  class="h-8 w-10 flex items-center justify-center"
-                  :class="{
-                    'text-white': theme.mode === 'dark',
-                    'text-black': theme.mode === 'light',
-                  }"
-                >
-                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 1H9V7H8V8H10V0H2V2H3V1Z" fill="currentColor" fill-opacity="0.5" />
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M0 2.00002H8V10H0V2.00002ZM7 3.00002H1V9.00002H7V3.00002Z"
-                      fill="currentColor"
-                      fill-opacity="0.5"
-                    />
-                  </svg>
-                </div>
-
-                <div
-                  class="h-8 w-11 flex items-center justify-center"
-                  :class="{
-                    'text-white': theme.mode === 'dark',
-                    'text-black': theme.mode === 'light',
-                  }"
-                >
-                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M4.14645 4.85355L0 0.707107L0.707107 0L4.85355 4.14645L9 0L9.70711 0.707107L5.56066 4.85355L9.70711 9L9 9.70711L4.85355 5.56066L0.707107 9.70711L0 9L4.14645 4.85355Z"
-                      fill="currentColor"
-                      fill-opacity="0.5"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div>
-
-            <div class="py-6">
-              <Editor ref="editor" :theme="theme" />
+              <TheEditorWindow class="h-full" :block-id="block.id" :theme="theme" />
             </div>
           </div>
-          <div class="flex justify-end">
-            <component
-              :is="author.username ? 'a' : 'div'"
-              :href="author.username ? `https://twitter.com/${author.username}` : undefined"
-              class="rounded-full z-10 relative p-1 bg-black/70 text-white mt-4 flex items-center"
-              :class="{
-                'hover:bg-black/50': author.username,
-              }"
-              v-if="(author.username || author.name || author.picture) && author.showTwitterBadge"
-            >
-              <img v-if="author.picture" :src="author.picture" width="32" height="32" class="rounded-full" alt="" />
-              <IconTwitterCircle v-else :width="32" />
-              <div v-if="author.name || author.username" class="ml-2 pr-4">
-                <div class="font-semibold text-xs" v-if="author.name">
-                  {{ author.name }}
-                </div>
-                <div
-                  class="font-medium leading-3"
-                  v-if="author.username"
-                  :class="{
-                    'text-sm': !author.name,
-                    'text-[11px] text-white/50': author.name,
-                  }"
-                >
-                  @{{ author.username }}
-                </div>
-              </div>
-            </component>
-          </div>
+          <TheFooter />
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
-import Editor from "./TheEditor.vue";
-import { useElementSize, useEventListener } from "@vueuse/core";
-import { store, preview } from "~/composables/store";
-import { computed, ref, watch } from "vue";
-import { MAX_FRAME_WIDTH, MIN_FRAME_WIDTH } from "~/constants";
-import { ExportState, exportState } from "~/composables/export-state";
-import BaseButton from "./BaseButton.vue";
-import IconClipboard from "./IconClipboard.vue";
-import IconTwitterCircle from "./IconTwitterCircle.vue";
-import { WindowControls } from "~/types";
-import { Theme, createTheme } from "~/composables/theme-utils";
-import * as themes from "~/themes";
-
-const hotTheme = ref();
-
-const theme = computed(() => {
-  return (
-    hotTheme.value ||
-    createTheme((themes as Record<string, Theme>)[preview.value ? preview.value.theme : store.value.currentTheme])
-  );
-});
-
-if (import.meta.hot) {
-  import.meta.hot.accept("../themes/index.ts", (newModule) => {
-    hotTheme.value = createTheme((newModule as Record<string, Theme>)[store.value.currentTheme]);
-  });
-}
-
-watch(theme, () => {
-  store.value.currentThemeSupportsWindowVariants = theme.value.windowVariants !== false;
-});
-
-const container = ref<HTMLDivElement>();
-const editorFrame = ref<HTMLDivElement>();
-const { width: containerWidth } = useElementSize(container);
-const frameWidth = computed(() => (preview.value ? preview.value.frameWidth : store.value.frameWidth));
-const resizeStartX = ref(0);
-const resizeStartWidth = ref(0);
-const activeResizeHandle = ref<"left" | "right" | null>(null);
-const { height: frameHeight } = useElementSize(editorFrame);
-
-const author = computed(() => {
-  return preview.value ? preview.value : store.value;
-});
-
-function startResize(event: MouseEvent, handle: "left" | "right") {
-  event.preventDefault();
-  activeResizeHandle.value = handle;
-  resizeStartX.value = event.clientX;
-  resizeStartWidth.value = store.value.frameWidth;
-}
-
-watch(frameHeight, (value) => {
-  store.value.frameHeight = Math.round(value);
-});
-
-useEventListener("mouseup", () => {
-  activeResizeHandle.value = null;
-});
-
-useEventListener("mousemove", (event: MouseEvent) => {
-  if (!editorFrame.value || !activeResizeHandle.value) return;
-  const direction = activeResizeHandle.value === "left" ? -1 : 1;
-  const nextWidth = resizeStartWidth.value + 2 * (event.clientX - resizeStartX.value) * direction;
-  store.value.frameWidth = Math.min(Math.max(nextWidth, MIN_FRAME_WIDTH), MAX_FRAME_WIDTH);
-});
-
-const timeout = ref();
-
-function handleCopy() {
-  if (!preview.value) return;
-  navigator.clipboard.writeText(preview.value.content);
-  exportState.value = ExportState.JustCopiedContent;
-  clearTimeout(timeout.value);
-  timeout.value = setTimeout(() => {
-    exportState.value = ExportState.Idle;
-  }, 1000);
-}
-</script>
-
 <style>
-.shadow-app {
-  /* prettier-ignore */
-  /* box-shadow:
-    5px 8.5px 3.3px -10px hsla(v-bind("theme.shadow") / 24%),
-    8.7px 14.6px 8.7px -10px hsla(v-bind("theme.shadow") / 24%),
-    12.1px 20.4px 18.2px -10px hsla(v-bind("theme.shadow") / 30%),
-    18.8px 31.6px 36.5px -10px hsla(v-bind("theme.shadow") / 46%),
-    60px 101px 90px -10px hsla(v-bind("theme.shadow") / 70%); */
-}
-
 .bg-frame {
   background: v-bind("store.useAltBackground ? theme.backgroundAlt : theme.background");
 }

@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { OnClickOutside } from "@vueuse/components";
 import { useWindowSize } from "@vueuse/core";
-import { computed, PropType, ref, watch } from "vue";
+import { computed, onMounted, PropType, ref, watch } from "vue";
 import IconChevronDown from "./IconChevronDown.vue";
 import { useFuse } from "@vueuse/integrations/useFuse";
 import IconCheck from "./IconCheck.vue";
 import BaseInput from "./BaseInput.vue";
 
 type Option = {
-  value: string;
+  value: string | number;
   label: string;
 };
 
@@ -24,12 +24,20 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  useOpaqueBackground: {
+    type: Boolean,
+    default: false,
+  },
   label: {
     type: Function as PropType<(option: Option) => string>,
     default: (option: Option) => option.label,
   },
+  container: {
+    type: HTMLElement as PropType<HTMLElement>,
+    default: null,
+  },
   modelValue: {
-    type: String,
+    type: [String, Number],
     default: "",
   },
   disabled: {
@@ -52,6 +60,29 @@ const activeIndex = ref(-1);
 const search = ref("");
 const isOpen = ref(false);
 const isFocused = ref(false);
+
+function getClosestWithOverflowHidden(element?: HTMLElement) {
+  if (!element) return null;
+  let currentElement = element.parentElement;
+
+  while (currentElement) {
+    const computedStyle = window.getComputedStyle(currentElement);
+
+    if (computedStyle.overflow === "hidden") {
+      return currentElement;
+    }
+
+    currentElement = currentElement.parentElement;
+  }
+
+  return null; // If no ancestor element with overflow: hidden is found
+}
+
+const container = ref<HTMLElement>();
+const element = ref<HTMLElement | null>();
+onMounted(() => {
+  element.value = getClosestWithOverflowHidden(container.value);
+});
 const { height: windowHeight } = useWindowSize();
 const flatOptions = computed(() => {
   return props.options.flatMap((option) => {
@@ -61,10 +92,27 @@ const flatOptions = computed(() => {
     return option;
   });
 });
+const elementOffsetHeight = computed(() => {
+  return element.value?.offsetHeight || windowHeight.value;
+});
+const direction = computed(() => {
+  if (!isOpen.value || !dropdown.value || !element.value) return "down";
+  const bbox = dropdown.value.getBoundingClientRect();
+  const elementBBox = element.value.getBoundingClientRect();
+  console.log(elementBBox.y + elementOffsetHeight.value, bbox.y + bbox.height);
+  return elementBBox.y + elementOffsetHeight.value < bbox.y + bbox.height ? "up" : "down";
+});
 const maxHeight = computed(() => {
-  if (!isOpen.value || !dropdown.value) return "down";
-  const difference = windowHeight.value - (dropdown.value.getBoundingClientRect().bottom || 0);
-  return difference < 0 ? dropdown.value.clientHeight + difference - 16 : "up";
+  if (!isOpen || !dropdown.value || !element.value) return "none";
+  const bbox = dropdown.value.getBoundingClientRect();
+  const elementBBox = element.value.getBoundingClientRect();
+  if (direction.value === "down") {
+    return elementOffsetHeight.value + elementBBox.y - bbox.y - 24;
+  } else {
+    return bbox.top - elementBBox.y - 28 - 8 - 16 - 24;
+  }
+  // const difference = (elementOffsetHeight.value || windowHeight.value) - (bbox.bottom - bbox.height - bbox.y || 0);
+  // return difference < 0 ? dropdown.value.clientHeight + difference - 16 : "up";
 });
 const groups = computed(() => {
   let index = 1;
@@ -134,7 +182,7 @@ watch(activeIndex, (index) => {
 
 <template>
   <OnClickOutside @trigger="close">
-    <div class="relative font-mono" @keyup.esc="close">
+    <div class="relative font-mono" @keyup.esc="close" ref="container">
       <BaseInput
         role="combobox"
         :id="id"
@@ -181,12 +229,23 @@ watch(activeIndex, (index) => {
         :model-value="value"
         @update:model-value="search = $event"
         :placeholder="isFocused ? 'Search' : selected?.label"
-        :class="{
-          'opacity-50 cursor-not-allowed': disabled,
-          'bg-slate-900': isFocused,
-          'cursor-pointer bg-slate-800 shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px]': !isFocused,
-          'placeholder-slate-600/50': isFocused,
-        }"
+        :class="
+          useOpaqueBackground
+            ? {
+                'opacity-50 cursor-not-allowed': disabled,
+                'bg-slate-900': isFocused,
+                'cursor-pointer bg-slate-800/60 shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px]':
+                  !isFocused,
+                'placeholder-slate-600/50': isFocused,
+              }
+            : {
+                'opacity-50 cursor-not-allowed': disabled,
+                'bg-slate-900': isFocused,
+                'cursor-pointer bg-slate-800 shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px]':
+                  !isFocused,
+                'placeholder-slate-600/50': isFocused,
+              }
+        "
       />
 
       <IconChevronDown
@@ -201,9 +260,13 @@ watch(activeIndex, (index) => {
         <div
           ref="dropdown"
           v-if="isOpen"
-          class="absolute z-10 grid overflow-auto top-full translate-y-2 p-1 border border-slate-700 bg-slate-800 rounded-md w-full shadow-[rgba(0,0,0,0.25)_0px_14px_28px,rgba(0,0,0,0.22)_0px_10px_10px]"
+          class="absolute z-50 grid overflow-auto p-1 border border-slate-700 bg-slate-800 rounded-md w-full shadow-[rgba(0,0,0,0.25)_0px_14px_28px,rgba(0,0,0,0.22)_0px_10px_10px]"
           :style="{
-            maxHeight: `${maxHeight}px`,
+            maxHeight: `${maxHeight === 'none' ? 'none' : maxHeight + 'px'}`,
+          }"
+          :class="{
+            'top-full translate-y-2': direction === 'down',
+            'bottom-full -translate-y-2': direction === 'up',
           }"
           @mouseleave="
             () => {

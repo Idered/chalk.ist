@@ -42,11 +42,14 @@ dependencies:
     specifier: 0.6.0
     version: 0.6.0
   monaco-editor:
-    specifier: 0.32.1
-    version: 0.32.1
+    specifier: 0.35.0
+    version: 0.35.0
   pica:
     specifier: 7.1.0
     version: 7.1.0
+  uuid:
+    specifier: 9.0.0
+    version: 9.0.0
   vue:
     specifier: ^3.2.30
     version: 3.2.30
@@ -61,6 +64,9 @@ devDependencies:
   '@types/pica':
     specifier: ^9.0.0
     version: 9.0.0
+  '@types/uuid':
+    specifier: ^9.0.3
+    version: 9.0.3
   '@vitejs/plugin-vue':
     specifier: ^2.2.4
     version: 2.2.4(vite@2.9.12)(vue@3.2.30)
@@ -86,8 +92,8 @@ devDependencies:
     specifier: ^2.9.12
     version: 2.9.12
   vite-plugin-monaco-editor:
-    specifier: ^1.0.10
-    version: 1.0.10(monaco-editor@0.32.1)
+    specifier: ^1.1.0
+    version: 1.1.0(monaco-editor@0.35.0)
   vite-plugin-pages:
     specifier: 0.17.1
     version: 0.17.1(vite@2.9.12)
@@ -1523,6 +1529,10 @@ packages:
 
   /@types/trusted-types@2.0.3:
     resolution: {integrity: sha512-NfQ4gyz38SL8sDNrSixxU2Os1a5xcdFxipAFxYEuLUlvU2uDwS4NUpsImcf1//SlWItCVMMLiylsxbmNMToV/g==}
+    dev: true
+
+  /@types/uuid@9.0.3:
+    resolution: {integrity: sha512-taHQQH/3ZyI3zP8M/puluDEIEvtQHVYcC6y3N8ijFtAd28+Ey/G4sg1u2gB01S8MwybLOKAp9/yCMu/uR5l3Ug==}
     dev: true
 
   /@vitejs/plugin-vue@2.2.4(vite@2.9.12)(vue@3.2.30):
@@ -3480,8 +3490,8 @@ packages:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
     dev: true
 
-  /monaco-editor@0.32.1:
-    resolution: {integrity: sha512-LUt2wsUvQmEi2tfTOK+tjAPvt7eQ+K5C4rZPr6SeuyzjAuAHrIvlUloTcOiGjZW3fn3a/jFQCONrEJbNOaCqbA==}
+  /monaco-editor@0.35.0:
+    resolution: {integrity: sha512-BJfkAZ0EJ7JgrgWzqjfBNP9hPSS8NlfECEDMEIIiozV2UaPq22yeuOjgbd3TwMh3anH0krWZirXZfn8KUSxiOA==}
 
   /ms@2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
@@ -4323,12 +4333,17 @@ packages:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: true
 
-  /vite-plugin-monaco-editor@1.0.10(monaco-editor@0.32.1):
-    resolution: {integrity: sha512-7yTAFIE0SefjCmfnjrvXOl53wkxeSASc/ZIcB5tZeEK3vAmHhveV8y3f90Vp8b+PYdbUipjqf91mbFbSENkpcw==}
+  /uuid@9.0.0:
+    resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
+    hasBin: true
+    dev: false
+
+  /vite-plugin-monaco-editor@1.1.0(monaco-editor@0.35.0):
+    resolution: {integrity: sha512-IvtUqZotrRoVqwT0PBBDIZPNraya3BxN/bfcNfnxZ5rkJiGcNtO5eAOWWSgT7zullIAEqQwxMU83yL9J5k7gww==}
     peerDependencies:
-      monaco-editor: 0.29.x
+      monaco-editor: '>=0.33.0'
     dependencies:
-      monaco-editor: 0.32.1
+      monaco-editor: 0.35.0
     dev: true
 
   /vite-plugin-pages@0.17.1(vite@2.9.12):

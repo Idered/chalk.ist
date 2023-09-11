@@ -1,14 +1,3 @@
-<template>
-  <div
-    :style="({
-      '--lineNumbersColor': theme.mode === 'dark' ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.25)',
-    } as any)"
-  >
-    <div id="diff-editor" ref="diffContainer" class="-mb-3" :class="{ hidden: !store.diff }" />
-    <div id="editor" ref="container" class="-mb-3" :class="{ hidden: store.diff }" />
-  </div>
-</template>
-
 <script setup lang="ts">
 import * as monaco from "monaco-editor";
 import { computed, nextTick, onMounted, ref, watch, watchEffect } from "vue";
@@ -25,7 +14,13 @@ import { CompiledTheme } from "~/composables/theme-utils";
 
 const props = defineProps<{
   theme: CompiledTheme;
+  width: number;
+  blockId: string;
 }>();
+
+const blockItem = computed(() => {
+  return store.value.blocks.find((block) => block.id === props.blockId)!;
+});
 
 (self as any).MonacoEnvironment = {
   getWorker(_: string, label: string) {
@@ -60,9 +55,9 @@ onMounted(async () => {
   const diffEditor = monaco.editor.createDiffEditor(diffContainer.value, DEFAULT_EDITOR_CONFIG);
   const activeContainer = computed(() => (store.value.diff && !preview.value ? diffContainer.value : container.value));
   const activeEditor = computed(() => (store.value.diff && !preview.value ? diffEditor.getModifiedEditor() : editor));
-  const editorModel = monaco.editor.createModel(store.value.content, store.value.language);
-  const diffEditorOriginalModel = monaco.editor.createModel(store.value.content, store.value.language);
-  const diffEditorModifiedModel = monaco.editor.createModel(store.value.content, store.value.language);
+  const editorModel = monaco.editor.createModel(blockItem.value.content, blockItem.value.language);
+  const diffEditorOriginalModel = monaco.editor.createModel(blockItem.value.content, blockItem.value.language);
+  const diffEditorModifiedModel = monaco.editor.createModel(blockItem.value.content, blockItem.value.language);
 
   editor.setModel(editorModel);
   diffEditor.setModel({
@@ -107,12 +102,14 @@ onMounted(async () => {
     return activeEditor.value.getContentHeight() + 12;
   };
 
-  const autoHeight = () => {
+  const autoHeight = async () => {
     if (!activeContainer.value) return;
     const contentHeight = getEditorHeight();
     activeContainer.value.style.width = `${editorWidth.value}px`;
     activeContainer.value.style.height = `${contentHeight}px`;
-    activeEditor.value.layout({ width: editorWidth.value, height: contentHeight });
+    if (props.width) {
+      activeEditor.value.layout({ width: props.width, height: contentHeight });
+    }
   };
 
   editor.onDidContentSizeChange(autoHeight);
@@ -125,9 +122,9 @@ onMounted(async () => {
     });
 
     editor.onDidChangeModelContent(() => {
-      store.value.content = editor.getModel()?.getValue() || "";
-      diffEditorOriginalModel.setValue(store.value.content);
-      diffEditorModifiedModel.setValue(store.value.content);
+      blockItem.value.content = editor.getModel()?.getValue() || "";
+      diffEditorOriginalModel.setValue(blockItem.value.content);
+      diffEditorModifiedModel.setValue(blockItem.value.content);
     });
 
     activeEditor.value.onDidBlurEditorWidget(() => {
@@ -162,9 +159,9 @@ onMounted(async () => {
     );
 
     watchEffect(() => {
-      monaco.editor.setModelLanguage(editorModel, store.value.language);
-      monaco.editor.setModelLanguage(diffEditorOriginalModel, store.value.language);
-      monaco.editor.setModelLanguage(diffEditorModifiedModel, store.value.language);
+      monaco.editor.setModelLanguage(editorModel, blockItem.value?.language);
+      monaco.editor.setModelLanguage(diffEditorOriginalModel, blockItem.value?.language);
+      monaco.editor.setModelLanguage(diffEditorModifiedModel, blockItem.value?.language);
     });
   }
 
@@ -204,6 +201,9 @@ onMounted(async () => {
   source?.addEventListener("wheel", handleScroll);
   diffSource?.addEventListener("wheel", handleScroll);
 
+  watch(() => props.width, autoHeight, {
+    flush: "post",
+  });
   watch(
     () => store.value.fontLigatures,
     async (fontLigatures) => {
@@ -214,6 +214,13 @@ onMounted(async () => {
       immediate: true,
     }
   );
+
+  // watch(
+  //   () => props.width,
+  //   (width) => {
+  //     editor.layout({ width, height: 200 });
+  //   }
+  // );
 
   watch(
     () => store.value.fontFamily,
@@ -228,6 +235,21 @@ onMounted(async () => {
   );
 });
 </script>
+
+<template>
+  <div
+    :style="({
+      '--lineNumbersColor': theme.mode === 'dark' ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.25)',
+    } as any)"
+    class="transition-opacity duration-500 delay-200"
+    :class="{
+      'opacity-0': !props.width,
+    }"
+  >
+    <div id="diff-editor" ref="diffContainer" class="-mb-3" :class="{ hidden: !store.diff }" />
+    <div id="editor" ref="container" class="-mb-3" :class="{ hidden: store.diff }" />
+  </div>
+</template>
 
 <style>
 .iPadShowKeyboard,

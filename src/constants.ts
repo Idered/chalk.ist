@@ -1,5 +1,10 @@
 import * as monaco from "monaco-editor";
 
+export enum BlockType {
+  Code = "code",
+  Image = "image",
+}
+
 export const FRAME_STYLES = [
   { value: "none", label: "None" },
   { value: "variant-1", label: "Variant 1" },
@@ -7,7 +12,7 @@ export const FRAME_STYLES = [
   { value: "variant-3", label: "Variant 3" },
   { value: "variant-4", label: "Variant 4" },
 ];
-export const MAX_FRAME_WIDTH = 980;
+export const MAX_FRAME_WIDTH = 1600;
 export const MIN_FRAME_WIDTH = 520;
 export const DEFAULT_THEME = "chrome";
 export const DEFAULT_CONTENT = `const btn = document.getElementById('btn')
@@ -25,8 +30,11 @@ btn.addEventListener('click', () => {
 export const DEFAULT_EDITOR_CONFIG: monaco.editor.IStandaloneDiffEditorConstructionOptions = {
   theme: "vs-dark",
   renderWhitespace: "none",
+  // automaticLayout: true,
   fontLigatures: true,
   selectionHighlight: false,
+  // @ts-ignore
+  "bracketPairColorization.enabled": false,
   scrollBeyondLastLine: false,
   fontFamily: "JetBrains Mono",
   fontWeight: "400",
@@ -34,8 +42,8 @@ export const DEFAULT_EDITOR_CONFIG: monaco.editor.IStandaloneDiffEditorConstruct
   quickSuggestions: false,
   renderLineHighlight: "none",
   wordWrap: "on",
-  renderSideBySide: false,
   wrappingStrategy: "advanced",
+  renderSideBySide: false,
   codeLens: false,
   folding: false,
   matchBrackets: "never",
