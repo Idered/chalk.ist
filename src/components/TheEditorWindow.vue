@@ -275,7 +275,7 @@ const setEditorLanguage = (language: string) => {
         :model-value="blockItem.rowSpan"
         use-opaque-background
         @update:model-value="blockItem.rowSpan = $event"
-        :label="(option) => `${option.value} ${option.value > 1 ? 'rows' : 'row'}`"
+        :label="(option) => `${option.value} ${typeof option.value === 'number' && option.value > 1 ? 'rows' : 'row'}`"
         :options="[
           {
             label: '1',

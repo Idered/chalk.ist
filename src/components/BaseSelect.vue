@@ -99,7 +99,6 @@ const direction = computed(() => {
   if (!isOpen.value || !dropdown.value || !element.value) return "down";
   const bbox = dropdown.value.getBoundingClientRect();
   const elementBBox = element.value.getBoundingClientRect();
-  console.log(elementBBox.y + elementOffsetHeight.value, bbox.y + bbox.height);
   return elementBBox.y + elementOffsetHeight.value < bbox.y + bbox.height ? "up" : "down";
 });
 const maxHeight = computed(() => {
