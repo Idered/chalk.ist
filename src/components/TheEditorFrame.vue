@@ -10,6 +10,7 @@ import { Theme, createTheme } from "~/composables/theme-utils";
 import * as themes from "~/themes";
 import TheEditorWindow from "./TheEditorWindow.vue";
 import TheFooter from "./TheFooter.vue";
+import ParticlesBg from "./ParticlesBg.vue";
 
 const hotTheme = ref();
 
@@ -169,19 +170,22 @@ function handleCopy() {
             paddingBottom: `${preview ? preview.paddingY : store.paddingY}px`,
           }"
         >
-          <div class="grid grid-cols-12 gap-4">
-            <div
-              v-for="block in store.blocks"
-              :key="block.id"
-              :style="{
-                gridColumn: `span ${block.columnSpan}`,
-                gridRow: `span ${block.rowSpan}`,
-              }"
-            >
-              <TheEditorWindow class="h-full" :block-id="block.id" :theme="theme" />
+          <ParticlesBg />
+          <div>
+            <div class="grid grid-cols-12 gap-4">
+              <div
+                v-for="block in store.blocks"
+                :key="block.id"
+                :style="{
+                  gridColumn: `span ${block.columnSpan}`,
+                  gridRow: `span ${block.rowSpan}`,
+                }"
+              >
+                <TheEditorWindow class="h-full" :block-id="block.id" :theme="theme" />
+              </div>
             </div>
+            <TheFooter />
           </div>
-          <TheFooter />
         </div>
       </div>
     </div>

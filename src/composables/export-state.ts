@@ -11,4 +11,4 @@ export enum ExportState {
   CopyFailure,
 }
 
-export const exportState = ref(ExportState.Idle);
+export const exportState = ref(ExportState.PreparingToDownload);
