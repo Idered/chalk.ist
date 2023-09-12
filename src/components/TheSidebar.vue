@@ -406,7 +406,7 @@ function setFontFamily(fontFamily: string) {
                     class="accent-blue-700"
                     type="range"
                     min="16"
-                    max="256"
+                    max="128"
                     step="8"
                     :value="store.paddingX"
                     @input="store.paddingX = parseInt(($event.target as HTMLInputElement).value)"

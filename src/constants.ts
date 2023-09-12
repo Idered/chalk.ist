@@ -13,7 +13,7 @@ export const FRAME_STYLES = [
   { value: "variant-4", label: "Variant 4" },
 ];
 export const MAX_FRAME_WIDTH = 1600;
-export const MIN_FRAME_WIDTH = 520;
+export const MIN_FRAME_WIDTH = 320;
 export const DEFAULT_THEME = "chrome";
 export const DEFAULT_CONTENT = `const btn = document.getElementById('btn')
 let count = 0

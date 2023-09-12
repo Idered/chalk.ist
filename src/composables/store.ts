@@ -1,5 +1,5 @@
 import { useStorage } from "@vueuse/core";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { BlockType, DEFAULT_CONTENT, DEFAULT_THEME, MIN_FRAME_WIDTH } from "~/constants";
 import { WindowControls } from "~/types";
 import { v4 } from "uuid";
@@ -37,33 +37,6 @@ export const store = useStorage("chalk-store", {
       columnSpan: 12,
       rowSpan: 1,
     },
-    // {
-    //   id: v4(),
-    //   content: DEFAULT_CONTENT,
-    //   language: "typescript",
-    //   type: BlockType.Code,
-    //   title: "",
-    //   columnSpan: 4,
-    //   rowSpan: 1,
-    // },
-    // {
-    //   id: v4(),
-    //   content: DEFAULT_CONTENT,
-    //   type: BlockType.Code,
-    //   language: "typescript",
-    //   title: "",
-    //   columnSpan: 6,
-    //   rowSpan: 1,
-    // },
-    // {
-    //   id: v4(),
-    //   content: DEFAULT_CONTENT,
-    //   type: BlockType.Code,
-    //   language: "typescript",
-    //   title: "",
-    //   columnSpan: 6,
-    //   rowSpan: 1,
-    // },
   ],
   language: "typescript",
   name: "",
@@ -89,24 +62,7 @@ export const store = useStorage("chalk-store", {
   content: DEFAULT_CONTENT,
 });
 
-export const editorWidth = computed(
-  () =>
-    (preview.value ? preview.value.frameWidth : store.value.frameWidth) -
-    (preview.value ? preview.value.paddingX : store.value.paddingX) * 2 -
-    20 * 2
-);
 export const isExporting = ref(false);
-// export const theme = ref(
-//   createTheme((themes as Record<string, Theme>)[preview.value ? preview.value.theme : store.value.currentTheme])
-// );
-
-// watch(
-//   () => store.value.currentTheme,
-//   async (newTheme) => {
-//     await nextTick();
-//     theme.value = createTheme((themes as Record<string, Theme>)[newTheme]);
-//   }
-// );
 
 // Data migrations
 store.value.blocks = store.value.blocks ?? [
@@ -132,12 +88,6 @@ store.value.currentTheme = ["vercel", "redline"].includes(store.value.currentThe
   ? DEFAULT_THEME
   : store.value.currentTheme;
 
-// if (import.meta.hot) {
-//   import.meta.hot.accept("../themes/index.ts", (newModule) => {
-//     theme.value = createTheme((newModule as Record<string, Theme>)[store.value.currentTheme]);
-//   });
-// }
-
 export function moveBlock(blockId: string, moveBy: number) {
   const blocks = store.value.blocks;
   const index = blocks.findIndex((e) => e.id === blockId);
@@ -151,7 +101,7 @@ export function addEditorBlock() {
   store.value.blocks.push({
     id: v4(),
     content: DEFAULT_CONTENT,
-    type: BlockType.Code, 
+    type: BlockType.Code,
     language: "typescript",
     title: "",
     columnSpan: 12,

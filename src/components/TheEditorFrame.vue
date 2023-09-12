@@ -33,7 +33,9 @@ watch(theme, () => {
 const container = ref<HTMLDivElement>();
 const editorFrame = ref<HTMLDivElement>();
 const { width: containerWidth } = useElementSize(container);
-const frameWidth = computed(() => (preview.value ? preview.value.frameWidth : store.value.frameWidth));
+const frameWidth = computed(() =>
+  preview.value ? preview.value.frameWidth : store.value.frameWidth + store.value.paddingX * 2
+);
 const resizeStartX = ref(0);
 const resizeStartWidth = ref(0);
 const activeResizeHandle = ref<"left" | "right" | null>(null);
@@ -86,12 +88,7 @@ function handleCopy() {
         'sm:items-center h-auto': frameWidth < containerWidth,
       }"
     >
-      <div
-        ref="editorFrame"
-        data-editor-frame
-        class="grid justify-items-center items-center relative"
-        :style="{ width: `${frameWidth}px` }"
-      >
+      <div ref="editorFrame" data-editor-frame class="relative" :style="{ width: `${frameWidth}px` }">
         <BaseButton
           v-if="preview"
           class="px-4 absolute top-full left-0 mt-2 bg-emerald-600/30 text-emerald-500 hover:bg-emerald-600/40 group"

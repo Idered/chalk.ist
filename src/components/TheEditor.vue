@@ -8,7 +8,7 @@ import CssWorker from "monaco-editor/esm/vs/language/css/css.worker?worker";
 import JSONWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
 import HtmlWorker from "monaco-editor/esm/vs/language/html/html.worker?worker";
 import TsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
-import { editorWidth, preview, store } from "~/composables/store";
+import { preview, store } from "~/composables/store";
 import { DEFAULT_EDITOR_CONFIG } from "~/constants";
 import { CompiledTheme } from "~/composables/theme-utils";
 
@@ -105,7 +105,6 @@ onMounted(async () => {
   const autoHeight = async () => {
     if (!activeContainer.value) return;
     const contentHeight = getEditorHeight();
-    activeContainer.value.style.width = `${editorWidth.value}px`;
     activeContainer.value.style.height = `${contentHeight}px`;
     if (props.width) {
       activeEditor.value.layout({ width: props.width, height: contentHeight });
@@ -115,12 +114,6 @@ onMounted(async () => {
   editor.onDidContentSizeChange(autoHeight);
 
   if (!preview.value) {
-    watch(editorWidth, (width) => {
-      if (!activeContainer.value) return;
-      activeContainer.value.style.width = `${width}px`;
-      activeEditor.value.layout({ width, height: parseInt(activeContainer.value.style.height, 10) });
-    });
-
     editor.onDidChangeModelContent(() => {
       blockItem.value.content = editor.getModel()?.getValue() || "";
       diffEditorOriginalModel.setValue(blockItem.value.content);
@@ -179,7 +172,6 @@ onMounted(async () => {
       await nextTick();
       if (!activeContainer.value) return;
       const height = getEditorHeight();
-      activeContainer.value.style.width = `${editorWidth.value}px`;
       activeContainer.value.style.height = `${height}px`;
       activeEditor.value.layout();
       monaco.editor.setModelLanguage(editorModel, data.language);
