@@ -35,12 +35,12 @@ dependencies:
   fuse.js:
     specifier: 6.5.3
     version: 6.5.3
-  html-to-image:
-    specifier: 1.9.0
-    version: 1.9.0
   marked:
     specifier: 0.6.0
     version: 0.6.0
+  modern-screenshot:
+    specifier: 4.4.9
+    version: 4.4.9
   monaco-editor:
     specifier: 0.35.0
     version: 0.35.0
@@ -3031,10 +3031,6 @@ packages:
       uglify-js: 3.17.4
     dev: true
 
-  /html-to-image@1.9.0:
-    resolution: {integrity: sha512-9gaDCIYg62Ek07F2pBk76AHgYZ2gxq2YALU7rK3gNCqXuhu6cWzsOQqM7qGbjZiOzxGzrU1deDqZpAod2NEwbA==}
-    dev: false
-
   /html5parser@2.0.2:
     resolution: {integrity: sha512-L0y+IdTVxHsovmye8MBtFgBvWZnq1C9WnI/SmJszxoQjmUH1psX2uzDk21O5k5et6udxdGjwxkbmT9eVRoG05w==}
     dependencies:
@@ -3499,6 +3495,10 @@ packages:
   /minimist@1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
     dev: true
+
+  /modern-screenshot@4.4.9:
+    resolution: {integrity: sha512-WpQ3+OZIbjd7f8oHwHdrh8rI4W3e/eOWN1hOn42MFhdrCU8jb6GORWlxAFhN9X72MCo14fsADbg+875ChbqzTw==}
+    dev: false
 
   /monaco-editor@0.35.0:
     resolution: {integrity: sha512-BJfkAZ0EJ7JgrgWzqjfBNP9hPSS8NlfECEDMEIIiozV2UaPq22yeuOjgbd3TwMh3anH0krWZirXZfn8KUSxiOA==}

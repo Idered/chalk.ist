@@ -111,3 +111,77 @@ export const AVAILABLE_LANGUAGES = [
     ],
   },
 ]; //.sort((a, b) => a.label.localeCompare(b.label));
+
+export const COLUMN_OPTIONS = [
+  {
+    label: "2/12",
+    value: 2,
+  },
+  {
+    label: "3/12",
+    value: 3,
+  },
+  {
+    label: "4/12",
+    value: 4,
+  },
+  {
+    label: "5/12",
+    value: 5,
+  },
+  {
+    label: "6/12",
+    value: 6,
+  },
+  {
+    label: "7/12",
+    value: 7,
+  },
+  {
+    label: "8/12",
+    value: 8,
+  },
+  {
+    label: "9/12",
+    value: 9,
+  },
+  {
+    label: "10/12",
+    value: 10,
+  },
+  {
+    label: "11/12",
+    value: 11,
+  },
+  {
+    label: "12/12",
+    value: 12,
+  },
+];
+
+export const ROW_OPTIONS = [
+  {
+    label: "1",
+    value: 1,
+  },
+  {
+    label: "2",
+    value: 2,
+  },
+  {
+    label: "3",
+    value: 3,
+  },
+  {
+    label: "4",
+    value: 4,
+  },
+  {
+    label: "5",
+    value: 5,
+  },
+  {
+    label: "6",
+    value: 6,
+  },
+];
