@@ -16,7 +16,7 @@ import { Theme } from "~/composables/theme-utils";
 import { exportState, ExportState } from "~/composables/export-state";
 import { resizeImage, cropImage } from "~/composables/image";
 import { WindowControls } from "~/types";
-import * as htmlToImage from "html-to-image";
+import { domToBlob } from "modern-screenshot";
 
 const isExpanded = ref(false);
 const timeout = ref();
@@ -45,40 +45,38 @@ const downloadPng = (blob: Blob | null) => {
   }, 1000);
 };
 
-const copyToClipboard = (blob: Blob | null) => {
-  if (!blob) return;
-  try {
-    const item = new ClipboardItem({ "image/png": blob });
-    navigator.clipboard.write([item]);
-    exportState.value = ExportState.JustCopied;
-    clearTimeout(timeout.value);
-    timeout.value = setTimeout(() => {
-      exportState.value = ExportState.Idle;
-    }, 1000);
-  } catch {
-    exportState.value = ExportState.CopyFailure;
-    clearTimeout(timeout.value);
-    timeout.value = setTimeout(() => {
-      exportState.value = ExportState.Idle;
-    }, 1000);
-  }
-};
-
-const handleCopy = async () => {
-  const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
-  if (!frame) return;
-  umami.trackEvent("Copy to Clipboard", "export");
-  exportState.value = ExportState.PreparingToCopy;
-  isExporting.value = true;
-  await nextTick();
-  htmlToImage
-    .toBlob(frame, {
-      // fontEmbedCSS: fontEmbedCSS.value,
-    })
-    .then(function (blob) {
-      isExporting.value = false;
-      copyToClipboard(blob);
-    });
+const handleCopy = () => {
+  navigator.clipboard.write([
+    new ClipboardItem({
+      "image/png": new Promise(async (resolve) => {
+        const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
+        if (!frame) return;
+        umami.trackEvent("Copy to Clipboard", "export");
+        exportState.value = ExportState.PreparingToCopy;
+        isExporting.value = true;
+        await nextTick();
+        domToBlob(frame, {
+          scale: 2,
+        })
+          .then((blob) => {
+            isExporting.value = false;
+            exportState.value = ExportState.JustCopied;
+            clearTimeout(timeout.value);
+            timeout.value = setTimeout(() => {
+              exportState.value = ExportState.Idle;
+            }, 1000);
+            resolve(blob);
+          })
+          .catch(() => {
+            exportState.value = ExportState.CopyFailure;
+            clearTimeout(timeout.value);
+            timeout.value = setTimeout(() => {
+              exportState.value = ExportState.Idle;
+            }, 1000);
+          });
+      }),
+    }),
+  ]);
 };
 
 // const handleCopyLink = async () => {
@@ -122,7 +120,7 @@ const handleDownload = async () => {
   exportState.value = ExportState.PreparingToDownload;
   isExporting.value = true;
   await nextTick();
-  htmlToImage.toBlob(frame).then(function (blob) {
+  domToBlob(frame).then((blob) => {
     isExporting.value = false;
     downloadPng(blob);
   });

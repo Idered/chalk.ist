@@ -178,7 +178,7 @@ function handleCopy() {
                 gridRow: `span ${block.rowSpan}`,
               }"
             >
-              <TheEditorWindow class="h-full" :block-id="block.id" :theme="theme" />
+              <TheEditorWindow :block-id="block.id" :theme="theme" />
             </div>
           </div>
           <TheFooter />

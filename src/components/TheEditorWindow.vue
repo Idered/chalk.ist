@@ -6,7 +6,7 @@ import { CompiledTheme } from "~/composables/theme-utils";
 import { ExportState, exportState } from "~/composables/export-state";
 import { useElementSize } from "@vueuse/core";
 import { computed, ref } from "vue";
-import { AVAILABLE_LANGUAGES } from "~/constants";
+import { AVAILABLE_LANGUAGES, ROW_OPTIONS, COLUMN_OPTIONS } from "~/constants";
 import BaseSelect from "./BaseSelect.vue";
 import IconChevronDown from "./IconChevronDown.vue";
 
@@ -34,52 +34,46 @@ const setEditorLanguage = (language: string) => {
     :class="{
       'bg-black/80': !theme.appStyle,
     }"
-    :style="theme.appStyle"
+    :style="[
+      theme.appStyle || {},
+      theme.windowVariants === false
+        ? {}
+        : {
+            none: '',
+            'variant-1': {
+              boxShadow: `
+                0 0 0px 1px rgba(17, 4, 14, ${theme.shadowsOpacity}),
+                inset 0 0 0 1px rgba(255,255,255,${theme.lightsOpacity}),
+                0 0 18px 1px rgba(0,0,0,.6)
+              `,
+            },
+            'variant-2': {
+              boxShadow: `
+                0px 0px 0px 1px rgba(17, 4, 14, ${theme.shadowsOpacity}),
+                inset 0 1px 0 rgba(255,255,255,${theme.lightsOpacity}),
+                0px 0px 18px 1px rgba(0,0,0,.6)
+              `,
+            },
+            'variant-3': {
+              boxShadow: `
+                0 0 0px 1px rgba(17, 4, 14, ${theme.shadowsOpacity}),
+                0 0 18px 1px rgba(0,0,0,.6)
+              `,
+            },
+            'variant-4': {
+              boxShadow: theme.shadow
+                ? `
+                  5px 8.5px 3.3px -10px hsla(${theme.shadow}, 0.24),
+                  8.7px 14.6px 8.7px -10px hsla(${theme.shadow}, 0.24),
+                  12.1px 20.4px 18.2px -10px hsla(${theme.shadow}, 0.30),
+                  18.8px 31.6px 36.5px -10px hsla(${theme.shadow}, 0.46),
+                  60px 101px 90px -10px hsla(${theme.shadow}, 0.7)
+                `
+                : undefined,
+            },
+          }[store.windowStyle] || {},
+    ]"
   >
-    <div
-      class="absolute inset-0 transition-shadow rounded-md pointer-events-none"
-      :class="{
-        // 'shadow-app': store.showBackground,
-      }"
-      :style="
-        theme.windowVariants === false
-          ? ''
-          : {
-              none: '',
-              'variant-1': {
-                boxShadow: `
-                          0 0 0px 1px rgba(17, 4, 14, ${theme.shadowsOpacity}),
-                          inset 0 0 0 1px rgba(255,255,255,${theme.lightsOpacity}),
-                          0 0 18px 1px rgba(0,0,0,.6)
-                        `,
-              },
-              'variant-2': {
-                boxShadow: `
-                          0 0 0px 1px rgba(17, 4, 14, ${theme.shadowsOpacity}),
-                          inset 0 1px 0 rgba(255,255,255,${theme.lightsOpacity}),
-                          0 0 18px 1px rgba(0,0,0,.6)
-                        `,
-              },
-              'variant-3': {
-                boxShadow: `
-                          0 0 0px 1px rgba(17, 4, 14, ${theme.shadowsOpacity}),
-                          0 0 18px 1px rgba(0,0,0,.6)
-                        `,
-              },
-              'variant-4': {
-                boxShadow: theme.shadow
-                  ? `
-                          5px 8.5px 3.3px -10px hsla(${theme.shadow}, 0.24),
-                          8.7px 14.6px 8.7px -10px hsla(${theme.shadow}, 0.24),
-                          12.1px 20.4px 18.2px -10px hsla(${theme.shadow}, 0.30),
-                          18.8px 31.6px 36.5px -10px hsla(${theme.shadow}, 0.46),
-                          60px 101px 90px -10px hsla(${theme.shadow}, 0.7)
-                        `
-                  : undefined,
-              },
-            }[store.windowStyle] || ''
-      "
-    ></div>
     <div
       class="absolute inset-0 overflow-hidden pointer-events-none rounded-md transition"
       :class="{
@@ -90,7 +84,7 @@ const setEditorLanguage = (language: string) => {
         <path d="M0 0H100L47 172H0V0Z" fill="url(#paint0_linear_47_2)" />
         <defs>
           <linearGradient id="paint0_linear_47_2" x1="50" y1="0" x2="50" y2="100" gradientUnits="userSpaceOnUse">
-            <stop stop-color="white" stop-opacity="0.035" />
+            <stop stop-color="white" stop-opacity=".035" />
             <stop offset="1" stop-color="white" stop-opacity="0" />
           </linearGradient>
         </defs>
@@ -222,52 +216,7 @@ const setEditorLanguage = (language: string) => {
         :model-value="blockItem.columnSpan"
         @update:model-value="blockItem.columnSpan = $event"
         :label="(option) => `${option.value} columns`"
-        :options="[
-          {
-            label: '2/12',
-            value: 2,
-          },
-          {
-            label: '3/12',
-            value: 3,
-          },
-          {
-            label: '4/12',
-            value: 4,
-          },
-          {
-            label: '5/12',
-            value: 5,
-          },
-          {
-            label: '6/12',
-            value: 6,
-          },
-          {
-            label: '7/12',
-            value: 7,
-          },
-          {
-            label: '8/12',
-            value: 8,
-          },
-          {
-            label: '9/12',
-            value: 9,
-          },
-          {
-            label: '10/12',
-            value: 10,
-          },
-          {
-            label: '11/12',
-            value: 11,
-          },
-          {
-            label: '12/12',
-            value: 12,
-          },
-        ]"
+        :options="COLUMN_OPTIONS"
       />
 
       <BaseSelect
@@ -276,32 +225,7 @@ const setEditorLanguage = (language: string) => {
         use-opaque-background
         @update:model-value="blockItem.rowSpan = $event"
         :label="(option) => `${option.value} ${typeof option.value === 'number' && option.value > 1 ? 'rows' : 'row'}`"
-        :options="[
-          {
-            label: '1',
-            value: 1,
-          },
-          {
-            label: '2',
-            value: 2,
-          },
-          {
-            label: '3',
-            value: 3,
-          },
-          {
-            label: '4',
-            value: 4,
-          },
-          {
-            label: '5',
-            value: 5,
-          },
-          {
-            label: '6',
-            value: 6,
-          },
-        ]"
+        :options="ROW_OPTIONS"
       />
 
       <BaseSelect
