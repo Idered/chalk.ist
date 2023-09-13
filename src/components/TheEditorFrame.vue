@@ -151,7 +151,7 @@ function handleCopy() {
           />
         </div>
 
-        <div class="absolute inset-0 bg-slate-800 overflow-hidden">
+        <div class="absolute inset-0 overflow-hidden">
           <div
             class="absolute bg-frame inset-0 transition"
             :class="{
