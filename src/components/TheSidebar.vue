@@ -120,7 +120,9 @@ const handleDownload = async () => {
   exportState.value = ExportState.PreparingToDownload;
   isExporting.value = true;
   await nextTick();
-  domToBlob(frame).then((blob) => {
+  domToBlob(frame, {
+    scale: 2,
+  }).then((blob) => {
     isExporting.value = false;
     downloadPng(blob);
   });
