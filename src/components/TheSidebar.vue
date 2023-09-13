@@ -45,6 +45,36 @@ const downloadPng = (blob: Blob | null) => {
   }, 1000);
 };
 
+const handleGIFExport = () => {
+  const element = document.querySelector<HTMLDivElement>("[data-editor-frame]")!;
+
+  // Step 2: Create a MediaStream object
+  const stream = element.captureStream();
+
+  // Step 3: Create a MediaRecorder object
+  const mediaRecorder = new MediaRecorder(stream);
+
+  // Step 4: Define event handlers
+  let recordedChunks = [];
+  mediaRecorder.addEventListener("dataavailable", (event) => {
+    if (event.data.size > 0) {
+      recordedChunks.push(event.data);
+    }
+  });
+  mediaRecorder.addEventListener("stop", () => {
+    const recordedBlob = new Blob(recordedChunks, { type: "video/webm" });
+    // Do something with the recorded blob, for example, upload it to a server
+  });
+
+  // Step 5: Start the recording
+  mediaRecorder.start();
+
+  // Step 6: Stop the recording when desired (e.g., after a certain duration)
+  setTimeout(() => {
+    mediaRecorder.stop();
+  }, 100);
+};
+
 const handleCopy = () => {
   navigator.clipboard.write([
     new ClipboardItem({
@@ -55,10 +85,12 @@ const handleCopy = () => {
         exportState.value = ExportState.PreparingToCopy;
         isExporting.value = true;
         await nextTick();
+        console.time("domToBlob");
         domToBlob(frame, {
           scale: 2,
         })
           .then((blob) => {
+            console.timeEnd("domToBlob");
             isExporting.value = false;
             exportState.value = ExportState.JustCopied;
             clearTimeout(timeout.value);
@@ -495,6 +527,13 @@ function setFontFamily(fontFamily: string) {
                   : "Download PNG"
               }}
             </span>
+          </BaseButton>
+          <BaseButton
+            class="px-4 w-full bg-rose-500/30 text-rose-300 hover:bg-rose-500/40 group"
+            @click="handleGIFExport"
+          >
+            <IconDownload width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
+            <span class="truncate"> Export GIF </span>
           </BaseButton>
         </div>
 

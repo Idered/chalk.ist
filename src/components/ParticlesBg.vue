@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 
+defineProps<{
+  width: number;
+  height: number;
+}>();
+
 const TOTAL_PARTICLES = 10;
 let canvas = ref<HTMLCanvasElement | null>(null);
 
@@ -80,5 +85,5 @@ onMounted(() => {
 </script>
 
 <template>
-  <canvas ref="canvas" class="absolute inset-0 opacity-50" width="662" height="396"></canvas>
+  <canvas ref="canvas" class="absolute inset-0 opacity-50" :width="width" :height="height" />
 </template>

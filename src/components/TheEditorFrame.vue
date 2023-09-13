@@ -170,7 +170,7 @@ function handleCopy() {
             paddingBottom: `${preview ? preview.paddingY : store.paddingY}px`,
           }"
         >
-          <ParticlesBg />
+          <ParticlesBg :width="frameWidth" :height="frameHeight" />
           <div>
             <div class="grid grid-cols-12 gap-4">
               <div
