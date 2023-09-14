@@ -528,7 +528,7 @@ function setFontFamily(fontFamily: string) {
                 <div class="grid gap-x-2 grid-flow-col text-sm">
                   <input
                     id="paddingX"
-                    class="accent-blue-700"
+                    class="accent-blue-700 w-full"
                     type="range"
                     min="16"
                     max="128"
@@ -544,7 +544,7 @@ function setFontFamily(fontFamily: string) {
                 <div class="grid gap-x-2 grid-flow-col text-sm">
                   <input
                     id="paddingY"
-                    class="accent-blue-700"
+                    class="accent-blue-700 w-full"
                     type="range"
                     min="16"
                     max="128"
@@ -577,6 +577,7 @@ function setFontFamily(fontFamily: string) {
             </span>
           </BaseButton> -->
           <BaseButton
+            v-if="!isFirefox"
             class="px-4 w-full hidden sm:flex bg-emerald-600/30 text-emerald-500 hover:bg-emerald-600/40 group"
             @click="handleCopy"
           >
