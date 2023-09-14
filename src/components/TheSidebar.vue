@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import screenshotWorkerUrl from "modern-screenshot/worker?url";
 import { Muxer, ArrayBufferTarget } from "mp4-muxer";
-import { nextTick, reactive, ref } from "vue";
+import { computed, nextTick, reactive, ref } from "vue";
 import { OnClickOutside } from "@vueuse/components";
 import { addEditorBlock, isExporting, store } from "~/composables/store";
 import * as themes from "~/themes";
@@ -32,6 +32,11 @@ const { height: expandableContentHeight } = useElementSize(expandableContent);
 //   if (!frame) return;
 //   fontEmbedCSS.value = await htmlToImage.getFontEmbedCSS(frame);
 // });
+
+const canDownloadVideo = computed(() => {
+  const MAXIMUM_CODEC_AREA = 2097152;
+  return store.value.showParticles && store.value.frameHeight * store.value.frameWidth < MAXIMUM_CODEC_AREA;
+});
 
 const downloadPng = (blob: Blob | null) => {
   if (!blob) return;
@@ -606,13 +611,13 @@ function setFontFamily(fontFamily: string) {
           <BaseButton
             class="px-4 w-full bg-blue-500/30 text-blue-300 hover:bg-blue-500/40 group disabled:bg-blue-300/10 disabled:text-blue-300/40 disabled:cursor-not-allowed"
             @click="handleVideoExport"
-            :disabled="!store.showParticles"
+            :disabled="!canDownloadVideo"
           >
             <IconDownload width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
             <span v-if="exportState === ExportState.Idle" class="truncate"
               >Download MP4
               <span
-                v-if="store.showParticles"
+                v-if="canDownloadVideo"
                 class="uppercase text-[11px] tracking-wider bg-blue-400 px-1 rounded-sm ml-2 text-blue-900"
                 >Beta</span
               ></span
