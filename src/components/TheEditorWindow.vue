@@ -138,7 +138,7 @@ const setEditorLanguage = (language: string) => {
       <div v-if="(preview || store).windowControls === WindowControls.None"></div>
 
       <input
-        v-if="[ExportState.Idle, ExportState.JustCopied].includes(exportState) || blockItem.title"
+        v-if="[ExportState.Idle, ExportState.JustCopied].includes(exportState) || blockItem.title.trim()"
         :value="blockItem.title"
         @input="blockItem.title = ($event.target as HTMLInputElement).value"
         placeholder="Untitled"
