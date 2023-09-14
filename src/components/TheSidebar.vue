@@ -33,6 +33,18 @@ const { height: expandableContentHeight } = useElementSize(expandableContent);
 //   fontEmbedCSS.value = await htmlToImage.getFontEmbedCSS(frame);
 // });
 
+const isSafari = computed(() => {
+  return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+});
+
+const isFirefox = computed(() => {
+  return navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
+});
+
+const hideVideoExport = computed(() => {
+  return isSafari.value || isFirefox.value;
+});
+
 const canDownloadVideo = computed(() => {
   const MAXIMUM_CODEC_AREA = 2097152;
   const w = (store.value.frameWidth + store.value.paddingX * 2) * 2;
@@ -611,6 +623,7 @@ function setFontFamily(fontFamily: string) {
           </BaseButton>
 
           <BaseButton
+            v-if="!hideVideoExport"
             class="px-4 w-full bg-blue-500/30 text-blue-300 hover:bg-blue-500/40 group disabled:bg-blue-300/10 disabled:text-blue-300/40 disabled:cursor-not-allowed"
             @click="handleVideoExport"
             :disabled="!canDownloadVideo"
