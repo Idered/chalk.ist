@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { OnClickOutside } from "@vueuse/components";
-import { useWindowSize } from "@vueuse/core";
-import { computed, onMounted, PropType, ref, watch } from "vue";
+import { ComponentPublicInstance, computed, nextTick, PropType, ref, watch } from "vue";
 import IconChevronDown from "./IconChevronDown.vue";
 import { useFuse } from "@vueuse/integrations/useFuse";
 import IconCheck from "./IconCheck.vue";
 import BaseInput from "./BaseInput.vue";
+import { PopoverClose, PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } from "radix-vue";
 
 type Option = {
   value: string | number;
@@ -55,35 +55,13 @@ const props = defineProps({
   },
 });
 
-const dropdown = ref<HTMLElement>();
 const activeIndex = ref(-1);
+const inputRef = ref<ComponentPublicInstance<typeof BaseInput>>();
 const search = ref("");
 const isOpen = ref(false);
 const isFocused = ref(false);
+const originalValue = ref<string | number>("");
 
-function getClosestWithOverflowHidden(element?: HTMLElement) {
-  if (!element) return null;
-  let currentElement = element.parentElement;
-
-  while (currentElement) {
-    const computedStyle = window.getComputedStyle(currentElement);
-
-    if (computedStyle.overflow === "hidden") {
-      return currentElement;
-    }
-
-    currentElement = currentElement.parentElement;
-  }
-
-  return null; // If no ancestor element with overflow: hidden is found
-}
-
-const container = ref<HTMLElement>();
-const element = ref<HTMLElement | null>();
-onMounted(() => {
-  element.value = getClosestWithOverflowHidden(container.value);
-});
-const { height: windowHeight } = useWindowSize();
 const flatOptions = computed(() => {
   return props.options.flatMap((option) => {
     if ("group" in option) {
@@ -92,27 +70,7 @@ const flatOptions = computed(() => {
     return option;
   });
 });
-const elementOffsetHeight = computed(() => {
-  return element.value?.offsetHeight || windowHeight.value;
-});
-const direction = computed(() => {
-  if (!isOpen.value || !dropdown.value || !element.value) return "down";
-  const bbox = dropdown.value.getBoundingClientRect();
-  const elementBBox = element.value.getBoundingClientRect();
-  return elementBBox.y + elementOffsetHeight.value < bbox.y + bbox.height ? "up" : "down";
-});
-const maxHeight = computed(() => {
-  if (!isOpen || !dropdown.value || !element.value) return "none";
-  const bbox = dropdown.value.getBoundingClientRect();
-  const elementBBox = element.value.getBoundingClientRect();
-  if (direction.value === "down") {
-    return elementOffsetHeight.value + elementBBox.y - bbox.y - 24;
-  } else {
-    return bbox.top - elementBBox.y - 28 - 8 - 16 - 24;
-  }
-  // const difference = (elementOffsetHeight.value || windowHeight.value) - (bbox.bottom - bbox.height - bbox.y || 0);
-  // return difference < 0 ? dropdown.value.clientHeight + difference - 16 : "up";
-});
+
 const groups = computed(() => {
   let index = 1;
   const result = [] as (OptionGroup & { index: number })[];
@@ -130,10 +88,17 @@ const groups = computed(() => {
   }
   return result;
 });
+
 const selected = computed(() => {
   return flatOptions.value.find((option) => option.value === props.modelValue);
 });
-const originalValue = ref<string | number>("");
+
+const value = computed(() => {
+  if (isFocused.value) return search.value;
+  if (selected.value) return props.label(selected.value);
+  return "";
+});
+
 const { results } = useFuse(search, flatOptions, {
   matchAllWhenSearchEmpty: true,
   fuseOptions: {
@@ -141,11 +106,24 @@ const { results } = useFuse(search, flatOptions, {
   },
 });
 
-function open() {
+watch(activeIndex, (index) => {
+  if (!isOpen.value || !props.previewOnFocus) return;
+  // if (results.value[index]?.item.type === "divider") return;
+  // if (results.value[index]?.item.onSelect) return;
+  if (results.value[index]) {
+    emit("update:modelValue", results.value[index]?.item.value);
+  } else {
+    emit("update:modelValue", originalValue.value);
+  }
+});
+
+async function open() {
   activeIndex.value = -1;
   isOpen.value = true;
   isFocused.value = true;
   originalValue.value = props.modelValue;
+  await nextTick();
+  inputRef.value?.$el.focus?.();
 }
 
 function close() {
@@ -161,150 +139,140 @@ function handleSelect(option: Option) {
   close();
 }
 
-const value = computed(() => {
-  if (isFocused.value) return search.value;
-  if (selected.value) return props.label(selected.value);
-  return "";
-});
-
-watch(activeIndex, (index) => {
-  if (!isOpen.value || !props.previewOnFocus) return;
-  // if (results.value[index]?.item.type === "divider") return;
-  // if (results.value[index]?.item.onSelect) return;
-  if (results.value[index]) {
-    emit("update:modelValue", results.value[index]?.item.value);
-  } else {
-    emit("update:modelValue", originalValue.value);
+function handleKeyDown(e: KeyboardEvent) {
+  if (!isOpen.value && !["Enter", "ArrowDown", "ArrowUp", "Space"].includes(e.code)) {
+    return;
   }
-});
+  if (!isOpen.value && e.code !== "Tab") {
+    e.preventDefault();
+    return open();
+  }
+  switch (e.code) {
+    case "Tab":
+      return close();
+    case "ArrowDown":
+      activeIndex.value = activeIndex.value + 1 < results.value.length ? activeIndex.value + 1 : 0;
+      break;
+    case "ArrowUp":
+      activeIndex.value = activeIndex.value - 1 >= 0 ? activeIndex.value - 1 : results.value.length - 1;
+      break;
+    case "Enter":
+      if (activeIndex.value > -1) {
+        originalValue.value = results.value[activeIndex.value].item.value;
+        emit("update:modelValue", results.value[activeIndex.value].item.value);
+      } else if (results.value.length) {
+        originalValue.value = results.value[0].item.value;
+        emit("update:modelValue", results.value[0].item.value);
+      }
+      return close();
+    case "Escape":
+      return close();
+    default:
+      break;
+  }
+}
 </script>
 
 <template>
   <OnClickOutside @trigger="close">
-    <div class="relative font-mono" @keyup.esc="close" ref="container">
-      <BaseInput
-        role="combobox"
-        :id="id"
-        :aria-expanded="isOpen"
-        type="text"
-        :readonly="!isOpen"
-        :disabled="disabled"
-        @click="open"
-        @keydown="
-          (e: KeyboardEvent) => {
-            if (!isOpen && !['Enter', 'ArrowDown', 'ArrowUp', 'Space'].includes(e.code)) {
-              return;
-            }
-            if (!isOpen && e.code !== 'Tab') {
-              e.preventDefault();
-              return open();
-            }
-            switch (e.code) {
-              case 'Tab':
-                return close();
-              case 'ArrowDown':
-                activeIndex = activeIndex + 1 < results.length ? activeIndex + 1 : 0;
-                break;
-              case 'ArrowUp':
-                activeIndex = activeIndex - 1 >= 0 ? activeIndex - 1 : results.length - 1;
-                break;
-              case 'Enter':
-                if (activeIndex > -1) {
-                  originalValue = results[activeIndex].item.value;
-                  $emit('update:modelValue', results[activeIndex].item.value);
-                } else if (results.length) {
-                  originalValue = results[0].item.value;
-                  $emit('update:modelValue', results[0].item.value);
+    <PopoverRoot
+      :open="isOpen"
+      @update:open="(value: boolean) => {
+        if (value) {
+          open();
+        } else {
+          close();
+        }
+      }"
+    >
+      <PopoverTrigger class="relative w-full">
+        <BaseInput
+          :aria-expanded="isOpen"
+          :disabled="disabled"
+          :id="id"
+          :model-value="value"
+          :placeholder="isFocused ? 'Search' : selected?.label"
+          :readonly="!isOpen"
+          @keydown="handleKeyDown"
+          @keyup.esc="close"
+          @update:model-value="search = $event"
+          role="combobox"
+          type="text"
+          ref="inputRef"
+          :class="
+            useOpaqueBackground
+              ? {
+                  'opacity-50 cursor-not-allowed': disabled,
+                  'bg-slate-900': isFocused,
+                  'cursor-pointer bg-slate-800/60 shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px]':
+                    !isFocused,
+                  'placeholder-slate-600/50': isFocused,
                 }
-                return close();
-              case 'Escape':
-                return close();
-              default:
-                break;
-            }
-          }
-        "
-        @keyup.esc="close"
-        :model-value="value"
-        @update:model-value="search = $event"
-        :placeholder="isFocused ? 'Search' : selected?.label"
-        :class="
-          useOpaqueBackground
-            ? {
-                'opacity-50 cursor-not-allowed': disabled,
-                'bg-slate-900': isFocused,
-                'cursor-pointer bg-slate-800/60 shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px]':
-                  !isFocused,
-                'placeholder-slate-600/50': isFocused,
-              }
-            : {
-                'opacity-50 cursor-not-allowed': disabled,
-                'bg-slate-900': isFocused,
-                'cursor-pointer bg-slate-800 shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px]':
-                  !isFocused,
-                'placeholder-slate-600/50': isFocused,
-              }
-        "
-      />
-
-      <IconChevronDown
-        height="12"
-        class="pointer-events-none absolute right-2 top-1/2 -mt-[6px] transition-transform"
-        :class="{
-          'rotate-180': !isFocused,
-        }"
-      />
-
-      <transition appear>
-        <div
-          ref="dropdown"
-          v-if="isOpen"
-          class="absolute z-50 grid overflow-auto p-1 border border-slate-700 bg-slate-800 rounded-md w-full shadow-[rgba(0,0,0,0.25)_0px_14px_28px,rgba(0,0,0,0.22)_0px_10px_10px]"
-          :style="{
-            maxHeight: `${maxHeight === 'none' ? 'none' : maxHeight + 'px'}`,
-          }"
-          :class="{
-            'top-full translate-y-2': direction === 'down',
-            'bottom-full -translate-y-2': direction === 'up',
-          }"
-          @mouseleave="
-            () => {
-              activeIndex = -1;
-            }
+              : {
+                  'opacity-50 cursor-not-allowed': disabled,
+                  'bg-slate-900': isFocused,
+                  'cursor-pointer bg-slate-800 shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px]':
+                    !isFocused,
+                  'placeholder-slate-600/50': isFocused,
+                }
           "
-        >
-          <div
-            v-for="(result, i) in results"
-            @click="handleSelect(result.item)"
-            class="text-xs font-medium px-2 h-6 pl-6 grid items-center cursor-pointer transition-colors relative"
-            :class="{
-              'text-white': i === activeIndex,
-            }"
-            @mouseenter="activeIndex = i"
-          >
-            <IconCheck width="12" class="absolute left-2" v-if="modelValue === result.item.value" />
-            {{ result.item.label }}
-          </div>
-          <div
-            v-if="!search"
-            v-for="item in groups"
-            :key="item.group"
-            class="text-xs opacity-50 pl-2 font-medium px-2 h-6 grid items-center cursor-pointer transition-colors"
-            :style="{
-              gridRowStart: item.index,
-            }"
-          >
-            {{ item.group }}
-          </div>
-          <div
-            v-if="results.length === 0"
-            class="text-xs font-medium px-2 h-6 grid items-center hover:text-white cursor-pointer transition-colors"
-          >
-            No results
-          </div>
-        </div>
-      </transition>
-    </div>
+        />
+
+        <IconChevronDown
+          height="12"
+          class="pointer-events-none absolute right-2 top-1/2 -mt-[6px] transition-transform"
+          :class="{
+            'rotate-180': !isFocused,
+          }"
+        />
+      </PopoverTrigger>
+
+      <PopoverPortal>
+        <PopoverContent class="z-50 relative translate-y-2">
+          <transition appear>
+            <div
+              class="grid overflow-auto font-mono p-1 border border-slate-700 bg-slate-800 rounded-md shadow-[rgba(0,0,0,0.25)_0px_14px_28px,rgba(0,0,0,0.22)_0px_10px_10px] w-[var(--radix-popper-anchor-width)] max-h-[calc(var(--radix-popover-content-available-height)-16px)]"
+              @mouseleave="
+                () => {
+                  activeIndex = -1;
+                }
+              "
+            >
+              <div
+                v-for="(result, i) in results"
+                @click="handleSelect(result.item)"
+                class="text-xs font-medium px-2 h-6 pl-6 grid items-center cursor-pointer transition-colors relative"
+                :class="{
+                  'text-white': i === activeIndex,
+                }"
+                @mouseenter="activeIndex = i"
+              >
+                <IconCheck width="12" class="absolute left-2" v-if="modelValue === result.item.value" />
+                {{ result.item.label }}
+              </div>
+              <div
+                v-if="!search"
+                v-for="item in groups"
+                :key="item.group"
+                class="text-xs opacity-50 pl-2 font-medium px-2 h-6 grid items-center cursor-pointer transition-colors"
+                :style="{
+                  gridRowStart: item.index,
+                }"
+              >
+                {{ item.group }}
+              </div>
+              <div
+                v-if="results.length === 0"
+                class="text-xs font-medium px-2 h-6 grid items-center hover:text-white cursor-pointer transition-colors"
+              >
+                No results
+              </div>
+            </div>
+          </transition>
+          <PopoverClose />
+        </PopoverContent>
+      </PopoverPortal>
+    </PopoverRoot>
   </OnClickOutside>
 </template>
 

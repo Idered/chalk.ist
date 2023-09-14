@@ -173,12 +173,21 @@ const handleCopy = () => {
         exportState.value = ExportState.PreparingToCopy;
         isExporting.value = true;
         await nextTick();
-        console.time("domToBlob");
         domToBlob(frame, {
           scale: 2,
+          filter: (element) => {
+            const el = element as HTMLElement;
+            if (
+              (el.tagName === "CANVAS" && !el.classList?.contains("particles-bg")) ||
+              el.classList?.contains("minimap") ||
+              el.classList?.contains("slider")
+            ) {
+              return false;
+            }
+            return true;
+          },
         })
           .then((blob) => {
-            console.timeEnd("domToBlob");
             isExporting.value = false;
             exportState.value = ExportState.JustCopied;
             clearTimeout(timeout.value);
@@ -403,6 +412,28 @@ function setFontFamily(fontFamily: string) {
                 />
               </div>
 
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label class="font-semibold text-xs select-none cursor-pointer" for="showLineNumbers"
+                  >Line numbers</label
+                >
+                <BaseSwitch v-model="store.showLineNumbers" id="showLineNumbers" />
+              </div>
+
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label class="font-semibold text-xs select-none cursor-pointer" for="showParticles">Particles</label>
+                <BaseSwitch v-model="store.showParticles" id="showParticles" />
+              </div>
+
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label class="font-semibold text-xs select-none cursor-pointer" for="showBackground">Background</label>
+                <BaseSwitch v-model="store.showBackground" id="showBackground" />
+              </div>
+
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label class="font-semibold text-xs select-none cursor-pointer" for="reflection">Reflection</label>
+                <BaseSwitch v-model="store.reflection" id="reflection" />
+              </div>
+
               <div class="grid grid-flow-col gap-y-2 items-center grid-cols-[1fr_auto_auto] gap-x-2">
                 <label class="font-semibold text-xs select-none cursor-pointer" for="showTwitterBadge"
                   >Twitter Badge</label
@@ -499,28 +530,6 @@ function setFontFamily(fontFamily: string) {
                     v-model="store.username"
                   />
                 </div>
-              </div>
-
-              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-                <label class="font-semibold text-xs select-none cursor-pointer" for="showLineNumbers"
-                  >Line numbers</label
-                >
-                <BaseSwitch v-model="store.showLineNumbers" id="showLineNumbers" />
-              </div>
-
-              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-                <label class="font-semibold text-xs select-none cursor-pointer" for="showParticles">Particles</label>
-                <BaseSwitch v-model="store.showParticles" id="showParticles" />
-              </div>
-
-              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-                <label class="font-semibold text-xs select-none cursor-pointer" for="showBackground">Background</label>
-                <BaseSwitch v-model="store.showBackground" id="showBackground" />
-              </div>
-
-              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-                <label class="font-semibold text-xs select-none cursor-pointer" for="reflection">Reflection</label>
-                <BaseSwitch v-model="store.reflection" id="reflection" />
               </div>
 
               <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
