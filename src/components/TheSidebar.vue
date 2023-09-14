@@ -35,7 +35,9 @@ const { height: expandableContentHeight } = useElementSize(expandableContent);
 
 const canDownloadVideo = computed(() => {
   const MAXIMUM_CODEC_AREA = 2097152;
-  return store.value.showParticles && store.value.frameHeight * store.value.frameWidth < MAXIMUM_CODEC_AREA;
+  const w = (store.value.frameWidth + store.value.paddingX * 2) * 2;
+  const h = (store.value.frameHeight + store.value.paddingY * 2) * 2;
+  return store.value.showParticles && w * h < MAXIMUM_CODEC_AREA;
 });
 
 const downloadPng = (blob: Blob | null) => {
@@ -57,7 +59,12 @@ const videoExportProgress = reactive({
 });
 
 const handleVideoExport = async () => {
-  exportState.value = ExportState.PreparingToDownloadVideo;
+  const fps = 30;
+  const durationInSeconds = 5;
+  videoExportProgress.totalFrames = fps * durationInSeconds;
+  const frameCount = fps * durationInSeconds;
+  const delayBetweenFrames = 1000 / fps;
+  const frames = [] as HTMLCanvasElement[];
   const element = document.querySelector<HTMLDivElement>("[data-editor-frame]")!;
   const context = await createContext(element, {
     workerUrl: screenshotWorkerUrl as unknown as string,
@@ -66,7 +73,6 @@ const handleVideoExport = async () => {
     font: {
       preferredFormat: "woff2",
     },
-    debug: true,
     filter: (element) => {
       const el = element as HTMLElement;
       if (
@@ -106,12 +112,8 @@ const handleVideoExport = async () => {
     latencyMode: "quality",
   });
 
-  const fps = 30;
-  const durationInSeconds = 5;
-  videoExportProgress.totalFrames = fps * durationInSeconds;
-  const frameCount = fps * durationInSeconds;
-  const delayBetweenFrames = 1000 / fps;
-  const frames = [] as HTMLCanvasElement[];
+  exportState.value = ExportState.PreparingToDownloadVideo;
+
   for (let i = 0; i < frameCount; i++) {
     videoExportProgress.currentFrame = i;
     const image = await domToCanvas(context);
@@ -614,7 +616,16 @@ function setFontFamily(fontFamily: string) {
             :disabled="!canDownloadVideo"
           >
             <IconDownload width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
-            <span v-if="exportState === ExportState.Idle" class="truncate"
+
+            <template v-if="exportState === ExportState.PreparingToDownloadVideo">
+              <span v-if="videoExportProgress.currentFrame + 1 !== videoExportProgress.totalFrames" class="truncate">
+                Preparing frames
+                {{ Math.round(((videoExportProgress.currentFrame + 1) / videoExportProgress.totalFrames) * 100) }}%
+              </span>
+              <span v-else class="truncate">Encoding...</span>
+            </template>
+            <span v-else-if="exportState === ExportState.JustDownloadedVideo" class="truncate">Downloaded!</span>
+            <span v-else class="truncate"
               >Download MP4
               <span
                 v-if="canDownloadVideo"
@@ -622,12 +633,6 @@ function setFontFamily(fontFamily: string) {
                 >Beta</span
               ></span
             >
-            <span v-else-if="videoExportProgress.currentFrame + 1 !== videoExportProgress.totalFrames" class="truncate">
-              Preparing frames
-              {{ Math.round(((videoExportProgress.currentFrame + 1) / videoExportProgress.totalFrames) * 100) }}%
-            </span>
-            <span v-else-if="exportState === ExportState.JustDownloadedVideo" class="truncate">Downloaded!</span>
-            <span v-else class="truncate">Encoding...</span>
           </BaseButton>
         </div>
 
