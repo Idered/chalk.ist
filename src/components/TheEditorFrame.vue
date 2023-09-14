@@ -78,7 +78,7 @@ function handleCopy() {
 </script>
 
 <template>
-  <div data-editor-frame-container ref="container" class="overflow-y-auto overflow-x-hidden grid p-1">
+  <div data-editor-frame-container ref="container" class="overflow-y-auto overflow-x-hidden grid p-1 font-sans">
     <div
       class="grid justify-items-center items-start h-0"
       :style="{
@@ -170,7 +170,7 @@ function handleCopy() {
             paddingBottom: `${preview ? preview.paddingY : store.paddingY}px`,
           }"
         >
-          <ParticlesBg :width="frameWidth" :height="frameHeight" />
+          <ParticlesBg v-if="store.showParticles" :width="frameWidth" :height="frameHeight" />
           <div>
             <div class="grid grid-cols-12 gap-4">
               <div

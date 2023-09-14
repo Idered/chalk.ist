@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { nextTick, ref } from "vue";
+import screenshotWorkerUrl from "modern-screenshot/worker?url";
+import { Muxer, ArrayBufferTarget } from "mp4-muxer";
+import { nextTick, reactive, ref } from "vue";
 import { OnClickOutside } from "@vueuse/components";
 import { addEditorBlock, isExporting, store } from "~/composables/store";
 import * as themes from "~/themes";
@@ -16,7 +18,7 @@ import { Theme } from "~/composables/theme-utils";
 import { exportState, ExportState } from "~/composables/export-state";
 import { resizeImage, cropImage } from "~/composables/image";
 import { WindowControls } from "~/types";
-import { domToBlob } from "modern-screenshot";
+import { domToBlob, createContext, destroyContext, domToCanvas } from "modern-screenshot";
 
 const isExpanded = ref(false);
 const timeout = ref();
@@ -44,35 +46,102 @@ const downloadPng = (blob: Blob | null) => {
     exportState.value = ExportState.Idle;
   }, 1000);
 };
+const videoExportProgress = reactive({
+  currentFrame: 0,
+  totalFrames: 0,
+});
 
-const handleGIFExport = () => {
+const handleVideoExport = async () => {
+  exportState.value = ExportState.PreparingToDownloadVideo;
   const element = document.querySelector<HTMLDivElement>("[data-editor-frame]")!;
-
-  // Step 2: Create a MediaStream object
-  const stream = element.captureStream();
-
-  // Step 3: Create a MediaRecorder object
-  const mediaRecorder = new MediaRecorder(stream);
-
-  // Step 4: Define event handlers
-  let recordedChunks = [];
-  mediaRecorder.addEventListener("dataavailable", (event) => {
-    if (event.data.size > 0) {
-      recordedChunks.push(event.data);
-    }
+  const context = await createContext(element, {
+    workerUrl: screenshotWorkerUrl as unknown as string,
+    scale: 2,
+    workerNumber: 1,
+    font: {
+      preferredFormat: "woff2",
+    },
+    debug: true,
+    filter: (element) => {
+      const el = element as HTMLElement;
+      if (
+        (el.tagName === "CANVAS" && !el.classList?.contains("particles-bg")) ||
+        el.classList?.contains("minimap") ||
+        el.classList?.contains("slider")
+      ) {
+        return false;
+      }
+      return true;
+    },
   });
-  mediaRecorder.addEventListener("stop", () => {
-    const recordedBlob = new Blob(recordedChunks, { type: "video/webm" });
-    // Do something with the recorded blob, for example, upload it to a server
+
+  const width = element.offsetWidth * 2;
+  const height = element.offsetHeight * 2;
+
+  let muxer = new Muxer({
+    target: new ArrayBufferTarget(),
+    video: {
+      codec: "avc",
+      width,
+      height,
+    },
   });
 
-  // Step 5: Start the recording
-  mediaRecorder.start();
+  let videoEncoder = new VideoEncoder({
+    output: (chunk, meta) => muxer.addVideoChunk(chunk, meta),
+    error: (error) => console.error(error),
+  });
 
-  // Step 6: Stop the recording when desired (e.g., after a certain duration)
-  setTimeout(() => {
-    mediaRecorder.stop();
-  }, 100);
+  videoEncoder.configure({
+    codec: "avc1.640028",
+    width,
+    height,
+    bitrate: 1e6,
+    framerate: 30,
+    latencyMode: "quality",
+  });
+
+  const fps = 30;
+  const durationInSeconds = 5;
+  videoExportProgress.totalFrames = fps * durationInSeconds;
+  const frameCount = fps * durationInSeconds;
+  const delayBetweenFrames = 1000 / fps;
+  const frames = [] as HTMLCanvasElement[];
+  for (let i = 0; i < frameCount; i++) {
+    videoExportProgress.currentFrame = i;
+    const image = await domToCanvas(context);
+    frames.push(image);
+    await new Promise((resolve) => setTimeout(resolve, delayBetweenFrames));
+  }
+
+  destroyContext(context);
+
+  for (let i = 0; i < frameCount; i++) {
+    const frame = frames[i];
+    const videoFrame = new VideoFrame(frame, { timestamp: (i * 1e6) / fps });
+    videoEncoder.encode(videoFrame);
+    videoFrame.close();
+  }
+
+  await videoEncoder.flush();
+  muxer.finalize();
+
+  let { buffer } = muxer.target;
+  const blob = new Blob([buffer], { type: "video/mp4" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  document.body.appendChild(a);
+  a.href = url;
+  a.download = "output.mp4";
+  a.click();
+  window.URL.revokeObjectURL(url);
+  isExporting.value = false;
+  exportState.value = ExportState.JustDownloadedVideo;
+  clearTimeout(timeout.value);
+  timeout.value = setTimeout(() => {
+    exportState.value = ExportState.Idle;
+  }, 1000);
 };
 
 const handleCopy = () => {
@@ -421,6 +490,11 @@ function setFontFamily(fontFamily: string) {
               </div>
 
               <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label class="font-semibold text-xs select-none cursor-pointer" for="showParticles">Particles</label>
+                <BaseSwitch v-model="store.showParticles" id="showParticles" />
+              </div>
+
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
                 <label class="font-semibold text-xs select-none cursor-pointer" for="showBackground">Background</label>
                 <BaseSwitch v-model="store.showBackground" id="showBackground" />
               </div>
@@ -462,10 +536,10 @@ function setFontFamily(fontFamily: string) {
                 </div>
               </div>
 
-              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+              <!-- <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
                 <label class="font-semibold text-xs select-none cursor-pointer" for="diff">Diff</label>
                 <BaseSwitch v-model="store.diff" id="diff" />
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -528,12 +602,27 @@ function setFontFamily(fontFamily: string) {
               }}
             </span>
           </BaseButton>
+
           <BaseButton
-            class="px-4 w-full bg-rose-500/30 text-rose-300 hover:bg-rose-500/40 group"
-            @click="handleGIFExport"
+            class="px-4 w-full bg-blue-500/30 text-blue-300 hover:bg-blue-500/40 group disabled:bg-blue-300/10 disabled:text-blue-300/40 disabled:cursor-not-allowed"
+            @click="handleVideoExport"
+            :disabled="!store.showParticles"
           >
             <IconDownload width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
-            <span class="truncate"> Export GIF </span>
+            <span v-if="exportState === ExportState.Idle" class="truncate"
+              >Download MP4
+              <span
+                v-if="store.showParticles"
+                class="uppercase text-[11px] tracking-wider bg-blue-400 px-1 rounded-sm ml-2 text-blue-900"
+                >Beta</span
+              ></span
+            >
+            <span v-else-if="videoExportProgress.currentFrame + 1 !== videoExportProgress.totalFrames" class="truncate">
+              Preparing frames
+              {{ Math.round(((videoExportProgress.currentFrame + 1) / videoExportProgress.totalFrames) * 100) }}%
+            </span>
+            <span v-else-if="exportState === ExportState.JustDownloadedVideo" class="truncate">Downloaded!</span>
+            <span v-else class="truncate">Encoding...</span>
           </BaseButton>
         </div>
 

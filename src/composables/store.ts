@@ -53,6 +53,7 @@ export const store = useStorage("chalk-store", {
   showBackground: true,
   reflection: true,
   showLineNumbers: true,
+  showParticles: true,
   windowControls: WindowControls.MacOutline,
   modifiedContent: "",
   paddingX: 16,
@@ -81,6 +82,8 @@ store.value.paddingX = store.value.paddingX || 32;
 store.value.paddingY = store.value.paddingY || 32;
 store.value.windowStyle = store.value.windowStyle || "variant-1";
 store.value.frameWidth = store.value.frameWidth || MIN_FRAME_WIDTH;
+store.value.showParticles = store.value.showParticles || true;
+store.value.diff = false;
 store.value.title = store.value.title || "";
 store.value.fontFamily = store.value.fontFamily || "JetBrains Mono";
 store.value.fontLigatures = store.value.fontLigatures || true;

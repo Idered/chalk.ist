@@ -138,7 +138,7 @@ const setEditorLanguage = (language: string) => {
       <div v-if="(preview || store).windowControls === WindowControls.None"></div>
 
       <input
-        v-if="exportState === ExportState.Idle || blockItem.title"
+        v-if="[ExportState.Idle, ExportState.JustCopied].includes(exportState) || blockItem.title"
         :value="blockItem.title"
         @input="blockItem.title = ($event.target as HTMLInputElement).value"
         placeholder="Untitled"
@@ -209,7 +209,10 @@ const setEditorLanguage = (language: string) => {
       <TheEditor ref="editor" :theme="theme" :block-id="blockId" :width="editorContainerWidth" />
     </div>
 
-    <div v-if="exportState === ExportState.Idle && blockItem" class="flex mb-1 gap-1 -mx-4 flex-wrap">
+    <div
+      v-if="[ExportState.Idle, ExportState.JustCopied].includes(exportState) && blockItem"
+      class="flex mb-1 gap-1 -mx-4 flex-wrap"
+    >
       <BaseSelect
         class="w-28"
         use-opaque-background

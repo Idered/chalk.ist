@@ -42,32 +42,34 @@ const blockItem = computed(() => {
 
 const editorRef = ref<monaco.editor.IStandaloneCodeEditor>();
 const container = ref<HTMLDivElement>();
-const diffContainer = ref<HTMLDivElement>();
+// const diffContainer = ref<HTMLDivElement>();
 
 onMounted(async () => {
   if (!container.value) return;
-  if (!diffContainer.value) return;
+  // if (!diffContainer.value) return;
 
   const editor = monaco.editor.create(container.value, {
     ...DEFAULT_EDITOR_CONFIG,
   });
   editorRef.value = editor;
-  const diffEditor = monaco.editor.createDiffEditor(diffContainer.value, DEFAULT_EDITOR_CONFIG);
-  const activeContainer = computed(() => (store.value.diff && !preview.value ? diffContainer.value : container.value));
-  const activeEditor = computed(() => (store.value.diff && !preview.value ? diffEditor.getModifiedEditor() : editor));
+  // const diffEditor = monaco.editor.createDiffEditor(diffContainer.value, DEFAULT_EDITOR_CONFIG);
+  const activeContainer = computed(() => container.value);
+  // const activeContainer = computed(() => (store.value.diff && !preview.value ? diffContainer.value : container.value));
+  const activeEditor = computed(() => editor);
+  // const activeEditor = computed(() => (store.value.diff && !preview.value ? diffEditor.getModifiedEditor() : editor));
   const editorModel = monaco.editor.createModel(blockItem.value.content, blockItem.value.language);
-  const diffEditorOriginalModel = monaco.editor.createModel(blockItem.value.content, blockItem.value.language);
-  const diffEditorModifiedModel = monaco.editor.createModel(blockItem.value.content, blockItem.value.language);
+  // const diffEditorOriginalModel = monaco.editor.createModel(blockItem.value.content, blockItem.value.language);
+  // const diffEditorModifiedModel = monaco.editor.createModel(blockItem.value.content, blockItem.value.language);
 
   editor.setModel(editorModel);
-  diffEditor.setModel({
-    original: diffEditorOriginalModel,
-    modified: diffEditorModifiedModel,
-  });
+  // diffEditor.setModel({
+  //   original: diffEditorOriginalModel,
+  //   modified: diffEditorModifiedModel,
+  // });
 
   editor.updateOptions({ tabSize: 2 });
-  diffEditor.getOriginalEditor().updateOptions({ tabSize: 2 });
-  diffEditor.getModifiedEditor().updateOptions({ tabSize: 2 });
+  // diffEditor.getOriginalEditor().updateOptions({ tabSize: 2 });
+  // diffEditor.getModifiedEditor().updateOptions({ tabSize: 2 });
 
   // monaco.languages
   //   .getLanguages()
@@ -116,15 +118,15 @@ onMounted(async () => {
   if (!preview.value) {
     editor.onDidChangeModelContent(() => {
       blockItem.value.content = editor.getModel()?.getValue() || "";
-      diffEditorOriginalModel.setValue(blockItem.value.content);
-      diffEditorModifiedModel.setValue(blockItem.value.content);
+      // diffEditorOriginalModel.setValue(blockItem.value.content);
+      // diffEditorModifiedModel.setValue(blockItem.value.content);
     });
 
     activeEditor.value.onDidBlurEditorWidget(() => {
       activeEditor.value.setSelection(new monaco.Selection(0, 0, 0, 0));
     });
 
-    diffEditor.getModifiedEditor().onDidContentSizeChange(autoHeight);
+    // diffEditor.getModifiedEditor().onDidContentSizeChange(autoHeight);
     autoHeight();
 
     watch(() => store.value.diff, autoHeight);
@@ -142,19 +144,19 @@ onMounted(async () => {
           lineNumbersMinChars: 1,
           lineNumbers: show ? "on" : "off",
         });
-        diffEditor.updateOptions({
-          lineDecorationsWidth: show ? 16 : 0,
-          lineNumbersMinChars: 1,
-          lineNumbers: show ? "on" : "off",
-        });
+        // diffEditor.updateOptions({
+        //   lineDecorationsWidth: show ? 16 : 0,
+        //   lineNumbersMinChars: 1,
+        //   lineNumbers: show ? "on" : "off",
+        // });
       },
       { immediate: true }
     );
 
     watchEffect(() => {
       monaco.editor.setModelLanguage(editorModel, blockItem.value?.language);
-      monaco.editor.setModelLanguage(diffEditorOriginalModel, blockItem.value?.language);
-      monaco.editor.setModelLanguage(diffEditorModifiedModel, blockItem.value?.language);
+      // monaco.editor.setModelLanguage(diffEditorOriginalModel, blockItem.value?.language);
+      // monaco.editor.setModelLanguage(diffEditorModifiedModel, blockItem.value?.language);
     });
   }
 
@@ -184,14 +186,14 @@ onMounted(async () => {
   );
 
   const source = container.value.querySelector(".monaco-editor");
-  const diffSource = diffContainer.value.querySelector(".modified-in-monaco-diff-editor");
+  // const diffSource = diffContainer.value.querySelector(".modified-in-monaco-diff-editor");
   const target = document.querySelector<HTMLDivElement>("[data-editor-frame-container]");
   const handleScroll = (event: Event): void => {
     if (!target) return;
     target.scrollTop += (event as WheelEvent).deltaY;
   };
   source?.addEventListener("wheel", handleScroll);
-  diffSource?.addEventListener("wheel", handleScroll);
+  // diffSource?.addEventListener("wheel", handleScroll);
 
   watch(() => props.width, autoHeight, {
     flush: "post",
@@ -238,8 +240,8 @@ onMounted(async () => {
       'opacity-0': !props.width,
     }"
   >
-    <div id="diff-editor" ref="diffContainer" class="-mb-3" :class="{ hidden: !store.diff }" />
-    <div id="editor" ref="container" class="-mb-3" :class="{ hidden: store.diff }" />
+    <!-- <div id="diff-editor" ref="diffContainer" class="-mb-3" /> -->
+    <div ref="container" class="-mb-3" />
   </div>
 </template>
 

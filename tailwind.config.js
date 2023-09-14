@@ -13,7 +13,7 @@ module.exports = {
         pwa: { raw: "(display-mode: standalone)" },
       },
       fontFamily: {
-        sans: ["Inter", "sans-serif"],
+        inter: ["Inter", "sans-serif"],
         mono: ["JetBrains Mono", "monospace"],
       },
       colors: {

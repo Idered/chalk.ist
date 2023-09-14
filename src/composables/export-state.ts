@@ -4,10 +4,12 @@ export enum ExportState {
   Idle,
   PreparingToCopy,
   PreparingToDownload,
+  PreparingToDownloadVideo,
   JustCopied,
   JustCopiedLink,
   JustCopiedContent,
   JustDownloaded,
+  JustDownloadedVideo,
   CopyFailure,
 }
 
