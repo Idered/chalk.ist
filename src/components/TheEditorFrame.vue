@@ -151,7 +151,12 @@ function handleCopy() {
           />
         </div>
 
-        <div class="absolute inset-0 overflow-hidden">
+        <div
+          class="absolute inset-0 overflow-hidden"
+          :class="{
+            'bg-slate-800': store.showBackground,
+          }"
+        >
           <div
             class="absolute bg-frame inset-0 transition"
             :class="{
