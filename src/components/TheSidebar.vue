@@ -18,7 +18,7 @@ import { Theme } from "~/composables/theme-utils";
 import { exportState, ExportState } from "~/composables/export-state";
 import { resizeImage, cropImage } from "~/composables/image";
 import { WindowControls } from "~/types";
-import { domToBlob, createContext, destroyContext, domToCanvas } from "modern-screenshot";
+import { domToBlob, createContext, destroyContext, domToCanvas, domToDataUrl } from "modern-screenshot";
 
 const isExpanded = ref(false);
 const timeout = ref();
@@ -69,14 +69,14 @@ const videoExportProgress = reactive({
   currentFrame: 0,
   totalFrames: 0,
 });
-
 const handleVideoExport = async () => {
   const fps = 30;
   const durationInSeconds = 5;
-  videoExportProgress.totalFrames = fps * durationInSeconds;
   const frameCount = fps * durationInSeconds;
   const delayBetweenFrames = 1000 / fps;
   const frames = [] as HTMLCanvasElement[];
+  exportState.value = ExportState.PreparingToDownloadVideo;
+  videoExportProgress.totalFrames = fps * durationInSeconds;
   const element = document.querySelector<HTMLDivElement>("[data-editor-frame]")!;
   const context = await createContext(element, {
     workerUrl: screenshotWorkerUrl as unknown as string,
@@ -123,8 +123,6 @@ const handleVideoExport = async () => {
     framerate: 30,
     latencyMode: "quality",
   });
-
-  exportState.value = ExportState.PreparingToDownloadVideo;
 
   for (let i = 0; i < frameCount; i++) {
     videoExportProgress.currentFrame = i;
@@ -285,6 +283,7 @@ function setFontFamily(fontFamily: string) {
 <template>
   <OnClickOutside @trigger="isExpanded = false">
     <aside>
+      <img :src="img" alt="" />
       <div class="sm:hidden" :style="{ height: '57px' }"></div>
       <div
         class="fixed bottom-0 inset-x-0 border-t border-slate-700 sm:border-t-0 pwa:sm:border-t pwa:sm:border-t-slate-900 pwa:sm:shadow-[inset_0_1px_0_rgb(30_30_37)] sm:border-r content-start transition-[height] sm:transition-none sm:!h-screen sm:w-[240px] sm:static bg-slate-800 sm:overflow-auto"
