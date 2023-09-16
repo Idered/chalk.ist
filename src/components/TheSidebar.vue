@@ -18,7 +18,7 @@ import { Theme } from "~/composables/theme-utils";
 import { exportState, ExportState } from "~/composables/export-state";
 import { resizeImage, cropImage } from "~/composables/image";
 import { WindowControls } from "~/types";
-import { domToBlob, createContext, destroyContext, domToCanvas, domToDataUrl } from "modern-screenshot";
+import { domToBlob, createContext, destroyContext, domToCanvas } from "modern-screenshot";
 
 const isExpanded = ref(false);
 const timeout = ref();
