@@ -152,8 +152,9 @@ const setEditorLanguage = (language: string) => {
         }"
         class="bg-transparent z-10 mt-4 border-none text-xs w-full focus:outline-none"
       />
+      <div v-else></div>
 
-      <div class="grid grid-flow-col" v-if="(preview || store).windowControls === WindowControls.Windows">
+      <div class="grid grid-flow-col justify-end" v-if="(preview || store).windowControls === WindowControls.Windows">
         <div
           class="h-8 w-10 flex items-center justify-center"
           :class="{
