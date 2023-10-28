@@ -93,6 +93,7 @@ export const AVAILABLE_LANGUAGES = [
       { value: "kotlin", label: "Kotlin" },
       { value: "java", label: "Java" },
       { value: "ruby", label: "Ruby" },
+      { value: "rust", label: "Rust" },
       { value: "sol", label: "Solidity" },
     ],
   },
