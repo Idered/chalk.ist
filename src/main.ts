@@ -23,7 +23,7 @@ import "@fontsource/source-code-pro/700.css";
 import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/700.css";
 
-// import "@fontsource/jetbrains-mono/500.css";
+import "./fonts/nova.css";
 
 const routes = setupLayouts(generatedRoutes);
 

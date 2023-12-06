@@ -58,11 +58,11 @@ export const DEFAULT_EDITOR_CONFIG: monaco.editor.IStandaloneDiffEditorConstruct
   scrollbar: { vertical: "hidden" },
 };
 
-export const AVAILABLE_FONTS = ["JetBrains Mono", "Fira Code", "Source Code Pro", "IBM Plex Mono"]
+export const AVAILABLE_FONTS = ["JetBrains Mono", "Fira Code", "Source Code Pro", "IBM Plex Mono", "Nova"]
   .map((font) => ({ value: font, label: font }))
   .sort((a, b) => a.label.localeCompare(b.label));
 
-export const LIGATURE_FONTS = ["Fira Code", "JetBrains Mono"];
+export const LIGATURE_FONTS = ["Fira Code", "JetBrains Mono", "Nova"];
 
 export const AVAILABLE_LANGUAGES = [
   {
