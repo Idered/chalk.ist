@@ -3,6 +3,7 @@ import * as monaco from "monaco-editor";
 export enum BlockType {
   Code = "code",
   Image = "image",
+  Note = "note",
 }
 
 export const FRAME_STYLES = [

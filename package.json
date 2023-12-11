@@ -17,9 +17,9 @@
     "@fontsource/inter": "4.5.10",
     "@fontsource/jetbrains-mono": "4.5.8",
     "@fontsource/source-code-pro": "4.5.14",
-    "@vueuse/components": "8.0.1",
-    "@vueuse/core": "7.7.1",
-    "@vueuse/integrations": "8.0.1",
+    "@vueuse/components": "10.4.1",
+    "@vueuse/core": "10.4.1",
+    "@vueuse/integrations": "10.4.1",
     "date-fns": "2.29.3",
     "fuse.js": "6.5.3",
     "marked": "0.6.0",
@@ -30,6 +30,7 @@
     "radix-vue": "^0.1.34",
     "uuid": "9.0.0",
     "vue": "^3.3.4",
+    "vue-demi": "0.13.11",
     "vue-router": "4.2.4"
   },
   "devDependencies": {

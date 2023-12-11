@@ -1,9 +1,7 @@
 /**
- * @typedef {import('tailwindcss/stubs/defaultConfig.stub')} BaseConfig
- * @typedef {{theme: {extend: BaseConfig['theme']}}} ExtendedTheme
- * @typedef {{variants: {extend: BaseConfig['variants']}}} ExtendedVariants
+ * @typedef {import('tailwindcss/types').Config} BaseConfig
  *
- * @type {BaseConfig & ExtendedTheme & ExtendedVariants}
+ * @type {BaseConfig}
  */
 module.exports = {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
@@ -11,6 +9,32 @@ module.exports = {
     extend: {
       screens: {
         pwa: { raw: "(display-mode: standalone)" },
+      },
+      keyframes: {
+        "shine-r": {
+          "0%": { right: "100%", opacity: 0 },
+          "50%": { opacity: 1 },
+          "90%": { right: "-10%" },
+          "100%": { opacity: 0 },
+        },
+        "shine-b": {
+          "0%": { bottom: "100%", opacity: 0 },
+          "50%": { opacity: 1 },
+          "90%": { bottom: "-10%" },
+          "100%": { opacity: 0 },
+        },
+        "shine-l": {
+          "0%": { left: "100%", opacity: 0 },
+          "50%": { opacity: 1 },
+          "90%": { left: "-10%" },
+          "100%": { opacity: 0 },
+        },
+        "shine-t": {
+          "0%": { top: "100%", opacity: 0 },
+          "50%": { opacity: 1 },
+          "90%": { top: "-10%" },
+          "100%": { opacity: 0 },
+        },
       },
       fontFamily: {
         inter: ["Inter", "sans-serif"],

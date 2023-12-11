@@ -37,7 +37,26 @@ export const store = useStorage("chalk-store", {
       columnSpan: 12,
       rowSpan: 1,
     },
-  ],
+  ] as (
+    | {
+        id: string;
+        content: string;
+        language: string;
+        type: BlockType.Code;
+        title: string;
+        columnSpan: number;
+        rowSpan: number;
+      }
+    | {
+        id: string;
+        type: BlockType.Note;
+        content: string;
+        columnSpan: number;
+        rowSpan: number;
+        fontColor: string;
+        fontSize: string;
+      }
+  )[],
   language: "typescript",
   name: "",
   username: "",
@@ -109,6 +128,18 @@ export function addEditorBlock() {
     title: "",
     columnSpan: 12,
     rowSpan: 1,
+  });
+}
+
+export function addNoteBlock() {
+  store.value.blocks.push({
+    id: v4(),
+    content: "",
+    type: BlockType.Note,
+    columnSpan: 12,
+    rowSpan: 1,
+    fontColor: "#ffffff",
+    fontSize: "20",
   });
 }
 

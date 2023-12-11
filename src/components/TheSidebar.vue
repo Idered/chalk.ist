@@ -3,7 +3,7 @@ import screenshotWorkerUrl from "modern-screenshot/worker?url";
 import { Muxer, ArrayBufferTarget } from "mp4-muxer";
 import { computed, nextTick, reactive, ref } from "vue";
 import { OnClickOutside } from "@vueuse/components";
-import { addEditorBlock, isExporting, store } from "~/composables/store";
+import { addEditorBlock, addNoteBlock, isExporting, store } from "~/composables/store";
 import * as themes from "~/themes";
 import BaseSwitch from "./BaseSwitch.vue";
 import BaseSelect from "./BaseSelect.vue";
@@ -123,13 +123,18 @@ const handleVideoExport = async () => {
     framerate: 30,
     latencyMode: "quality",
   });
-
+  console.time("frames");
   for (let i = 0; i < frameCount; i++) {
     videoExportProgress.currentFrame = i;
+    const start = performance.now();
     const image = await domToCanvas(context);
+    const end = performance.now();
     frames.push(image);
-    await new Promise((resolve) => setTimeout(resolve, delayBetweenFrames));
+    const domToCanvasTime = end - start;
+    const adjustedDelay = Math.max(0, delayBetweenFrames - domToCanvasTime);
+    await new Promise((resolve) => setTimeout(resolve, adjustedDelay));
   }
+  console.timeEnd("frames");
 
   destroyContext(context);
 
@@ -140,8 +145,10 @@ const handleVideoExport = async () => {
     videoFrame.close();
   }
 
+  console.time("encode");
   await videoEncoder.flush();
   muxer.finalize();
+  console.timeEnd("encode");
 
   let { buffer } = muxer.target;
   const blob = new Blob([buffer], { type: "video/mp4" });
@@ -343,6 +350,19 @@ function setFontFamily(fontFamily: string) {
                   </svg>
                   Add editor
                 </BaseButton>
+                <!-- <BaseButton
+                  class="px-4 w-full border border-slate-600/30 text-slate-500 hover:bg-slate-700/10 hover:border-slate-600/40 group"
+                  @click="() => addNoteBlock()"
+                  :disabled="store.blocks.length >= 16"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256">
+                    <path
+                      fill="currentColor"
+                      d="M128 20a108 108 0 1 0 108 108A108.1 108.1 0 0 0 128 20Zm0 192a84 84 0 1 1 84-84a84.1 84.1 0 0 1-84 84Zm52-84a12 12 0 0 1-12 12h-28v28a12 12 0 0 1-24 0v-28H88a12 12 0 0 1 0-24h28V88a12 12 0 0 1 24 0v28h28a12 12 0 0 1 12 12Z"
+                    />
+                  </svg>
+                  Add note
+                </BaseButton> -->
                 <!-- <button
                   @click="() => addEditorBlock()"
                   class="h-7 flex items-center justify-center disabled:opacity-50 disabled:text-white/40 text-white/60 bg-slate-800 border hover:border-slate-600/40 focus:outline-none focus:ring-[3px] focus:border-blue-800 ring-blue-900/20 border-slate-700 px-2 rounded-md shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px] text-[13px] font-mono"

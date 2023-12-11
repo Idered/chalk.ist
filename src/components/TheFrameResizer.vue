@@ -1,0 +1,47 @@
+<script setup lang="ts">
+import { useEventListener } from "@vueuse/core";
+import { ref } from "vue";
+import { ExportState, exportState } from "~/composables/export-state";
+import { preview, store } from "~/composables/store";
+import { MAX_FRAME_WIDTH, MIN_FRAME_WIDTH } from "~/constants";
+
+const resizeStartX = ref(0);
+const resizeStartWidth = ref(0);
+const activeResizeHandle = ref<"left" | "right" | null>(null);
+
+useEventListener("mouseup", () => {
+  activeResizeHandle.value = null;
+});
+
+useEventListener("mousemove", (event: MouseEvent) => {
+  if (!activeResizeHandle.value) return;
+  const direction = activeResizeHandle.value === "left" ? -1 : 1;
+  const nextWidth = resizeStartWidth.value + 2 * (event.clientX - resizeStartX.value) * direction;
+  store.value.frameWidth = Math.min(Math.max(nextWidth, MIN_FRAME_WIDTH), MAX_FRAME_WIDTH);
+});
+
+function startResize(event: MouseEvent, handle: "left" | "right") {
+  event.preventDefault();
+  activeResizeHandle.value = handle;
+  resizeStartX.value = event.clientX;
+  resizeStartWidth.value = store.value.frameWidth;
+}
+</script>
+
+<template>
+  <div
+    v-if="exportState === ExportState.Idle && !preview"
+    class="flex w-6 h-6 absolute top-1/2 z-50 -translate-y-3 -right-3 items-center justify-center group cursor-ew-resize select-none"
+    @mousedown="startResize($event, 'right')"
+  >
+    <div class="pointer-events-none w-1.5 h-1.5 bg-white rounded-full group-hover:scale-150 transition-transform" />
+  </div>
+
+  <div
+    v-if="exportState === ExportState.Idle && !preview"
+    class="flex w-6 h-6 absolute top-1/2 z-10 -translate-y-3 -left-3 items-center justify-center group cursor-ew-resize"
+    @mousedown="startResize($event, 'left')"
+  >
+    <div class="pointer-events-none w-1.5 h-1.5 bg-white rounded-full group-hover:scale-150 transition-transform" />
+  </div>
+</template>

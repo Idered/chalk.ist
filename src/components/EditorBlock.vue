@@ -4,7 +4,7 @@ import { WindowControls } from "~/types";
 import { store, preview, moveBlock, removeBlock } from "~/composables/store";
 import { CompiledTheme } from "~/composables/theme-utils";
 import { ExportState, exportState } from "~/composables/export-state";
-import { useElementSize } from "@vueuse/core";
+import { useElementSize, useIntervalFn } from "@vueuse/core";
 import { computed, ref } from "vue";
 import { AVAILABLE_LANGUAGES, ROW_OPTIONS, COLUMN_OPTIONS } from "~/constants";
 import BaseSelect from "./BaseSelect.vue";
@@ -25,6 +25,32 @@ const setEditorLanguage = (language: string) => {
   if (!blockItem.value) return;
   blockItem.value.language = language;
 };
+
+const highlights = ref<
+  {
+    start: number;
+    size: number;
+    duration: number;
+  }[]
+>([]);
+
+function randomBetween(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+useIntervalFn(
+  () => {
+    highlights.value.push({
+      start: randomBetween(0, 50),
+      size: randomBetween(20, 200),
+      duration: randomBetween(1000, 3000),
+    });
+  },
+  1500,
+  {
+    immediate: true,
+  }
+);
 </script>
 
 <template>
@@ -74,6 +100,53 @@ const setEditorLanguage = (language: string) => {
           }[store.windowStyle] || {},
     ]"
   >
+    <div class="absolute inset-0 [--base-delay:0] overflow-hidden rounded-md pointer-events-none">
+      <!-- <div
+        v-if="store.windowStyle === 'variant-1' || store.windowStyle === 'variant-2'"
+        v-for="item in highlights"
+        :style="{
+          '--start': item.start,
+          '--size': item.size,
+          '--duration': `${item.duration}ms`,
+        }"
+        class="right-[calc(1%*var(--start))] top-0 h-px w-[calc(1px*var(--size))] delay-[calc(var(--base-delay)+400ms)] bg-gradient-to-r from-[rgba(255,255,255,0)] to-[rgba(255,255,255,0.4)] animate-[shine-r_var(--duration)_cubic-bezier(.4,0,.6,1)] absolute duration-[--duration]"
+        @animationend="($event.target as HTMLDivElement)?.remove()"
+      ></div> -->
+
+      <!-- <div
+        v-for="item in highlights"
+        :style="{
+          '--start': item.start,
+          '--size': item.size,
+          '--duration': `${item.duration}ms`,
+        }"
+        class="right-[calc(1%*var(--start))] bottom-0 h-px w-[calc(1px*var(--size))] delay-[calc(var(--base-delay)+400ms)] bg-gradient-to-l from-[rgba(255,255,255,0)] to-[rgba(255,255,255,0.4)] animate-[shine-l_var(--duration)_cubic-bezier(.4,0,.6,1)] absolute duration-[--duration]"
+        @animationend="($event.target as HTMLDivElement)?.remove()"
+      ></div> -->
+
+      <!-- <div
+        v-for="item in highlights"
+        :style="{
+          '--start': item.start,
+          '--size': item.size,
+          '--duration': `${item.duration}ms`,
+        }"
+        class="top-[calc(1%*var(--start))] left-0 w-px h-[calc(1px*var(--size))] delay-[calc(var(--base-delay)+400ms)] bg-gradient-to-t from-[rgba(255,255,255,0)] to-[rgba(255,255,255,0.4)] animate-[shine-t_var(--duration)_cubic-bezier(.4,0,.6,1)] absolute duration-[--duration]"
+        @animationend="($event.target as HTMLDivElement)?.remove()"
+      ></div> -->
+
+      <!-- <div
+        v-for="item in highlights"
+        :style="{
+          '--start': item.start,
+          '--size': item.size,
+          '--duration': `${item.duration}ms`,
+        }"
+        class="bottom-[calc(1%*var(--start))] right-0 w-px h-[calc(1px*var(--size))] delay-[calc(var(--base-delay)+400ms)] bg-gradient-to-b from-[rgba(255,255,255,0)] to-[rgba(255,255,255,0.4)] animate-[shine-b_var(--duration)_cubic-bezier(.4,0,.6,1)] absolute duration-[--duration]"
+        @animationend="($event.target as HTMLDivElement)?.remove()"
+      ></div> -->
+    </div>
+
     <div
       class="absolute inset-0 overflow-hidden pointer-events-none rounded-md transition"
       :class="{
