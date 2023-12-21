@@ -185,7 +185,7 @@ function handleKeyDown(e: KeyboardEvent) {
         }
       }"
     >
-      <PopoverTrigger class="relative w-full">
+      <PopoverTrigger class="relative w-full" tabindex="-1">
         <BaseInput
           :aria-expanded="isOpen"
           :disabled="disabled"

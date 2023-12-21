@@ -30,4 +30,4 @@ dist-ssr
 *.sln
 *.sw?
 
-src/themes/.dev
+.dev

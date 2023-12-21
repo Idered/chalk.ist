@@ -3,8 +3,7 @@ import screenshotWorkerUrl from "modern-screenshot/worker?url";
 import { Muxer, ArrayBufferTarget } from "mp4-muxer";
 import { computed, nextTick, reactive, ref } from "vue";
 import { OnClickOutside } from "@vueuse/components";
-import { addEditorBlock, addNoteBlock, isExporting, store } from "~/composables/store";
-import * as themes from "~/themes";
+import { addEditorBlock, isExporting, store } from "~/composables/store";
 import BaseSwitch from "./BaseSwitch.vue";
 import BaseSelect from "./BaseSelect.vue";
 import { AVAILABLE_FONTS, FRAME_STYLES, LIGATURE_FONTS } from "~/constants";
@@ -14,24 +13,18 @@ import IconDownload from "./IconDownload.vue";
 import IconClipboard from "./IconClipboard.vue";
 import IconChevronDown from "./IconChevronDown.vue";
 import { useElementSize } from "@vueuse/core";
-import { Theme } from "~/composables/theme-utils";
-import { exportState, ExportState } from "~/composables/export-state";
+import { exportState } from "~/composables/export-state";
+import { ExportState } from "~/enums";
 import { resizeImage, cropImage } from "~/composables/image";
-import { WindowControls } from "~/types";
+import { WindowControls } from "~/enums";
 import { domToBlob, createContext, destroyContext, domToCanvas } from "modern-screenshot";
+import { Backdrops } from "~/lib/backdrops";
+import { themes } from "~/lib/themes";
 
 const isExpanded = ref(false);
 const timeout = ref();
 const expandableContent = ref();
 const { height: expandableContentHeight } = useElementSize(expandableContent);
-
-// const fontEmbedCSS = ref("");
-
-// onMounted(async () => {
-//   const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
-//   if (!frame) return;
-//   fontEmbedCSS.value = await htmlToImage.getFontEmbedCSS(frame);
-// });
 
 const isSafari = computed(() => {
   return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
@@ -46,7 +39,7 @@ const hideVideoExport = computed(() => {
 });
 
 const canDownloadVideo = computed(() => {
-  const MAXIMUM_CODEC_AREA = 2097152;
+  const MAXIMUM_CODEC_AREA = 2_097_152;
   const w = (store.value.frameWidth + store.value.paddingX * 2) * 2;
   const h = (store.value.frameHeight + store.value.paddingY * 2) * 2;
   return store.value.showParticles && w * h < MAXIMUM_CODEC_AREA;
@@ -65,11 +58,13 @@ const downloadPng = (blob: Blob | null) => {
     exportState.value = ExportState.Idle;
   }, 1000);
 };
+
 const videoExportProgress = reactive({
   currentFrame: 0,
   totalFrames: 0,
 });
-const handleVideoExport = async () => {
+
+async function handleVideoExport() {
   const fps = 30;
   const durationInSeconds = 5;
   const frameCount = fps * durationInSeconds;
@@ -166,9 +161,9 @@ const handleVideoExport = async () => {
   timeout.value = setTimeout(() => {
     exportState.value = ExportState.Idle;
   }, 1000);
-};
+}
 
-const handleCopy = () => {
+function handleCopy() {
   navigator.clipboard.write([
     new ClipboardItem({
       "image/png": new Promise(async (resolve) => {
@@ -211,7 +206,7 @@ const handleCopy = () => {
       }),
     }),
   ]);
-};
+}
 
 // const handleCopyLink = async () => {
 //   const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
@@ -247,39 +242,32 @@ const handleCopy = () => {
 //   }, 1000);
 // };
 
-const handleDownload = async () => {
+async function handleDownload() {
   const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
   if (!frame) return;
   umami.trackEvent("Download PNG", "export");
   exportState.value = ExportState.PreparingToDownload;
   isExporting.value = true;
   await nextTick();
-  domToBlob(frame, {
-    scale: 2,
-  }).then((blob) => {
-    isExporting.value = false;
-    downloadPng(blob);
-  });
-};
+  const blob = await domToBlob(frame, { scale: 2 });
+  isExporting.value = false;
+  downloadPng(blob);
+}
 
 function handlePicture(event: Event) {
   const target = event.target as HTMLInputElement;
-  if (target.files) {
-    const file = target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      const croppedImage = await cropImage(reader.result as string, 1);
-      const resizedImage = await resizeImage(croppedImage, 56 * 2);
-      store.value.picture = resizedImage.toDataURL(file.type);
-    };
-    reader.readAsDataURL(file);
+  if (!target.files) {
+    return;
   }
-}
-
-function setTheme(theme: Theme, event: MouseEvent) {
-  store.value.currentTheme = theme.key;
-  store.value.useAltBackground = event.altKey;
+  const file = target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    const croppedImage = await cropImage(reader.result as string, 1);
+    const resizedImage = await resizeImage(croppedImage, 56 * 2);
+    store.value.picture = resizedImage.toDataURL(file.type);
+  };
+  reader.readAsDataURL(file);
 }
 
 function setFontFamily(fontFamily: string) {
@@ -300,87 +288,83 @@ function setFontFamily(fontFamily: string) {
         <div ref="expandableContent">
           <div class="grid gap-y-5 px-3 py-4">
             <div class="grid gap-y-2 justify-start">
-              <label class="font-semibold text-xs">Theme</label>
-              <div class="grid items-center gap-2 grid-flow-col sm:grid-flow-row sm:grid-cols-4">
+
+              <p class="text-[10px] uppercase font-bold tracking-wider flex items-center">
+                <hr class="border-y flex-1 mr-2 border-b-slate-700 border-t-slate-950">
+                <span>Background</span> 
+                <hr class="border-y flex-1 ml-2 border-b-slate-700 border-t-slate-950">
+              </p>
+
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label class="font-semibold text-xs select-none cursor-pointer" for="showBackground">Backdrop</label>
+                <BaseSwitch v-model="store.showBackground" id="showBackground" />
+              </div>
+              <div class="flex flex-wrap sm:grid items-center gap-2 sm:grid-flow-row sm:grid-cols-4">
                 <button
-                  v-for="theme in themes"
-                  @click="setTheme(theme, $event)"
+                  v-for="(item, key) in Backdrops"
+                  @click="store.backdrop = key"
                   class="group rounded-full focus:outline-none"
-                  :title="`Use ${theme.name} theme`"
+                  :title="`Use ${key} backdrop`"
                 >
                   <div
-                    class="w-12 h-6 rounded group-hover:opacity-100 transition group-hover:scale-105 group-active:scale-95 group-focus:shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] group-focus:ring-[3px] ring-blue-800"
-                    :class="{
-                      'opacity-50': store.currentTheme !== theme.key,
-                    }"
-                    :style="{ background: theme.background }"
+                    class="w-12 h-10 sm:h-6 rounded group-hover:opacity-100 transition group-hover:scale-105 group-active:scale-95 group-focus:shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] group-focus:ring-[3px] ring-blue-800"
+                    :style="{ background: item.backgroundStyle.background }"
                   ></div>
                 </button>
               </div>
-            </div>
 
-            <div class="grid gap-y-2.5">
-              <!-- <div class="grid gap-y-1">
-                <label for="language" class="font-semibold text-xs">Language</label>
-                <BaseSelect
-                  id="language"
-                  :model-value="store.language"
-                  @update:model-value="setLanguage"
-                  :options="AVAILABLE_LANGUAGES"
-                />
-              </div> -->
-
-              <div class="grid gap-1">
-                <label class="font-semibold text-xs">Layout</label>
-                <!-- <button
-                class="h-7 flex items-center justify-center disabled:opacity-50 disabled:text-white/40 text-white/60 bg-slate-800 border hover:border-slate-600/40 focus:outline-none focus:ring-[3px] focus:border-blue-800 ring-blue-900/20 border-slate-700 px-2 rounded-md shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px] text-[13px] font-mono"
-                type="button"
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label class="font-semibold text-xs select-none cursor-pointer" for="backdropNoise"
+                  >Noise</label
                 >
-              </button> -->
-                <BaseButton
-                  class="px-4 w-full border border-slate-600/30 text-slate-500 hover:bg-slate-700/10 hover:border-slate-600/40 group"
-                  @click="() => addEditorBlock()"
-                  :disabled="store.blocks.length >= 16"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256">
-                    <path
-                      fill="currentColor"
-                      d="M128 20a108 108 0 1 0 108 108A108.1 108.1 0 0 0 128 20Zm0 192a84 84 0 1 1 84-84a84.1 84.1 0 0 1-84 84Zm52-84a12 12 0 0 1-12 12h-28v28a12 12 0 0 1-24 0v-28H88a12 12 0 0 1 0-24h28V88a12 12 0 0 1 24 0v28h28a12 12 0 0 1 12 12Z"
-                    />
-                  </svg>
-                  Add editor
-                </BaseButton>
-                <!-- <BaseButton
-                  class="px-4 w-full border border-slate-600/30 text-slate-500 hover:bg-slate-700/10 hover:border-slate-600/40 group"
-                  @click="() => addNoteBlock()"
-                  :disabled="store.blocks.length >= 16"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256">
-                    <path
-                      fill="currentColor"
-                      d="M128 20a108 108 0 1 0 108 108A108.1 108.1 0 0 0 128 20Zm0 192a84 84 0 1 1 84-84a84.1 84.1 0 0 1-84 84Zm52-84a12 12 0 0 1-12 12h-28v28a12 12 0 0 1-24 0v-28H88a12 12 0 0 1 0-24h28V88a12 12 0 0 1 24 0v28h28a12 12 0 0 1 12 12Z"
-                    />
-                  </svg>
-                  Add note
-                </BaseButton> -->
-                <!-- <button
-                  @click="() => addEditorBlock()"
-                  class="h-7 flex items-center justify-center disabled:opacity-50 disabled:text-white/40 text-white/60 bg-slate-800 border hover:border-slate-600/40 focus:outline-none focus:ring-[3px] focus:border-blue-800 ring-blue-900/20 border-slate-700 px-2 rounded-md shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px] text-[13px] font-mono"
-                  type="button"
-                  title="Remove"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-2.5 mr-1" viewBox="0 0 256 256">
-                    <path
-                      fill="currentColor"
-                      d="M224 128a8 8 0 0 1-8 8h-80v80a8 8 0 0 1-16 0v-80H40a8 8 0 0 1 0-16h80V40a8 8 0 0 1 16 0v80h80a8 8 0 0 1 8 8Z"
-                    />
-                  </svg>
-                  Add image
-                </button> -->
+                <BaseSwitch v-model="store.backdropNoise" id="backdropNoise" :disabled="!store.showBackground" />
               </div>
 
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label class="font-semibold text-xs select-none cursor-pointer" for="showParticles">Particles</label>
+                <BaseSwitch v-model="store.showParticles" id="showParticles" />
+              </div>
+
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label class="font-semibold text-xs select-none cursor-pointer" for="paddingX">Padding X</label>
+                <div class="grid gap-x-2 grid-flow-col text-sm">
+                  <input
+                    id="paddingX"
+                    class="accent-blue-700 w-full"
+                    type="range"
+                    min="0"
+                    max="128"
+                    step="8"
+                    :value="store.paddingX"
+                    @input="store.paddingX = parseInt(($event.target as HTMLInputElement).value)"
+                  />
+                </div>
+              </div>
+
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label class="font-semibold text-xs select-none cursor-pointer" for="paddingY">Padding Y</label>
+                <div class="grid gap-x-2 grid-flow-col text-sm">
+                  <input
+                    id="paddingY"
+                    class="accent-blue-700 w-full"
+                    type="range"
+                    min="0"
+                    max="128"
+                    step="8"
+                    :value="store.paddingY"
+                    @input="store.paddingY = parseInt(($event.target as HTMLInputElement).value)"
+                  />
+                </div>
+              </div>
+
+              <p class="text-[10px] uppercase font-bold tracking-wider flex items-center mt-4">
+                <hr class="border-y flex-1 mr-2 border-b-slate-700 border-t-slate-950">
+                <span>Window</span> 
+                <hr class="border-y flex-1 ml-2 border-b-slate-700 border-t-slate-950">
+              </p>
+
               <div class="grid gap-y-1">
-                <label for="windowStyle" class="font-semibold text-xs">Window style</label>
+                <label for="windowStyle" class="font-semibold text-xs">Style</label>
                 <BaseSelect
                   id="windowStyle"
                   preview-on-focus
@@ -392,7 +376,7 @@ function setFontFamily(fontFamily: string) {
               </div>
 
               <div class="grid gap-y-1">
-                <label for="windowControls" class="font-semibold text-xs">Window controls</label>
+                <label for="windowControls" class="font-semibold text-xs">Controls</label>
                 <BaseSelect
                   id="windowControls"
                   preview-on-focus
@@ -405,6 +389,38 @@ function setFontFamily(fontFamily: string) {
                     { label: 'macOS - Outline', value: WindowControls.MacOutline },
                     { label: 'Windows', value: WindowControls.Windows },
                   ]"
+                />
+              </div>
+
+
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label class="font-semibold text-xs select-none cursor-pointer" for="windowNoise">Noise</label>
+                <BaseSwitch v-model="store.windowNoise" id="windowNoise" />
+              </div>
+
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label class="font-semibold text-xs select-none cursor-pointer" for="reflection">Reflection</label>
+                <BaseSwitch v-model="store.reflection" id="reflection" />
+              </div>
+
+              <p class="text-[10px] uppercase font-bold tracking-wider flex items-center mt-4">
+                <hr class="border-y flex-1 mr-2 border-b-slate-700 border-t-slate-950">
+                <span>Code Editor</span> 
+                <hr class="border-y flex-1 ml-2 border-b-slate-700 border-t-slate-950">
+              </p>
+
+              <div class="grid gap-y-1">
+                <label for="colorTheme" class="font-semibold text-xs">Color Theme</label>
+                <BaseSelect
+                  id="colorTheme"
+                  preview-on-focus
+                  :model-value="store.colorTheme"
+                  @update:model-value="store.colorTheme = $event"
+                  :options="
+                    themes
+                      .map((item) => ({ value: item.name, label: item.name }))
+                      .sort((a, b) => a.label.localeCompare(b.label))
+                  "
                 />
               </div>
 
@@ -432,25 +448,16 @@ function setFontFamily(fontFamily: string) {
 
               <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
                 <label class="font-semibold text-xs select-none cursor-pointer" for="showLineNumbers"
-                  >Line numbers</label
+                  >Line Numbers</label
                 >
                 <BaseSwitch v-model="store.showLineNumbers" id="showLineNumbers" />
               </div>
 
-              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-                <label class="font-semibold text-xs select-none cursor-pointer" for="showParticles">Particles</label>
-                <BaseSwitch v-model="store.showParticles" id="showParticles" />
-              </div>
-
-              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-                <label class="font-semibold text-xs select-none cursor-pointer" for="showBackground">Background</label>
-                <BaseSwitch v-model="store.showBackground" id="showBackground" />
-              </div>
-
-              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-                <label class="font-semibold text-xs select-none cursor-pointer" for="reflection">Reflection</label>
-                <BaseSwitch v-model="store.reflection" id="reflection" />
-              </div>
+              <p class="text-[10px] uppercase font-bold tracking-wider flex items-center mt-4">
+                <hr class="border-y flex-1 mr-2 border-b-slate-700 border-t-slate-950">
+                <span>Other</span> 
+                <hr class="border-y flex-1 ml-2 border-b-slate-700 border-t-slate-950">
+              </p>
 
               <div class="grid grid-flow-col gap-y-2 items-center grid-cols-[1fr_auto_auto] gap-x-2">
                 <label class="font-semibold text-xs select-none cursor-pointer" for="showTwitterBadge"
@@ -550,50 +557,50 @@ function setFontFamily(fontFamily: string) {
                 </div>
               </div>
 
-              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-                <label class="font-semibold text-xs select-none cursor-pointer" for="paddingX">Padding X</label>
-                <div class="grid gap-x-2 grid-flow-col text-sm">
-                  <input
-                    id="paddingX"
-                    class="accent-blue-700 w-full"
-                    type="range"
-                    min="16"
-                    max="128"
-                    step="8"
-                    :value="store.paddingX"
-                    @input="store.paddingX = parseInt(($event.target as HTMLInputElement).value)"
-                  />
-                </div>
-              </div>
+              <div class="grid gap-1">
+                <label class="font-semibold text-xs">Layout</label>
+                <BaseButton
+                  class="px-4 w-full border border-slate-600/30 text-slate-500 hover:bg-slate-700/10 hover:border-slate-600/40 group"
+                  @click="() => addEditorBlock()"
+                  :disabled="store.blocks.length >= 16"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256">
+                    <path
+                      fill="currentColor"
+                      d="M128 20a108 108 0 1 0 108 108A108.1 108.1 0 0 0 128 20Zm0 192a84 84 0 1 1 84-84a84.1 84.1 0 0 1-84 84Zm52-84a12 12 0 0 1-12 12h-28v28a12 12 0 0 1-24 0v-28H88a12 12 0 0 1 0-24h28V88a12 12 0 0 1 24 0v28h28a12 12 0 0 1 12 12Z"
+                    />
+                  </svg>
+                  Add editor
+                </BaseButton>
 
-              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-                <label class="font-semibold text-xs select-none cursor-pointer" for="paddingY">Padding Y</label>
-                <div class="grid gap-x-2 grid-flow-col text-sm">
-                  <input
-                    id="paddingY"
-                    class="accent-blue-700 w-full"
-                    type="range"
-                    min="16"
-                    max="128"
-                    step="8"
-                    :value="store.paddingY"
-                    @input="store.paddingY = parseInt(($event.target as HTMLInputElement).value)"
-                  />
-                </div>
+                <!-- <BaseButton
+                  class="px-4 w-full border border-slate-600/30 text-slate-500 hover:bg-slate-700/10 hover:border-slate-600/40 group"
+                  @click="() => addNoteBlock()"
+                  :disabled="store.blocks.length >= 16"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256">
+                    <path
+                      fill="currentColor"
+                      d="M128 20a108 108 0 1 0 108 108A108.1 108.1 0 0 0 128 20Zm0 192a84 84 0 1 1 84-84a84.1 84.1 0 0 1-84 84Zm52-84a12 12 0 0 1-12 12h-28v28a12 12 0 0 1-24 0v-28H88a12 12 0 0 1 0-24h28V88a12 12 0 0 1 24 0v28h28a12 12 0 0 1 12 12Z"
+                    />
+                  </svg>
+                  Add note
+                </BaseButton> -->
               </div>
-
-              <!-- <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-                <label class="font-semibold text-xs select-none cursor-pointer" for="diff">Diff</label>
-                <BaseSwitch v-model="store.diff" id="diff" />
-              </div> -->
             </div>
           </div>
         </div>
 
         <div
-          class="grid grid-cols-[1fr_auto_1fr] sm:grid-cols-1 gap-2 fixed inset-x-0 bottom-0 py-2 px-3 bg-slate-800 sm:static sm:bg-transparent sm:px-3 sm:py-0"
+          class="grid grid-cols-[1fr_auto] sm:grid-cols-1 gap-2 fixed inset-x-0 bottom-0 pb-2 px-3 bg-slate-800 sm:static sm:bg-transparent sm:px-3 sm:py-0"
         >
-          <label class="font-semibold text-xs hidden sm:block">Export</label>
+
+          <p class="text-[10px] uppercase font-bold tracking-wider flex items-center mt-2">
+            <hr class="border-y flex-1 mr-2 border-b-slate-700 border-t-slate-950">
+            <span>Export</span> 
+            <hr class="border-y flex-1 ml-2 border-b-slate-700 border-t-slate-950">
+          </p>
+
           <!-- <BaseButton
             class="px-4 w-full bg-blue-600/30 text-blue-500 hover:bg-blue-600/40 group"
             @click="handleCopyLink"
@@ -603,6 +610,7 @@ function setFontFamily(fontFamily: string) {
               {{ exportState === ExportState.JustCopiedLink ? "Copied!" : "Copy Link to Clipboard" }}
             </span>
           </BaseButton> -->
+
           <BaseButton
             v-if="!isFirefox"
             class="px-4 w-full hidden sm:flex bg-emerald-600/30 text-emerald-500 hover:bg-emerald-600/40 group"
@@ -621,21 +629,9 @@ function setFontFamily(fontFamily: string) {
               }}
             </span>
           </BaseButton>
+
           <BaseButton
-            class="bg-slate-700 text-slate-500 hover:bg-slate-700/80 group sm:hidden w-10 justify-center"
-            @click="isExpanded = !isExpanded"
-            square="w-10"
-          >
-            <IconChevronDown
-              width="16"
-              class="transition"
-              :class="{
-                'rotate-180': !isExpanded,
-              }"
-            />
-          </BaseButton>
-          <BaseButton
-            class="px-4 w-full bg-rose-500/30 text-rose-300 hover:bg-rose-500/40 group"
+            class="px-4 w-full bg-rose-500/30 text-rose-300 hover:bg-rose-500/40 justify-center sm:justify-start"
             @click="handleDownload"
           >
             <IconDownload width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
@@ -651,8 +647,22 @@ function setFontFamily(fontFamily: string) {
           </BaseButton>
 
           <BaseButton
+            class="bg-slate-700 text-slate-500 hover:bg-slate-700/80 group sm:hidden w-10 justify-center"
+            @click="isExpanded = !isExpanded"
+            square="w-10"
+          >
+            <IconChevronDown
+              width="16"
+              class="transition"
+              :class="{
+                'rotate-180': !isExpanded,
+              }"
+            />
+          </BaseButton>
+
+          <BaseButton
             v-if="!hideVideoExport"
-            class="px-4 w-full bg-blue-500/30 text-blue-300 hover:bg-blue-500/40 group disabled:bg-blue-300/10 disabled:text-blue-300/40 disabled:cursor-not-allowed"
+            class="px-4 w-full bg-blue-500/30 text-blue-300 hover:bg-blue-500/40 group disabled:bg-blue-300/10 disabled:text-blue-300/40 disabled:cursor-not-allowed hidden sm:flex"
             @click="handleVideoExport"
             :disabled="!canDownloadVideo"
           >
@@ -680,99 +690,28 @@ function setFontFamily(fontFamily: string) {
         <div
           class="sm:grid grid-cols-[1fr_auto_1fr] sm:grid-cols-1 gap-2 bg-slate-800 hidden sm:static sm:bg-transparent sm:px-3 sm:py-0 mt-4"
         >
-          <!-- <div class="grid grid-flow-col gap-y-2 items-center grid-cols-[1fr_auto] gap-x-2">
-            <label
-              class="font-semibold text-xs hidden sm:block"
-              :class="{
-                'opacity-0': !store.expandSupportSection,
-              }"
-              >Support</label
+          <div class="text-xs hidden sm:block text-center">
+            <span class="opacity-75">Made by</span>
+            <a
+              href="https://twitter.com/Idered"
+              class="hover:text-white transition outline-none font-medium focus:text-white"
             >
-            <BaseButton
-              class="px-2.5 font-semibold text-xs hover:bg-blue-600/40 h-5 rounded"
-              :class="{
-                'bg-slate-700 ': !store.expandSupportSection,
-                'bg-blue-600/30 text-blue-500': store.expandSupportSection,
-              }"
-              @click="store.expandSupportSection = !store.expandSupportSection"
+              Idered</a
             >
-              <IconChevronDown
-                width="12"
-                class="transition-transform"
-                :class="{
-                  'rotate-180': store.expandSupportSection,
-                }"
-              />
-            </BaseButton>
-          </div> -->
+          </div>
 
-          <div class="grid gap-y-2" v-if="store.expandSupportSection">
-            <!-- <BaseButton
-              is="a"
-              class="px-4 w-full border border-[#1da1f2]/10 text-[#1da1f2]/90 hover:border-[#1da1f2]/40 group"
-              href="https://twitter.com/intent/follow?screen_name=Idered"
-              target="_blank"
-            >
-              <IconTwitter width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
-              <span class="truncate text-slate-600">Follow on Twitter</span>
-            </BaseButton> -->
-            <!-- <BaseButton
-              is="a"
-              class="px-4 w-full border border-yellow-500/10 text-yellow-300/80 hover:border-yellow-400/40 hover:text- group"
-              href="https://www.buymeacoffee.com/idered"
-              target="_blank"
-            >
-              <IconCoffee width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
-              <span class="truncate text-slate-600">Buy me a coffee</span>
-            </BaseButton> -->
-            <!-- <label
-              class="font-semibold text-xs hidden sm:block mt-1"
-              :class="{
-                'opacity-0': !store.expandSupportSection,
-              }"
-              >Learn</label
-            > -->
-            <!-- <BaseButton
-              is="a"
-              class="px-4 w-full border border-slate-700 text-slate-600 hover:border-slate-600/40 group"
+          <div class="text-xs hidden sm:block text-center pb-4">
+            <span class="opacity-75">Source on</span>
+            <a
               href="https://github.com/Idered/chalk.ist"
-              target="_blank"
+              class="hover:text-white transition outline-none font-medium focus:text-white"
             >
-              <IconGithub width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
-              <span class="truncate">View on GitHub</span>
-            </BaseButton> -->
-            <!-- <BaseButton
-              is="a"
-              class="px-4 w-full border border-slate-700 text-slate-600 hover:border-slate-600/40 group"
-              href="https://umami.kasper.io/share/WCDyKkOU/chalk.ist"
-              target="_blank"
-            >
-              <IconAnalytics width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
-              <span class="truncate">View Analytics</span>
-            </BaseButton> -->
-
-            <div class="text-xs hidden sm:block text-center">
-              <span class="opacity-75">Made by</span>
-              <a
-                href="https://twitter.com/Idered"
-                class="hover:text-white transition outline-none font-medium focus:text-white"
-              >
-                Idered</a
-              >
-            </div>
-
-            <div class="text-xs hidden sm:block text-center pb-4">
-              <span class="opacity-75">Source on</span>
-              <a
-                href="https://github.com/Idered/chalk.ist"
-                class="hover:text-white transition outline-none font-medium focus:text-white"
-              >
-                GitHub
-              </a>
-            </div>
+              GitHub
+            </a>
           </div>
         </div>
       </div>
     </aside>
   </OnClickOutside>
 </template>
+~/lib

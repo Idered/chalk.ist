@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import TheEditorFrame from "~/components/TheEditorFrame.vue";
 import { preview } from "~/composables/store";
-import { WindowControls } from "~/types";
+import { WindowControls } from "~/enums";
 
 const props = defineProps({
   str: {

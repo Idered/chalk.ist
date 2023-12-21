@@ -1,277 +1,232 @@
 <script setup lang="ts">
-import * as monaco from "monaco-editor";
-import { computed, nextTick, onMounted, ref, watch, watchEffect } from "vue";
+import { computed, ref } from "vue";
+import { useEventListener } from "@vueuse/core";
+import { transformerNotationDiff, transformerNotationFocus } from "shikiji-transformers";
 
-import EditorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
-import { registerPHPSnippetLanguage } from "~/lib/register-php-snippet";
-import CssWorker from "monaco-editor/esm/vs/language/css/css.worker?worker";
-import JSONWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
-import HtmlWorker from "monaco-editor/esm/vs/language/html/html.worker?worker";
-import TsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
-import { preview, store } from "~/composables/store";
-import { DEFAULT_EDITOR_CONFIG } from "~/constants";
-import { CompiledTheme } from "~/composables/theme-utils";
+import { store } from "~/composables/store";
+import { BlockType } from "~/enums";
+import { useShiki } from "~/lib/shiki";
 
 const props = defineProps<{
-  theme: CompiledTheme;
-  width: number;
   blockId: string;
 }>();
 
-const blockItem = computed(() => {
-  return store.value.blocks.find((block) => block.id === props.blockId)!;
+const shiki = useShiki();
+const editor = ref<HTMLTextAreaElement>();
+const formatted = ref<HTMLDivElement>();
+const block = computed(() => store.value.blocks.find((block) => block.id === props.blockId)!);
+
+const shikiContent = computed(() => {
+  if (!shiki.value || block.value.type !== BlockType.Code) return "";
+
+  return shiki.value.codeToHtml(block.value.content, {
+    lang: block.value.language,
+    theme: store.value.colorTheme,
+    transformers: [transformerNotationDiff(), transformerNotationFocus()],
+    meta: {
+      tabindex: "-1",
+    },
+  });
 });
 
-(self as any).MonacoEnvironment = {
-  getWorker(_: string, label: string) {
-    if (["typescript", "javascript"].includes(label)) {
-      return new TsWorker();
+useEventListener(editor, "keydown", async (e) => {
+  if (!editor.value) return;
+  const key = e.key;
+  const metaKey = e.metaKey;
+  const shiftKey = e.shiftKey;
+  const textarea = editor.value;
+  const tabSize = 2; // Change this according to your preference
+  const val = textarea.value;
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+
+  const startOfLine = val.lastIndexOf("\n", start - 1) + 1;
+  let endOfLine = val.indexOf("\n", end);
+  if (endOfLine === -1) endOfLine = val.length;
+
+  if (key === "Tab") {
+    e.preventDefault();
+
+    if (shiftKey) {
+      // Handle shift + tab to de-indent
+      if (val.substring(start - tabSize, start) === " ".repeat(tabSize)) {
+        textarea.value = val.substring(0, start - tabSize) + val.substring(start);
+        textarea.selectionStart = textarea.selectionEnd = start - tabSize;
+      }
+    } else {
+      // Handle tab to indent
+      textarea.value = val.substring(0, start) + " ".repeat(tabSize) + val.substring(end);
+      textarea.selectionStart = textarea.selectionEnd = start + tabSize;
     }
-    if (["css", "scss"].includes(label)) {
-      return new CssWorker();
+    textarea.dispatchEvent(new Event("input"));
+  } else if (metaKey && (key === "]" || key === "[")) {
+    e.preventDefault();
+    if (key === "]") {
+      // Handle CMD + ] to indent
+      textarea.value = val.substring(0, startOfLine) + " ".repeat(tabSize) + val.substring(startOfLine);
+      textarea.selectionStart = textarea.selectionEnd = start + tabSize; // Shifting cursor to the right
+    } else if (key === "[") {
+      // Handle CMD + [ to de-indent
+      if (val.substring(startOfLine, startOfLine + tabSize) === " ".repeat(tabSize)) {
+        textarea.value = val.substring(0, startOfLine) + val.substring(startOfLine + tabSize);
+        textarea.selectionStart = textarea.selectionEnd = start - tabSize; // Shifting cursor to the left
+      }
     }
-    if (["html", "handlebars", "twig"].includes(label)) {
-      return new HtmlWorker();
-    }
-    if (["json", "yaml"].includes(label)) {
-      return new JSONWorker();
-    }
-    return new EditorWorker();
-  },
-};
-
-const editorRef = ref<monaco.editor.IStandaloneCodeEditor>();
-const container = ref<HTMLDivElement>();
-// const diffContainer = ref<HTMLDivElement>();
-
-onMounted(async () => {
-  if (!container.value) return;
-  // if (!diffContainer.value) return;
-
-  const editor = monaco.editor.create(container.value, {
-    ...DEFAULT_EDITOR_CONFIG,
-  });
-  editorRef.value = editor;
-  // const diffEditor = monaco.editor.createDiffEditor(diffContainer.value, DEFAULT_EDITOR_CONFIG);
-  const activeContainer = computed(() => container.value);
-  // const activeContainer = computed(() => (store.value.diff && !preview.value ? diffContainer.value : container.value));
-  const activeEditor = computed(() => editor);
-  // const activeEditor = computed(() => (store.value.diff && !preview.value ? diffEditor.getModifiedEditor() : editor));
-  const editorModel = monaco.editor.createModel(blockItem.value.content, blockItem.value.language);
-  // const diffEditorOriginalModel = monaco.editor.createModel(blockItem.value.content, blockItem.value.language);
-  // const diffEditorModifiedModel = monaco.editor.createModel(blockItem.value.content, blockItem.value.language);
-
-  editor.setModel(editorModel);
-  // diffEditor.setModel({
-  //   original: diffEditorOriginalModel,
-  //   modified: diffEditorModifiedModel,
-  // });
-
-  editor.updateOptions({ tabSize: 2 });
-  // diffEditor.getOriginalEditor().updateOptions({ tabSize: 2 });
-  // diffEditor.getModifiedEditor().updateOptions({ tabSize: 2 });
-
-  // monaco.languages
-  //   .getLanguages()
-  //   .find((l) => l.id === "javascript")
-  //   ?.loader()
-  //   .then(({ language }) => {
-  //     monaco.languages.setMonarchTokensProvider("javascript", {
-  //       ...language,
-  //       tokenizer: {
-  //         ...language.tokenizer,
-  //         common: [[/\b(?:\w+(?=\())\b/, "function"], ...language.tokenizer.common],
-  //       },
-  //     });
-  //   });
-
-  registerPHPSnippetLanguage(monaco.languages);
-
-  monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
-    noSuggestionDiagnostics: true,
-    noSemanticValidation: true,
-    noSyntaxValidation: true,
-  });
-
-  monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
-    noSuggestionDiagnostics: true,
-    noSemanticValidation: true,
-    noSyntaxValidation: true,
-  });
-
-  const getEditorHeight = () => {
-    if (!activeContainer.value) return 0;
-    return activeEditor.value.getContentHeight() + 12;
-  };
-
-  const autoHeight = async () => {
-    if (!activeContainer.value) return;
-    const contentHeight = getEditorHeight();
-    activeContainer.value.style.height = `${contentHeight}px`;
-    if (props.width) {
-      activeEditor.value.layout({ width: props.width, height: contentHeight });
-    }
-  };
-
-  editor.onDidContentSizeChange(autoHeight);
-
-  if (!preview.value) {
-    editor.onDidChangeModelContent(() => {
-      blockItem.value.content = editor.getModel()?.getValue() || "";
-      // diffEditorOriginalModel.setValue(blockItem.value.content);
-      // diffEditorModifiedModel.setValue(blockItem.value.content);
-    });
-
-    activeEditor.value.onDidBlurEditorWidget(() => {
-      activeEditor.value.setSelection(new monaco.Selection(0, 0, 0, 0));
-    });
-
-    // diffEditor.getModifiedEditor().onDidContentSizeChange(autoHeight);
-    autoHeight();
-
-    watch(() => store.value.diff, autoHeight);
-
-    watchEffect(() => {
-      monaco.editor.defineTheme(`chalk-${props.theme.key}`, props.theme.monaco);
-      monaco.editor.setTheme(`chalk-${props.theme.key}`);
-    });
-
-    watch(
-      () => store.value.showLineNumbers,
-      (show) => {
-        editor.updateOptions({
-          lineDecorationsWidth: show ? 16 : 0,
-          lineNumbersMinChars: 1,
-          lineNumbers: show ? "on" : "off",
-        });
-        // diffEditor.updateOptions({
-        //   lineDecorationsWidth: show ? 16 : 0,
-        //   lineNumbersMinChars: 1,
-        //   lineNumbers: show ? "on" : "off",
-        // });
-      },
-      { immediate: true }
-    );
-
-    watchEffect(() => {
-      monaco.editor.setModelLanguage(editorModel, blockItem.value?.language);
-      // monaco.editor.setModelLanguage(diffEditorOriginalModel, blockItem.value?.language);
-      // monaco.editor.setModelLanguage(diffEditorModifiedModel, blockItem.value?.language);
-    });
+    textarea.dispatchEvent(new Event("input"));
   }
+});
 
-  watch(
-    preview,
-    async (data) => {
-      if (!data) return;
-      editor.updateOptions({
-        wordWrap: "off",
-        lineNumbersMinChars: data.showLineNumbers ? 1 : 0,
-        lineDecorationsWidth: data.showLineNumbers ? 16 : 0,
-        lineNumbers: data.showLineNumbers ? "on" : "off",
-      });
-      editorModel.setValue(data.content);
-      await nextTick();
-      if (!activeContainer.value) return;
-      const height = getEditorHeight();
-      activeContainer.value.style.height = `${height}px`;
-      activeEditor.value.layout();
-      monaco.editor.setModelLanguage(editorModel, data.language);
-      monaco.editor.defineTheme(`chalk-${props.theme.key}`, props.theme.monaco);
-      monaco.editor.setTheme(`chalk-${props.theme.key}`);
-    },
-    {
-      immediate: true,
-    }
-  );
+// watch(
+//   shikiContent,
+//   async () => {
+//     if (!formatted.value) return;
+//     formatted.value.querySelectorAll(".line").forEach((line) => {
+//       line.addEventListener("mouseenter", () => {
+//         formatted.value?.classList.add("has-focused");
+//         line.classList.add("focused");
+//       });
+//       line.addEventListener("mouseleave", () => {
+//         formatted.value?.classList.remove("has-focused");
+//         line.classList.remove("focused");
+//       });
+//     });
+//   },
+//   {
+//     immediate: true,
+//     flush: "post",
+//   }
+// );
 
-  const source = container.value.querySelector(".monaco-editor");
-  // const diffSource = diffContainer.value.querySelector(".modified-in-monaco-diff-editor");
-  const target = document.querySelector<HTMLDivElement>("[data-editor-frame-container]");
-  const handleScroll = (event: Event): void => {
-    if (!target) return;
-    target.scrollTop += (event as WheelEvent).deltaY;
-  };
-  source?.addEventListener("wheel", handleScroll);
-  // diffSource?.addEventListener("wheel", handleScroll);
+const gutter = computed(() => {
+  const len = block.value.content.split("\n").length;
+  if (!store.value.showLineNumbers) return "20px";
+  return len >= 100 ? "6.5ch" : len >= 10 ? "5.5ch" : "4.5ch";
+});
 
-  watch(() => props.width, autoHeight, {
-    flush: "post",
-  });
-  watch(
-    () => store.value.fontLigatures,
-    async (fontLigatures) => {
-      editor.updateOptions({ fontLigatures });
-      monaco.editor.remeasureFonts();
-    },
-    {
-      immediate: true,
-    }
-  );
+const fontFeatureSettings = computed(() => {
+  if (!store.value.fontLigatures) return '"liga" 0, "calt" 0';
+  return '"liga", "calt"';
+});
 
-  // watch(
-  //   () => props.width,
-  //   (width) => {
-  //     editor.layout({ width, height: 200 });
-  //   }
-  // );
-
-  watch(
-    () => store.value.fontFamily,
-    async (fontFamily) => {
-      await document.fonts.load(`12px ${fontFamily}`);
-      editor.updateOptions({ fontFamily });
-      monaco.editor.remeasureFonts();
-    },
-    {
-      immediate: true,
-    }
-  );
+const fontFamily = computed(() => {
+  return `"${store.value.fontFamily}", Menlo, Monaco, "Courier New", monospace`;
 });
 </script>
 
 <template>
   <div
-    :style="({
-      '--lineNumbersColor': theme.mode === 'dark' ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.25)',
-    } as any)"
-    class="transition-opacity duration-500 delay-200"
-    :class="{
-      'opacity-0': !props.width,
+    class="px-px [grid-template:1fr/1fr] grid"
+    :style="{
+      '--line-numbers-color': 'rgba(255,255,255,0.25)',
     }"
   >
-    <!-- <div id="diff-editor" ref="diffContainer" class="-mb-3" /> -->
-    <div ref="container" class="-mb-3" />
+    <div
+      class="formatted transition-opacity duration-500"
+      v-html="shikiContent"
+      ref="formatted"
+      :class="{
+        'show-line-numbers': store.showLineNumbers,
+        'opacity-0': !shiki,
+      }"
+    />
+
+    <textarea
+      class="editor"
+      ref="editor"
+      v-model="block.content"
+      spellcheck="false"
+      :style="{
+        'min-height': block.content.split('\n').length * 20 + 'px',
+      }"
+    />
   </div>
 </template>
 
 <style>
-.iPadShowKeyboard,
-.codicon-light-bulb,
-.diffOverview {
-  display: none !important;
+.editor,
+.formatted {
+  font-variation-settings: normal;
+  font-feature-settings: v-bind(fontFeatureSettings);
+  font-family: v-bind(fontFamily);
+  grid-column-start: 1;
+  grid-row-start: 1;
+  font-size: 13px;
+  -moz-tab-size: 2;
+  height: 100%;
+  -o-tab-size: 2;
+  tab-size: 2;
+  white-space-collapse: collapse;
+  white-space: pre-wrap;
+  line-height: 20px;
 }
-.editor.modified {
-  left: 0 !important;
+
+.editor {
+  resize: none;
+  background: transparent;
+  border: none;
+  margin-inline-end: 20px;
+  margin-inline-start: v-bind(gutter);
+  -webkit-text-fill-color: transparent;
+  -webkit-text-size-adjust: none;
+  -moz-text-size-adjust: none;
+  text-size-adjust: none;
+  caret-color: white;
+  outline: none;
 }
-.detected-link {
-  text-decoration: none !important;
+
+.formatted {
+  pointer-events: none;
+  position: relative;
 }
-.original-in-monaco-diff-editor .overflow-guard {
+
+.formatted code,
+.formatted pre {
+  font-family: inherit;
+}
+
+.formatted code {
+  display: grid;
+  grid-auto-rows: minmax(20px, auto);
+}
+
+.formatted .has-focused .line:not(.focused) {
+  opacity: 0.35;
+}
+
+.formatted .line {
+  counter-increment: line;
+  padding-inline-end: 20px;
+  padding-inline-start: v-bind(gutter);
+  transition: padding 0.375s cubic-bezier(0.6, 0.6, 0, 1);
+}
+
+.formatted .line::before {
+  content: counter(line, decimal);
+  float: left;
+  margin-left: -4ch;
+  width: 3ch;
+  text-align: right;
   opacity: 0;
+  transition: opacity 0.375s cubic-bezier(0.6, 0.6, 0, 1);
 }
-.monaco-diff-editor .codicon-diff-remove,
-.monaco-diff-editor .codicon-diff-insert {
-  opacity: 0 !important;
+
+.formatted.show-line-numbers .line::before {
+  opacity: 1;
 }
-.monaco-editor .line-numbers,
-.monaco-editor .line-numbers.active-line-number {
-  color: var(--lineNumbersColor) !important;
+
+.formatted .shiki:not(.has-focused) .line::before {
+  color: var(--line-numbers-color);
 }
-.monaco-editor .squiggly-error {
-  display: none;
+
+.formatted .line span {
+  white-space: pre-wrap;
 }
-.monaco-editor .unicode-highlight {
-  display: none;
+
+.formatted .diff.remove {
+  background-color: hsl(0, 52%, 20%);
+}
+
+.formatted .diff.add {
+  background-color: hsl(106, 72%, 11%);
 }
 </style>

@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { CompiledTheme } from "~/composables/theme-utils";
 import { Particle } from "~/lib/particle";
 
 defineProps<{
   width: number;
   height: number;
-  theme: CompiledTheme;
 }>();
 
 const canvas = ref<HTMLCanvasElement | null>(null);

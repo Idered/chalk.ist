@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import TheEditor from "./TheEditor.vue";
-import { WindowControls } from "~/types";
+import { ExportState, WindowControls } from "~/enums";
 import { store, preview, moveBlock, removeBlock } from "~/composables/store";
-import { CompiledTheme } from "~/composables/theme-utils";
-import { ExportState, exportState } from "~/composables/export-state";
+import { exportState } from "~/composables/export-state";
 import { useElementSize, useIntervalFn } from "@vueuse/core";
 import { computed, ref } from "vue";
 import { AVAILABLE_LANGUAGES, ROW_OPTIONS, COLUMN_OPTIONS } from "~/constants";
 import BaseSelect from "./BaseSelect.vue";
 import IconChevronDown from "./IconChevronDown.vue";
+import { Backdrops } from "~/lib/backdrops";
 
 const props = defineProps<{
-  theme: CompiledTheme;
   blockId: string;
 }>();
 const editorContainer = ref<HTMLDivElement>();
@@ -51,53 +50,76 @@ useIntervalFn(
     immediate: true,
   }
 );
+
+const backdrop = computed(() => Backdrops[store.value.backdrop]);
 </script>
 
 <template>
   <div
     v-if="blockItem"
-    class="rounded-md px-5 relative grid grid-rows-[auto_1fr_auto]"
+    class="relative grid grid-rows-[auto_1fr_auto]"
     :class="{
-      'bg-black/80': !theme.appStyle,
+      'rounded-md': store.paddingX !== 0 && store.paddingY !== 0,
+      // 'bg-black/80': !theme.appStyle,
     }"
     :style="[
-      theme.appStyle || {},
-      theme.windowVariants === false
-        ? {}
-        : {
+      {
+        backgroundColor: '#03000ADD',
+        backgroundImage: store.windowNoise ? 'url(/noise.png)' : undefined,
+        backgroundSize: '182px',
+      },
+      store.paddingX !== 0 && store.paddingY !== 0
+        ? {
             none: '',
             'variant-1': {
               boxShadow: `
-                0 0 0px 1px rgba(17, 4, 14, ${theme.shadowsOpacity}),
-                inset 0 0 0 1px rgba(255,255,255,${theme.lightsOpacity}),
+                0 0 0px 1px rgba(17, 4, 14, ${backdrop.shadowsOpacity}),
+                inset 0 0 0 1px rgba(255,255,255,${backdrop.lightsOpacity}),
                 0 0 18px 1px rgba(0,0,0,.6)
               `,
             },
             'variant-2': {
               boxShadow: `
-                0px 0px 0px 1px rgba(17, 4, 14, ${theme.shadowsOpacity}),
-                inset 0 1px 0 rgba(255,255,255,${theme.lightsOpacity}),
+                0px 0px 0px 1px rgba(17, 4, 14, ${backdrop.shadowsOpacity}),
+                inset 0 1px 0 rgba(255,255,255,${backdrop.lightsOpacity}),
                 0px 0px 18px 1px rgba(0,0,0,.6)
               `,
             },
             'variant-3': {
               boxShadow: `
-                0 0 0px 1px rgba(17, 4, 14, ${theme.shadowsOpacity}),
+                0 0 0px 1px rgba(17, 4, 14, ${backdrop.shadowsOpacity}),
                 0 0 18px 1px rgba(0,0,0,.6)
               `,
             },
             'variant-4': {
-              boxShadow: theme.shadow
-                ? `
-                  5px 8.5px 3.3px -10px hsla(${theme.shadow}, 0.24),
-                  8.7px 14.6px 8.7px -10px hsla(${theme.shadow}, 0.24),
-                  12.1px 20.4px 18.2px -10px hsla(${theme.shadow}, 0.30),
-                  18.8px 31.6px 36.5px -10px hsla(${theme.shadow}, 0.46),
-                  60px 101px 90px -10px hsla(${theme.shadow}, 0.7)
+              boxShadow: (() => {
+                const hsl = backdrop.shadow?.slice(4).replace(/\)$/, '');
+                return backdrop.shadow
+                  ? `
+                  5px 8.5px 3.3px -10px hsla(${hsl}, 0.24),
+                  8.7px 14.6px 8.7px -10px hsla(${hsl}, 0.24),
+                  12.1px 20.4px 18.2px -10px hsla(${hsl}, 0.30),
+                  18.8px 31.6px 36.5px -10px hsla(${hsl}, 0.46),
+                  60px 101px 90px -10px hsla(${hsl}, 0.7)
                 `
-                : undefined,
+                  : '';
+              })(),
             },
-          }[store.windowStyle] || {},
+            'variant-5': {
+              boxShadow: (() => {
+                const hsl = backdrop.shadow?.slice(4).replace(/\)$/, '');
+                return backdrop.shadow
+                  ? `
+                0px 4px 12px -2px hsla(${hsl},0.2), 
+                0px 10px 18px -4px hsla(${hsl},0.2), 
+                0px 40px 44px -16px hsla(${hsl},0.5)  
+              `
+                  : '';
+              })(),
+            },
+          }[store.windowStyle] || {}
+        : {},
+      backdrop.appStyle || {},
     ]"
   >
     <div class="absolute inset-0 [--base-delay:0] overflow-hidden rounded-md pointer-events-none">
@@ -165,7 +187,7 @@ useIntervalFn(
     </div>
 
     <div
-      class="grid grid-cols-[62px_auto_62px] items-center"
+      class="grid grid-cols-[62px_auto_62px] items-center px-5"
       :class="{
         'grid-cols-[62px_auto_62px]': (preview || store).windowControls !== WindowControls.Windows,
         'grid-cols-[auto_124px] -mx-5': (preview || store).windowControls === WindowControls.Windows,
@@ -186,10 +208,10 @@ useIntervalFn(
       >
         <div
           v-for="_i in [1, 2, 3]"
-          class="h-3 w-3 rounded-full"
+          class="h-3 w-3 rounded-full bg-white/25"
           :class="{
-            'bg-white/25': theme.mode === 'dark',
-            'bg-black/25': theme.mode === 'light',
+            // 'bg-white/25': theme.mode === 'dark',
+            // 'bg-black/25': theme.mode === 'light',
           }"
         />
       </div>
@@ -200,10 +222,10 @@ useIntervalFn(
       >
         <div
           v-for="_i in [1, 2, 3]"
-          class="h-3 w-3 rounded-full border"
+          class="h-3 w-3 rounded-full border border-white/25"
           :class="{
-            'border-white/25': theme.mode === 'dark',
-            'border-black/25': theme.mode === 'light',
+            // 'border-white/25': theme.mode === 'dark',
+            // 'border-black/25': theme.mode === 'light',
           }"
         />
       </div>
@@ -218,8 +240,8 @@ useIntervalFn(
         spellcheck="false"
         autocomplete="off"
         :class="{
-          'text-white/60 placeholder:text-white/30 ': theme.mode === 'dark',
-          'text-black/60 placeholder:text-black/30': theme.mode === 'light',
+          // 'text-white/60 placeholder:text-white/30 ': theme.mode === 'dark',
+          // 'text-black/60 placeholder:text-black/30': theme.mode === 'light',
           'text-center': (preview || store).windowControls !== WindowControls.Windows,
           'pl-5': (preview || store).windowControls === WindowControls.Windows,
         }"
@@ -231,8 +253,8 @@ useIntervalFn(
         <div
           class="h-8 w-10 flex items-center justify-center"
           :class="{
-            'text-white': theme.mode === 'dark',
-            'text-black': theme.mode === 'light',
+            // 'text-white': theme.mode === 'dark',
+            // 'text-black': theme.mode === 'light',
           }"
         >
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -243,8 +265,8 @@ useIntervalFn(
         <div
           class="h-8 w-10 flex items-center justify-center"
           :class="{
-            'text-white': theme.mode === 'dark',
-            'text-black': theme.mode === 'light',
+            // 'text-white': theme.mode === 'dark',
+            // 'text-black': theme.mode === 'light',
           }"
         >
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -262,8 +284,8 @@ useIntervalFn(
         <div
           class="h-8 w-11 flex items-center justify-center"
           :class="{
-            'text-white': theme.mode === 'dark',
-            'text-black': theme.mode === 'light',
+            // 'text-white': theme.mode === 'dark',
+            // 'text-black': theme.mode === 'light',
           }"
         >
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -280,12 +302,12 @@ useIntervalFn(
     </div>
 
     <div class="py-6 overflow-hidden" ref="editorContainer">
-      <TheEditor ref="editor" :theme="theme" :block-id="blockId" :width="editorContainerWidth" />
+      <TheEditor ref="editor" :block-id="blockId" :width="editorContainerWidth" />
     </div>
 
     <div
       v-if="[ExportState.Idle, ExportState.JustCopied].includes(exportState) && blockItem"
-      class="flex mb-1 gap-1 -mx-4 flex-wrap"
+      class="flex mb-1 gap-1 -mx-4 flex-wrap px-5"
     >
       <BaseSelect
         class="w-28"

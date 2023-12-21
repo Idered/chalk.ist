@@ -3,7 +3,6 @@ import { defineConfig } from "vite";
 import Vue from "@vitejs/plugin-vue";
 import { VitePWA } from "vite-plugin-pwa";
 import Pages from "vite-plugin-pages";
-import Layouts from "vite-plugin-vue-layouts";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -31,9 +30,6 @@ export default defineConfig(({ mode }) => ({
     Pages({
       extensions: ["vue"],
     }),
-
-    // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
-    Layouts(),
 
     // https://github.com/antfu/vite-plugin-pwa
     VitePWA({

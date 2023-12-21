@@ -1,16 +1,4 @@
 import { ref } from "vue";
-
-export enum ExportState {
-  Idle,
-  PreparingToCopy,
-  PreparingToDownload,
-  PreparingToDownloadVideo,
-  JustCopied,
-  JustCopiedLink,
-  JustCopiedContent,
-  JustDownloaded,
-  JustDownloadedVideo,
-  CopyFailure,
-}
+import { ExportState } from "~/enums";
 
 export const exportState = ref(ExportState.Idle);

@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import { computed, watch, watchEffect } from "vue";
-import { ExportState, exportState } from "~/composables/export-state";
+import { computed, watch } from "vue";
+import { exportState } from "~/composables/export-state";
 import { moveBlock, removeBlock, store } from "~/composables/store";
-import { CompiledTheme } from "~/composables/theme-utils";
 import IconChevronDown from "./IconChevronDown.vue";
 import BaseInput from "./BaseInput.vue";
 import { useTextareaAutosize } from "@vueuse/core";
-import { BlockType } from "~/constants";
+import { BlockType, ExportState } from "~/enums";
 
 const props = defineProps<{
-  theme: CompiledTheme;
   blockId: string;
 }>();
 

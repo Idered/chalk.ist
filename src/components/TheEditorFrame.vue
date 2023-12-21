@@ -2,53 +2,29 @@
 import { useElementSize } from "@vueuse/core";
 import { store, preview } from "~/composables/store";
 import { computed, ref, watch } from "vue";
-import { BlockType } from "~/constants";
-import { ExportState, exportState } from "~/composables/export-state";
+import { BlockType, ExportState } from "~/enums";
+import { exportState } from "~/composables/export-state";
 import BaseButton from "./BaseButton.vue";
 import IconClipboard from "./IconClipboard.vue";
-import { Theme, createTheme } from "~/composables/theme-utils";
-import * as themes from "~/themes";
 import EditorBlock from "./EditorBlock.vue";
-import NoteBlock from "./NoteBlock.vue";
 import TheFooter from "./TheFooter.vue";
 import TheFrameBackground from "./TheFrameBackground.vue";
 import TheParticlesBackground from "./TheParticlesBackground.vue";
 import TheFrameResizer from "./TheFrameResizer.vue";
 import TheFrameMeta from "./TheFrameMeta.vue";
 
-const hotTheme = ref();
-
-const theme = computed(() => {
-  return (
-    hotTheme.value ||
-    createTheme((themes as Record<string, Theme>)[preview.value ? preview.value.theme : store.value.currentTheme])
-  );
-});
-
-if (import.meta.hot) {
-  import.meta.hot.accept("../themes/index.ts", (newModule) => {
-    hotTheme.value = createTheme((newModule as Record<string, Theme>)[store.value.currentTheme]);
-  });
-}
-
-watch(theme, () => {
-  store.value.currentThemeSupportsWindowVariants = theme.value.windowVariants !== false;
-});
-
+const timeout = ref();
 const container = ref<HTMLDivElement>();
 const editorFrame = ref<HTMLDivElement>();
 const { width: containerWidth } = useElementSize(container);
+const { height: frameHeight } = useElementSize(editorFrame);
 const frameWidth = computed(() =>
   preview.value ? preview.value.frameWidth : store.value.frameWidth + store.value.paddingX * 2
 );
 
-const { height: frameHeight } = useElementSize(editorFrame);
-
 watch(frameHeight, (value) => {
   store.value.frameHeight = Math.round(value);
 });
-
-const timeout = ref();
 
 function handleCopy() {
   if (!preview.value) return;
@@ -84,10 +60,10 @@ function handleCopy() {
           {{ exportState === ExportState.JustCopiedContent ? "Copied!" : "Copy to Clipboard" }}
         </BaseButton>
 
-        <TheFrameMeta :theme="theme" :frame-width="frameWidth" />
+        <TheFrameMeta :frame-width="frameWidth" />
         <TheFrameResizer />
-        <TheFrameBackground :theme="theme" />
-        <TheParticlesBackground v-if="store.showParticles" :width="frameWidth" :height="frameHeight" :theme="theme" />
+        <TheFrameBackground />
+        <TheParticlesBackground v-if="store.showParticles" :width="frameWidth" :height="frameHeight" />
 
         <div
           class="overflow-hidden"
@@ -107,7 +83,7 @@ function handleCopy() {
                 gridRow: `span ${block.rowSpan}`,
               }"
             >
-              <EditorBlock v-if="block.type === BlockType.Code" class="h-full" :block-id="block.id" :theme="theme" />
+              <EditorBlock v-if="block.type === BlockType.Code" class="h-full" :block-id="block.id" />
               <!-- <NoteBlock
                 v-if="block.type === BlockType.Note"
                 class="min-h-full relative"
@@ -122,9 +98,3 @@ function handleCopy() {
     </div>
   </div>
 </template>
-
-<style>
-.bg-frame {
-  background: v-bind("theme.background");
-}
-</style>

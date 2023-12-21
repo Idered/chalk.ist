@@ -1,21 +1,3 @@
-import * as monaco from "monaco-editor";
-
-export enum BlockType {
-  Code = "code",
-  Image = "image",
-  Note = "note",
-}
-
-export const FRAME_STYLES = [
-  { value: "none", label: "None" },
-  { value: "variant-1", label: "Variant 1" },
-  { value: "variant-2", label: "Variant 2" },
-  { value: "variant-3", label: "Variant 3" },
-  { value: "variant-4", label: "Variant 4" },
-];
-export const MAX_FRAME_WIDTH = 1600;
-export const MIN_FRAME_WIDTH = 320;
-export const DEFAULT_THEME = "chrome";
 export const DEFAULT_CONTENT = `const btn = document.getElementById('btn')
 let count = 0
 function render() {
@@ -28,91 +10,75 @@ btn.addEventListener('click', () => {
     render()
   }
 })`;
-export const DEFAULT_EDITOR_CONFIG: monaco.editor.IStandaloneDiffEditorConstructionOptions = {
-  theme: "vs-dark",
-  renderWhitespace: "none",
-  // automaticLayout: true,
-  fontLigatures: true,
-  selectionHighlight: false,
-  // @ts-ignore
-  "bracketPairColorization.enabled": false,
-  scrollBeyondLastLine: false,
-  fontFamily: "JetBrains Mono",
-  fontWeight: "400",
-  fontSize: 13,
-  quickSuggestions: false,
-  renderLineHighlight: "none",
-  wordWrap: "on",
-  wrappingStrategy: "advanced",
-  renderSideBySide: false,
-  codeLens: false,
-  folding: false,
-  matchBrackets: "never",
-  occurrencesHighlight: false,
-  definitionLinkOpensInPeek: false,
-  contextmenu: false,
-  overviewRulerLanes: 0,
-  guides: { indentation: false },
-  hover: { enabled: false },
-  lightbulb: { enabled: false },
-  minimap: { enabled: false },
-  scrollbar: { vertical: "hidden" },
-};
 
-export const AVAILABLE_FONTS = ["JetBrains Mono", "Fira Code", "Source Code Pro", "IBM Plex Mono", "Nova"]
+export const FRAME_STYLES = [
+  { value: "none", label: "None" },
+  { value: "variant-1", label: "Variant 1" },
+  { value: "variant-2", label: "Variant 2" },
+  { value: "variant-3", label: "Variant 3" },
+  { value: "variant-4", label: "Variant 4" },
+  { value: "variant-5", label: "Variant 5" },
+];
+export const MAX_FRAME_WIDTH = 1600;
+export const MIN_FRAME_WIDTH = 320;
+export const DEFAULT_THEME = "chrome";
+export const AVAILABLE_FONTS = ["Fira Code", "Geist Mono", "IBM Plex Mono", "JetBrains Mono", "Nova", "Source Code Pro"]
   .map((font) => ({ value: font, label: font }))
   .sort((a, b) => a.label.localeCompare(b.label));
 
-export const LIGATURE_FONTS = ["Fira Code", "JetBrains Mono", "Nova"];
+export const LIGATURE_FONTS = ["Fira Code", "JetBrains Mono", "Nova", "Geist Mono"];
 
 export const AVAILABLE_LANGUAGES = [
   {
     group: "Data",
     children: [
-      { value: "json", label: "JSON" },
-      { value: "yaml", label: "YAML" },
+      { value: "json", label: "JSON", lang: () => import("shikiji/langs/json.mjs") },
+      { value: "yaml", label: "YAML", lang: () => import("shikiji/langs/yaml.mjs") },
     ],
   },
   {
     group: "Markup",
     children: [
-      { value: "handlebars", label: "Handlebars" },
-      { value: "html", label: "HTML" },
-      { value: "markdown", label: "Markdown" },
-      { value: "twig", label: "Twig" },
+      { value: "handlebars", label: "Handlebars", lang: () => import("shikiji/langs/handlebars.mjs") },
+      { value: "html", label: "HTML", lang: () => import("shikiji/langs/html.mjs") },
+      { value: "markdown", label: "Markdown", lang: () => import("shikiji/langs/markdown.mjs") },
+      { value: "twig", label: "Twig", lang: () => import("shikiji/langs/twig.mjs") },
     ],
   },
   {
     group: "Code",
     children: [
-      { value: "go", label: "Go" },
-      { value: "python", label: "Python" },
-      { value: "php-snippet", label: "PHP" },
-      { value: "csharp", label: "C#" },
-      { value: "javascript", label: "JavaScript" },
-      { value: "typescript", label: "TypeScript" },
-      { value: "kotlin", label: "Kotlin" },
-      { value: "java", label: "Java" },
-      { value: "ruby", label: "Ruby" },
-      { value: "rust", label: "Rust" },
-      { value: "sol", label: "Solidity" },
+      { value: "go", label: "Go", lang: () => import("shikiji/langs/go.mjs") },
+      { value: "python", label: "Python", lang: () => import("shikiji/langs/python.mjs") },
+      { value: "php", label: "PHP", lang: () => import("shikiji/langs/php.mjs") },
+      { value: "csharp", label: "C#", lang: () => import("shikiji/langs/csharp.mjs") },
+      { value: "javascript", label: "JavaScript", lang: () => import("shikiji/langs/javascript.mjs") },
+      { value: "typescript", label: "TypeScript", lang: () => import("shikiji/langs/typescript.mjs") },
+      { value: "kotlin", label: "Kotlin", lang: () => import("shikiji/langs/kotlin.mjs") },
+      { value: "java", label: "Java", lang: () => import("shikiji/langs/java.mjs") },
+      { value: "ruby", label: "Ruby", lang: () => import("shikiji/langs/ruby.mjs") },
+      { value: "rust", label: "Rust", lang: () => import("shikiji/langs/rust.mjs") },
+      { value: "solidity", label: "Solidity", lang: () => import("shikiji/langs/solidity.mjs") },
+      { value: "vue", label: "Vue", lang: () => import("shikiji/langs/vue.mjs") },
     ],
   },
   {
     group: "Style",
     children: [
-      { value: "css", label: "CSS" },
-      { value: "scss", label: "SCSS" },
+      { value: "css", label: "CSS", lang: () => import("shikiji/langs/css.mjs") },
+      { value: "scss", label: "SCSS", lang: () => import("shikiji/langs/scss.mjs") },
     ],
   },
   {
     group: "Console",
     children: [
-      { value: "shell", label: "Bash" },
-      { value: "powershell", label: "PowerShell" },
+      { value: "shell", label: "Bash", lang: () => import("shikiji/langs/bat.mjs") },
+      { value: "powershell", label: "PowerShell", lang: () => import("shikiji/langs/powershell.mjs") },
     ],
   },
 ]; //.sort((a, b) => a.label.localeCompare(b.label));
+
+export const LANGUAGES = AVAILABLE_LANGUAGES.flatMap((group) => group.children);
 
 export const COLUMN_OPTIONS = [
   {

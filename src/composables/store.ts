@@ -1,8 +1,9 @@
 import { useStorage } from "@vueuse/core";
 import { ref } from "vue";
-import { BlockType, DEFAULT_CONTENT, DEFAULT_THEME, MIN_FRAME_WIDTH } from "~/constants";
-import { WindowControls } from "~/types";
+import { DEFAULT_CONTENT, DEFAULT_THEME, MIN_FRAME_WIDTH } from "~/constants";
+import { WindowControls, BlockType } from "~/enums";
 import { v4 } from "uuid";
+import { Backdrops } from "~/lib/backdrops";
 
 export const preview = ref<{
   content: string;
@@ -37,29 +38,31 @@ export const store = useStorage("chalk-store", {
       columnSpan: 12,
       rowSpan: 1,
     },
-  ] as (
-    | {
-        id: string;
-        content: string;
-        language: string;
-        type: BlockType.Code;
-        title: string;
-        columnSpan: number;
-        rowSpan: number;
-      }
-    | {
-        id: string;
-        type: BlockType.Note;
-        content: string;
-        columnSpan: number;
-        rowSpan: number;
-        fontColor: string;
-        fontSize: string;
-      }
-  )[],
+  ] as {
+    id: string;
+    content: string;
+    language: string;
+    type: BlockType.Code;
+    title: string;
+    columnSpan: number;
+    rowSpan: number;
+  }[],
+  // | {
+  //     id: string;
+  //     type: BlockType.Note;
+  //     content: string;
+  //     columnSpan: number;
+  //     rowSpan: number;
+  //     fontColor: string;
+  //     fontSize: string;
+  //   }
   language: "typescript",
   name: "",
   username: "",
+  backdrop: "Vue" as keyof typeof Backdrops,
+  backdropNoise: false,
+  windowNoise: false,
+  colorTheme: "Vue",
   windowStyle: "variant-1",
   fontFamily: "JetBrains Mono",
   fontLigatures: true,
@@ -94,6 +97,10 @@ store.value.blocks = store.value.blocks ?? [
     rowSpan: 1,
   },
 ];
+store.value.backdrop = store.value.backdrop ?? "Vue";
+store.value.backdropNoise = store.value.backdropNoise ?? false;
+store.value.windowNoise = store.value.windowNoise ?? false;
+store.value.colorTheme = store.value.colorTheme ?? "Vue";
 store.value.showLineNumbers = store.value.showLineNumbers ?? true;
 store.value.windowControls = store.value.windowControls ?? WindowControls.MacOutline;
 store.value.expandSupportSection = store.value.expandSupportSection ?? true;

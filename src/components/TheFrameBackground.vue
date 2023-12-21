@@ -1,10 +1,9 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import { store } from "~/composables/store";
-import { CompiledTheme } from "~/composables/theme-utils";
+import { Backdrops } from "~/lib/backdrops";
 
-defineProps<{
-  theme: CompiledTheme;
-}>();
+const backdrop = computed(() => Backdrops[store.value.backdrop]);
 </script>
 
 <template>
@@ -15,11 +14,16 @@ defineProps<{
     }"
   >
     <div
-      class="absolute bg-frame inset-0 transition"
+      class="absolute inset-0 transition"
       :class="{
         'opacity-0': !store.showBackground,
       }"
-      :style="theme.backgroundStyle"
+      :style="{
+        ...backdrop.backgroundStyle,
+        background: store.backdropNoise
+          ? `url(/noise.png), ${backdrop.backgroundStyle.background}`
+          : backdrop.backgroundStyle.background,
+      }"
     />
   </div>
 </template>

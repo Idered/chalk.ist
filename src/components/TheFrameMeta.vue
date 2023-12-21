@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import { preview, store } from "~/composables/store";
-import { CompiledTheme } from "~/composables/theme-utils";
 
 defineProps<{
-  theme: CompiledTheme;
   frameWidth: number;
 }>();
 </script>
 
 <template>
   <div v-if="!preview" class="absolute bottom-full right-0 mb-2 flex space-x-2">
-    <a
+    <!-- <a
       :href="`${theme.inspirationUrl}?ref=chalk.ist`"
       target="_blank"
       v-if="theme.inspiration"
@@ -32,7 +30,7 @@ defineProps<{
         ></path>
       </svg>
       <div>Theme inspired by {{ theme.inspiration }}</div>
-    </a>
+    </a> -->
     <div
       class="bg-slate-700 text-white/75 text-[11px] uppercase font-bold tracking-wider px-2.5 h-6 transition grid items-center rounded"
     >
