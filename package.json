@@ -21,7 +21,7 @@
     "@vueuse/core": "10.7.0",
     "@vueuse/integrations": "10.4.1",
     "fuse.js": "6.5.3",
-    "modern-screenshot": "4.4.31",
+    "modern-screenshot": "4.4.37",
     "mp4-muxer": "^2.3.0",
     "pica": "7.1.0",
     "radix-vue": "^0.1.34",

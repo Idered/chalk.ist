@@ -6,6 +6,7 @@ import { transformerNotationDiff, transformerNotationFocus } from "shikiji-trans
 import { store } from "~/composables/store";
 import { BlockType } from "~/enums";
 import { useShiki } from "~/lib/shiki";
+import { ShikijiTransformer } from "shikiji/index.mjs";
 
 const props = defineProps<{
   blockId: string;
@@ -16,13 +17,35 @@ const editor = ref<HTMLTextAreaElement>();
 const formatted = ref<HTMLDivElement>();
 const block = computed(() => store.value.blocks.find((block) => block.id === props.blockId)!);
 
+function lineNumberTransformer(): ShikijiTransformer {
+  return {
+    name: "line-number",
+    line(line, index) {
+      line.children.unshift({
+        type: "element",
+        tagName: "span",
+        properties: {
+          class: ["line-number"],
+        },
+        children: [
+          {
+            type: "text",
+            value: `${index}`,
+          },
+        ],
+      });
+      return line;
+    },
+  };
+}
+
 const shikiContent = computed(() => {
   if (!shiki.value || block.value.type !== BlockType.Code) return "";
 
   return shiki.value.codeToHtml(block.value.content, {
     lang: block.value.language,
     theme: store.value.colorTheme,
-    transformers: [transformerNotationDiff(), transformerNotationFocus()],
+    transformers: [transformerNotationDiff(), transformerNotationFocus(), lineNumberTransformer()],
     meta: {
       tabindex: "-1",
     },
@@ -200,7 +223,7 @@ const fontFamily = computed(() => {
   transition: padding 0.375s cubic-bezier(0.6, 0.6, 0, 1);
 }
 
-.formatted .line::before {
+.formatted .line-number {
   content: counter(line, decimal);
   float: left;
   margin-left: -4ch;
@@ -210,11 +233,11 @@ const fontFamily = computed(() => {
   transition: opacity 0.375s cubic-bezier(0.6, 0.6, 0, 1);
 }
 
-.formatted.show-line-numbers .line::before {
+.formatted.show-line-numbers .line-number {
   opacity: 1;
 }
 
-.formatted .shiki:not(.has-focused) .line::before {
+.formatted .shiki:not(.has-focused) .line-number {
   color: var(--line-numbers-color);
 }
 

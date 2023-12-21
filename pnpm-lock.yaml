@@ -33,8 +33,8 @@ dependencies:
     specifier: 6.5.3
     version: 6.5.3
   modern-screenshot:
-    specifier: 4.4.31
-    version: 4.4.31
+    specifier: 4.4.37
+    version: 4.4.37
   mp4-muxer:
     specifier: ^2.3.0
     version: 2.3.0
@@ -3547,8 +3547,8 @@ packages:
       brace-expansion: 2.0.1
     dev: true
 
-  /modern-screenshot@4.4.31:
-    resolution: {integrity: sha512-qBK9XduvgkfdmtjHnxX2GHq1pYYhylNEyP/xqxN2g1VCzqKwL2QIOgmMSCmpWHemETXDW8LKckdJzWUAoD3D+Q==}
+  /modern-screenshot@4.4.37:
+    resolution: {integrity: sha512-D4u8dndnFRe4OyWDiUj/N0BNtViqQrdVkj0YSBM9aV7uqZegnIKVUNYN0l7AbXj9iKS5AubAap2/HctB+Lg5kg==}
     dev: false
 
   /mp4-muxer@2.3.0:

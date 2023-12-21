@@ -290,9 +290,9 @@ function setFontFamily(fontFamily: string) {
             <div class="grid gap-y-2 justify-start">
 
               <p class="text-[10px] uppercase font-bold tracking-wider flex items-center">
-                <hr class="border-y flex-1 mr-2 border-b-slate-700 border-t-slate-950">
+                <hr class="border-y flex-1 mr-2 border-b-slate-700 border-t-slate-900">
                 <span>Background</span> 
-                <hr class="border-y flex-1 ml-2 border-b-slate-700 border-t-slate-950">
+                <hr class="border-y flex-1 ml-2 border-b-slate-700 border-t-slate-900">
               </p>
 
               <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
@@ -358,9 +358,9 @@ function setFontFamily(fontFamily: string) {
               </div>
 
               <p class="text-[10px] uppercase font-bold tracking-wider flex items-center mt-4">
-                <hr class="border-y flex-1 mr-2 border-b-slate-700 border-t-slate-950">
+                <hr class="border-y flex-1 mr-2 border-b-slate-700 border-t-slate-900">
                 <span>Window</span> 
-                <hr class="border-y flex-1 ml-2 border-b-slate-700 border-t-slate-950">
+                <hr class="border-y flex-1 ml-2 border-b-slate-700 border-t-slate-900">
               </p>
 
               <div class="grid gap-y-1">
@@ -404,9 +404,9 @@ function setFontFamily(fontFamily: string) {
               </div>
 
               <p class="text-[10px] uppercase font-bold tracking-wider flex items-center mt-4">
-                <hr class="border-y flex-1 mr-2 border-b-slate-700 border-t-slate-950">
+                <hr class="border-y flex-1 mr-2 border-b-slate-700 border-t-slate-900">
                 <span>Code Editor</span> 
-                <hr class="border-y flex-1 ml-2 border-b-slate-700 border-t-slate-950">
+                <hr class="border-y flex-1 ml-2 border-b-slate-700 border-t-slate-900">
               </p>
 
               <div class="grid gap-y-1">
@@ -454,9 +454,9 @@ function setFontFamily(fontFamily: string) {
               </div>
 
               <p class="text-[10px] uppercase font-bold tracking-wider flex items-center mt-4">
-                <hr class="border-y flex-1 mr-2 border-b-slate-700 border-t-slate-950">
+                <hr class="border-y flex-1 mr-2 border-b-slate-700 border-t-slate-900">
                 <span>Other</span> 
-                <hr class="border-y flex-1 ml-2 border-b-slate-700 border-t-slate-950">
+                <hr class="border-y flex-1 ml-2 border-b-slate-700 border-t-slate-900">
               </p>
 
               <div class="grid grid-flow-col gap-y-2 items-center grid-cols-[1fr_auto_auto] gap-x-2">
@@ -596,9 +596,9 @@ function setFontFamily(fontFamily: string) {
         >
 
           <p class="text-[10px] uppercase font-bold tracking-wider flex items-center mt-2">
-            <hr class="border-y flex-1 mr-2 border-b-slate-700 border-t-slate-950">
+            <hr class="border-y flex-1 mr-2 border-b-slate-700 border-t-slate-900">
             <span>Export</span> 
-            <hr class="border-y flex-1 ml-2 border-b-slate-700 border-t-slate-950">
+            <hr class="border-y flex-1 ml-2 border-b-slate-700 border-t-slate-900">
           </p>
 
           <!-- <BaseButton
