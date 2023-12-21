@@ -1,31 +1,32 @@
 <script setup lang="ts">
-import { computed, watch } from "vue";
-import { exportState } from "~/composables/export-state";
-import { moveBlock, removeBlock, store } from "~/composables/store";
-import IconChevronDown from "./IconChevronDown.vue";
-import BaseInput from "./BaseInput.vue";
-import { useTextareaAutosize } from "@vueuse/core";
-import { BlockType, ExportState } from "~/enums";
+// import { computed, watch } from "vue";
+// import { exportState } from "~/composables/export-state";
+// import { moveBlock, removeBlock, store } from "~/composables/store";
+// import IconChevronDown from "./IconChevronDown.vue";
+// import BaseInput from "./BaseInput.vue";
+// import { useTextareaAutosize } from "@vueuse/core";
+// import { BlockType, ExportState } from "~/enums";
 
-const props = defineProps<{
-  blockId: string;
-}>();
+// const props = defineProps<{
+//   blockId: string;
+// }>();
 
-const blockItem = computed(() => {
-  return store.value.blocks.find((block) => block.id === props.blockId)!;
-});
-const { textarea, triggerResize } = useTextareaAutosize();
+// const blockItem = computed(() => {
+//   return store.value.blocks.find((block) => block.id === props.blockId)!;
+// });
+// const { textarea, triggerResize } = useTextareaAutosize();
 
-watch(
-  () => blockItem.value.content,
-  () => {
-    triggerResize();
-  }
-);
+// watch(
+//   () => blockItem.value.content,
+//   () => {
+//     triggerResize();
+//   }
+// );
 </script>
 
 <template>
-  <div class="grid gap-y-2" v-if="blockItem.type === BlockType.Note">
+  <div></div>
+  <!-- <div class="grid gap-y-2" v-if="blockItem.type === BlockType.Note">
     <div
       v-if="[ExportState.Idle, ExportState.JustCopied].includes(exportState) && blockItem"
       class="flex gap-1 flex-wrap absolute opacity-20 hover:opacity-100 transition-opacity bottom-0"
@@ -40,14 +41,14 @@ watch(
         class="border-none outline-none bg-transparent p-0 m-0 appearance-none"
       />
 
-      <!-- <BaseSelect
+      <BaseSelect
         class="w-28"
         use-opaque-background
         :model-value="blockItem.columnSpan"
         @update:model-value="blockItem.columnSpan = $event"
         :label="(option) => `${option.value} columns`"
         :options="COLUMN_OPTIONS"
-      /> -->
+      />
 
       <button
         @click="() => moveBlock(blockItem.id, -1)"
@@ -91,5 +92,5 @@ watch(
       v-model="blockItem.content"
       :style="{ fontSize: `${blockItem.fontSize}px`, color: blockItem.fontColor }"
     ></textarea>
-  </div>
+  </div> -->
 </template>

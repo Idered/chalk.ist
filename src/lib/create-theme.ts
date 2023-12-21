@@ -1,72 +1,71 @@
 import { ThemeRegistrationRaw } from "shikiji/core";
 import { hslToHex } from "./colors";
 
-export function createTheme(
-  name: string,
-  colors: {
-    /**
-     * Color of comments
-     * @example // Hello World
-     */
-    comment: string;
-    /**
-     * Color of text
-     * @example Hello World
-     */
-    foreground: string;
-    /**
-     * Color of function names
-     * @example helloWorld
-     */
-    function: string;
-    /**
-     * Color of variable names
-     * @example helloWorld
-     */
-    variable: string;
-    /**
-     * Color of language keywords
-     * @example if, else, for, while, return, export, function
-     */
-    keyword: string;
-    /**
-     * Color of numbers
-     * @example 123
-     */
-    number: string;
-    /**
-     * Color of operators
-     * @example +, -, *, /, %, =, ==, ===, !=, !==, &&, ||, !
-     */
-    operator: string;
-    /**
-     * Color of regular expressions
-     */
-    regexp: string;
-    /**
-     * Color of delimiters and brackets
-     * @example (), [], {}, ",", .
-     */
-    punctuation: string;
-    /**
-     * Color of strings
-     * @example "Hello World"
-     */
-    string: string;
-    // /**
-    //  * Color of HTML tags
-    //  * @example div, button
-    //  */
-    // tag: string;
-    invalid?: string;
-    bracketHighlight?: string;
-    diffDeletedBg?: string;
-    diffInsertedBg?: string;
-    diffChangedBg?: string;
-    diffIgnoredBg?: string;
-    carriageReturn?: string;
-  }
-) {
+type Colors = {
+  /**
+   * Color of comments
+   * @example // Hello World
+   */
+  comment: string;
+  /**
+   * Color of text
+   * @example Hello World
+   */
+  foreground: string;
+  /**
+   * Color of function names
+   * @example helloWorld
+   */
+  function: string;
+  /**
+   * Color of variable names
+   * @example helloWorld
+   */
+  variable: string;
+  /**
+   * Color of language keywords
+   * @example if, else, for, while, return, export, function
+   */
+  keyword: string;
+  /**
+   * Color of numbers
+   * @example 123
+   */
+  number: string;
+  /**
+   * Color of operators
+   * @example +, -, *, /, %, =, ==, ===, !=, !==, &&, ||, !
+   */
+  operator: string;
+  /**
+   * Color of regular expressions
+   */
+  regexp: string;
+  /**
+   * Color of delimiters and brackets
+   * @example (), [], {}, ",", .
+   */
+  punctuation: string;
+  /**
+   * Color of strings
+   * @example "Hello World"
+   */
+  string: string;
+  // /**
+  //  * Color of HTML tags
+  //  * @example div, button
+  //  */
+  // tag: string;
+  invalid?: string;
+  bracketHighlight?: string;
+  diffDeletedBg?: string;
+  diffInsertedBg?: string;
+  diffChangedBg?: string;
+  diffIgnoredBg?: string;
+  carriageReturn?: string;
+};
+
+export function createTheme(name: string, colors: Colors) {
   colors = {
     invalid: "#fdaeb7",
     bracketHighlight: "#d1d5da",
@@ -82,7 +81,7 @@ export function createTheme(
       ...acc,
       [key]: color.startsWith("hsl") ? hslToHex(color) : color,
     }),
-    {}
+    {} as Colors
   );
   return {
     name,
@@ -227,7 +226,7 @@ export function createTheme(
           fontStyle: "italic underline",
           background: colors.keyword,
           foreground: colors.carriageReturn,
-          content: "^M",
+          // content: "^M",
         },
       },
       {
@@ -428,5 +427,7 @@ export function createTheme(
         },
       },
     ],
-  } satisfies ThemeRegistrationRaw;
+  } satisfies ThemeRegistrationRaw & {
+    colors: Record<string, string>;
+  };
 }

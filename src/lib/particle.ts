@@ -3,7 +3,6 @@ export class Particle {
   y: number;
   size: number;
   speedX: number;
-  blur: number;
   speedY: number;
   opacity: number;
 

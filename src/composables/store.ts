@@ -138,17 +138,17 @@ export function addEditorBlock() {
   });
 }
 
-export function addNoteBlock() {
-  store.value.blocks.push({
-    id: v4(),
-    content: "",
-    type: BlockType.Note,
-    columnSpan: 12,
-    rowSpan: 1,
-    fontColor: "#ffffff",
-    fontSize: "20",
-  });
-}
+// export function addNoteBlock() {
+//   store.value.blocks.push({
+//     id: v4(),
+//     content: "",
+//     type: BlockType.Note,
+//     columnSpan: 12,
+//     rowSpan: 1,
+//     fontColor: "#ffffff",
+//     fontSize: "20",
+//   });
+// }
 
 export function removeBlock(blockId: string) {
   const blocks = store.value.blocks;
