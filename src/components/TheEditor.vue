@@ -230,6 +230,7 @@ const fontFamily = computed(() => {
   width: 3ch;
   text-align: right;
   opacity: 0;
+  user-select: none;
   transition: opacity 0.375s cubic-bezier(0.6, 0.6, 0, 1);
 }
 

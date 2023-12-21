@@ -59,6 +59,8 @@ export const AVAILABLE_LANGUAGES = [
       { value: "ruby", label: "Ruby", lang: () => import("shikiji/langs/ruby.mjs") },
       { value: "rust", label: "Rust", lang: () => import("shikiji/langs/rust.mjs") },
       { value: "solidity", label: "Solidity", lang: () => import("shikiji/langs/solidity.mjs") },
+      { value: "jsx", label: "JSX", lang: () => import("shikiji/langs/jsx.mjs") },
+      { value: "tsx", label: "TSX", lang: () => import("shikiji/langs/tsx.mjs") },
       { value: "vue", label: "Vue", lang: () => import("shikiji/langs/vue.mjs") },
     ],
   },

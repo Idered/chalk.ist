@@ -168,12 +168,12 @@ export function createTheme(name: string, colors: Colors) {
           foreground: colors.string,
         },
       },
-      {
-        scope: "support",
-        settings: {
-          foreground: colors.foreground,
-        },
-      },
+      // {
+      //   scope: "support",
+      //   settings: {
+      //     foreground: colors.foreground,
+      //   },
+      // },
       {
         scope: "meta.property-name",
         settings: {
