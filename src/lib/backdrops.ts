@@ -100,6 +100,21 @@ export const Backdrops: Backdrop = {
     lightsOpacity: 0.08,
   },
 
+  Nord: {
+    backgroundStyle: {
+      background: `linear-gradient(
+          140deg,
+          hsl(220, 16%, 36%),
+          hsl(220, 17%, 32%),
+          hsl(222, 16%, 28%),
+          hsl(220, 16%, 22%)
+        )`,
+    },
+    shadow: "hsl(220, 17%, 17%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.17,
+  },
+
   Vue: {
     backgroundStyle: {
       background: `linear-gradient(
@@ -113,6 +128,21 @@ export const Backdrops: Backdrop = {
     shadow: "hsl(153, 50%, 6%)",
     shadowsOpacity: 1,
     lightsOpacity: 0.24,
+  },
+
+  TailwindCSS: {
+    backgroundStyle: {
+      background: `linear-gradient(
+          140deg, 
+          hsl(198, 93%, 49%), 
+          hsl(198, 93%, 30%), 
+          hsl(198, 93%, 24%), 
+          hsl(198, 93%, 34%)
+        )`,
+    },
+    shadow: "hsl(198, 93%, 6%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.19,
   },
 
   Dawn: {
@@ -172,36 +202,6 @@ export const Backdrops: Backdrop = {
     shadow: "hsl(347, 100%, 8%)",
     lightsOpacity: 0.35,
     shadowsOpacity: 1,
-  },
-
-  Nord: {
-    backgroundStyle: {
-      background: `linear-gradient(
-          140deg,
-          hsl(220, 16%, 36%),
-          hsl(220, 17%, 32%),
-          hsl(222, 16%, 28%),
-          hsl(220, 16%, 22%)
-        )`,
-    },
-    shadow: "hsl(220, 17%, 17%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.17,
-  },
-
-  TailwindCSS: {
-    backgroundStyle: {
-      background: `linear-gradient(
-          140deg, 
-          hsl(198, 93%, 49%), 
-          hsl(198, 93%, 30%), 
-          hsl(198, 93%, 24%), 
-          hsl(198, 93%, 34%)
-        )`,
-    },
-    shadow: "hsl(198, 93%, 6%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.19,
   },
 
   //   Vercel: {
