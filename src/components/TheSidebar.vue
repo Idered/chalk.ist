@@ -285,7 +285,7 @@ function setFontFamily(fontFamily: string) {
           height: isExpanded ? `${expandableContentHeight + 57}px` : `57px`,
         }"
       >
-        <div ref="expandableContent" class="max-h-[calc(50svh-48px)] overflow-auto">
+        <div ref="expandableContent" class="max-h-[calc(50svh-48px)] sm:max-h-none overflow-auto">
           <div class="grid gap-y-5 px-3 py-4">
             <div class="grid gap-y-2 justify-start">
 
