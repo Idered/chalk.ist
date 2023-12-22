@@ -280,12 +280,12 @@ function setFontFamily(fontFamily: string) {
     <aside>
       <div class="sm:hidden" :style="{ height: '57px' }"></div>
       <div
-        class="fixed bottom-0 inset-x-0 border-t border-slate-700 sm:border-t-0 pwa:sm:border-t pwa:sm:border-t-slate-900 pwa:sm:shadow-[inset_0_1px_0_rgb(30_30_37)] sm:border-r content-start transition-[height] sm:transition-none sm:!h-screen sm:w-[240px] sm:static bg-slate-800 sm:overflow-auto"
+        class="fixed bottom-0 inset-x-0 border-t border-slate-700 sm:border-t-0 pwa:sm:border-t pwa:sm:border-t-slate-900 pwa:sm:shadow-[inset_0_1px_0_rgb(30_30_37)] sm:border-r content-start transition-[height] sm:transition-none sm:!h-screen sm:w-[240px] sm:static bg-slate-800 sm:overflow-auto max-h-screen"
         :style="{
           height: isExpanded ? `${expandableContentHeight + 57}px` : `57px`,
         }"
       >
-        <div ref="expandableContent">
+        <div ref="expandableContent" class="max-h-[calc(50svh-48px)] overflow-auto">
           <div class="grid gap-y-5 px-3 py-4">
             <div class="grid gap-y-2 justify-start">
 
@@ -595,7 +595,7 @@ function setFontFamily(fontFamily: string) {
           class="grid grid-cols-[1fr_auto] sm:grid-cols-1 gap-2 fixed inset-x-0 bottom-0 pb-2 px-3 bg-slate-800 sm:static sm:bg-transparent sm:px-3 sm:py-0"
         >
 
-          <p class="text-[10px] uppercase font-bold tracking-wider flex items-center mt-2">
+          <p class="text-[10px] uppercase font-bold tracking-wider items-center mt-2 hidden sm:flex">
             <hr class="border-y flex-1 mr-2 border-b-slate-700 border-t-slate-900">
             <span>Export</span> 
             <hr class="border-y flex-1 ml-2 border-b-slate-700 border-t-slate-900">
