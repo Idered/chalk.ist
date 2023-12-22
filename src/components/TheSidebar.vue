@@ -376,7 +376,7 @@ function setFontFamily(fontFamily: string) {
                   :title="`Use ${key} backdrop`"
                 >
                   <div
-                    class="w-12 h-10 sm:h-6 rounded group-hover:opacity-100 transition group-hover:scale-105 group-active:scale-95 group-focus:shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] group-focus:ring-[3px] ring-blue-800"
+                    class="w-13 h-10 sm:h-6 rounded group-hover:opacity-100 transition group-hover:scale-105 group-active:scale-95 group-focus:shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] group-focus:ring-[3px] ring-blue-800"
                     :style="{ background: item.backgroundStyle.background }"
                   ></div>
                 </button>
