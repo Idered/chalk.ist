@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { useEventListener } from "@vueuse/core";
-import { transformerNotationDiff, transformerNotationFocus } from "shikiji-transformers";
+import { transformerNotationDiff, transformerNotationFocus, transformerCompactLineOptions } from "shikiji-transformers";
 
 import { store } from "~/composables/store";
 import { BlockType } from "~/enums";
@@ -39,14 +39,25 @@ function lineNumberTransformer(): ShikijiTransformer {
   };
 }
 
+// const focusedLines = ref<number[]>([]);
+// useEventListener(formatted, "mouseenter", () => {
+//   if (!formatted.value) return;
+//   formatted.value.classList.add("has-focused");
+// });
 const shikiContent = computed(() => {
   if (!shiki.value || block.value.type !== BlockType.Code) return "";
 
   return shiki.value.codeToHtml(block.value.content, {
     lang: block.value.language,
     theme: store.value.colorTheme,
-    transformers: [transformerNotationDiff(), transformerNotationFocus(), lineNumberTransformer()],
+    transformers: [
+      transformerNotationDiff(),
+      transformerNotationFocus(),
+      lineNumberTransformer(),
+      // transformerCompactLineOptions([{ line: 2, classes: ["focus"] }]),
+    ],
     meta: {
+      // class: "shiki has-focus",
       tabindex: "-1",
     },
   });
@@ -212,8 +223,9 @@ const fontFamily = computed(() => {
   grid-auto-rows: minmax(20px, auto);
 }
 
-.formatted .has-focused .line:not(.focused) {
+.formatted .has-focus .line:not(.focus) {
   opacity: 0.35;
+  filter: blur(0.75px);
 }
 
 .formatted .line {

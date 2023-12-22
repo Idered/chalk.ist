@@ -280,7 +280,7 @@ function setFontFamily(fontFamily: string) {
     <aside>
       <div class="sm:hidden" :style="{ height: '57px' }"></div>
       <div
-        class="fixed bottom-0 inset-x-0 border-t border-slate-700 sm:border-t-0 pwa:sm:border-t pwa:sm:border-t-slate-900 pwa:sm:shadow-[inset_0_1px_0_rgb(30_30_37)] sm:border-r content-start transition-[height] sm:transition-none sm:!h-screen sm:w-[240px] sm:static bg-slate-800 sm:overflow-auto max-h-screen"
+        class="fixed bottom-0 inset-x-0 border-t border-slate-700 sm:border-t-0 pwa:sm:border-t pwa:sm:border-t-slate-900 pwa:sm:shadow-[inset_0_1px_0_rgb(30_30_37)] sm:border-r content-start transition-[height] sm:transition-none sm:!h-screen sm:w-[270px] sm:static bg-slate-800 sm:overflow-auto max-h-screen"
         :style="{
           height: isExpanded ? `${expandableContentHeight + 57}px` : `57px`,
         }"
@@ -288,18 +288,87 @@ function setFontFamily(fontFamily: string) {
         <div ref="expandableContent" class="max-h-[calc(50svh-48px)] sm:max-h-none overflow-auto">
           <div class="grid gap-y-5 px-3 py-4">
             <div class="grid gap-y-2 justify-start">
+              <!-- <p class="text-[10px] uppercase font-bold tracking-wider flex items-center mt-4">
+                <hr class="border-y flex-1 mr-2 border-b-slate-700 border-t-slate-900">
+                <span>Code Editor</span> 
+                <hr class="border-y flex-1 ml-2 border-b-slate-700 border-t-slate-900">
+              </p> -->
 
-              <p class="text-[10px] uppercase font-bold tracking-wider flex items-center">
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label for="colorTheme" class="font-semibold text-xs">Color theme</label>
+                <BaseSelect
+                  id="colorTheme"
+                  class="-my-1"
+                  preview-on-focus
+                  :model-value="store.colorTheme"
+                  @update:model-value="store.colorTheme = $event"
+                  :options="
+                    themes
+                      .map((item) => ({ value: item.name, label: item.name }))
+                      .sort((a, b) => a.label.localeCompare(b.label))
+                  "
+                />
+              </div>
+
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label for="fontFamily" class="font-semibold text-xs">Font</label>
+                <BaseSelect
+                  class="-my-1"
+                  id="fontFamily"
+                  preview-on-focus
+                  :model-value="store.fontFamily"
+                  @update:model-value="setFontFamily"
+                  :options="AVAILABLE_FONTS"
+                />
+              </div>
+
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label class="font-semibold text-xs select-none cursor-pointer" for="fontLigatures"
+                  >Font ligatures</label
+                >
+                <BaseSwitch
+                  :disabled="!LIGATURE_FONTS.includes(store.fontFamily)"
+                  v-model="store.fontLigatures"
+                  id="fontLigatures"
+                />
+              </div>
+
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label class="font-semibold text-xs select-none cursor-pointer" for="showLineNumbers"
+                  >Line numbers</label
+                >
+                <BaseSwitch v-model="store.showLineNumbers" id="showLineNumbers" />
+              </div>
+              <!-- <p class="text-[10px] uppercase font-bold tracking-wider flex items-center">
                 <hr class="border-y flex-1 mr-2 border-b-slate-700 border-t-slate-900">
                 <span>Background</span> 
                 <hr class="border-y flex-1 ml-2 border-b-slate-700 border-t-slate-900">
-              </p>
+              </p> -->
 
-              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+              <hr class="border-y border-b-slate-700 border-t-slate-900 my-2" />
+
+              <div class="grid grid-cols-[1fr_auto_auto] gap-y-2 items-center justify-between gap-x-2">
                 <label class="font-semibold text-xs select-none cursor-pointer" for="showBackground">Backdrop</label>
+
+                <BaseButton
+                  class="text-blue-500 px-2.5 font-semibold text-xs bg-blue-600/30 hover:bg-blue-600/40 h-5 rounded"
+                  @click="store.expandBackdrops = !store.expandBackdrops"
+                >
+                  <IconChevronDown
+                    width="12"
+                    class="transition-transform"
+                    :class="{
+                      'rotate-180': store.expandBackdrops,
+                    }"
+                  />
+                </BaseButton>
                 <BaseSwitch v-model="store.showBackground" id="showBackground" />
               </div>
-              <div class="flex flex-wrap sm:grid items-center gap-2 sm:grid-flow-row sm:grid-cols-4">
+
+              <div
+                v-if="store.expandBackdrops"
+                class="flex flex-wrap sm:grid items-center gap-2 sm:grid-flow-row sm:grid-cols-4"
+              >
                 <button
                   v-for="(item, key) in Backdrops"
                   @click="store.backdrop = key"
@@ -315,13 +384,15 @@ function setFontFamily(fontFamily: string) {
 
               <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
                 <label class="font-semibold text-xs select-none cursor-pointer" for="backdropNoise"
-                  >Noise</label
+                  >Backdrop noise</label
                 >
                 <BaseSwitch v-model="store.backdropNoise" id="backdropNoise" :disabled="!store.showBackground" />
               </div>
 
               <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-                <label class="font-semibold text-xs select-none cursor-pointer" for="showParticles">Particles</label>
+                <label class="font-semibold text-xs select-none cursor-pointer" for="showParticles"
+                  >Backdrop particles</label
+                >
                 <BaseSwitch v-model="store.showParticles" id="showParticles" />
               </div>
 
@@ -357,16 +428,19 @@ function setFontFamily(fontFamily: string) {
                 </div>
               </div>
 
-              <p class="text-[10px] uppercase font-bold tracking-wider flex items-center mt-4">
+              <!-- <p class="text-[10px] uppercase font-bold tracking-wider flex items-center mt-4">
                 <hr class="border-y flex-1 mr-2 border-b-slate-700 border-t-slate-900">
                 <span>Window</span> 
                 <hr class="border-y flex-1 ml-2 border-b-slate-700 border-t-slate-900">
-              </p>
+              </p> -->
 
-              <div class="grid gap-y-1">
-                <label for="windowStyle" class="font-semibold text-xs">Style</label>
+              <hr class="border-y border-b-slate-700 border-t-slate-900 my-2" />
+
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label for="windowStyle" class="font-semibold text-xs">Window style</label>
                 <BaseSelect
                   id="windowStyle"
+                  class="-my-1"
                   preview-on-focus
                   :disabled="!store.currentThemeSupportsWindowVariants"
                   :model-value="store.windowStyle"
@@ -375,10 +449,11 @@ function setFontFamily(fontFamily: string) {
                 />
               </div>
 
-              <div class="grid gap-y-1">
-                <label for="windowControls" class="font-semibold text-xs">Controls</label>
+              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
+                <label for="windowControls" class="font-semibold text-xs">Window controls</label>
                 <BaseSelect
                   id="windowControls"
+                  class="-my-1"
                   preview-on-focus
                   :model-value="store.windowControls"
                   @update:model-value="store.windowControls = $event"
@@ -392,76 +467,43 @@ function setFontFamily(fontFamily: string) {
                 />
               </div>
 
-
               <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-                <label class="font-semibold text-xs select-none cursor-pointer" for="windowNoise">Noise</label>
+                <label class="font-semibold text-xs select-none cursor-pointer" for="windowNoise">Window noise</label>
                 <BaseSwitch v-model="store.windowNoise" id="windowNoise" />
               </div>
 
               <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-                <label class="font-semibold text-xs select-none cursor-pointer" for="reflection">Reflection</label>
+                <label class="font-semibold text-xs select-none cursor-pointer" for="reflection"
+                  >Window reflection</label
+                >
                 <BaseSwitch v-model="store.reflection" id="reflection" />
               </div>
 
-              <p class="text-[10px] uppercase font-bold tracking-wider flex items-center mt-4">
-                <hr class="border-y flex-1 mr-2 border-b-slate-700 border-t-slate-900">
-                <span>Code Editor</span> 
-                <hr class="border-y flex-1 ml-2 border-b-slate-700 border-t-slate-900">
-              </p>
+              <BaseButton
+                class="px-4 w-full border border-slate-600/30 text-slate-500 hover:bg-slate-700/10 hover:border-slate-600/40 group"
+                @click="() => addEditorBlock()"
+                :disabled="store.blocks.length >= 16"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256">
+                  <path
+                    fill="currentColor"
+                    d="M128 20a108 108 0 1 0 108 108A108.1 108.1 0 0 0 128 20Zm0 192a84 84 0 1 1 84-84a84.1 84.1 0 0 1-84 84Zm52-84a12 12 0 0 1-12 12h-28v28a12 12 0 0 1-24 0v-28H88a12 12 0 0 1 0-24h28V88a12 12 0 0 1 24 0v28h28a12 12 0 0 1 12 12Z"
+                  />
+                </svg>
+                Add window
+              </BaseButton>
 
-              <div class="grid gap-y-1">
-                <label for="colorTheme" class="font-semibold text-xs">Color Theme</label>
-                <BaseSelect
-                  id="colorTheme"
-                  preview-on-focus
-                  :model-value="store.colorTheme"
-                  @update:model-value="store.colorTheme = $event"
-                  :options="
-                    themes
-                      .map((item) => ({ value: item.name, label: item.name }))
-                      .sort((a, b) => a.label.localeCompare(b.label))
-                  "
-                />
-              </div>
+              <hr class="border-y border-b-slate-700 border-t-slate-900 my-2" />
 
-              <div class="grid gap-y-1">
-                <label for="fontFamily" class="font-semibold text-xs">Font</label>
-                <BaseSelect
-                  id="fontFamily"
-                  preview-on-focus
-                  :model-value="store.fontFamily"
-                  @update:model-value="setFontFamily"
-                  :options="AVAILABLE_FONTS"
-                />
-              </div>
-
-              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-                <label class="font-semibold text-xs select-none cursor-pointer" for="fontLigatures"
-                  >Font Ligatures</label
-                >
-                <BaseSwitch
-                  :disabled="!LIGATURE_FONTS.includes(store.fontFamily)"
-                  v-model="store.fontLigatures"
-                  id="fontLigatures"
-                />
-              </div>
-
-              <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-                <label class="font-semibold text-xs select-none cursor-pointer" for="showLineNumbers"
-                  >Line Numbers</label
-                >
-                <BaseSwitch v-model="store.showLineNumbers" id="showLineNumbers" />
-              </div>
-
-              <p class="text-[10px] uppercase font-bold tracking-wider flex items-center mt-4">
+              <!-- <p class="text-[10px] uppercase font-bold tracking-wider flex items-center mt-4">
                 <hr class="border-y flex-1 mr-2 border-b-slate-700 border-t-slate-900">
                 <span>Other</span> 
                 <hr class="border-y flex-1 ml-2 border-b-slate-700 border-t-slate-900">
-              </p>
+              </p> -->
 
               <div class="grid grid-flow-col gap-y-2 items-center grid-cols-[1fr_auto_auto] gap-x-2">
                 <label class="font-semibold text-xs select-none cursor-pointer" for="showTwitterBadge"
-                  >Twitter Badge</label
+                  >Twitter badge</label
                 >
                 <BaseButton
                   class="text-blue-500 px-2.5 font-semibold text-xs bg-blue-600/30 hover:bg-blue-600/40 h-5 rounded"
@@ -477,6 +519,7 @@ function setFontFamily(fontFamily: string) {
                 </BaseButton>
                 <BaseSwitch v-model="store.showTwitterBadge" id="showTwitterBadge" />
               </div>
+              <hr class="border-y border-b-slate-700 border-t-slate-900 my-2" />
 
               <div class="grid gap-y-1 gap-x-2 items-start grid-cols-[auto_1fr]" v-if="store.expandTwitterOptions">
                 <div v-if="store.picture" class="row-start-1 row-end-3 relative group">
@@ -557,23 +600,10 @@ function setFontFamily(fontFamily: string) {
                 </div>
               </div>
 
-              <div class="grid gap-1">
+              <!-- <div class="grid gap-1">
                 <label class="font-semibold text-xs">Layout</label>
-                <BaseButton
-                  class="px-4 w-full border border-slate-600/30 text-slate-500 hover:bg-slate-700/10 hover:border-slate-600/40 group"
-                  @click="() => addEditorBlock()"
-                  :disabled="store.blocks.length >= 16"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256">
-                    <path
-                      fill="currentColor"
-                      d="M128 20a108 108 0 1 0 108 108A108.1 108.1 0 0 0 128 20Zm0 192a84 84 0 1 1 84-84a84.1 84.1 0 0 1-84 84Zm52-84a12 12 0 0 1-12 12h-28v28a12 12 0 0 1-24 0v-28H88a12 12 0 0 1 0-24h28V88a12 12 0 0 1 24 0v28h28a12 12 0 0 1 12 12Z"
-                    />
-                  </svg>
-                  Add editor
-                </BaseButton>
 
-                <!-- <BaseButton
+                <BaseButton
                   class="px-4 w-full border border-slate-600/30 text-slate-500 hover:bg-slate-700/10 hover:border-slate-600/40 group"
                   @click="() => addNoteBlock()"
                   :disabled="store.blocks.length >= 16"
@@ -585,8 +615,8 @@ function setFontFamily(fontFamily: string) {
                     />
                   </svg>
                   Add note
-                </BaseButton> -->
-              </div>
+                </BaseButton>
+              </div> -->
             </div>
           </div>
         </div>
@@ -594,12 +624,11 @@ function setFontFamily(fontFamily: string) {
         <div
           class="grid grid-cols-[1fr_auto] sm:grid-cols-1 gap-2 fixed inset-x-0 bottom-0 pb-2 px-3 bg-slate-800 sm:static sm:bg-transparent sm:px-3 sm:py-0"
         >
-
-          <p class="text-[10px] uppercase font-bold tracking-wider items-center mt-2 hidden sm:flex">
+          <!-- <p class="text-[10px] uppercase font-bold tracking-wider items-center mt-2 hidden sm:flex">
             <hr class="border-y flex-1 mr-2 border-b-slate-700 border-t-slate-900">
             <span>Export</span> 
             <hr class="border-y flex-1 ml-2 border-b-slate-700 border-t-slate-900">
-          </p>
+          </p> -->
 
           <!-- <BaseButton
             class="px-4 w-full bg-blue-600/30 text-blue-500 hover:bg-blue-600/40 group"

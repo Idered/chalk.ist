@@ -185,7 +185,7 @@ function handleKeyDown(e: KeyboardEvent) {
         }
       }"
     >
-      <PopoverTrigger class="relative w-full" tabindex="-1">
+      <PopoverTrigger class="relative" tabindex="-1">
         <BaseInput
           :aria-expanded="isOpen"
           :disabled="disabled"
@@ -199,6 +199,7 @@ function handleKeyDown(e: KeyboardEvent) {
           role="combobox"
           type="text"
           ref="inputRef"
+          class="truncate"
           :class="
             useOpaqueBackground
               ? {
@@ -210,10 +211,9 @@ function handleKeyDown(e: KeyboardEvent) {
                 }
               : {
                   'opacity-50 cursor-not-allowed': disabled,
-                  'bg-slate-900': isFocused,
-                  'cursor-pointer bg-slate-800 shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px]':
+                  'bg-slate-900  placeholder-slate-600/50': isFocused,
+                  'cursor-pointer text-right pr-6 bg-transparent hover:bg-slate-800 border-opacity-0 hover:shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px]':
                     !isFocused,
-                  'placeholder-slate-600/50': isFocused,
                 }
           "
         />
@@ -222,16 +222,16 @@ function handleKeyDown(e: KeyboardEvent) {
           height="12"
           class="pointer-events-none absolute right-2 top-1/2 -mt-[6px] transition-transform"
           :class="{
-            'rotate-180': !isFocused,
+            'rotate-180': isFocused,
           }"
         />
       </PopoverTrigger>
 
       <PopoverPortal>
-        <PopoverContent class="z-50 relative translate-y-2">
+        <PopoverContent class="z-50 relative translate-y-2" align="end">
           <transition appear>
             <div
-              class="grid overflow-auto font-mono p-1 border border-slate-700 bg-slate-800 rounded-md shadow-[rgba(0,0,0,0.25)_0px_14px_28px,rgba(0,0,0,0.22)_0px_10px_10px] w-[var(--radix-popper-anchor-width)] max-h-[calc(var(--radix-popover-content-available-height)-16px)]"
+              class="grid overflow-auto font-mono p-1 border border-slate-700 bg-slate-800 rounded-md shadow-[rgba(0,0,0,0.25)_0px_14px_28px,rgba(0,0,0,0.22)_0px_10px_10px] min-w-[var(--radix-popper-anchor-width)] max-h-[calc(var(--radix-popover-content-available-height)-16px)]"
               @mouseleave="
                 () => {
                   activeIndex = -1;
@@ -249,7 +249,7 @@ function handleKeyDown(e: KeyboardEvent) {
                 @mouseenter="activeIndex = i"
               >
                 <IconCheck width="12" class="absolute left-2" v-if="modelValue === result.item.value" />
-                {{ result.item.label }}
+                <span class="whitespace-nowrap">{{ result.item.label }}</span>
               </div>
               <div
                 v-if="!search"

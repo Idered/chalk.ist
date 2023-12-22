@@ -70,6 +70,7 @@ export const store = useStorage("chalk-store", {
   picture: "",
   title: "",
   showTwitterBadge: true,
+  expandBackdrops: true,
   expandTwitterOptions: true,
   expandSupportSection: true,
   showBackground: true,
@@ -103,6 +104,7 @@ store.value.windowNoise = store.value.windowNoise ?? false;
 store.value.colorTheme = store.value.colorTheme ?? "Vue";
 store.value.showLineNumbers = store.value.showLineNumbers ?? true;
 store.value.windowControls = store.value.windowControls ?? WindowControls.MacOutline;
+store.value.expandBackdrops = store.value.expandBackdrops ?? true;
 store.value.expandSupportSection = store.value.expandSupportSection ?? true;
 store.value.paddingX = store.value.paddingX || 32;
 store.value.paddingY = store.value.paddingY || 32;
