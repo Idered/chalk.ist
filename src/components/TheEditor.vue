@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { useEventListener } from "@vueuse/core";
-import { transformerNotationDiff, transformerNotationFocus, transformerCompactLineOptions } from "shikiji-transformers";
+import { transformerNotationDiff, transformerNotationFocus } from "shikiji-transformers";
 
 import { store } from "~/composables/store";
 import { BlockType } from "~/enums";
