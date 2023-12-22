@@ -370,7 +370,7 @@ function setFontFamily(fontFamily: string) {
         <ExportOptions :is-expanded="isExpanded" @update:is-expanded="isExpanded = $event" />
 
         <div
-          class="sm:grid grid-cols-[1fr_auto_1fr] sm:grid-cols-1 gap-2 bg-slate-800 hidden sm:static sm:bg-transparent sm:px-3 sm:py-0 mt-4"
+          class="pwa:hidden sm:grid grid-cols-[1fr_auto_1fr] sm:grid-cols-1 gap-2 bg-slate-800 hidden sm:static sm:bg-transparent sm:px-3 sm:py-0 mt-4"
         >
           <div class="text-xs hidden sm:block text-center">
             <span class="opacity-75">Made by</span>
@@ -396,4 +396,3 @@ function setFontFamily(fontFamily: string) {
     </aside>
   </OnClickOutside>
 </template>
-~/lib
