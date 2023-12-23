@@ -21,17 +21,11 @@ defineEmits<{
 
 const timeout = ref();
 
-const isSafari = computed(() => {
-  return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-});
-
 const isFirefox = computed(() => {
   return navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
 });
 
-const hideVideoExport = computed(() => {
-  return isSafari.value || isFirefox.value;
-});
+const hideVideoExport = computed(() => typeof VideoEncoder === 'undefined');
 
 const canDownloadVideo = computed(() => {
   const MAXIMUM_CODEC_AREA = 2_097_152;
@@ -251,7 +245,7 @@ async function handleDownload() {
               ? "Copied!"
               : exportState === ExportState.CopyFailure
               ? "Error! Try to download"
-              : "Copy Image to Clipboard"
+              : "Copy image to clipboard"
           }}
         </span>
       </BaseButton>
@@ -297,7 +291,7 @@ async function handleDownload() {
         <template v-if="exportState === ExportState.PreparingToDownloadVideo">
           <span v-if="videoExportProgress.currentFrame + 1 !== videoExportProgress.totalFrames" class="truncate">
             Preparing frames
-            {{ Math.round(((videoExportProgress.currentFrame + 1) / videoExportProgress.totalFrames) * 100) }}%
+            ({{ Math.round(((videoExportProgress.currentFrame + 1) / videoExportProgress.totalFrames) * 100) }}%)
           </span>
           <span v-else class="truncate">Encoding...</span>
         </template>

@@ -167,6 +167,9 @@ watch(
       class="formatted transition-opacity duration-500"
       v-html="shikiContent"
       ref="formatted"
+			:style="{
+				'line-height': store.lineHeight + 'px'
+			}"
       :class="{
         'pointer-events-none': store.editMode === 'code',
         'show-line-numbers': store.showLineNumbers,
@@ -181,6 +184,7 @@ watch(
       spellcheck="false"
       :style="{
         'min-height': block.content.split('\n').length * 20 + 'px',
+				'line-height': store.lineHeight + 'px'
       }"
     />
   </div>
@@ -201,7 +205,6 @@ watch(
   tab-size: 2;
   white-space-collapse: collapse;
   white-space: pre-wrap;
-  line-height: 20px;
 }
 
 .editor {
@@ -226,6 +229,7 @@ watch(
 .formatted code,
 .formatted pre {
   font-family: inherit;
+	background-color: transparent !important;
 }
 
 .formatted code {

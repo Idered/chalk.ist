@@ -1,6 +1,8 @@
 import { createTheme } from "~/lib/create-theme";
+import { bundledThemesInfo } from 'shikiji/themes'
 
-export const themes = [
+export const shikijiThemes = bundledThemesInfo.filter(({ type }) => type === 'dark')
+export const chalkistThemes = [
   createTheme("Vue", {
     comment: "#387156",
     foreground: "#dff3ea",

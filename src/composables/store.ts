@@ -16,6 +16,7 @@ export const preview = ref<{
   username: string;
   paddingX: number;
   paddingY: number;
+  lineHeight: number;
   frameWidth: number;
   picture: string;
   reflection: boolean;
@@ -87,6 +88,7 @@ export const store = useStorage("chalk-store", {
   modifiedContent: "",
   paddingX: 16,
   paddingY: 16,
+  lineHeight: 20,
   frameHeight: 0,
   frameWidth: 720,
   content: DEFAULT_CONTENT,
@@ -127,6 +129,7 @@ store.value.expandBackdrops = store.value.expandBackdrops ?? true;
 store.value.expandSupportSection = store.value.expandSupportSection ?? true;
 store.value.paddingX = store.value.paddingX || 32;
 store.value.paddingY = store.value.paddingY || 32;
+store.value.lineHeight = store.value.lineHeight || 20;
 store.value.windowStyle = store.value.windowStyle || "variant-1";
 store.value.frameWidth = store.value.frameWidth || MIN_FRAME_WIDTH;
 store.value.showParticles = store.value.showParticles || true;
