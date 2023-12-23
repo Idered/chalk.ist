@@ -1,7 +1,17 @@
 import { createTheme } from "~/lib/create-theme";
-import { bundledThemesInfo } from 'shikiji/themes'
+import { bundledThemesInfo } from "shikiji/themes";
 
-export const shikijiThemes = bundledThemesInfo.filter(({ type }) => type === 'dark')
+const excludedThemes = [
+  "material-theme-darker",
+  "material-theme-ocean",
+  "material-theme-palenight",
+  "dracula-soft",
+  "rose-pine-moon",
+  "vitesse-black",
+];
+export const shikijiThemes = bundledThemesInfo.filter(
+  ({ type, id }) => type === "dark" && excludedThemes.includes(id) === false
+);
 export const chalkistThemes = [
   createTheme("Vue", {
     comment: "#387156",
@@ -66,19 +76,6 @@ export const chalkistThemes = [
     regexp: "#85e5c5",
     function: "#cbd5e1",
     operator: "#65808b",
-  }),
-
-  createTheme("Nord", {
-    comment: "#5e81ac",
-    foreground: "#d8dee9",
-    function: "#88c0d0",
-    keyword: "#81a1c1",
-    number: "#b48ead",
-    operator: "#81a1c1",
-    punctuation: "#81a1c1",
-    regexp: "#bf616a",
-    string: "#a3be8c",
-    variable: "#d8dee9",
   }),
 
   createTheme("Dawn", {
