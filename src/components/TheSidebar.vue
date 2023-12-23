@@ -74,19 +74,19 @@ function setFontFamily(fontFamily: string) {
 }
 
 const themeOptions = computed(() => [
-	{
-		group: 'Chalkist',
-		children: chalkistThemes	
-			.map((item) => ({ value: item.name!, label: item.name!}))
-			.sort((a, b) => a.label.localeCompare(b.label))
-	},
-	{
-		group: 'Shiki',
-		children: shikijiThemes
-			.map((item) => ({ value: item.id, label: item.displayName }))
-			.sort((a, b) => a.label.localeCompare(b.label))
-	}
-])
+  {
+    group: "Chalk.ist Originals",
+    children: chalkistThemes
+      .map((item) => ({ value: item.name!, label: item.name! }))
+      .sort((a, b) => a.label.localeCompare(b.label)),
+  },
+  {
+    group: "Other",
+    children: shikijiThemes
+      .map((item) => ({ value: item.id, label: item.displayName }))
+      .sort((a, b) => a.label.localeCompare(b.label)),
+  },
+]);
 </script>
 
 <template>
@@ -137,6 +137,22 @@ const themeOptions = computed(() => [
             <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
               <label class="font-semibold text-xs select-none cursor-pointer" for="showLineNumbers">Line numbers</label>
               <BaseSwitch v-model="store.showLineNumbers" id="showLineNumbers" />
+            </div>
+
+            <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2 h-5">
+              <label class="font-semibold text-xs select-none cursor-pointer" for="lineHeight">Line height</label>
+              <div class="grid gap-x-2 grid-flow-col text-sm">
+                <input
+                  id="lineHeight"
+                  class="accent-blue-700 w-full"
+                  type="range"
+                  min="20"
+                  max="30"
+                  step="1"
+                  :value="store.lineHeight"
+                  @input="store.lineHeight = parseInt(($event.target as HTMLInputElement).value)"
+                />
+              </div>
             </div>
 
             <hr class="border-y border-b-slate-700 border-t-slate-900" />
@@ -216,22 +232,6 @@ const themeOptions = computed(() => [
                   step="8"
                   :value="store.paddingY"
                   @input="store.paddingY = parseInt(($event.target as HTMLInputElement).value)"
-                />
-              </div>
-            </div>
-
-            <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2 h-5">
-              <label class="font-semibold text-xs select-none cursor-pointer" for="lineHeight">Line height</label>
-              <div class="grid gap-x-2 grid-flow-col text-sm">
-                <input
-                  id="lineHeight"
-                  class="accent-blue-700 w-full"
-                  type="range"
-                  min="20"
-                  max="30"
-                  step="1"
-                  :value="store.lineHeight"
-                  @input="store.lineHeight = parseInt(($event.target as HTMLInputElement).value)"
                 />
               </div>
             </div>
@@ -405,8 +405,8 @@ const themeOptions = computed(() => [
               href="https://twitter.com/Idered"
               class="hover:text-white transition outline-none font-medium focus:text-white"
             >
-              Idered</a
-            >
+              Idered
+            </a>
           </div>
 
           <div class="text-xs hidden sm:block text-center pb-4">
