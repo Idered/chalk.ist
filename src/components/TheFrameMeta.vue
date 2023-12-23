@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { preview, store } from "~/composables/store";
+import BaseButton from "./BaseButton.vue";
+import { BlockType } from "~/enums";
 
 defineProps<{
   frameWidth: number;
@@ -7,7 +9,53 @@ defineProps<{
 </script>
 
 <template>
-  <div v-if="!preview" class="absolute bottom-full right-0 mb-2 flex space-x-2">
+  <div
+    v-if="!preview"
+    class="mb-2 flex space-x-2 items-center justify-between"
+    :style="{
+      width: `${frameWidth}px`,
+    }"
+  >
+    <div class="flex items-center space-x-1">
+      <BaseButton
+        @click="store.editMode = 'code'"
+        class="h-6 px-2 hover:text-slate-100"
+        :class="{ 'bg-slate-50 text-slate-900 hover:text-slate-900': store.editMode === 'code' }"
+      >
+        Edit
+      </BaseButton>
+
+      <BaseButton
+        @click="store.editMode = 'focus'"
+        class="h-6 px-2 hover:text-slate-100"
+        :class="{ 'bg-slate-50 text-slate-900 hover:text-slate-900': store.editMode === 'focus' }"
+      >
+        Highlight
+      </BaseButton>
+
+      <BaseButton
+        @click="
+          store.blocks = store.blocks.map((item) =>
+            item.type === BlockType.Code ? { ...item, transformations: [] } : item
+          )
+        "
+        class="h-6 px-2 hover:text-slate-100"
+      >
+        Clear highlights
+      </BaseButton>
+      <!-- <BaseButton
+        @click="store.editMode = 'add'"
+        class="h-6 px-2"
+        :class="{ 'bg-slate-50 text-slate-900': store.editMode === 'add' }"
+        >Add</BaseButton
+      > -->
+      <!-- <BaseButton
+        @click="store.editMode = 'remove'"
+        class="h-6 px-2"
+        :class="{ 'bg-slate-50 text-slate-900': store.editMode === 'remove' }"
+        >Remove</BaseButton
+      > -->
+    </div>
     <!-- <a
       :href="`${theme.inspirationUrl}?ref=chalk.ist`"
       target="_blank"

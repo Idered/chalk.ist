@@ -46,9 +46,10 @@ function handleCopy() {
         transformOrigin: 'top left',
       }"
       :class="{
-        'sm:items-center h-auto': frameWidth < containerWidth,
+        'sm:content-center h-auto': frameWidth < containerWidth,
       }"
     >
+      <TheFrameMeta :frame-width="frameWidth" />
       <div ref="editorFrame" data-editor-frame class="relative" :style="{ width: `${frameWidth}px` }">
         <BaseButton
           v-if="preview"
@@ -60,7 +61,6 @@ function handleCopy() {
           {{ exportState === ExportState.JustCopiedContent ? "Copied!" : "Copy to Clipboard" }}
         </BaseButton>
 
-        <TheFrameMeta :frame-width="frameWidth" />
         <TheFrameResizer />
         <TheFrameBackground />
         <TheParticlesBackground v-if="store.showParticles" :width="frameWidth" :height="frameHeight" />

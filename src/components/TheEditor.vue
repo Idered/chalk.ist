@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, watch, watchEffect } from "vue";
 import { useEventListener } from "@vueuse/core";
-import { transformerNotationDiff, transformerNotationFocus } from "shikiji-transformers";
+import { transformerCompactLineOptions, transformerNotationDiff, transformerNotationFocus } from "shikiji-transformers";
 
 import { store } from "~/composables/store";
 import { BlockType } from "~/enums";
@@ -39,14 +39,18 @@ function lineNumberTransformer(): ShikijiTransformer {
   };
 }
 
-// const focusedLines = ref<number[]>([]);
-// useEventListener(formatted, "mouseenter", () => {
-//   if (!formatted.value) return;
-//   formatted.value.classList.add("has-focused");
-// });
 const shikiContent = computed(() => {
   if (!shiki.value || block.value.type !== BlockType.Code) return "";
-
+  const classNames = ["shiki"];
+  if (block.value.transformations.some((item) => item.type === "focus")) {
+    classNames.push("has-focus");
+  }
+  const lineOptions = block.value.transformations.map((item) => {
+    return {
+      line: item.line,
+      classes: [item.type],
+    };
+  });
   return shiki.value.codeToHtml(block.value.content, {
     lang: block.value.language,
     theme: store.value.colorTheme,
@@ -54,10 +58,10 @@ const shikiContent = computed(() => {
       transformerNotationDiff(),
       transformerNotationFocus(),
       lineNumberTransformer(),
-      // transformerCompactLineOptions([{ line: 2, classes: ["focus"] }]),
+      transformerCompactLineOptions(lineOptions),
     ],
     meta: {
-      // class: "shiki has-focus",
+      class: classNames.join(" "),
       tabindex: "-1",
     },
   });
@@ -110,27 +114,6 @@ useEventListener(editor, "keydown", async (e) => {
   }
 });
 
-// watch(
-//   shikiContent,
-//   async () => {
-//     if (!formatted.value) return;
-//     formatted.value.querySelectorAll(".line").forEach((line) => {
-//       line.addEventListener("mouseenter", () => {
-//         formatted.value?.classList.add("has-focused");
-//         line.classList.add("focused");
-//       });
-//       line.addEventListener("mouseleave", () => {
-//         formatted.value?.classList.remove("has-focused");
-//         line.classList.remove("focused");
-//       });
-//     });
-//   },
-//   {
-//     immediate: true,
-//     flush: "post",
-//   }
-// );
-
 const gutter = computed(() => {
   const len = block.value.content.split("\n").length;
   if (!store.value.showLineNumbers) return "20px";
@@ -145,6 +128,32 @@ const fontFeatureSettings = computed(() => {
 const fontFamily = computed(() => {
   return `"${store.value.fontFamily}", Menlo, Monaco, "Courier New", monospace`;
 });
+
+watch(
+  [() => store.value.editMode, shikiContent, formatted],
+  () => {
+    if (store.value.editMode === "focus") {
+      formatted.value?.querySelectorAll(".line").forEach((el, lineIndex) => {
+        const line = lineIndex + 1;
+        el.addEventListener("click", () => {
+          const index = block.value.transformations.findIndex((item) => item.type === "focus" && item.line === line);
+          if (index === -1) {
+            block.value.transformations.push({
+              type: "focus",
+              line,
+            });
+          } else {
+            block.value.transformations.splice(index, 1);
+          }
+        });
+      });
+    }
+  },
+  {
+    immediate: true,
+    flush: "post",
+  }
+);
 </script>
 
 <template>
@@ -159,6 +168,7 @@ const fontFamily = computed(() => {
       v-html="shikiContent"
       ref="formatted"
       :class="{
+        'pointer-events-none': store.editMode === 'code',
         'show-line-numbers': store.showLineNumbers,
         'opacity-0': !shiki,
       }"
@@ -209,7 +219,7 @@ const fontFamily = computed(() => {
 }
 
 .formatted {
-  pointer-events: none;
+  user-select: none;
   position: relative;
 }
 
@@ -224,19 +234,23 @@ const fontFamily = computed(() => {
 }
 
 .formatted .has-focus .line:not(.focus) {
-  opacity: 0.35;
-  filter: blur(0.75px);
+  opacity: 0.5;
+  filter: blur(0.8px);
 }
 
 .formatted .line {
-  counter-increment: line;
+  position: relative;
   padding-inline-end: 20px;
   padding-inline-start: v-bind(gutter);
   transition: padding 0.375s cubic-bezier(0.6, 0.6, 0, 1);
 }
 
+.formatted .line:hover {
+  background: rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+}
+
 .formatted .line-number {
-  content: counter(line, decimal);
   float: left;
   margin-left: -4ch;
   width: 3ch;

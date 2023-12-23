@@ -37,6 +37,7 @@ export const store = useStorage("chalk-store", {
       title: "",
       columnSpan: 12,
       rowSpan: 1,
+      transformations: [],
     },
   ] as {
     id: string;
@@ -46,6 +47,10 @@ export const store = useStorage("chalk-store", {
     title: string;
     columnSpan: number;
     rowSpan: number;
+    transformations: {
+      line: number;
+      type: "add" | "remove" | "focus";
+    }[];
   }[],
   // | {
   //     id: string;
@@ -67,6 +72,7 @@ export const store = useStorage("chalk-store", {
   fontFamily: "JetBrains Mono",
   fontLigatures: true,
   diff: false,
+  editMode: "code" as "code" | "focus" | "add" | "remove",
   picture: "",
   title: "",
   showTwitterBadge: true,
@@ -91,13 +97,26 @@ export const isExporting = ref(false);
 // Data migrations
 store.value.blocks = store.value.blocks ?? [
   {
+    id: v4(),
     content: DEFAULT_CONTENT,
     language: "typescript",
+    type: BlockType.Code,
     title: "",
     columnSpan: 12,
     rowSpan: 1,
+    transformations: [],
   },
 ];
+store.value.blocks = store.value.blocks.map((block) => {
+  if (block.type === BlockType.Code) {
+    return {
+      ...block,
+      transformations: block.transformations || [],
+    };
+  }
+  return block;
+});
+store.value.editMode = store.value.editMode ?? "code";
 store.value.backdrop = store.value.backdrop ?? "Vue";
 store.value.backdropNoise = store.value.backdropNoise ?? false;
 store.value.windowNoise = store.value.windowNoise ?? false;
@@ -137,6 +156,7 @@ export function addEditorBlock() {
     title: "",
     columnSpan: 12,
     rowSpan: 1,
+    transformations: [],
   });
 }
 

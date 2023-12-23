@@ -3,7 +3,7 @@ import { getWasmInlined } from "shikiji/wasm";
 import { onMounted, ref } from "vue";
 import { LANGUAGES } from "~/constants";
 import { themes } from "~/lib/themes";
-console.log(themes);
+
 const shiki = ref<HighlighterCore>();
 
 export function useShiki() {
