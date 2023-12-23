@@ -229,6 +229,7 @@ watch(
 .formatted code,
 .formatted pre {
   font-family: inherit;
+	background-color: transparent !important;
 }
 
 .formatted code {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { OnClickOutside } from "@vueuse/components";
 import { addEditorBlock, store } from "~/composables/store";
 import BaseSwitch from "./BaseSwitch.vue";
@@ -12,7 +12,7 @@ import { useElementSize } from "@vueuse/core";
 import { resizeImage, cropImage } from "~/composables/image";
 import { WindowControls } from "~/enums";
 import { Backdrops } from "~/lib/backdrops";
-import { themes } from "~/lib/themes";
+import { shikijiThemes, chalkistThemes } from "~/lib/themes";
 import ExportOptions from "./ExportOptions.vue";
 
 const isExpanded = ref(false);
@@ -72,6 +72,21 @@ function handlePicture(event: Event) {
 function setFontFamily(fontFamily: string) {
   store.value.fontFamily = fontFamily;
 }
+
+const themeOptions = computed(() => [
+	{
+		group: 'Chalkist',
+		children: chalkistThemes	
+			.map((item) => ({ value: item.name!, label: item.name!}))
+			.sort((a, b) => a.label.localeCompare(b.label))
+	},
+	{
+		group: 'Shiki',
+		children: shikijiThemes
+			.map((item) => ({ value: item.id, label: item.displayName }))
+			.sort((a, b) => a.label.localeCompare(b.label))
+	}
+])
 </script>
 
 <template>
@@ -94,11 +109,7 @@ function setFontFamily(fontFamily: string) {
                 preview-on-focus
                 :model-value="store.colorTheme"
                 @update:model-value="store.colorTheme = $event"
-                :options="
-                  themes
-                    .map((item) => ({ value: item.name, label: item.name }))
-                    .sort((a, b) => a.label.localeCompare(b.label))
-                "
+                :options="themeOptions"
               />
             </div>
 
