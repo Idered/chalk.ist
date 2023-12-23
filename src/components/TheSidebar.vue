@@ -279,20 +279,6 @@ const themeOptions = computed(() => [
               <BaseSwitch v-model="store.reflection" id="reflection" />
             </div>
 
-            <BaseButton
-              class="px-4 w-full border border-slate-600/30 text-slate-500 hover:bg-slate-700/10 hover:border-slate-600/40 group"
-              @click="() => addEditorBlock()"
-              :disabled="store.blocks.length >= 16"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256">
-                <path
-                  fill="currentColor"
-                  d="M128 20a108 108 0 1 0 108 108A108.1 108.1 0 0 0 128 20Zm0 192a84 84 0 1 1 84-84a84.1 84.1 0 0 1-84 84Zm52-84a12 12 0 0 1-12 12h-28v28a12 12 0 0 1-24 0v-28H88a12 12 0 0 1 0-24h28V88a12 12 0 0 1 24 0v28h28a12 12 0 0 1 12 12Z"
-                />
-              </svg>
-              Add window
-            </BaseButton>
-
             <hr class="border-y border-b-slate-700 border-t-slate-900" />
 
             <div class="grid grid-flow-col gap-y-2 items-center grid-cols-[1fr_auto_auto] gap-x-2">

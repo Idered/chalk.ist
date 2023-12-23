@@ -39,7 +39,8 @@ defineProps<{
             item.type === BlockType.Code ? { ...item, transformations: [] } : item
           )
         "
-        class="h-6 px-2 hover:text-slate-100"
+        class="h-6 px-2 disabled:opacity-50 enabled:hover:text-slate-100"
+        :disabled="store.blocks.every((item) => item.transformations.length === 0)"
       >
         Clear highlights
       </BaseButton>

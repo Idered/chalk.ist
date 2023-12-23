@@ -242,7 +242,7 @@ useEventListener(formatted, "click", (event) => {
   position: relative;
   padding-inline-end: 20px;
   padding-inline-start: v-bind(gutter);
-  transition: padding 0.375s cubic-bezier(0.6, 0.6, 0, 1);
+  transition: padding 0.375s ease-in-out, opacity 0.375s ease-in-out, filter 0.375s ease-in-out;
 }
 
 .formatted .line:hover {
