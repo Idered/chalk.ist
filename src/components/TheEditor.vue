@@ -21,6 +21,11 @@ function lineNumberTransformer(): ShikijiTransformer {
   return {
     name: "line-number",
     line(line, index) {
+      line.properties = {
+        ...line.properties,
+        class: ["line"],
+        "data-line": `${index}`,
+      };
       line.children.unshift({
         type: "element",
         tagName: "span",
@@ -129,31 +134,22 @@ const fontFamily = computed(() => {
   return `"${store.value.fontFamily}", Menlo, Monaco, "Courier New", monospace`;
 });
 
-watch(
-  [() => store.value.editMode, shikiContent, formatted],
-  () => {
-    if (store.value.editMode === "focus") {
-      formatted.value?.querySelectorAll(".line").forEach((el, lineIndex) => {
-        const line = lineIndex + 1;
-        el.addEventListener("click", () => {
-          const index = block.value.transformations.findIndex((item) => item.type === "focus" && item.line === line);
-          if (index === -1) {
-            block.value.transformations.push({
-              type: "focus",
-              line,
-            });
-          } else {
-            block.value.transformations.splice(index, 1);
-          }
-        });
-      });
-    }
-  },
-  {
-    immediate: true,
-    flush: "post",
+useEventListener(formatted, "click", (event) => {
+  const el = (event.target as HTMLElement).closest(".line") as HTMLSpanElement;
+  if (!el.classList.contains("line")) {
+    return;
   }
-);
+  const line = parseInt(el.dataset.line!);
+  const index = block.value.transformations.findIndex((item) => item.type === "focus" && item.line === line);
+  if (index === -1) {
+    block.value.transformations.push({
+      type: "focus",
+      line,
+    });
+  } else {
+    block.value.transformations.splice(index, 1);
+  }
+});
 </script>
 
 <template>
@@ -167,9 +163,9 @@ watch(
       class="formatted transition-opacity duration-500"
       v-html="shikiContent"
       ref="formatted"
-			:style="{
-				'line-height': store.lineHeight + 'px'
-			}"
+      :style="{
+        'line-height': store.lineHeight + 'px',
+      }"
       :class="{
         'pointer-events-none': store.editMode === 'code',
         'show-line-numbers': store.showLineNumbers,
@@ -184,7 +180,7 @@ watch(
       spellcheck="false"
       :style="{
         'min-height': block.content.split('\n').length * 20 + 'px',
-				'line-height': store.lineHeight + 'px'
+        'line-height': store.lineHeight + 'px',
       }"
     />
   </div>
@@ -229,7 +225,7 @@ watch(
 .formatted code,
 .formatted pre {
   font-family: inherit;
-	background-color: transparent !important;
+  background-color: transparent !important;
 }
 
 .formatted code {
