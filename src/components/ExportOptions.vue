@@ -21,17 +21,11 @@ defineEmits<{
 
 const timeout = ref();
 
-const isSafari = computed(() => {
-  return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-});
-
 const isFirefox = computed(() => {
   return navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
 });
 
-const hideVideoExport = computed(() => {
-  return isSafari.value || isFirefox.value;
-});
+const hideVideoExport = computed(() => typeof VideoEncoder === 'undefined');
 
 const canDownloadVideo = computed(() => {
   const MAXIMUM_CODEC_AREA = 2_097_152;
