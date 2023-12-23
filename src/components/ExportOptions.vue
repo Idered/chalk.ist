@@ -245,7 +245,7 @@ async function handleDownload() {
               ? "Copied!"
               : exportState === ExportState.CopyFailure
               ? "Error! Try to download"
-              : "Copy Image to Clipboard"
+              : "Copy image to clipboard"
           }}
         </span>
       </BaseButton>
@@ -291,7 +291,7 @@ async function handleDownload() {
         <template v-if="exportState === ExportState.PreparingToDownloadVideo">
           <span v-if="videoExportProgress.currentFrame + 1 !== videoExportProgress.totalFrames" class="truncate">
             Preparing frames
-            {{ Math.round(((videoExportProgress.currentFrame + 1) / videoExportProgress.totalFrames) * 100) }}%
+            ({{ Math.round(((videoExportProgress.currentFrame + 1) / videoExportProgress.totalFrames) * 100) }}%)
           </span>
           <span v-else class="truncate">Encoding...</span>
         </template>
