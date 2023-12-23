@@ -165,7 +165,7 @@ const fontFamily = computed(() => {
     />
 
     <textarea
-      class="editor"
+      class="editor focus-visible:outline-none"
       ref="editor"
       v-model="block.content"
       spellcheck="false"
