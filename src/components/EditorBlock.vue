@@ -242,10 +242,10 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
         :class="{
           // 'text-white/60 placeholder:text-white/30 ': theme.mode === 'dark',
           // 'text-black/60 placeholder:text-black/30': theme.mode === 'light',
-          'mt-4 text-center': (preview || store).windowControls !== WindowControls.Windows,
-          'pl-3': (preview || store).windowControls === WindowControls.Windows,
+          'text-center': (preview || store).windowControls !== WindowControls.Windows,
+          'pl-5': (preview || store).windowControls === WindowControls.Windows,
         }"
-        class="bg-transparent z-10 border-none text-xs w-full focus:outline-none"
+        class="bg-transparent z-10 mt-4 border-none text-xs w-full focus:outline-none"
       />
       <div v-else></div>
 
