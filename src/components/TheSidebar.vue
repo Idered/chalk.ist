@@ -209,6 +209,22 @@ function setFontFamily(fontFamily: string) {
               </div>
             </div>
 
+            <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2 h-5">
+              <label class="font-semibold text-xs select-none cursor-pointer" for="lineHeight">Line height</label>
+              <div class="grid gap-x-2 grid-flow-col text-sm">
+                <input
+                  id="lineHeight"
+                  class="accent-blue-700 w-full"
+                  type="range"
+                  min="20"
+                  max="30"
+                  step="1"
+                  :value="store.lineHeight"
+                  @input="store.lineHeight = parseInt(($event.target as HTMLInputElement).value)"
+                />
+              </div>
+            </div>
+
             <hr class="border-y border-b-slate-700 border-t-slate-900" />
 
             <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
