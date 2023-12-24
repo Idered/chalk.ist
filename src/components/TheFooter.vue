@@ -12,7 +12,7 @@ const author = computed(() => {
 </script>
 
 <template>
-  <div class="flex justify-between">
+  <div class="flex">
     <BaseButton
       v-if="exportState === ExportState.Idle && !preview"
       class="pl-2 pr-4 z-10 relative border rounded-full text-white bg-black/80 mt-4 border-slate-600/30 text-slate-500 hover:bg-black/90 hover:border-slate-600/40 group"
@@ -31,7 +31,7 @@ const author = computed(() => {
     <component
       :is="author.username ? 'a' : 'div'"
       :href="author.username ? `https://twitter.com/${author.username}` : undefined"
-      class="rounded-full z-10 relative p-1 bg-black/70 text-white mt-4 flex items-center"
+      class="rounded-full z-10 relative p-1 bg-black/70 text-white mt-4 flex items-center ml-auto"
       :class="{
         'hover:bg-black/50': author.username,
       }"
