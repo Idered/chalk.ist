@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { OnClickOutside } from "@vueuse/components";
-import { addEditorBlock, store } from "~/composables/store";
+import { store } from "~/composables/store";
 import BaseSwitch from "./BaseSwitch.vue";
 import BaseSelect from "./BaseSelect.vue";
 import { AVAILABLE_FONTS, FRAME_STYLES, LIGATURE_FONTS } from "~/constants";
