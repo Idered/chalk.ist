@@ -179,7 +179,7 @@ useEventListener(formatted, "click", (event) => {
       v-model="block.content"
       spellcheck="false"
       :style="{
-        'min-height': block.content.split('\n').length * 20 + 'px',
+        'min-height': block.content.split('\n').length * store.lineHeight + 'px',
         'line-height': store.lineHeight + 'px',
       }"
     />
@@ -230,7 +230,6 @@ useEventListener(formatted, "click", (event) => {
 
 .formatted code {
   display: grid;
-  grid-auto-rows: minmax(20px, auto);
 }
 
 .formatted .has-focus .line:not(.focus) {
