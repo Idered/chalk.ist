@@ -39,6 +39,7 @@ export const AVAILABLE_LANGUAGES = [
   {
     group: "Markup",
     children: [
+      { value: "blade", label: "Blade", lang: () => import("shikiji/langs/blade.mjs") },
       { value: "handlebars", label: "Handlebars", lang: () => import("shikiji/langs/handlebars.mjs") },
       { value: "html", label: "HTML", lang: () => import("shikiji/langs/html.mjs") },
       { value: "markdown", label: "Markdown", lang: () => import("shikiji/langs/markdown.mjs") },
