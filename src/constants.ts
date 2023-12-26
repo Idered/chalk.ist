@@ -49,7 +49,7 @@ export const AVAILABLE_LANGUAGES = [
     ],
   },
   {
-    group: "JS Frameworks",
+    group: "JS Frameworks/Libs",
     children: [
       { value: "astro", label: "Astro", lang: () => import("shikiji/langs/astro.mjs") },
       { value: "jsx", label: "React", lang: () => import("shikiji/langs/jsx.mjs") },
