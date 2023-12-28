@@ -11,7 +11,7 @@ defineProps<{
 <template>
   <div
     v-if="!preview"
-    class="flex items-center justify-between -mx-1 px-3 py-3 border-b border-slate-700 bg-slate-800 sticky top-0 z-10"
+    class="flex items-center justify-between -mx-1 px-3 py-3 border-b border-slate-700 bg-slate-800 sticky top-0 z-10 pwa:sm:border-t pwa:sm:border-t-slate-900"
   >
     <div class="flex flex-wrap items-center space-x-1 max-w-[100vw]">
       <BaseButton
@@ -68,7 +68,7 @@ defineProps<{
     </div>
 
     <div
-      class="bg-slate-700 text-white/75 text-[11px] uppercase font-bold tracking-wider px-2.5 h-6 transition hidden lg:grid items-center rounded whitespace-nowrap pwa:sm:border-t pwa:sm:border-t-slate-900"
+      class="bg-slate-700 text-white/75 text-[11px] uppercase font-bold tracking-wider px-2.5 h-6 transition hidden lg:grid items-center rounded whitespace-nowrap"
     >
       {{ frameWidth }} x {{ store.frameHeight }}
     </div>
