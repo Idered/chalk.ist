@@ -242,7 +242,7 @@ function handleKeyDown(e: KeyboardEvent) {
                 v-for="(result, i) in results"
                 :key="result.item.value + result.item.label"
                 @click="handleSelect(result.item)"
-                class="text-xs font-medium px-2 h-[22px] pl-6 grid items-center cursor-pointer transition-colors relative"
+                class="text-[13px] font-medium px-2 h-[24px] pl-6 grid items-center cursor-pointer transition-colors relative"
                 :class="{
                   'text-white': i === activeIndex,
                 }"

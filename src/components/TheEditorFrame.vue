@@ -11,7 +11,7 @@ import TheFooter from "./TheFooter.vue";
 import TheFrameBackground from "./TheFrameBackground.vue";
 import TheParticlesBackground from "./TheParticlesBackground.vue";
 import TheFrameResizer from "./TheFrameResizer.vue";
-import TheFrameMeta from "./TheFrameMeta.vue";
+import TheToolbar from "./TheToolbar.vue";
 
 const timeout = ref();
 const container = ref<HTMLDivElement>();
@@ -38,7 +38,18 @@ function handleCopy() {
 </script>
 
 <template>
-  <div data-editor-frame-container ref="container" class="overflow-y-auto overflow-x-hidden grid p-1 font-sans">
+  <div
+    data-editor-frame-container
+    ref="container"
+    class="overflow-y-auto overflow-x-hidden grid grid-rows-[auto_1fr] pb-1 px-1 font-sans"
+  >
+    <TheToolbar
+      :frame-width="frameWidth"
+      :style="{
+        width: `${(containerWidth / frameWidth) * frameWidth}px`,
+      }"
+    />
+
     <div
       class="grid justify-items-center items-start h-0"
       :style="{
@@ -49,7 +60,6 @@ function handleCopy() {
         'sm:content-center h-auto': frameWidth < containerWidth,
       }"
     >
-      <TheFrameMeta :frame-width="frameWidth" />
       <div ref="editorFrame" data-editor-frame class="relative" :style="{ width: `${frameWidth}px` }">
         <BaseButton
           v-if="preview"

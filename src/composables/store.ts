@@ -50,7 +50,7 @@ export const store = useStorage("chalk-store", {
     rowSpan: number;
     transformations: {
       line: number;
-      type: "add" | "remove" | "focus";
+      type: "add" | "remove" | "focus" | "highlight";
     }[];
   }[],
   // | {
@@ -73,7 +73,7 @@ export const store = useStorage("chalk-store", {
   fontFamily: "JetBrains Mono",
   fontLigatures: true,
   diff: false,
-  editMode: "code" as "code" | "focus" | "add" | "remove",
+  editMode: "code" as "code" | "focus" | "add" | "remove" | "highlight",
   picture: "",
   title: "",
   showTwitterBadge: true,

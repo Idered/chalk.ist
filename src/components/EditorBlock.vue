@@ -5,7 +5,7 @@ import { store, preview, moveBlock, removeBlock } from "~/composables/store";
 import { exportState } from "~/composables/export-state";
 import { useElementSize, useIntervalFn } from "@vueuse/core";
 import { computed, ref } from "vue";
-import { AVAILABLE_LANGUAGES, ROW_OPTIONS, COLUMN_OPTIONS } from "~/constants";
+import { LANGUAGES, ROW_OPTIONS, COLUMN_OPTIONS } from "~/constants";
 import BaseSelect from "./BaseSelect.vue";
 import IconChevronDown from "./IconChevronDown.vue";
 import { Backdrops } from "~/lib/backdrops";
@@ -332,7 +332,7 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
         use-opaque-background
         :model-value="blockItem.language"
         @update:model-value="setEditorLanguage"
-        :options="AVAILABLE_LANGUAGES"
+        :options="LANGUAGES"
       />
 
       <button

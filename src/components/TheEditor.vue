@@ -50,12 +50,19 @@ const shikiContent = computed(() => {
   if (block.value.transformations.some((item) => item.type === "focus")) {
     classNames.push("has-focus");
   }
-  const lineOptions = block.value.transformations.map((item) => {
-    return {
-      line: item.line,
-      classes: [item.type],
-    };
-  });
+  const lineOptions = block.value.transformations.reduce((mergedOptions, item) => {
+    const existingOption = mergedOptions.find((option) => option.line === item.line);
+    if (existingOption) {
+      existingOption.classes.push(item.type);
+    } else {
+      mergedOptions.push({
+        line: item.line,
+        classes: [item.type],
+      });
+    }
+    return mergedOptions;
+  }, [] as { line: number; classes: string[] }[]);
+
   return shiki.value.codeToHtml(block.value.content, {
     lang: block.value.language,
     theme: store.value.colorTheme,
@@ -136,14 +143,34 @@ const fontFamily = computed(() => {
 
 useEventListener(formatted, "click", (event) => {
   const el = (event.target as HTMLElement).closest(".line") as HTMLSpanElement;
-  if (!el.classList.contains("line")) {
+  const mode = store.value.editMode;
+  if (!el.classList.contains("line") && mode !== "code") {
     return;
   }
   const line = parseInt(el.dataset.line!);
-  const index = block.value.transformations.findIndex((item) => item.type === "focus" && item.line === line);
+  const index = block.value.transformations.findIndex((item) => item.type === mode && item.line === line);
   if (index === -1) {
+    if (mode === "add") {
+      const index = block.value.transformations.findIndex((item) => item.type === "remove" && item.line === line);
+      if (index !== -1) {
+        block.value.transformations.splice(index, 1);
+      }
+    } else if (mode === "remove") {
+      const index = block.value.transformations.findIndex((item) => item.type === "add" && item.line === line);
+      if (index !== -1) {
+        block.value.transformations.splice(index, 1);
+      }
+    } else if (mode === "highlight") {
+      // remove "add" and "remove" transformations
+      const index = block.value.transformations.findIndex(
+        (item) => ["add", "remove"].includes(item.type) && item.line === line
+      );
+      if (index !== -1) {
+        block.value.transformations.splice(index, 1);
+      }
+    }
     block.value.transformations.push({
-      type: "focus",
+      type: mode,
       line,
     });
   } else {
@@ -174,6 +201,7 @@ useEventListener(formatted, "click", (event) => {
     />
 
     <textarea
+      rows="1"
       class="editor focus-visible:outline-none"
       ref="editor"
       v-model="block.content"
@@ -245,14 +273,16 @@ useEventListener(formatted, "click", (event) => {
 }
 
 .formatted .line:hover {
-  background: rgba(255, 255, 255, 0.05);
+  --highlight-opacity: 0.2;
+  background: rgba(255, 255, 255, 0.1);
   cursor: pointer;
 }
 
 .formatted .line-number {
   float: left;
-  margin-left: -4ch;
-  width: 3ch;
+  margin-left: calc(v-bind(gutter) * -1);
+  width: v-bind(gutter);
+  padding-right: 0.5em;
   text-align: right;
   opacity: 0;
   user-select: none;
@@ -270,12 +300,27 @@ useEventListener(formatted, "click", (event) => {
 .formatted .line span {
   white-space: pre-wrap;
 }
-
-.formatted .diff.remove {
-  background-color: hsl(0, 52%, 20%);
+.formatted .highlight {
+  background: rgba(255, 255, 255, var(--highlight-opacity, 0.05));
 }
 
-.formatted .diff.add {
-  background-color: hsl(106, 72%, 11%);
+.formatted .highlight .line-number {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.formatted .line.add {
+  background: rgba(0, 255, 0, var(--highlight-opacity, 0.1));
+}
+
+.formatted .add .line-number {
+  background: rgba(0, 255, 0, var(--highlight-opacity, 0.1));
+}
+
+.formatted .line.remove {
+  background: rgba(255, 0, 0, var(--highlight-opacity, 0.1));
+}
+
+.formatted .remove .line-number {
+  background: rgba(255, 0, 0, var(--highlight-opacity, 0.1));
 }
 </style>
