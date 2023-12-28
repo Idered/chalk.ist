@@ -68,7 +68,7 @@ defineProps<{
     </div>
 
     <div
-      class="bg-slate-700 text-white/75 text-[11px] uppercase font-bold tracking-wider px-2.5 h-6 transition hidden lg:grid items-center rounded whitespace-nowrap"
+      class="bg-slate-700 text-white/75 text-[11px] uppercase font-bold tracking-wider px-2.5 h-6 transition hidden lg:grid items-center rounded whitespace-nowrap pwa:sm:border-t pwa:sm:border-t-slate-900"
     >
       {{ frameWidth }} x {{ store.frameHeight }}
     </div>
