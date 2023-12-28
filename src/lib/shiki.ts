@@ -10,14 +10,11 @@ export function useShiki() {
   onMounted(async () => {
     if (!shiki.value) {
       shiki.value = await getHighlighterCore({
-        themes: [
-					...chalkistThemes,
-					...shikijiThemes.map((theme) => theme.import),
-				],
+        themes: [...chalkistThemes, ...shikijiThemes.map((theme) => theme.import)],
         langs: LANGUAGES.map((lang) => lang.lang),
         loadWasm: getWasmInlined,
       });
-		}
+    }
   });
 
   return shiki;
