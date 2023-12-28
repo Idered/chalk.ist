@@ -144,7 +144,8 @@ const fontFamily = computed(() => {
 useEventListener(formatted, "click", (event) => {
   const el = (event.target as HTMLElement).closest(".line") as HTMLSpanElement;
   const mode = store.value.editMode;
-  if (!el.classList.contains("line") && mode !== "code") {
+  if (mode === "code") return;
+  if (!el.classList.contains("line")) {
     return;
   }
   const line = parseInt(el.dataset.line!);
