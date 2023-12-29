@@ -22,6 +22,14 @@ defineProps<{
         Edit
       </BaseButton>
 
+      <!-- <BaseButton
+        @click="store.editMode = 'annotate'"
+        class="h-6 px-2 hover:text-slate-100"
+        :class="{ 'bg-slate-50 text-slate-900 hover:text-slate-900': store.editMode === 'annotate' }"
+      >
+        Annotate
+      </BaseButton> -->
+
       <BaseButton
         @click="store.editMode = 'highlight'"
         class="h-6 px-2 hover:text-slate-100"
@@ -56,9 +64,13 @@ defineProps<{
 
       <BaseButton
         @click="
-          store.blocks = store.blocks.map((item) =>
-            item.type === BlockType.Code ? { ...item, transformations: [] } : item
-          )
+          store.blocks.forEach((item) => {
+            if (item.type !== BlockType.Code) {
+              return;
+            }
+
+            item.transformations = [];
+          })
         "
         class="h-6 px-2 disabled:opacity-50 enabled:hover:text-slate-100"
         :disabled="store.blocks.every((item) => item.transformations.length === 0)"

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { useEventListener } from "@vueuse/core";
+import { computed, h, ref, watch } from "vue";
+import { useElementSize, useEventListener } from "@vueuse/core";
 import { transformerCompactLineOptions, transformerNotationDiff, transformerNotationFocus } from "shikiji-transformers";
 
 import { store } from "~/composables/store";
@@ -16,8 +16,9 @@ const shiki = useShiki();
 const editor = ref<HTMLTextAreaElement>();
 const formatted = ref<HTMLDivElement>();
 const block = computed(() => store.value.blocks.find((block) => block.id === props.blockId)!);
+import Annotation from "./Annotation.vue";
 
-function lineNumberTransformer(): ShikijiTransformer {
+function transformerLineNumbers(): ShikijiTransformer {
   return {
     name: "line-number",
     line(line, index) {
@@ -44,11 +45,66 @@ function lineNumberTransformer(): ShikijiTransformer {
   };
 }
 
+function transformerAnnotations(
+  transformations: { type: string; line: number; character?: number }[]
+): ShikijiTransformer {
+  return {
+    name: "annotations",
+    line(line, index) {
+      const lineTransformations = transformations.filter((item) => item.line === index && item.type === "annotate");
+      if (lineTransformations.length === 0) return line;
+
+      const annotations = lineTransformations.map(
+        (item) =>
+          ({
+            type: "element",
+            tagName: "Annotation",
+            properties: {
+              start: item.character,
+              end: item.character,
+              onRemove: () => {
+                const transformationIndex = block.value.transformations.findIndex(
+                  (item) => item.type === "annotate" && item.line === index && item.character === item.character
+                );
+                if (transformationIndex !== -1) {
+                  block.value.transformations.splice(transformationIndex, 1);
+                }
+              },
+              class: ["annotation", item.type],
+            },
+            children: [],
+          } satisfies typeof line)
+      );
+
+      const annotationContainer = {
+        type: "element",
+        tagName: "div",
+        properties: {
+          class: ["annotations"],
+        },
+        children: annotations,
+      } satisfies typeof line;
+
+      return {
+        type: "element",
+        tagName: "div",
+        properties: {
+          class: ["contents"],
+        },
+        children: [line, annotationContainer],
+      };
+    },
+  };
+}
+
 const shikiContent = computed(() => {
   if (!shiki.value || block.value.type !== BlockType.Code) return "";
   const classNames = ["shiki"];
   if (block.value.transformations.some((item) => item.type === "focus")) {
     classNames.push("has-focus");
+  }
+  if (store.value.showLineNumbers) {
+    classNames.push("show-line-numbers");
   }
   const lineOptions = block.value.transformations.reduce((mergedOptions, item) => {
     const existingOption = mergedOptions.find((option) => option.line === item.line);
@@ -63,13 +119,14 @@ const shikiContent = computed(() => {
     return mergedOptions;
   }, [] as { line: number; classes: string[] }[]);
 
-  return shiki.value.codeToHtml(block.value.content, {
+  const hast = shiki.value.codeToHast(block.value.content, {
     lang: block.value.language,
     theme: store.value.colorTheme,
     transformers: [
       transformerNotationDiff(),
       transformerNotationFocus(),
-      lineNumberTransformer(),
+      transformerLineNumbers(),
+      transformerAnnotations(block.value.transformations),
       transformerCompactLineOptions(lineOptions),
     ],
     meta: {
@@ -77,7 +134,30 @@ const shikiContent = computed(() => {
       tabindex: "-1",
     },
   });
+
+  return shikijiHastToVueH(hast);
 });
+
+const components: { [key: string]: any } = {
+  Annotation,
+};
+
+function shikijiHastToVueH(node: any) {
+  if (node.type === "root") {
+    return node.children.map(shikijiHastToVueH);
+  }
+  if (node.type === "text") {
+    return node.value;
+  }
+  if (node.type === "element") {
+    const children = node.children.map(shikijiHastToVueH);
+    if (node.tagName in components) {
+      return h(components[node.tagName], node.properties, () => children);
+    }
+    return h(node.tagName, node.properties, children);
+  }
+  return "";
+}
 
 useEventListener(editor, "keydown", async (e) => {
   if (!editor.value) return;
@@ -129,7 +209,7 @@ useEventListener(editor, "keydown", async (e) => {
 const gutter = computed(() => {
   const len = block.value.content.split("\n").length;
   if (!store.value.showLineNumbers) return "20px";
-  return len >= 100 ? "6.5ch" : len >= 10 ? "5.5ch" : "4.5ch";
+  return len >= 100 ? "calc(6.5ch + 4px)" : len >= 10 ? "calc(5.5ch + 4px)" : "calc(4.5ch + 4px)";
 });
 
 const fontFeatureSettings = computed(() => {
@@ -141,11 +221,25 @@ const fontFamily = computed(() => {
   return `"${store.value.fontFamily}", Menlo, Monaco, "Courier New", monospace`;
 });
 
+const characterWidth = computed(() => {
+  const el = document.createElement("div");
+  el.style.fontFamily = fontFamily.value;
+  el.style.fontSize = "13px";
+  el.style.position = "absolute";
+  el.style.opacity = "0";
+  el.id = Math.random().toString(16).slice(2);
+  el.innerText = "a";
+  document.body.appendChild(el);
+  const width = el.getBoundingClientRect().width;
+  document.body.removeChild(el);
+  return width;
+});
+
 useEventListener(formatted, "click", (event) => {
   const el = (event.target as HTMLElement).closest(".line") as HTMLSpanElement;
   const mode = store.value.editMode;
   if (mode === "code") return;
-  if (!el.classList.contains("line")) {
+  if (!el?.classList?.contains("line")) {
     return;
   }
   const line = parseInt(el.dataset.line!);
@@ -178,6 +272,24 @@ useEventListener(formatted, "click", (event) => {
     block.value.transformations.splice(index, 1);
   }
 });
+
+function addCharacterTransformer(line: number, character: number) {
+  const index = block.value.transformations.findIndex(
+    (item) => item.type === "annotate" && item.line === line && item.character === character
+  );
+  if (index === -1) {
+    block.value.transformations.push({
+      type: "annotate",
+      line,
+      character,
+    });
+  } else {
+    block.value.transformations.splice(index, 1);
+  }
+}
+
+const { width: editorWidth } = useElementSize(editor);
+const charactersPerLine = computed(() => Math.floor(editorWidth.value / characterWidth.value));
 </script>
 
 <template>
@@ -185,28 +297,57 @@ useEventListener(formatted, "click", (event) => {
     class="px-px [grid-template:1fr/1fr] grid"
     :style="{
       '--line-numbers-color': 'rgba(255,255,255,0.25)',
+      '--character-width': characterWidth + 'px',
     }"
   >
     <div
-      class="formatted transition-opacity duration-500"
-      v-html="shikiContent"
+      class="formatted font-config transition-opacity duration-500"
       ref="formatted"
       :style="{
         'line-height': store.lineHeight + 'px',
       }"
       :class="{
         'pointer-events-none': store.editMode === 'code',
-        'show-line-numbers': store.showLineNumbers,
         'opacity-0': !shiki,
       }"
-    />
+    >
+      <component v-once :is="() => shikiContent" />
+    </div>
+
+    <div class="grid font-config character-grid relative content-start" v-if="store.editMode === 'annotate'">
+      <template
+        v-for="line in Array.from({ length: block.content.split('\n').length }).map((_, i) => i + 1)"
+        :key="line"
+      >
+        <div
+          class="flex"
+          :style="{
+            paddingLeft: gutter,
+          }"
+        >
+          <div
+            @click="addCharacterTransformer(line, character)"
+            v-for="character in Array.from({ length: charactersPerLine }).map((_, i) => i)"
+            :key="character"
+            :style="{
+              height: `${store.lineHeight}px`,
+              width: `${characterWidth}px`,
+            }"
+            class="hover:bg-white/10 hover:border-white/10 border border-transparent transition-colors hover:scale-x-110"
+          />
+        </div>
+      </template>
+    </div>
 
     <textarea
       rows="1"
-      class="editor focus-visible:outline-none"
+      class="editor font-config focus-visible:outline-none"
       ref="editor"
       v-model="block.content"
       spellcheck="false"
+      :class="{
+        'pointer-events-none': store.editMode !== 'code',
+      }"
       :style="{
         'min-height': block.content.split('\n').length * store.lineHeight + 'px',
         'line-height': store.lineHeight + 'px',
@@ -216,20 +357,24 @@ useEventListener(formatted, "click", (event) => {
 </template>
 
 <style>
-.editor,
-.formatted {
+.font-config {
   font-variation-settings: normal;
   font-feature-settings: v-bind(fontFeatureSettings);
   font-family: v-bind(fontFamily);
-  grid-column-start: 1;
-  grid-row-start: 1;
   font-size: 13px;
   -moz-tab-size: 2;
-  height: 100%;
   -o-tab-size: 2;
   tab-size: 2;
   white-space-collapse: collapse;
   white-space: pre-wrap;
+}
+
+.editor,
+.formatted,
+.character-grid {
+  grid-column-start: 1;
+  grid-row-start: 1;
+  height: 100%;
 }
 
 .editor {
@@ -270,7 +415,7 @@ useEventListener(formatted, "click", (event) => {
   position: relative;
   padding-inline-end: 20px;
   padding-inline-start: v-bind(gutter);
-  transition: padding 0.375s ease-in-out, opacity 0.375s ease-in-out, filter 0.375s ease-in-out;
+  transition: padding 0.375s ease-in-out, opacity 0.375s ease-in-out, filter 0.075s ease-in-out;
 }
 
 .formatted .line:hover {
@@ -281,22 +426,26 @@ useEventListener(formatted, "click", (event) => {
 
 .formatted .line-number {
   float: left;
-  margin-left: calc(v-bind(gutter) * -1);
+  margin-left: calc(v-bind(gutter) * -1 - 4px);
   width: v-bind(gutter);
   padding-right: 0.5em;
   text-align: right;
   opacity: 0;
   user-select: none;
-  transition: opacity 0.375s cubic-bezier(0.6, 0.6, 0, 1);
+  transition: opacity 0.375s cubic-bezier(0.6, 0.6, 0, 1), 0.375s cubic-bezier(0.6, 0.6, 0, 1);
 }
 
-.formatted.show-line-numbers .line-number {
+.show-line-numbers .line-number {
   opacity: 1;
 }
 
-.formatted .shiki:not(.has-focused) .line-number {
+.formatted .line-number {
   color: var(--line-numbers-color);
 }
+
+/* .formatted .shiki:not(.has-focus) .line-number {
+  color: var(--line-numbers-color);
+} */
 
 .formatted .line span {
   white-space: pre-wrap;
@@ -323,5 +472,12 @@ useEventListener(formatted, "click", (event) => {
 
 .formatted .remove .line-number {
   background: rgba(255, 0, 0, var(--highlight-opacity, 0.1));
+}
+
+.annotation {
+  margin-left: v-bind(gutter);
+  position: relative;
+  z-index: 100;
+  margin-right: 20px;
 }
 </style>

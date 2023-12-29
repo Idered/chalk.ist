@@ -299,7 +299,6 @@ const themeOptions = computed(() => [
               </BaseButton>
               <BaseSwitch v-model="store.showTwitterBadge" id="showTwitterBadge" />
             </div>
-            <hr class="border-y border-b-slate-700 border-t-slate-900" />
 
             <div class="grid gap-y-1 gap-x-2 items-start grid-cols-[auto_1fr]" v-if="store.expandTwitterOptions">
               <div v-if="store.picture" class="row-start-1 row-end-3 relative group">
@@ -377,6 +376,7 @@ const themeOptions = computed(() => [
                 />
               </div>
             </div>
+            <hr class="border-y border-b-slate-700 border-t-slate-900" />
           </div>
         </div>
 
