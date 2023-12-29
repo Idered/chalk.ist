@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, h, ref, watch } from "vue";
+import { computed, h, ref } from "vue";
 import { useElementSize, useEventListener } from "@vueuse/core";
 import { transformerCompactLineOptions, transformerNotationDiff, transformerNotationFocus } from "shikiji-transformers";
 
@@ -62,14 +62,14 @@ function transformerAnnotations(
             properties: {
               start: item.character,
               end: item.character,
-              onRemove: () => {
+              onRemove: (() => {
                 const transformationIndex = block.value.transformations.findIndex(
                   (item) => item.type === "annotate" && item.line === index && item.character === item.character
                 );
                 if (transformationIndex !== -1) {
                   block.value.transformations.splice(transformationIndex, 1);
                 }
-              },
+              }) as any,
               class: ["annotation", item.type],
             },
             children: [],
