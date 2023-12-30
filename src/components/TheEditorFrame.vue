@@ -103,7 +103,7 @@ function handleCopy() {
       </div>
 
       <div
-        class="flex space-x-2"
+        class="flex space-x-2 pb-2"
         :style="{
           width: `${frameWidth}px`,
         }"
