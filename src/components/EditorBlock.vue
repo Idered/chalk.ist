@@ -340,7 +340,7 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
     <div class="py-6 overflow-hidden" ref="editorContainer">
       <TheEditor ref="editor" :block="block" :width="editorContainerWidth" v-if="block.mode === 'edit'" />
       <div
-        class="prose markdown prose-slate px-5 prose-a:no-underline"
+        class="prose markdown prose-slate px-5 prose-a:no-underline mx-auto"
         v-else-if="md"
         v-html="md.render(block.content)"
       ></div>
