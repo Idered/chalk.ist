@@ -4,7 +4,7 @@ import { OnClickOutside } from "@vueuse/components";
 import { store } from "~/composables/store";
 import BaseSwitch from "./BaseSwitch.vue";
 import BaseSelect from "./BaseSelect.vue";
-import { AVAILABLE_FONTS, FRAME_STYLES, LIGATURE_FONTS } from "~/constants";
+import { FONTS, FRAME_STYLES, LIGATURE_FONTS } from "~/constants";
 import BaseInput from "./BaseInput.vue";
 import BaseButton from "./BaseButton.vue";
 import IconChevronDown from "./IconChevronDown.vue";
@@ -30,7 +30,6 @@ const { height: expandableContentHeight } = useElementSize(expandableContent);
 //     JSON.stringify({
 //       c: encodeURIComponent(content),
 //       t: store.value.currentTheme,
-//       tt: store.value.title,
 //       l: store.value.language,
 //       px: store.value.paddingX,
 //       py: store.value.paddingY,
@@ -121,7 +120,7 @@ const themeOptions = computed(() => [
                 preview-on-focus
                 :model-value="store.fontFamily"
                 @update:model-value="setFontFamily"
-                :options="AVAILABLE_FONTS"
+                :options="FONTS"
               />
             </div>
 

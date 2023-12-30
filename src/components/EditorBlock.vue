@@ -1,62 +1,82 @@
 <script setup lang="ts">
 import TheEditor from "./TheEditor.vue";
 import { ExportState, WindowControls } from "~/enums";
-import { store, preview, moveBlock, removeBlock } from "~/composables/store";
+import { store, preview } from "~/composables/store";
 import { exportState } from "~/composables/export-state";
-import { useElementSize, useIntervalFn } from "@vueuse/core";
+import { useElementSize } from "@vueuse/core";
 import { computed, ref } from "vue";
 import { LANGUAGES, ROW_OPTIONS, COLUMN_OPTIONS } from "~/constants";
+import { CodeBlock } from "~/types";
 import BaseSelect from "./BaseSelect.vue";
 import IconChevronDown from "./IconChevronDown.vue";
 import { Backdrops } from "~/lib/backdrops";
+import { removeBlock, moveBlock } from "~/composables/block";
+import markdownit from "markdown-it";
+import { useShiki } from "~/lib/shiki";
+import { fromHighlighter } from "markdown-it-shikiji/core";
 
 const props = defineProps<{
-  blockId: string;
+  block: CodeBlock;
 }>();
+
 const editorContainer = ref<HTMLDivElement>();
 const { width: editorContainerWidth } = useElementSize(editorContainer);
 
-const blockItem = computed(() => {
-  return store.value.blocks.find((block) => block.id === props.blockId)!;
+const setEditorLanguage = (language: string) => {
+  props.block.language = language;
+  props.block.mode = "edit";
+};
+const shiki = useShiki();
+const md = computed(() => {
+  if (!shiki.value) return;
+  const m = markdownit({
+    html: true,
+    // linkify: true,
+    // typographer: true,
+  });
+  return m.use(
+    fromHighlighter(shiki.value as any, {
+      theme: store.value.colorTheme,
+      meta: {
+        class: [].join(" "),
+        tabindex: "-1",
+      },
+    })
+  );
 });
 
-const setEditorLanguage = (language: string) => {
-  if (!blockItem.value) return;
-  blockItem.value.language = language;
-};
+// const highlights = ref<
+//   {
+//     start: number;
+//     size: number;
+//     duration: number;
+//   }[]
+// >([]);
 
-const highlights = ref<
-  {
-    start: number;
-    size: number;
-    duration: number;
-  }[]
->([]);
+// function randomBetween(min: number, max: number) {
+//   return Math.floor(Math.random() * (max - min + 1) + min);
+// }
 
-function randomBetween(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-useIntervalFn(
-  () => {
-    highlights.value.push({
-      start: randomBetween(0, 50),
-      size: randomBetween(20, 200),
-      duration: randomBetween(1000, 3000),
-    });
-  },
-  1500,
-  {
-    immediate: true,
-  }
-);
+// useIntervalFn(
+//   () => {
+//     highlights.value.push({
+//       start: randomBetween(0, 50),
+//       size: randomBetween(20, 200),
+//       duration: randomBetween(1000, 3000),
+//     });
+//   },
+//   1500,
+//   {
+//     immediate: true,
+//   }
+// );
 
 const backdrop = computed(() => Backdrops[store.value.backdrop]);
 </script>
 
 <template>
   <div
-    v-if="blockItem"
+    v-if="block"
     class="relative grid grid-rows-[auto_1fr_auto]"
     :class="{
       'rounded-md': store.paddingX !== 0 && store.paddingY !== 0,
@@ -120,6 +140,22 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
           }[store.windowStyle] || {}
         : {},
       backdrop.appStyle || {},
+      block.mode === 'preview'
+        ? {
+            backgroundColor: 'white',
+            boxShadow: (() => {
+              const hsl = backdrop.shadow?.slice(4).replace(/\)$/, '');
+              return backdrop.shadow
+                ? `
+                  0 0 0 1px rgba(0,0,0,.1),
+                0px 4px 12px -2px hsla(${hsl},0.2), 
+                0px 10px 18px -4px hsla(${hsl},0.2), 
+                0px 40px 44px -16px hsla(${hsl},0.5)  
+              `
+                : '';
+            })(),
+          }
+        : {},
     ]"
   >
     <div class="absolute inset-0 [--base-delay:0] overflow-hidden rounded-md pointer-events-none">
@@ -208,10 +244,10 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
       >
         <div
           v-for="_i in [1, 2, 3]"
-          class="h-3 w-3 rounded-full bg-white/25"
+          class="h-3 w-3 rounded-full"
           :class="{
-            // 'bg-white/25': theme.mode === 'dark',
-            // 'bg-black/25': theme.mode === 'light',
+            'bg-white/25': block.mode === 'edit',
+            'bg-black/25': block.mode === 'preview',
           }"
         />
       </div>
@@ -222,10 +258,10 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
       >
         <div
           v-for="_i in [1, 2, 3]"
-          class="h-3 w-3 rounded-full border border-white/25"
+          class="h-3 w-3 rounded-full border"
           :class="{
-            // 'border-white/25': theme.mode === 'dark',
-            // 'border-black/25': theme.mode === 'light',
+            'border-white/25': block.mode === 'edit',
+            'border-black/25': block.mode === 'preview',
           }"
         />
       </div>
@@ -233,9 +269,9 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
       <div v-if="(preview || store).windowControls === WindowControls.None"></div>
 
       <input
-        v-if="[ExportState.Idle, ExportState.JustCopied].includes(exportState) || blockItem.title.trim()"
-        :value="blockItem.title"
-        @input="blockItem.title = ($event.target as HTMLInputElement).value"
+        v-if="[ExportState.Idle, ExportState.JustCopied].includes(exportState) || block.title.trim()"
+        :value="block.title"
+        @input="block.title = ($event.target as HTMLInputElement).value"
         placeholder="Untitled"
         spellcheck="false"
         autocomplete="off"
@@ -302,27 +338,35 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
     </div>
 
     <div class="py-6 overflow-hidden" ref="editorContainer">
-      <TheEditor ref="editor" :block-id="blockId" :width="editorContainerWidth" />
+      <TheEditor ref="editor" :block="block" :width="editorContainerWidth" v-if="block.mode === 'edit'" />
+      <div
+        class="prose markdown prose-slate px-5 prose-a:no-underline"
+        v-else-if="md"
+        v-html="md.render(block.content)"
+      ></div>
     </div>
 
     <div
-      v-if="[ExportState.Idle, ExportState.JustCopied].includes(exportState) && blockItem"
-      class="flex mb-1 gap-1 -mx-4 flex-wrap px-5"
+      v-if="[ExportState.Idle, ExportState.JustCopied].includes(exportState) && block"
+      class="flex gap-1 flex-wrap p-1 rounded-b-md"
+      :style="{
+        background: block.mode === 'preview' ? '#03000ADD' : 'transparent',
+      }"
     >
       <BaseSelect
         class="w-28"
         use-opaque-background
-        :model-value="blockItem.columnSpan"
-        @update:model-value="blockItem.columnSpan = $event"
+        :model-value="block.columnSpan"
+        @update:model-value="block.columnSpan = $event"
         :label="(option) => `${option.value} columns`"
         :options="COLUMN_OPTIONS"
       />
 
       <BaseSelect
         class="w-[5.5rem]"
-        :model-value="blockItem.rowSpan"
+        :model-value="block.rowSpan"
         use-opaque-background
-        @update:model-value="blockItem.rowSpan = $event"
+        @update:model-value="block.rowSpan = $event"
         :label="(option) => `${option.value} ${typeof option.value === 'number' && option.value > 1 ? 'rows' : 'row'}`"
         :options="ROW_OPTIONS"
       />
@@ -330,34 +374,34 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
       <BaseSelect
         class="w-32"
         use-opaque-background
-        :model-value="blockItem.language"
+        :model-value="block.language"
         @update:model-value="setEditorLanguage"
         :options="LANGUAGES"
       />
 
       <button
-        @click="() => moveBlock(blockItem.id, -1)"
+        @click="() => moveBlock(block.id, -1)"
         class="btn"
         type="button"
         title="Move left"
-        :disabled="store.blocks.indexOf(blockItem) === 0"
+        :disabled="store.blocks.indexOf(block) === 0"
       >
         <IconChevronDown title="Move left" class="w-2.5 rotate-90" />
       </button>
 
       <button
-        @click="() => moveBlock(blockItem.id, 1)"
+        @click="() => moveBlock(block.id, 1)"
         class="btn"
         type="button"
         title="Move right"
-        :disabled="store.blocks.indexOf(blockItem) === store.blocks.length - 1"
+        :disabled="store.blocks.indexOf(block) === store.blocks.length - 1"
       >
         <IconChevronDown title="Move right" class="w-2.5 -rotate-90" />
       </button>
 
       <button
-        @click="() => removeBlock(blockItem.id)"
-        class="btn"
+        @click="() => removeBlock(block.id)"
+        class="btn select-none"
         type="button"
         title="Remove"
         :disabled="store.blocks.length === 1"
@@ -369,6 +413,122 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
           />
         </svg>
       </button>
+
+      <button
+        v-if="block.language === 'markdown'"
+        @click="() => (block.mode = block.mode === 'preview' ? 'edit' : 'preview')"
+        class="btn"
+        type="button"
+        title="Remove"
+      >
+        <div class="flex items-center" v-if="block.mode === 'edit'">
+          <i-ph:eye class="w-4" />
+          <span class="ml-2">Render</span>
+        </div>
+        <div class="flex items-center" v-else>
+          <i-ph:eye-closed class="w-4" />
+          <span class="ml-2">Edit</span>
+        </div>
+      </button>
     </div>
   </div>
 </template>
+
+<style>
+.markdown {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #03000a;
+  padding-left: 20px;
+  padding-right: 20px;
+  color: white;
+}
+
+.markdown > :first-child {
+  margin-top: 0;
+}
+
+.markdown > :last-child,
+.markdown > :last-child > * {
+  margin-bottom: 0;
+}
+
+.markdown pre {
+  background: hsl(258, 80%, 5%) !important;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.markdown h1 {
+  font-size: 1.75rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.markdown h2 {
+  font-size: 1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.markdown h3 {
+  font-size: 1.25rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1rem;
+}
+.markdown h4 {
+  font-size: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.markdown a {
+  color: #007bff;
+}
+
+/* .markdown code {
+  background-color: #f8f9fa;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+} */
+
+.markdown hr {
+  border: none;
+  border-top: 1px solid #dee2e6;
+  margin: 1rem 0;
+}
+
+.markdown table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #212529;
+  border-collapse: collapse;
+}
+
+.markdown table th,
+.markdown table td {
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}
+
+.markdown table th {
+  font-weight: bold;
+  background-color: #f8f9fa;
+}
+
+.markdown table tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.markdown table-striped tbody tr:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+
+.markdown img {
+  max-width: 100%;
+  border-radius: 4px;
+  height: auto;
+}
+</style>

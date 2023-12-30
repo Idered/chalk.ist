@@ -22,7 +22,7 @@ export const FRAME_STYLES = [
 export const MAX_FRAME_WIDTH = 1600;
 export const MIN_FRAME_WIDTH = 320;
 export const DEFAULT_THEME = "chrome";
-export const AVAILABLE_FONTS = ["Fira Code", "Geist Mono", "IBM Plex Mono", "JetBrains Mono", "Nova", "Source Code Pro"]
+export const FONTS = ["Fira Code", "Geist Mono", "IBM Plex Mono", "JetBrains Mono", "Nova", "Source Code Pro"]
   .map((font) => ({ value: font, label: font }))
   .sort((a, b) => a.label.localeCompare(b.label));
 
@@ -56,7 +56,7 @@ export const LANGUAGES = [
   { value: "rust", label: "Rust", lang: () => import("shikiji/langs/rust.mjs") },
   { value: "sass", label: "SASS", lang: () => import("shikiji/langs/sass.mjs") },
   { value: "scss", label: "SCSS", lang: () => import("shikiji/langs/scss.mjs") },
-  { value: "shell", label: "Bash", lang: () => import("shikiji/langs/bat.mjs") },
+  { value: "shell", label: "Shell", lang: () => import("shikiji/langs/bat.mjs") },
   { value: "solidity", label: "Solidity", lang: () => import("shikiji/langs/solidity.mjs") },
   { value: "sql", label: "SQL", lang: () => import("shikiji/langs/sql.mjs") },
   { value: "svelte", label: "Svelte", lang: () => import("shikiji/langs/svelte.mjs") },
@@ -66,7 +66,7 @@ export const LANGUAGES = [
   { value: "typescript", label: "TypeScript", lang: () => import("shikiji/langs/typescript.mjs") },
   { value: "vue", label: "Vue", lang: () => import("shikiji/langs/vue.mjs") },
   { value: "yaml", label: "YAML", lang: () => import("shikiji/langs/yaml.mjs") },
-]; //.sort((a, b) => a.label.localeCompare(b.label));
+];
 
 export const COLUMN_OPTIONS = [
   {

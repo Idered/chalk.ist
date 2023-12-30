@@ -3,6 +3,9 @@ import { defineConfig } from "vite";
 import Vue from "@vitejs/plugin-vue";
 import { VitePWA } from "vite-plugin-pwa";
 import Pages from "vite-plugin-pages";
+import Icons from "unplugin-icons/vite";
+import IconsResolver from "unplugin-icons/resolver";
+import Components from "unplugin-vue-components/vite";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -23,6 +26,12 @@ export default defineConfig(({ mode }) => ({
         );
       },
     },
+
+    Components({
+      resolvers: [IconsResolver()],
+    }),
+
+    Icons(),
 
     Vue(),
 

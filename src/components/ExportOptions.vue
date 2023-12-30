@@ -3,7 +3,7 @@ import screenshotWorkerUrl from "modern-screenshot/worker?url";
 import { Muxer, ArrayBufferTarget } from "mp4-muxer";
 import { computed, nextTick, reactive, ref } from "vue";
 import { exportState } from "~/composables/export-state";
-import { isExporting, store } from "~/composables/store";
+import { store } from "~/composables/store";
 import { ExportState } from "~/enums";
 import IconDownload from "./IconDownload.vue";
 import IconClipboard from "./IconClipboard.vue";
@@ -25,7 +25,7 @@ const isFirefox = computed(() => {
   return navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
 });
 
-const hideVideoExport = computed(() => typeof VideoEncoder === 'undefined');
+const hideVideoExport = computed(() => typeof VideoEncoder === "undefined");
 
 const canDownloadVideo = computed(() => {
   const MAXIMUM_CODEC_AREA = 2_097_152;
@@ -144,7 +144,6 @@ async function handleVideoExport() {
   a.download = "output.mp4";
   a.click();
   window.URL.revokeObjectURL(url);
-  isExporting.value = false;
   exportState.value = ExportState.JustDownloadedVideo;
   clearTimeout(timeout.value);
   timeout.value = setTimeout(() => {
@@ -160,10 +159,10 @@ function handleCopy() {
         if (!frame) return;
         umami.trackEvent("Copy to Clipboard", "export");
         exportState.value = ExportState.PreparingToCopy;
-        isExporting.value = true;
         await nextTick();
         domToBlob(frame, {
           scale: 2,
+          
           filter: (element) => {
             const el = element as HTMLElement;
             if (
@@ -177,7 +176,6 @@ function handleCopy() {
           },
         })
           .then((blob) => {
-            isExporting.value = false;
             exportState.value = ExportState.JustCopied;
             clearTimeout(timeout.value);
             timeout.value = setTimeout(() => {
@@ -202,10 +200,8 @@ async function handleDownload() {
   if (!frame) return;
   umami.trackEvent("Download PNG", "export");
   exportState.value = ExportState.PreparingToDownload;
-  isExporting.value = true;
   await nextTick();
   const blob = await domToBlob(frame, { scale: 2 });
-  isExporting.value = false;
   downloadPng(blob);
 }
 </script>
@@ -290,8 +286,9 @@ async function handleDownload() {
 
         <template v-if="exportState === ExportState.PreparingToDownloadVideo">
           <span v-if="videoExportProgress.currentFrame + 1 !== videoExportProgress.totalFrames" class="truncate">
-            Preparing frames
-            ({{ Math.round(((videoExportProgress.currentFrame + 1) / videoExportProgress.totalFrames) * 100) }}%)
+            Preparing frames ({{
+              Math.round(((videoExportProgress.currentFrame + 1) / videoExportProgress.totalFrames) * 100)
+            }}%)
           </span>
           <span v-else class="truncate">Encoding...</span>
         </template>

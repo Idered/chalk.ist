@@ -2,6 +2,7 @@
 import { preview, store } from "~/composables/store";
 import BaseButton from "./BaseButton.vue";
 import { BlockType } from "~/enums";
+import { getCodeBlocks } from "~/composables/block";
 
 defineProps<{
   frameWidth: number;
@@ -73,7 +74,7 @@ defineProps<{
           })
         "
         class="h-6 px-2 disabled:opacity-50 enabled:hover:text-slate-100"
-        :disabled="store.blocks.every((item) => item.transformations.length === 0)"
+        :disabled="getCodeBlocks().every((item) => item.transformations.length === 0)"
       >
         Clear
       </BaseButton>

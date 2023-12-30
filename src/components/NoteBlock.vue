@@ -1,77 +1,101 @@
 <script setup lang="ts">
-// import { computed, watch } from "vue";
-// import { exportState } from "~/composables/export-state";
-// import { moveBlock, removeBlock, store } from "~/composables/store";
-// import IconChevronDown from "./IconChevronDown.vue";
-// import BaseInput from "./BaseInput.vue";
-// import { useTextareaAutosize } from "@vueuse/core";
-// import { BlockType, ExportState } from "~/enums";
+import { exportState } from "~/composables/export-state";
+import { store } from "~/composables/store";
+import { ExportState } from "~/enums";
+import { moveBlock, removeBlock } from "~/composables/block";
+import { NoteBlock } from "~/types";
+import { COLUMN_OPTIONS } from "~/constants";
+import { computed } from "vue";
+import { Backdrops } from "~/lib/backdrops";
+import markdownit from "markdown-it";
+import { useShiki } from "~/lib/shiki";
+import { fromHighlighter } from "markdown-it-shikiji/core";
 
-// const props = defineProps<{
-//   blockId: string;
-// }>();
+defineProps<{
+  block: NoteBlock;
+}>();
 
-// const blockItem = computed(() => {
-//   return store.value.blocks.find((block) => block.id === props.blockId)!;
-// });
-// const { textarea, triggerResize } = useTextareaAutosize();
+const shiki = useShiki();
 
-// watch(
-//   () => blockItem.value.content,
-//   () => {
-//     triggerResize();
-//   }
-// );
+const md = computed(() => {
+  if (!shiki.value) return;
+  const m = markdownit();
+  return m.use(
+    fromHighlighter(shiki.value as any, {
+      theme: store.value.colorTheme,
+      meta: {
+        class: [].join(" "),
+        tabindex: "-1",
+      },
+    })
+  );
+});
+
+const backdrop = computed(() => Backdrops[store.value.backdrop]);
 </script>
 
 <template>
-  <div></div>
-  <!-- <div class="grid gap-y-2" v-if="blockItem.type === BlockType.Note">
-    <div
-      v-if="[ExportState.Idle, ExportState.JustCopied].includes(exportState) && blockItem"
-      class="flex gap-1 flex-wrap absolute opacity-20 hover:opacity-100 transition-opacity bottom-0"
-    >
+  <div
+    class="grid gap-y-2 rounded-md relative text-white"
+    :style="{
+      backgroundColor: '#03000a',
+      backgroundImage: store.windowNoise ? 'url(/noise.png)' : undefined,
+      backgroundSize: '182px',
+      boxShadow: `
+        0 0 0px 1px rgba(17, 4, 14, ${backdrop.shadowsOpacity}),
+        inset 0 0 0 1px rgba(255,255,255,${backdrop.lightsOpacity}),
+        0 0 18px 1px rgba(0,0,0,.6)
+      `,
+      ...(backdrop.appStyle || {}),
+    }"
+  >
+    <div class="px-4 pt-3">
+      <!-- :style="{ fontSize: `${block.fontSize}px`, color: block.fontColor }" -->
+      <div class="markdown" v-if="md" v-html="md.render(block.content)"></div>
+    </div>
+
+    <div v-if="[ExportState.Idle, ExportState.JustCopied].includes(exportState)" class="flex gap-1 flex-wrap px-1 pb-1">
       <div>
-        <BaseInput type="number" v-model="blockItem.fontSize" placeholder="Font Size" />
+        <BaseInput type="number" v-model="block.fontSize" placeholder="Font Size" />
       </div>
 
       <input
         type="color"
-        v-model="blockItem.fontColor"
+        v-model="block.fontColor"
         class="border-none outline-none bg-transparent p-0 m-0 appearance-none"
       />
 
       <BaseSelect
         class="w-28"
         use-opaque-background
-        :model-value="blockItem.columnSpan"
-        @update:model-value="blockItem.columnSpan = $event"
+        :model-value="block.columnSpan"
+        @update:model-value="block.columnSpan = $event"
         :label="(option) => `${option.value} columns`"
         :options="COLUMN_OPTIONS"
       />
 
       <button
-        @click="() => moveBlock(blockItem.id, -1)"
+        @click="() => moveBlock(block.id, -1)"
         class="btn"
         type="button"
         title="Move left"
-        :disabled="store.blocks.indexOf(blockItem) === 0"
+        :disabled="store.blocks.indexOf(block) === 0"
       >
         <IconChevronDown title="Move left" class="w-2.5 rotate-90" />
       </button>
 
       <button
-        @click="() => moveBlock(blockItem.id, 1)"
+        @click="() => moveBlock(block.id, 1)"
         class="btn"
         type="button"
         title="Move right"
-        :disabled="store.blocks.indexOf(blockItem) === store.blocks.length - 1"
+        :disabled="store.blocks.indexOf(block) === store.blocks.length - 1"
       >
         <IconChevronDown title="Move right" class="w-2.5 -rotate-90" />
       </button>
 
       <button
-        @click="() => removeBlock(blockItem.id)"
+        @click="() => removeBlock(block.id)"
         class="btn"
         type="button"
         title="Remove"
@@ -85,12 +109,5 @@
         </svg>
       </button>
     </div>
-
-    <textarea
-      ref="textarea"
-      class="bg-transparent resize-none"
-      v-model="blockItem.content"
-      :style="{ fontSize: `${blockItem.fontSize}px`, color: blockItem.fontColor }"
-    ></textarea>
-  </div> -->
+  </div>
 </template>

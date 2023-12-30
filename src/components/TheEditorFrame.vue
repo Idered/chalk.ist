@@ -12,6 +12,7 @@ import TheFrameBackground from "./TheFrameBackground.vue";
 import TheParticlesBackground from "./TheParticlesBackground.vue";
 import TheFrameResizer from "./TheFrameResizer.vue";
 import TheToolbar from "./TheToolbar.vue";
+import { addEditorBlock, addMarkdownBlock } from "~/composables/block";
 
 const timeout = ref();
 const container = ref<HTMLDivElement>();
@@ -93,17 +94,37 @@ function handleCopy() {
                 gridRow: `span ${block.rowSpan}`,
               }"
             >
-              <EditorBlock v-if="block.type === BlockType.Code" class="h-full" :block-id="block.id" />
-              <!-- <NoteBlock
-                v-if="block.type === BlockType.Note"
-                class="min-h-full relative"
-                :block-id="block.id"
-                :theme="theme"
-              /> -->
+              <EditorBlock v-if="block.type === BlockType.Code" :block="block" />
+              <!-- <NoteBlock v-if="block.type === BlockType.Note" :block="block" /> -->
             </div>
           </div>
           <TheFooter />
         </div>
+      </div>
+
+      <div
+        class="flex space-x-2"
+        :style="{
+          width: `${frameWidth}px`,
+        }"
+      >
+        <BaseButton
+          class="pl-3 pr-4 z-10 relative border rounded-full text-white bg-black/80 mt-4 border-slate-600/30 hover:bg-black/90 hover:border-slate-600/40 group"
+          @click="addEditorBlock"
+          :disabled="store.blocks.length >= 16"
+        >
+          <i-ph:plus />
+          Code Block
+        </BaseButton>
+
+        <BaseButton
+          class="pl-3 pr-4 z-10 relative border rounded-full text-white bg-black/80 mt-4 border-slate-600/30 hover:bg-black/90 hover:border-slate-600/40 group"
+          @click="addMarkdownBlock"
+          :disabled="store.blocks.length >= 16"
+        >
+          <i-ph:plus />
+          Markdown Block
+        </BaseButton>
       </div>
     </div>
   </div>

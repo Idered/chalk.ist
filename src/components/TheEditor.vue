@@ -2,21 +2,20 @@
 import { computed, h, ref } from "vue";
 import { useElementSize, useEventListener } from "@vueuse/core";
 import { transformerCompactLineOptions, transformerNotationDiff, transformerNotationFocus } from "shikiji-transformers";
-
+import Annotation from "./Annotation.vue";
+import { CodeBlock } from "~/types";
 import { store } from "~/composables/store";
 import { BlockType } from "~/enums";
 import { useShiki } from "~/lib/shiki";
 import { ShikijiTransformer } from "shikiji/index.mjs";
 
 const props = defineProps<{
-  blockId: string;
+  block: CodeBlock;
 }>();
 
 const shiki = useShiki();
 const editor = ref<HTMLTextAreaElement>();
 const formatted = ref<HTMLDivElement>();
-const block = computed(() => store.value.blocks.find((block) => block.id === props.blockId)!);
-import Annotation from "./Annotation.vue";
 
 function transformerLineNumbers(): ShikijiTransformer {
   return {
@@ -63,11 +62,11 @@ function transformerAnnotations(
               start: item.character,
               end: item.character,
               onRemove: (() => {
-                const transformationIndex = block.value.transformations.findIndex(
+                const transformationIndex = props.block.transformations.findIndex(
                   (item) => item.type === "annotate" && item.line === index && item.character === item.character
                 );
                 if (transformationIndex !== -1) {
-                  block.value.transformations.splice(transformationIndex, 1);
+                  props.block.transformations.splice(transformationIndex, 1);
                 }
               }) as any,
               class: ["annotation", item.type],
@@ -98,15 +97,15 @@ function transformerAnnotations(
 }
 
 const shikiContent = computed(() => {
-  if (!shiki.value || block.value.type !== BlockType.Code) return "";
+  if (!shiki.value || !props.block || props.block.type !== BlockType.Code) return "";
   const classNames = ["shiki"];
-  if (block.value.transformations.some((item) => item.type === "focus")) {
+  if (props.block.transformations.some((item) => item.type === "focus")) {
     classNames.push("has-focus");
   }
   if (store.value.showLineNumbers) {
     classNames.push("show-line-numbers");
   }
-  const lineOptions = block.value.transformations.reduce((mergedOptions, item) => {
+  const lineOptions = props.block.transformations.reduce((mergedOptions, item) => {
     const existingOption = mergedOptions.find((option) => option.line === item.line);
     if (existingOption) {
       existingOption.classes.push(item.type);
@@ -119,14 +118,14 @@ const shikiContent = computed(() => {
     return mergedOptions;
   }, [] as { line: number; classes: string[] }[]);
 
-  const hast = shiki.value.codeToHast(block.value.content, {
-    lang: block.value.language,
+  const hast = shiki.value.codeToHast(props.block.content, {
+    lang: props.block.language,
     theme: store.value.colorTheme,
     transformers: [
       transformerNotationDiff(),
       transformerNotationFocus(),
       transformerLineNumbers(),
-      transformerAnnotations(block.value.transformations),
+      transformerAnnotations(props.block.transformations),
       transformerCompactLineOptions(lineOptions),
     ],
     meta: {
@@ -207,7 +206,7 @@ useEventListener(editor, "keydown", async (e) => {
 });
 
 const gutter = computed(() => {
-  const len = block.value.content.split("\n").length;
+  const len = props.block.content.split("\n").length;
   if (!store.value.showLineNumbers) return "20px";
   return len >= 100 ? "calc(6.5ch + 4px)" : len >= 10 ? "calc(5.5ch + 4px)" : "calc(4.5ch + 4px)";
 });
@@ -243,48 +242,48 @@ useEventListener(formatted, "click", (event) => {
     return;
   }
   const line = parseInt(el.dataset.line!);
-  const index = block.value.transformations.findIndex((item) => item.type === mode && item.line === line);
+  const index = props.block.transformations.findIndex((item) => item.type === mode && item.line === line);
   if (index === -1) {
     if (mode === "add") {
-      const index = block.value.transformations.findIndex((item) => item.type === "remove" && item.line === line);
+      const index = props.block.transformations.findIndex((item) => item.type === "remove" && item.line === line);
       if (index !== -1) {
-        block.value.transformations.splice(index, 1);
+        props.block.transformations.splice(index, 1);
       }
     } else if (mode === "remove") {
-      const index = block.value.transformations.findIndex((item) => item.type === "add" && item.line === line);
+      const index = props.block.transformations.findIndex((item) => item.type === "add" && item.line === line);
       if (index !== -1) {
-        block.value.transformations.splice(index, 1);
+        props.block.transformations.splice(index, 1);
       }
     } else if (mode === "highlight") {
       // remove "add" and "remove" transformations
-      const index = block.value.transformations.findIndex(
+      const index = props.block.transformations.findIndex(
         (item) => ["add", "remove"].includes(item.type) && item.line === line
       );
       if (index !== -1) {
-        block.value.transformations.splice(index, 1);
+        props.block.transformations.splice(index, 1);
       }
     }
-    block.value.transformations.push({
+    props.block.transformations.push({
       type: mode,
       line,
     });
   } else {
-    block.value.transformations.splice(index, 1);
+    props.block.transformations.splice(index, 1);
   }
 });
 
 function addCharacterTransformer(line: number, character: number) {
-  const index = block.value.transformations.findIndex(
+  const index = props.block.transformations.findIndex(
     (item) => item.type === "annotate" && item.line === line && item.character === character
   );
   if (index === -1) {
-    block.value.transformations.push({
+    props.block.transformations.push({
       type: "annotate",
       line,
       character,
     });
   } else {
-    block.value.transformations.splice(index, 1);
+    props.block.transformations.splice(index, 1);
   }
 }
 
