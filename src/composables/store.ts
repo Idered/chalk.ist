@@ -51,6 +51,7 @@ export const store = useStorage("chalk-store", {
   expandBackdrops: true,
   expandTwitterOptions: true,
   fontFamily: "JetBrains Mono",
+  fontSize: 13,
   fontLigatures: true,
   frameHeight: 0,
   frameWidth: 720,

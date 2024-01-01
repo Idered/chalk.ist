@@ -124,6 +124,22 @@ const themeOptions = computed(() => [
               />
             </div>
 
+            <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2 h-5">
+              <label class="font-semibold text-xs select-none cursor-pointer" for="fontSize">Font size</label>
+              <div class="grid gap-x-2 grid-flow-col text-sm">
+                <input
+                  id="fontSize"
+                  class="accent-blue-700 w-full"
+                  type="range"
+                  min="12"
+                  max="18"
+                  step="1"
+                  :value="store.fontSize"
+                  @input="store.fontSize = parseInt(($event.target as HTMLInputElement).value)"
+                />
+              </div>
+            </div>
+
             <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
               <label class="font-semibold text-xs select-none cursor-pointer" for="fontLigatures">Font ligatures</label>
               <BaseSwitch

@@ -304,6 +304,7 @@ const charactersPerLine = computed(() => Math.floor(editorWidth.value / characte
       ref="formatted"
       :style="{
         'line-height': store.lineHeight + 'px',
+        'font-size': store.fontSize + 'px',
       }"
       :class="{
         'pointer-events-none': store.editMode === 'code',
@@ -350,6 +351,7 @@ const charactersPerLine = computed(() => Math.floor(editorWidth.value / characte
       :style="{
         'min-height': block.content.split('\n').length * store.lineHeight + 'px',
         'line-height': store.lineHeight + 'px',
+        'font-size': store.fontSize + 'px',
       }"
     />
   </div>

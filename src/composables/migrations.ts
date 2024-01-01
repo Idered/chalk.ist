@@ -33,6 +33,7 @@ export function runStoreMigrations() {
   store.value.backdropNoise = store.value.backdropNoise ?? false;
   store.value.windowNoise = store.value.windowNoise ?? false;
   store.value.colorTheme = store.value.colorTheme ?? "Vue";
+  store.value.fontSize = store.value.fontSize ?? 13;
   store.value.showLineNumbers = store.value.showLineNumbers ?? true;
   store.value.windowControls = store.value.windowControls ?? WindowControls.MacOutline;
   store.value.expandBackdrops = store.value.expandBackdrops ?? true;
