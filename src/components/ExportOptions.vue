@@ -1,20 +1,20 @@
 <script setup lang="ts">
+import BaseButton from "./BaseButton.vue";
+import IconChevronDown from "./IconChevronDown.vue";
+import IconClipboard from "./IconClipboard.vue";
+import IconDownload from "./IconDownload.vue";
+import {
+  createContext,
+  destroyContext,
+  domToBlob,
+  domToCanvas,
+} from "modern-screenshot";
 import screenshotWorkerUrl from "modern-screenshot/worker?url";
-import { Muxer, ArrayBufferTarget } from "mp4-muxer";
+import { ArrayBufferTarget, Muxer } from "mp4-muxer";
 import { computed, nextTick, reactive, ref } from "vue";
 import { exportState } from "~/composables/export-state";
 import { store } from "~/composables/store";
 import { ExportState } from "~/enums";
-import IconDownload from "./IconDownload.vue";
-import IconClipboard from "./IconClipboard.vue";
-import {
-  domToBlob,
-  createContext,
-  destroyContext,
-  domToCanvas,
-} from "modern-screenshot";
-import BaseButton from "./BaseButton.vue";
-import IconChevronDown from "./IconChevronDown.vue";
 
 defineProps<{
   isExpanded: boolean;

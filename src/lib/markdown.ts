@@ -1,8 +1,8 @@
-import { fromHighlighter } from "markdown-it-shikiji/core";
+import { useShiki } from "./shiki";
 import markdownit from "markdown-it";
+import { fromHighlighter } from "markdown-it-shikiji/core";
 import { computed } from "vue";
 import { store } from "~/composables/store";
-import { useShiki } from "./shiki";
 
 export function useMarkdown(content: string) {
   const shiki = useShiki();

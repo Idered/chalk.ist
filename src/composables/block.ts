@@ -1,6 +1,6 @@
+import { store } from "./store";
 import { v4 } from "uuid";
 import { BlockType } from "~/enums";
-import { store } from "./store";
 import { CodeBlock } from "~/types";
 
 export function getCodeBlocks() {

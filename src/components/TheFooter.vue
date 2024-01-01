@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import IconTwitterCircle from "./IconTwitterCircle.vue";
 import { computed } from "vue";
-import { store, preview } from "~/composables/store";
+import { preview, store } from "~/composables/store";
 
 const author = computed(() => {
   return preview.value ? preview.value : store.value;

@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { useElementSize } from "@vueuse/core";
-import { store, preview } from "~/composables/store";
-import { computed, ref, watch } from "vue";
-import { BlockType, ExportState } from "~/enums";
-import { exportState } from "~/composables/export-state";
 import BaseButton from "./BaseButton.vue";
-import IconClipboard from "./IconClipboard.vue";
 import EditorBlock from "./EditorBlock.vue";
+import IconClipboard from "./IconClipboard.vue";
 import TheFooter from "./TheFooter.vue";
 import TheFrameBackground from "./TheFrameBackground.vue";
-import TheParticlesBackground from "./TheParticlesBackground.vue";
 import TheFrameResizer from "./TheFrameResizer.vue";
+import TheParticlesBackground from "./TheParticlesBackground.vue";
 import TheToolbar from "./TheToolbar.vue";
+import { useElementSize } from "@vueuse/core";
+import { computed, ref, watch } from "vue";
 import { addEditorBlock, addMarkdownBlock } from "~/composables/block";
+import { exportState } from "~/composables/export-state";
+import { preview, store } from "~/composables/store";
+import { BlockType, ExportState } from "~/enums";
 
 const timeout = ref();
 const container = ref<HTMLDivElement>();

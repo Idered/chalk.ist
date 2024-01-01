@@ -1,17 +1,9 @@
 <script setup lang="ts">
-import { OnClickOutside } from "@vueuse/components";
-import {
-  ComponentPublicInstance,
-  computed,
-  nextTick,
-  PropType,
-  ref,
-  watch,
-} from "vue";
-import IconChevronDown from "./IconChevronDown.vue";
-import { useFuse } from "@vueuse/integrations/useFuse";
-import IconCheck from "./IconCheck.vue";
 import BaseInput from "./BaseInput.vue";
+import IconCheck from "./IconCheck.vue";
+import IconChevronDown from "./IconChevronDown.vue";
+import { OnClickOutside } from "@vueuse/components";
+import { useFuse } from "@vueuse/integrations/useFuse";
 import {
   PopoverClose,
   PopoverContent,
@@ -19,6 +11,14 @@ import {
   PopoverRoot,
   PopoverTrigger,
 } from "radix-vue";
+import {
+  ComponentPublicInstance,
+  PropType,
+  computed,
+  nextTick,
+  ref,
+  watch,
+} from "vue";
 
 type Option = {
   value: string | number;

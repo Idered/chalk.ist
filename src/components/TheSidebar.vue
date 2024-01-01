@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { OnClickOutside } from "@vueuse/components";
-import { store } from "~/composables/store";
-import BaseSwitch from "./BaseSwitch.vue";
-import BaseSelect from "./BaseSelect.vue";
-import { FONTS, FRAME_STYLES, LIGATURE_FONTS } from "~/constants";
-import BaseInput from "./BaseInput.vue";
 import BaseButton from "./BaseButton.vue";
+import BaseInput from "./BaseInput.vue";
+import BaseSelect from "./BaseSelect.vue";
+import BaseSwitch from "./BaseSwitch.vue";
+import ExportOptions from "./ExportOptions.vue";
 import IconChevronDown from "./IconChevronDown.vue";
+import { OnClickOutside } from "@vueuse/components";
 import { useElementSize } from "@vueuse/core";
-import { resizeImage, cropImage } from "~/composables/image";
+import { computed, ref } from "vue";
+import { cropImage, resizeImage } from "~/composables/image";
+import { store } from "~/composables/store";
+import { FONTS, FRAME_STYLES, LIGATURE_FONTS } from "~/constants";
 import { WindowControls } from "~/enums";
 import { Backdrops } from "~/lib/backdrops";
-import { shikijiThemes, chalkistThemes } from "~/lib/themes";
-import ExportOptions from "./ExportOptions.vue";
+import { chalkistThemes, shikijiThemes } from "~/lib/themes";
 
 const isExpanded = ref(false);
 const expandableContent = ref();

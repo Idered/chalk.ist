@@ -1,5 +1,5 @@
-import { createTheme } from "~/lib/create-theme";
 import { bundledThemesInfo } from "shikiji/themes";
+import { createTheme } from "~/lib/create-theme";
 
 const excludedThemes = [
   "material-theme-darker",

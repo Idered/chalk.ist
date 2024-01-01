@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { preview, store } from "~/composables/store";
 import BaseButton from "./BaseButton.vue";
-import { BlockType } from "~/enums";
 import { getCodeBlocks } from "~/composables/block";
+import { preview, store } from "~/composables/store";
+import { BlockType } from "~/enums";
 
 defineProps<{
   frameWidth: number;

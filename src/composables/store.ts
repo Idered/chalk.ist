@@ -1,10 +1,10 @@
+import { runStoreMigrations } from "./migrations";
 import { useStorage } from "@vueuse/core";
+import { v4 } from "uuid";
 import { ref } from "vue";
 import { DEFAULT_CONTENT, DEFAULT_THEME } from "~/constants";
-import { WindowControls, BlockType } from "~/enums";
-import { v4 } from "uuid";
+import { BlockType, WindowControls } from "~/enums";
 import { Backdrops } from "~/lib/backdrops";
-import { runStoreMigrations } from "./migrations";
 import { Block } from "~/types";
 
 export const preview = ref<{

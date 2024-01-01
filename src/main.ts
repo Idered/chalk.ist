@@ -1,29 +1,22 @@
 // register vue composition api globally
-import { ViteSSG } from "vite-ssg";
-import generatedRoutes from "virtual:generated-pages";
-import App from "~/App.vue";
+import "./fonts/geist-mono.css";
+import "./fonts/nova.css";
 import "./style.css";
-
-import "@fontsource/inter/500.css";
-import "@fontsource/inter/600.css";
-
-import "@fontsource/inter/400.css";
-import "@fontsource/inter/700.css";
-
-import "@fontsource/jetbrains-mono/400.css";
-import "@fontsource/jetbrains-mono/700.css";
-
 import "@fontsource/fira-code/400.css";
 import "@fontsource/fira-code/700.css";
-
-import "@fontsource/source-code-pro/400.css";
-import "@fontsource/source-code-pro/700.css";
-
 import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/700.css";
-
-import "./fonts/nova.css";
-import "./fonts/geist-mono.css";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/600.css";
+import "@fontsource/inter/700.css";
+import "@fontsource/jetbrains-mono/400.css";
+import "@fontsource/jetbrains-mono/700.css";
+import "@fontsource/source-code-pro/400.css";
+import "@fontsource/source-code-pro/700.css";
+import generatedRoutes from "virtual:generated-pages";
+import { ViteSSG } from "vite-ssg";
+import App from "~/App.vue";
 
 const routes = generatedRoutes;
 

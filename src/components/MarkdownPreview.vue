@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { CodeBlock } from "~/types";
 import { useMarkdown } from "~/lib/markdown";
+import { CodeBlock } from "~/types";
 
 const props = defineProps<{
   block: CodeBlock;

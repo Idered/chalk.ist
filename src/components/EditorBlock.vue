@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import TheEditor from "./TheEditor.vue";
-import { ExportState, WindowControls } from "~/enums";
-import { store, preview } from "~/composables/store";
-import { exportState } from "~/composables/export-state";
-import { useElementSize } from "@vueuse/core";
-import { computed, ref } from "vue";
-import { LANGUAGES, ROW_OPTIONS, COLUMN_OPTIONS } from "~/constants";
-import { CodeBlock } from "~/types";
 import BaseSelect from "./BaseSelect.vue";
 import IconChevronDown from "./IconChevronDown.vue";
+import TheEditor from "./TheEditor.vue";
+import { useElementSize } from "@vueuse/core";
+import { computed, ref } from "vue";
+import { moveBlock, removeBlock } from "~/composables/block";
+import { exportState } from "~/composables/export-state";
+import { preview, store } from "~/composables/store";
+import { COLUMN_OPTIONS, LANGUAGES, ROW_OPTIONS } from "~/constants";
+import { ExportState, WindowControls } from "~/enums";
 import { Backdrops } from "~/lib/backdrops";
-import { removeBlock, moveBlock } from "~/composables/block";
+import { CodeBlock } from "~/types";
 
 const props = defineProps<{
   block: CodeBlock;

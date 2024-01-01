@@ -1,5 +1,5 @@
-import { ThemeRegistrationRaw } from "shikiji/core";
 import { hslToHex } from "./colors";
+import { ThemeRegistrationRaw } from "shikiji/core";
 
 type Colors = {
   /**

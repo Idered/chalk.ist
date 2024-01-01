@@ -1,15 +1,15 @@
 <script setup lang="ts">
+import markdownit from "markdown-it";
+import { fromHighlighter } from "markdown-it-shikiji/core";
+import { computed } from "vue";
+import { moveBlock, removeBlock } from "~/composables/block";
 import { exportState } from "~/composables/export-state";
 import { store } from "~/composables/store";
-import { ExportState } from "~/enums";
-import { moveBlock, removeBlock } from "~/composables/block";
-import { NoteBlock } from "~/types";
 import { COLUMN_OPTIONS } from "~/constants";
-import { computed } from "vue";
+import { ExportState } from "~/enums";
 import { Backdrops } from "~/lib/backdrops";
-import markdownit from "markdown-it";
 import { useShiki } from "~/lib/shiki";
-import { fromHighlighter } from "markdown-it-shikiji/core";
+import { NoteBlock } from "~/types";
 
 defineProps<{
   block: NoteBlock;

@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { computed, h, ref } from "vue";
+import Annotation from "./Annotation.vue";
 import { useElementSize, useEventListener } from "@vueuse/core";
 import {
   transformerCompactLineOptions,
   transformerNotationDiff,
   transformerNotationFocus,
 } from "shikiji-transformers";
-import Annotation from "./Annotation.vue";
-import { CodeBlock } from "~/types";
+import { ShikijiTransformer } from "shikiji/index.mjs";
+import { computed, h, ref } from "vue";
 import { store } from "~/composables/store";
 import { BlockType } from "~/enums";
 import { useShiki } from "~/lib/shiki";
-import { ShikijiTransformer } from "shikiji/index.mjs";
+import { CodeBlock } from "~/types";
 
 const props = defineProps<{
   block: CodeBlock;
