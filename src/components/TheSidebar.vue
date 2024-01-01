@@ -134,6 +134,21 @@ const themeOptions = computed(() => [
             </div>
 
             <div
+              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+            >
+              <label
+                class="cursor-pointer select-none text-xs font-semibold"
+                for="fontLigatures"
+                >Font ligatures</label
+              >
+              <BaseSwitch
+                :disabled="!LIGATURE_FONTS.includes(store.fontFamily)"
+                v-model="store.fontLigatures"
+                id="fontLigatures"
+              />
+            </div>
+
+            <div
               class="grid h-5 grid-flow-col items-center justify-between gap-x-2 gap-y-2"
             >
               <label
@@ -160,35 +175,6 @@ const themeOptions = computed(() => [
             </div>
 
             <div
-              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
-            >
-              <label
-                class="cursor-pointer select-none text-xs font-semibold"
-                for="fontLigatures"
-                >Font ligatures</label
-              >
-              <BaseSwitch
-                :disabled="!LIGATURE_FONTS.includes(store.fontFamily)"
-                v-model="store.fontLigatures"
-                id="fontLigatures"
-              />
-            </div>
-
-            <div
-              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
-            >
-              <label
-                class="cursor-pointer select-none text-xs font-semibold"
-                for="showLineNumbers"
-                >Line numbers</label
-              >
-              <BaseSwitch
-                v-model="store.showLineNumbers"
-                id="showLineNumbers"
-              />
-            </div>
-
-            <div
               class="grid h-5 grid-flow-col items-center justify-between gap-x-2 gap-y-2"
             >
               <label
@@ -212,6 +198,20 @@ const themeOptions = computed(() => [
                   "
                 />
               </div>
+            </div>
+
+            <div
+              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+            >
+              <label
+                class="cursor-pointer select-none text-xs font-semibold"
+                for="showLineNumbers"
+                >Line numbers</label
+              >
+              <BaseSwitch
+                v-model="store.showLineNumbers"
+                id="showLineNumbers"
+              />
             </div>
 
             <hr class="border-y border-b-slate-700 border-t-slate-900" />

@@ -1,3 +1,5 @@
+import { Backdrop } from "./backdrops";
+
 export function cssGradientToCanvas(
   ctx: CanvasRenderingContext2D,
   gradient: string,
@@ -81,4 +83,51 @@ export function hslToRGB(hsl: string) {
     return Math.round(255 * color);
   };
   return `rgb(${f(0)}, ${f(8)}, ${f(4)})`;
+}
+
+export function getRandomColor() {
+  const letters = "0123456789ABCDEF";
+  let color = "#";
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+export function getRandomGradient() {
+  const angles = [
+    "0deg",
+    "45deg",
+    "90deg",
+    "135deg",
+    "180deg",
+    "225deg",
+    "270deg",
+    "315deg",
+  ];
+  const colors = [
+    getRandomColor(),
+    getRandomColor(),
+    getRandomColor(),
+    getRandomColor(),
+    getRandomColor(),
+    getRandomColor(),
+  ];
+  const gradient = `conic-gradient(from ${
+    angles[Math.floor(Math.random() * angles.length)]
+  }, ${colors.join(", ")})`;
+  return gradient;
+}
+
+export function generateRandomBackdrop(): Backdrop[keyof Backdrop] {
+  return {
+    backgroundStyle: {
+      background: getRandomGradient(),
+      filter: `blur(30px)`,
+      transform: `scale(1.385)`,
+    },
+    shadow: "hsl(140, 40%, 2%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.17,
+  };
 }

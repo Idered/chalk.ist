@@ -1,4 +1,4 @@
-interface Backdrop {
+export interface Backdrop {
   [key: string]: {
     backgroundStyle: {
       background: string;
@@ -15,6 +15,23 @@ interface Backdrop {
 }
 
 export const Backdrops: Backdrop = {
+  // Random1: generateRandomBackdrop(),
+  // Random2: generateRandomBackdrop(),
+  // Random3: generateRandomBackdrop(),
+  // Random4: generateRandomBackdrop(),
+  // Random5: generateRandomBackdrop(),
+
+  R1: {
+    backgroundStyle: {
+      background: `conic-gradient(from 45deg, rgb(102, 7, 203), rgb(14, 188, 212), rgb(184, 71, 243), rgb(82, 14, 204), rgb(0, 168, 244), rgb(79, 92, 184))`,
+      filter: `blur(34px)`,
+      transform: `scale(2.49328)`,
+    },
+    shadow: "hsl(140, 40%, 2%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.17,
+  },
+
   Chrome: {
     backgroundStyle: {
       background: `conic-gradient(
@@ -159,6 +176,34 @@ export const Backdrops: Backdrop = {
     lightsOpacity: 0.17,
   },
 
+  Sakura: {
+    backgroundStyle: {
+      background: `linear-gradient(
+      140deg, 
+      hsl(330, 80%, 90%), 
+      hsl(330, 80%, 80%), 
+      hsl(330, 80%, 70%)
+    )`,
+    },
+    shadow: "hsl(330, 80%, 13%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.17,
+  },
+
+  Ocean: {
+    backgroundStyle: {
+      background: `linear-gradient(
+        140deg, 
+        hsl(200, 80%, 70%), 
+        hsl(200, 80%, 60%), 
+        hsl(200, 80%, 50%)
+      )`,
+    },
+    shadow: "hsl(200, 80%, 10%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.29,
+  },
+
   Lavender: {
     backgroundStyle: {
       background: `linear-gradient(
@@ -171,6 +216,46 @@ export const Backdrops: Backdrop = {
     shadow: "hsl(255, 100%, 10%)",
     shadowsOpacity: 1,
     lightsOpacity: 0.29,
+  },
+
+  Sunset: {
+    backgroundStyle: {
+      background: `linear-gradient(
+        140deg, 
+        hsl(30, 80%, 70%), 
+        hsl(30, 80%, 60%), 
+        hsl(30, 80%, 50%)
+      )`,
+    },
+    shadow: "hsl(30, 80%, 10%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.29,
+  },
+
+  Sand: {
+    backgroundStyle: {
+      background: `linear-gradient(
+        140deg, 
+        hsl(30, 80%, 90%), 
+        hsl(30, 80%, 80%), 
+        hsl(30, 80%, 70%)
+      )`,
+    },
+    shadow: "hsl(30, 80%, 10%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.29,
+  },
+
+  Liveblocks: {
+    backgroundStyle: {
+      background: `linear-gradient(125deg, rgba(253,226,237,1) 0%, rgba(247,229,246,1) 91%, rgba(244,231,250,1) 100%)`,
+    },
+    appStyle: {
+      backgroundColor: `#03000AEE`,
+    },
+    shadow: "hsl(347, 100%, 8%)",
+    lightsOpacity: 0.35,
+    shadowsOpacity: 1,
   },
 
   // Rose: {
@@ -192,17 +277,35 @@ export const Backdrops: Backdrop = {
   //   lightsOpacity: 0.12,
   // },
 
-  Liveblocks: {
-    backgroundStyle: {
-      background: `linear-gradient(125deg, rgba(253,226,237,1) 0%, rgba(247,229,246,1) 91%, rgba(244,231,250,1) 100%)`,
-    },
-    appStyle: {
-      backgroundColor: `#03000AEE`,
-    },
-    shadow: "hsl(347, 100%, 8%)",
-    lightsOpacity: 0.35,
-    shadowsOpacity: 1,
-  },
+  // Galaxy: {
+  //   backgroundStyle: {
+  //     background: `linear-gradient(
+  //         140deg,
+  //         hsl(240, 80%, 10%),
+  //         hsl(240, 80%, 30%),
+  //         hsl(240, 80%, 50%),
+  //         hsl(240, 80%, 70%)
+  //       )`,
+  //   },
+  //   shadow: "hsl(240, 80%, 10%)",
+  //   shadowsOpacity: 1,
+  //   lightsOpacity: 0.12,
+  // },
+
+  // MilkyWay: {
+  //   backgroundStyle: {
+  //     background: `linear-gradient(
+  //     140deg,
+  //     hsl(240, 80%, 10%),
+  //     hsl(240, 80%, 5%),
+  //     hsl(240, 80%, 2%),
+  //     hsl(240, 80%, 1%)
+  //   )`,
+  //   },
+  //   shadow: "hsl(240, 80%, 10%)",
+  //   shadowsOpacity: 1,
+  //   lightsOpacity: 0.12,
+  // },
 
   //   Vercel: {
   //     backgroundStyle: {
