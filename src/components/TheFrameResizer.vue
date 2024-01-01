@@ -37,10 +37,10 @@ function startResize(event: MouseEvent, handle: "left" | "right") {
 <template>
   <div
     v-if="exportState === ExportState.Idle && !preview"
-    class="sticky top-1/2 z-10 flex justify-between -mt-6"
+    class="sticky top-1/2 z-10 flex justify-between -mt-6 -translate-y-5"
   >
     <div
-      class="group flex h-6 w-6 -translate-y-3 -translate-x-1/2 cursor-col-resize items-center justify-center"
+      class="group flex h-6 w-6 -translate-x-1/2 cursor-col-resize items-center justify-center"
       @mousedown="startResize($event, 'left')"
     >
       <div
@@ -49,7 +49,7 @@ function startResize(event: MouseEvent, handle: "left" | "right") {
     </div>
 
     <div
-      class="group flex h-6 w-6 translate-x-1/2 -translate-y-3 cursor-col-resize select-none items-center justify-center"
+      class="group flex h-6 w-6 translate-x-1/2 cursor-col-resize select-none items-center justify-center"
       @mousedown="startResize($event, 'right')"
     >
       <div
