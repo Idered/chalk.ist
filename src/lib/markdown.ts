@@ -19,7 +19,7 @@ export function useMarkdown(content: string) {
           class: [].join(" "),
           tabindex: "-1",
         },
-      })
+      }),
     );
   });
 

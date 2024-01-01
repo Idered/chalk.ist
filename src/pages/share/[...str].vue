@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen grid">
+  <div class="grid h-screen">
     <TheEditorFrame />
   </div>
 </template>
@@ -23,7 +23,7 @@ const data: {
   l: string; // language
   px: number; // padding x
   py: number; // padding y
-	lh: number; // line height
+  lh: number; // line height
   w: number; // width
   ff: string; // font family
   n: string; // name
@@ -41,7 +41,7 @@ preview.value = {
   language: data.l,
   paddingX: data.px,
   paddingY: data.py,
-	lineHeight: data.lh,
+  lineHeight: data.lh,
   frameWidth: data.w,
   fontFamily: data.ff || "JetBrains Mono",
   name: data.n,

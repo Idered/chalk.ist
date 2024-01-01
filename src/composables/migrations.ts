@@ -35,7 +35,8 @@ export function runStoreMigrations() {
   store.value.colorTheme = store.value.colorTheme ?? "Vue";
   store.value.fontSize = store.value.fontSize ?? 13;
   store.value.showLineNumbers = store.value.showLineNumbers ?? true;
-  store.value.windowControls = store.value.windowControls ?? WindowControls.MacOutline;
+  store.value.windowControls =
+    store.value.windowControls ?? WindowControls.MacOutline;
   store.value.expandBackdrops = store.value.expandBackdrops ?? true;
   store.value.paddingX = store.value.paddingX || 32;
   store.value.paddingY = store.value.paddingY || 32;
@@ -45,7 +46,9 @@ export function runStoreMigrations() {
   store.value.showParticles = store.value.showParticles || true;
   store.value.fontFamily = store.value.fontFamily || "JetBrains Mono";
   store.value.fontLigatures = store.value.fontLigatures || true;
-  store.value.currentTheme = ["vercel", "redline"].includes(store.value.currentTheme)
+  store.value.currentTheme = ["vercel", "redline"].includes(
+    store.value.currentTheme,
+  )
     ? DEFAULT_THEME
     : store.value.currentTheme;
 }

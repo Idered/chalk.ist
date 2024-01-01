@@ -58,5 +58,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <canvas ref="canvas" class="particles-bg absolute inset-0" :width="width" :height="height" />
+  <canvas
+    ref="canvas"
+    class="particles-bg absolute inset-0"
+    :width="width"
+    :height="height"
+  />
 </template>

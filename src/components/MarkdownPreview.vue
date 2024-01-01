@@ -10,7 +10,10 @@ const content = useMarkdown(props.block.content);
 </script>
 
 <template>
-  <div class="markdown prose px-5 prose-a:no-underline mx-auto" v-html="content" />
+  <div
+    class="markdown prose mx-auto px-5 prose-a:no-underline"
+    v-html="content"
+  />
 </template>
 
 <style>
@@ -23,8 +26,8 @@ const content = useMarkdown(props.block.content);
   --h6-size: 0.75rem;
   --body-font-size: 0.875rem;
 
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   word-wrap: break-word;
 }
 
@@ -54,13 +57,13 @@ const content = useMarkdown(props.block.content);
 }
 
 .markdown h1 {
-  @apply text-slate-800 border-b;
+  @apply border-b text-slate-800;
   font-size: var(--h1-size);
   padding-bottom: 0.3em;
 }
 
 .markdown h2 {
-  @apply text-slate-800 border-b;
+  @apply border-b text-slate-800;
   font-size: var(--h2-size);
   padding-bottom: 0.3em;
 }

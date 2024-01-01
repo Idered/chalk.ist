@@ -93,15 +93,22 @@ const themeOptions = computed(() => [
     <aside>
       <div class="sm:hidden" :style="{ height: '57px' }"></div>
       <div
-        class="fixed bottom-0 inset-x-0 border-t border-slate-700 sm:border-t-0 pwa:sm:border-t pwa:sm:border-t-slate-900 pwa:sm:shadow-[inset_0_1px_0_rgb(30_30_37)] sm:border-r content-start transition-[height] sm:transition-none sm:!h-screen sm:w-[270px] sm:static bg-slate-800 sm:overflow-auto max-h-screen"
+        class="fixed inset-x-0 bottom-0 max-h-screen content-start border-t border-slate-700 bg-slate-800 transition-[height] sm:static sm:!h-screen sm:w-[270px] sm:overflow-auto sm:border-r sm:border-t-0 sm:transition-none pwa:sm:border-t pwa:sm:border-t-slate-900 pwa:sm:shadow-[inset_0_1px_0_rgb(30_30_37)]"
         :style="{
           height: isExpanded ? `${expandableContentHeight + 57}px` : `57px`,
         }"
       >
-        <div ref="expandableContent" class="max-h-[calc(50svh-48px)] sm:max-h-none overflow-auto">
+        <div
+          ref="expandableContent"
+          class="max-h-[calc(50svh-48px)] overflow-auto sm:max-h-none"
+        >
           <div class="grid gap-y-2 px-3 py-4">
-            <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-              <label for="colorTheme" class="font-semibold text-xs">Color theme</label>
+            <div
+              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+            >
+              <label for="colorTheme" class="text-xs font-semibold"
+                >Color theme</label
+              >
               <BaseSelect
                 id="colorTheme"
                 class="-my-1"
@@ -112,8 +119,10 @@ const themeOptions = computed(() => [
               />
             </div>
 
-            <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-              <label for="fontFamily" class="font-semibold text-xs">Font</label>
+            <div
+              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+            >
+              <label for="fontFamily" class="text-xs font-semibold">Font</label>
               <BaseSelect
                 class="-my-1"
                 id="fontFamily"
@@ -124,24 +133,40 @@ const themeOptions = computed(() => [
               />
             </div>
 
-            <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2 h-5">
-              <label class="font-semibold text-xs select-none cursor-pointer" for="fontSize">Font size</label>
-              <div class="grid gap-x-2 grid-flow-col text-sm">
+            <div
+              class="grid h-5 grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+            >
+              <label
+                class="cursor-pointer select-none text-xs font-semibold"
+                for="fontSize"
+                >Font size</label
+              >
+              <div class="grid grid-flow-col gap-x-2 text-sm">
                 <input
                   id="fontSize"
-                  class="accent-blue-700 w-full"
+                  class="w-full accent-blue-700"
                   type="range"
                   min="12"
                   max="18"
                   step="1"
                   :value="store.fontSize"
-                  @input="store.fontSize = parseInt(($event.target as HTMLInputElement).value)"
+                  @input="
+                    store.fontSize = parseInt(
+                      ($event.target as HTMLInputElement).value,
+                    )
+                  "
                 />
               </div>
             </div>
 
-            <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-              <label class="font-semibold text-xs select-none cursor-pointer" for="fontLigatures">Font ligatures</label>
+            <div
+              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+            >
+              <label
+                class="cursor-pointer select-none text-xs font-semibold"
+                for="fontLigatures"
+                >Font ligatures</label
+              >
               <BaseSwitch
                 :disabled="!LIGATURE_FONTS.includes(store.fontFamily)"
                 v-model="store.fontLigatures"
@@ -149,34 +174,59 @@ const themeOptions = computed(() => [
               />
             </div>
 
-            <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-              <label class="font-semibold text-xs select-none cursor-pointer" for="showLineNumbers">Line numbers</label>
-              <BaseSwitch v-model="store.showLineNumbers" id="showLineNumbers" />
+            <div
+              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+            >
+              <label
+                class="cursor-pointer select-none text-xs font-semibold"
+                for="showLineNumbers"
+                >Line numbers</label
+              >
+              <BaseSwitch
+                v-model="store.showLineNumbers"
+                id="showLineNumbers"
+              />
             </div>
 
-            <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2 h-5">
-              <label class="font-semibold text-xs select-none cursor-pointer" for="lineHeight">Line height</label>
-              <div class="grid gap-x-2 grid-flow-col text-sm">
+            <div
+              class="grid h-5 grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+            >
+              <label
+                class="cursor-pointer select-none text-xs font-semibold"
+                for="lineHeight"
+                >Line height</label
+              >
+              <div class="grid grid-flow-col gap-x-2 text-sm">
                 <input
                   id="lineHeight"
-                  class="accent-blue-700 w-full"
+                  class="w-full accent-blue-700"
                   type="range"
                   min="20"
                   max="30"
                   step="1"
                   :value="store.lineHeight"
-                  @input="store.lineHeight = parseInt(($event.target as HTMLInputElement).value)"
+                  @input="
+                    store.lineHeight = parseInt(
+                      ($event.target as HTMLInputElement).value,
+                    )
+                  "
                 />
               </div>
             </div>
 
             <hr class="border-y border-b-slate-700 border-t-slate-900" />
 
-            <div class="grid grid-cols-[1fr_auto_auto] gap-y-2 items-center justify-between gap-x-2">
-              <label class="font-semibold text-xs select-none cursor-pointer" for="showBackground">Backdrop</label>
+            <div
+              class="grid grid-cols-[1fr_auto_auto] items-center justify-between gap-x-2 gap-y-2"
+            >
+              <label
+                class="cursor-pointer select-none text-xs font-semibold"
+                for="showBackground"
+                >Backdrop</label
+              >
 
               <BaseButton
-                class="text-blue-500 px-2.5 font-semibold text-xs bg-blue-600/30 hover:bg-blue-600/40 h-5 rounded"
+                class="h-5 rounded bg-blue-600/30 px-2.5 text-xs font-semibold text-blue-500 hover:bg-blue-600/40"
                 @click="store.expandBackdrops = !store.expandBackdrops"
               >
                 <IconChevronDown
@@ -192,7 +242,7 @@ const themeOptions = computed(() => [
 
             <div
               v-if="store.expandBackdrops"
-              class="flex flex-wrap sm:grid items-center gap-2 sm:grid-flow-row sm:grid-cols-5"
+              class="flex flex-wrap items-center gap-2 sm:grid sm:grid-flow-row sm:grid-cols-5"
             >
               <button
                 v-for="(item, key) in Backdrops"
@@ -201,60 +251,98 @@ const themeOptions = computed(() => [
                 :title="`Use ${key} backdrop`"
               >
                 <div
-                  class="h-10 sm:h-6 rounded group-hover:opacity-100 transition group-hover:scale-105 group-active:scale-95 group-focus:shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] group-focus:ring-[3px] ring-blue-800"
+                  class="h-10 rounded ring-blue-800 transition group-hover:scale-105 group-hover:opacity-100 group-focus:shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] group-focus:ring-[3px] group-active:scale-95 sm:h-6"
                   :style="{ background: item.backgroundStyle.background }"
                 ></div>
               </button>
             </div>
 
-            <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-              <label class="font-semibold text-xs select-none cursor-pointer" for="backdropNoise">Backdrop noise</label>
-              <BaseSwitch v-model="store.backdropNoise" id="backdropNoise" :disabled="!store.showBackground" />
+            <div
+              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+            >
+              <label
+                class="cursor-pointer select-none text-xs font-semibold"
+                for="backdropNoise"
+                >Backdrop noise</label
+              >
+              <BaseSwitch
+                v-model="store.backdropNoise"
+                id="backdropNoise"
+                :disabled="!store.showBackground"
+              />
             </div>
 
-            <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-              <label class="font-semibold text-xs select-none cursor-pointer" for="showParticles"
+            <div
+              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+            >
+              <label
+                class="cursor-pointer select-none text-xs font-semibold"
+                for="showParticles"
                 >Backdrop particles</label
               >
               <BaseSwitch v-model="store.showParticles" id="showParticles" />
             </div>
 
-            <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2 h-5">
-              <label class="font-semibold text-xs select-none cursor-pointer" for="paddingX">Padding X</label>
-              <div class="grid gap-x-2 grid-flow-col text-sm">
+            <div
+              class="grid h-5 grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+            >
+              <label
+                class="cursor-pointer select-none text-xs font-semibold"
+                for="paddingX"
+                >Padding X</label
+              >
+              <div class="grid grid-flow-col gap-x-2 text-sm">
                 <input
                   id="paddingX"
-                  class="accent-blue-700 w-full"
+                  class="w-full accent-blue-700"
                   type="range"
                   min="0"
                   max="128"
                   step="8"
                   :value="store.paddingX"
-                  @input="store.paddingX = parseInt(($event.target as HTMLInputElement).value)"
+                  @input="
+                    store.paddingX = parseInt(
+                      ($event.target as HTMLInputElement).value,
+                    )
+                  "
                 />
               </div>
             </div>
 
-            <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2 h-5">
-              <label class="font-semibold text-xs select-none cursor-pointer" for="paddingY">Padding Y</label>
-              <div class="grid gap-x-2 grid-flow-col text-sm">
+            <div
+              class="grid h-5 grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+            >
+              <label
+                class="cursor-pointer select-none text-xs font-semibold"
+                for="paddingY"
+                >Padding Y</label
+              >
+              <div class="grid grid-flow-col gap-x-2 text-sm">
                 <input
                   id="paddingY"
-                  class="accent-blue-700 w-full"
+                  class="w-full accent-blue-700"
                   type="range"
                   min="0"
                   max="128"
                   step="8"
                   :value="store.paddingY"
-                  @input="store.paddingY = parseInt(($event.target as HTMLInputElement).value)"
+                  @input="
+                    store.paddingY = parseInt(
+                      ($event.target as HTMLInputElement).value,
+                    )
+                  "
                 />
               </div>
             </div>
 
             <hr class="border-y border-b-slate-700 border-t-slate-900" />
 
-            <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-              <label for="windowStyle" class="font-semibold text-xs">Window style</label>
+            <div
+              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+            >
+              <label for="windowStyle" class="text-xs font-semibold"
+                >Window style</label
+              >
               <BaseSelect
                 id="windowStyle"
                 class="-my-1"
@@ -266,8 +354,12 @@ const themeOptions = computed(() => [
               />
             </div>
 
-            <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-              <label for="windowControls" class="font-semibold text-xs">Window controls</label>
+            <div
+              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+            >
+              <label for="windowControls" class="text-xs font-semibold"
+                >Window controls</label
+              >
               <BaseSelect
                 id="windowControls"
                 class="-my-1"
@@ -278,31 +370,52 @@ const themeOptions = computed(() => [
                   { label: 'None', value: WindowControls.None },
                   { label: 'macOS - Color', value: WindowControls.MacColor },
                   { label: 'macOS - Gray', value: WindowControls.MacGray },
-                  { label: 'macOS - Outline', value: WindowControls.MacOutline },
+                  {
+                    label: 'macOS - Outline',
+                    value: WindowControls.MacOutline,
+                  },
                   { label: 'Windows', value: WindowControls.Windows },
                 ]"
               />
             </div>
 
-            <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-              <label class="font-semibold text-xs select-none cursor-pointer" for="windowNoise">Window noise</label>
+            <div
+              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+            >
+              <label
+                class="cursor-pointer select-none text-xs font-semibold"
+                for="windowNoise"
+                >Window noise</label
+              >
               <BaseSwitch v-model="store.windowNoise" id="windowNoise" />
             </div>
 
-            <div class="grid grid-flow-col gap-y-2 items-center justify-between gap-x-2">
-              <label class="font-semibold text-xs select-none cursor-pointer" for="reflection">Window reflection</label>
+            <div
+              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+            >
+              <label
+                class="cursor-pointer select-none text-xs font-semibold"
+                for="reflection"
+                >Window reflection</label
+              >
               <BaseSwitch v-model="store.reflection" id="reflection" />
             </div>
 
             <hr class="border-y border-b-slate-700 border-t-slate-900" />
 
-            <div class="grid grid-flow-col gap-y-2 items-center grid-cols-[1fr_auto_auto] gap-x-2">
-              <label class="font-semibold text-xs select-none cursor-pointer" for="showTwitterBadge"
+            <div
+              class="grid grid-flow-col grid-cols-[1fr_auto_auto] items-center gap-x-2 gap-y-2"
+            >
+              <label
+                class="cursor-pointer select-none text-xs font-semibold"
+                for="showTwitterBadge"
                 >Twitter badge</label
               >
               <BaseButton
-                class="text-blue-500 px-2.5 font-semibold text-xs bg-blue-600/30 hover:bg-blue-600/40 h-5 rounded"
-                @click="store.expandTwitterOptions = !store.expandTwitterOptions"
+                class="h-5 rounded bg-blue-600/30 px-2.5 text-xs font-semibold text-blue-500 hover:bg-blue-600/40"
+                @click="
+                  store.expandTwitterOptions = !store.expandTwitterOptions
+                "
               >
                 <IconChevronDown
                   width="12"
@@ -312,14 +425,23 @@ const themeOptions = computed(() => [
                   }"
                 />
               </BaseButton>
-              <BaseSwitch v-model="store.showTwitterBadge" id="showTwitterBadge" />
+              <BaseSwitch
+                v-model="store.showTwitterBadge"
+                id="showTwitterBadge"
+              />
             </div>
 
-            <div class="grid gap-y-1 gap-x-2 items-start grid-cols-[auto_1fr]" v-if="store.expandTwitterOptions">
-              <div v-if="store.picture" class="row-start-1 row-end-3 relative group">
+            <div
+              class="grid grid-cols-[auto_1fr] items-start gap-x-2 gap-y-1"
+              v-if="store.expandTwitterOptions"
+            >
+              <div
+                v-if="store.picture"
+                class="group relative row-start-1 row-end-3"
+              >
                 <BaseButton
                   @click="store.picture = ''"
-                  class="h-5 w-5 absolute right-0 top-0 group-hover:opacity-100 opacity-0 bg-red-600/80 hover:bg-red-600 transition rounded-full justify-center text-white"
+                  class="absolute right-0 top-0 h-5 w-5 justify-center rounded-full bg-red-600/80 text-white opacity-0 transition hover:bg-red-600 group-hover:opacity-100"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -335,19 +457,21 @@ const themeOptions = computed(() => [
                       <path
                         d="M7.172 14.243a1 1 0 1 1-1.415-1.415l7.071-7.07a1 1 0 0 1 1.415 1.414l-7.071 7.07Z"
                       ></path>
-                      <path d="M5.757 7.172a1 1 0 1 1 1.415-1.415l7.07 7.071a1 1 0 0 1-1.414 1.415l-7.07-7.071Z"></path>
+                      <path
+                        d="M5.757 7.172a1 1 0 1 1 1.415-1.415l7.07 7.071a1 1 0 0 1-1.414 1.415l-7.07-7.071Z"
+                      ></path>
                     </g>
                   </svg>
                 </BaseButton>
                 <img
                   :src="store.picture"
                   alt=""
-                  class="w-14 h-14 border border-slate-700 bg-slate-700/30 rounded-full"
+                  class="h-14 w-14 rounded-full border border-slate-700 bg-slate-700/30"
                 />
               </div>
               <label
                 v-else
-                class="w-14 h-14 border border-slate-700 bg-slate-700/30 hover:bg-slate-700/50 text-slate-600 hover:text-slate-400 transition-colors cursor-pointer rounded-full flex items-center justify-center row-start-1 row-end-3"
+                class="row-start-1 row-end-3 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full border border-slate-700 bg-slate-700/30 text-slate-600 transition-colors hover:bg-slate-700/50 hover:text-slate-400"
               >
                 <input type="file" class="sr-only" @change="handlePicture" />
                 <svg
@@ -367,7 +491,7 @@ const themeOptions = computed(() => [
                 </svg>
               </label>
 
-              <div class="grid gap-y-1 col-start-2">
+              <div class="col-start-2 grid gap-y-1">
                 <BaseInput
                   class="placeholder:text-slate-600/75"
                   type="text"
@@ -379,7 +503,7 @@ const themeOptions = computed(() => [
                 />
               </div>
 
-              <div class="grid gap-y-1 col-start-2">
+              <div class="col-start-2 grid gap-y-1">
                 <BaseInput
                   class="placeholder:text-slate-600/75"
                   type="text"
@@ -395,26 +519,29 @@ const themeOptions = computed(() => [
           </div>
         </div>
 
-        <ExportOptions :is-expanded="isExpanded" @update:is-expanded="isExpanded = $event" />
+        <ExportOptions
+          :is-expanded="isExpanded"
+          @update:is-expanded="isExpanded = $event"
+        />
 
         <div
-          class="pwa:hidden sm:grid grid-cols-[1fr_auto_1fr] sm:grid-cols-1 gap-2 bg-slate-800 hidden sm:static sm:bg-transparent sm:px-3 sm:py-0 mt-4"
+          class="mt-4 hidden grid-cols-[1fr_auto_1fr] gap-2 bg-slate-800 sm:static sm:grid sm:grid-cols-1 sm:bg-transparent sm:px-3 sm:py-0 pwa:hidden"
         >
-          <div class="text-xs hidden sm:block text-center">
+          <div class="hidden text-center text-xs sm:block">
             <span class="opacity-75">Made by</span>
             <a
               href="https://twitter.com/Idered"
-              class="hover:text-white transition outline-none font-medium focus:text-white"
+              class="font-medium outline-none transition hover:text-white focus:text-white"
             >
               Idered
             </a>
           </div>
 
-          <div class="text-xs hidden sm:block text-center pb-4">
+          <div class="hidden pb-4 text-center text-xs sm:block">
             <span class="opacity-75">Source on</span>
             <a
               href="https://github.com/Idered/chalk.ist"
-              class="hover:text-white transition outline-none font-medium focus:text-white"
+              class="font-medium outline-none transition hover:text-white focus:text-white"
             >
               GitHub
             </a>

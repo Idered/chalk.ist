@@ -9,7 +9,10 @@
   },
   "prettier": {
     "tabWidth": 2,
-    "printWidth": 120
+    "printWidth": 80,
+    "plugins": [
+      "prettier-plugin-tailwindcss"
+    ]
   },
   "dependencies": {
     "@fontsource/fira-code": "4.5.13",
@@ -41,13 +44,13 @@
   "devDependencies": {
     "@types/markdown-it": "^13.0.7",
     "@types/pica": "^9.0.4",
-    "@types/prettier": "^3.0.0",
     "@types/uuid": "^9.0.7",
     "@vitejs/plugin-vue": "^2.3.4",
     "@vueuse/head": "0.7.5",
     "autoprefixer": "10.4.2",
     "postcss": "8.4.8",
-    "prettier": "2.8.7",
+    "prettier": "3.1.1",
+    "prettier-plugin-tailwindcss": "^0.5.10",
     "tailwindcss": "3.3.3",
     "tailwindcss-easing": "0.2.1",
     "typescript": "^5.3.3",

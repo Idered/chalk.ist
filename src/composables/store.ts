@@ -47,7 +47,13 @@ export const store = useStorage("chalk-store", {
   backdrop: "Vue" as keyof typeof Backdrops,
   backdropNoise: false,
   colorTheme: "Vue",
-  editMode: "code" as "code" | "focus" | "add" | "remove" | "highlight" | "annotate",
+  editMode: "code" as
+    | "code"
+    | "focus"
+    | "add"
+    | "remove"
+    | "highlight"
+    | "annotate",
   expandBackdrops: true,
   expandTwitterOptions: true,
   fontFamily: "JetBrains Mono",

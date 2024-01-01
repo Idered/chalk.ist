@@ -88,9 +88,6 @@ devDependencies:
   '@types/pica':
     specifier: ^9.0.4
     version: 9.0.4
-  '@types/prettier':
-    specifier: ^3.0.0
-    version: 3.0.0
   '@types/uuid':
     specifier: ^9.0.7
     version: 9.0.7
@@ -107,8 +104,11 @@ devDependencies:
     specifier: 8.4.8
     version: 8.4.8
   prettier:
-    specifier: 2.8.7
-    version: 2.8.7
+    specifier: 3.1.1
+    version: 3.1.1
+  prettier-plugin-tailwindcss:
+    specifier: ^0.5.10
+    version: 0.5.10(prettier@3.1.1)
   tailwindcss:
     specifier: 3.3.3
     version: 3.3.3
@@ -1817,13 +1817,6 @@ packages:
 
   /@types/pica@9.0.4:
     resolution: {integrity: sha512-Wr8bZ53IVjFWMLRsWEiGCfCDWoKORczxC04+XlvQrhn0tF3qDMQoLFHPPzZBcCi2uu5D6+alfrvidpTthFwKbw==}
-    dev: true
-
-  /@types/prettier@3.0.0:
-    resolution: {integrity: sha512-mFMBfMOz8QxhYVbuINtswBp9VL2b4Y0QqYHwqLz3YbgtfAcat2Dl6Y1o4e22S/OVE6Ebl9m7wWiMT2lSbAs1wA==}
-    deprecated: This is a stub types definition. prettier provides its own type definitions, so you do not need this installed.
-    dependencies:
-      prettier: 2.8.7
     dev: true
 
   /@types/resolve@1.17.1:
@@ -4002,10 +3995,56 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /prettier@2.8.7:
-    resolution: {integrity: sha512-yPngTo3aXUUmyuTjeTUT75txrf+aMh9FiD7q9ZE/i6r0bPb22g4FsE6Y338PQX1bmfy08i9QQCB7/rcUAVntfw==}
-    engines: {node: '>=10.13.0'}
-    hasBin: true
+  /prettier-plugin-tailwindcss@0.5.10(prettier@3.1.1):
+    resolution: {integrity: sha512-9UGSejqFxGG6brYjFfTYlJ8zs4L/lvZg1AngFfaC5Fs1otSskASv5IWKmjPu5MlABQUtTKtMArKyYr/hWpXSUg==}
+    engines: {node: '>=14.21.3'}
+    peerDependencies:
+      '@ianvs/prettier-plugin-sort-imports': '*'
+      '@prettier/plugin-pug': '*'
+      '@shopify/prettier-plugin-liquid': '*'
+      '@trivago/prettier-plugin-sort-imports': '*'
+      prettier: ^3.0
+      prettier-plugin-astro: '*'
+      prettier-plugin-css-order: '*'
+      prettier-plugin-import-sort: '*'
+      prettier-plugin-jsdoc: '*'
+      prettier-plugin-marko: '*'
+      prettier-plugin-organize-attributes: '*'
+      prettier-plugin-organize-imports: '*'
+      prettier-plugin-style-order: '*'
+      prettier-plugin-svelte: '*'
+      prettier-plugin-twig-melody: '*'
+    peerDependenciesMeta:
+      '@ianvs/prettier-plugin-sort-imports':
+        optional: true
+      '@prettier/plugin-pug':
+        optional: true
+      '@shopify/prettier-plugin-liquid':
+        optional: true
+      '@trivago/prettier-plugin-sort-imports':
+        optional: true
+      prettier-plugin-astro:
+        optional: true
+      prettier-plugin-css-order:
+        optional: true
+      prettier-plugin-import-sort:
+        optional: true
+      prettier-plugin-jsdoc:
+        optional: true
+      prettier-plugin-marko:
+        optional: true
+      prettier-plugin-organize-attributes:
+        optional: true
+      prettier-plugin-organize-imports:
+        optional: true
+      prettier-plugin-style-order:
+        optional: true
+      prettier-plugin-svelte:
+        optional: true
+      prettier-plugin-twig-melody:
+        optional: true
+    dependencies:
+      prettier: 3.1.1
     dev: true
 
   /prettier@3.1.1:

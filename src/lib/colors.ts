@@ -2,7 +2,7 @@ export function cssGradientToCanvas(
   ctx: CanvasRenderingContext2D,
   gradient: string,
   width: number,
-  height: number
+  height: number,
 ): CanvasGradient | null {
   const gradientType = gradient.split("(")[0];
   const gradientValues = gradient.match(/\(([^)]+)\)/);
@@ -25,7 +25,10 @@ export function cssGradientToCanvas(
       canvasGradient = ctx.createLinearGradient(startX, startY, endX, endY);
 
       colorStops.forEach((colorStop, index) => {
-        canvasGradient!.addColorStop(index / (colorStops.length - 1), colorStop.trim());
+        canvasGradient!.addColorStop(
+          index / (colorStops.length - 1),
+          colorStop.trim(),
+        );
       });
     } else if (gradientType === "conic-gradient") {
       const angle = Number(gradient.split(",")?.[0].match(/\d+/g)?.[0]) / 100;
@@ -37,7 +40,10 @@ export function cssGradientToCanvas(
       canvasGradient = ctx.createConicGradient(angle, width / 2, height / 2);
 
       colorStopsWithAngle?.forEach(([color, offset], index) => {
-        canvasGradient!.addColorStop(Number(offset.replace("deg", "")) / 360, color);
+        canvasGradient!.addColorStop(
+          Number(offset.replace("deg", "")) / 360,
+          color,
+        );
       });
     }
   }

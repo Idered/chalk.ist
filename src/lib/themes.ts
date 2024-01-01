@@ -10,7 +10,7 @@ const excludedThemes = [
   "vitesse-black",
 ];
 export const shikijiThemes = bundledThemesInfo.filter(
-  ({ type, id }) => type === "dark" && excludedThemes.includes(id) === false
+  ({ type, id }) => type === "dark" && excludedThemes.includes(id) === false,
 );
 export const chalkistThemes = [
   createTheme("Vue", {

@@ -2,7 +2,7 @@
   <component
     :is="is"
     type="button"
-    class="focus:outline-none focus-visible:ring-[3px] ring-blue-600/30 rounded font-semibold grid grid-flow-col gap-x-3 text-xs transition items-center"
+    class="grid grid-flow-col items-center gap-x-3 rounded text-xs font-semibold ring-blue-600/30 transition focus:outline-none focus-visible:ring-[3px]"
     :class="[
       {
         'h-10': !($attrs.class as string)?.match(/h-\d+/),

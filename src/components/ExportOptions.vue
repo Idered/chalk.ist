@@ -7,7 +7,12 @@ import { store } from "~/composables/store";
 import { ExportState } from "~/enums";
 import IconDownload from "./IconDownload.vue";
 import IconClipboard from "./IconClipboard.vue";
-import { domToBlob, createContext, destroyContext, domToCanvas } from "modern-screenshot";
+import {
+  domToBlob,
+  createContext,
+  destroyContext,
+  domToCanvas,
+} from "modern-screenshot";
 import BaseButton from "./BaseButton.vue";
 import IconChevronDown from "./IconChevronDown.vue";
 
@@ -61,7 +66,9 @@ async function handleVideoExport() {
   const frames = [] as HTMLCanvasElement[];
   exportState.value = ExportState.PreparingToDownloadVideo;
   videoExportProgress.totalFrames = fps * durationInSeconds;
-  const element = document.querySelector<HTMLDivElement>("[data-editor-frame]")!;
+  const element = document.querySelector<HTMLDivElement>(
+    "[data-editor-frame]",
+  )!;
   const context = await createContext(element, {
     workerUrl: screenshotWorkerUrl as unknown as string,
     scale: 2,
@@ -155,18 +162,21 @@ function handleCopy() {
   navigator.clipboard.write([
     new ClipboardItem({
       "image/png": new Promise(async (resolve) => {
-        const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
+        const frame = document.querySelector<HTMLDivElement>(
+          "[data-editor-frame]",
+        );
         if (!frame) return;
         umami.trackEvent("Copy to Clipboard", "export");
         exportState.value = ExportState.PreparingToCopy;
         await nextTick();
         domToBlob(frame, {
           scale: 2,
-          
+
           filter: (element) => {
             const el = element as HTMLElement;
             if (
-              (el.tagName === "CANVAS" && !el.classList?.contains("particles-bg")) ||
+              (el.tagName === "CANVAS" &&
+                !el.classList?.contains("particles-bg")) ||
               el.classList?.contains("minimap") ||
               el.classList?.contains("slider")
             ) {
@@ -209,7 +219,7 @@ async function handleDownload() {
 <template>
   <div>
     <div
-      class="grid grid-cols-[1fr_auto] sm:grid-cols-1 gap-2 fixed inset-x-0 bottom-0 pb-2 px-3 bg-slate-800 sm:static sm:bg-transparent sm:px-3 sm:py-0"
+      class="fixed inset-x-0 bottom-0 grid grid-cols-[1fr_auto] gap-2 bg-slate-800 px-3 pb-2 sm:static sm:grid-cols-1 sm:bg-transparent sm:px-3 sm:py-0"
     >
       <!-- <p class="text-[10px] uppercase font-bold tracking-wider items-center mt-2 hidden sm:flex">
             <hr class="border-y flex-1 mr-2 border-b-slate-700 border-t-slate-900">
@@ -229,41 +239,47 @@ async function handleDownload() {
 
       <BaseButton
         v-if="!isFirefox"
-        class="px-4 w-full hidden sm:flex bg-emerald-600/30 text-emerald-500 hover:bg-emerald-600/40 group"
+        class="group hidden w-full bg-emerald-600/30 px-4 text-emerald-500 hover:bg-emerald-600/40 sm:flex"
         @click="handleCopy"
       >
-        <IconClipboard width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
+        <IconClipboard
+          width="16"
+          class="transition-transform group-hover:rotate-6 group-hover:scale-110"
+        />
         <span class="truncate">
           {{
             exportState === ExportState.PreparingToCopy
               ? "..."
               : exportState === ExportState.JustCopied
-              ? "Copied!"
-              : exportState === ExportState.CopyFailure
-              ? "Error! Try to download"
-              : "Copy image to clipboard"
+                ? "Copied!"
+                : exportState === ExportState.CopyFailure
+                  ? "Error! Try to download"
+                  : "Copy image to clipboard"
           }}
         </span>
       </BaseButton>
 
       <BaseButton
-        class="px-4 w-full bg-rose-500/30 text-rose-300 hover:bg-rose-500/40 justify-center sm:justify-start"
+        class="w-full justify-center bg-rose-500/30 px-4 text-rose-300 hover:bg-rose-500/40 sm:justify-start"
         @click="handleDownload"
       >
-        <IconDownload width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
+        <IconDownload
+          width="16"
+          class="transition-transform group-hover:rotate-6 group-hover:scale-110"
+        />
         <span class="truncate">
           {{
             exportState === ExportState.PreparingToDownload
               ? "..."
               : exportState === ExportState.JustDownloaded
-              ? "Downloaded!"
-              : "Download PNG"
+                ? "Downloaded!"
+                : "Download PNG"
           }}
         </span>
       </BaseButton>
 
       <BaseButton
-        class="bg-slate-700 text-slate-500 hover:bg-slate-700/80 group sm:hidden w-10 justify-center"
+        class="group w-10 justify-center bg-slate-700 text-slate-500 hover:bg-slate-700/80 sm:hidden"
         @click="$emit('update:isExpanded', !isExpanded)"
         square="w-10"
       >
@@ -278,26 +294,43 @@ async function handleDownload() {
 
       <BaseButton
         v-if="!hideVideoExport"
-        class="px-4 w-full bg-blue-500/30 text-blue-300 hover:bg-blue-500/40 group disabled:bg-blue-300/10 disabled:text-blue-300/40 disabled:cursor-not-allowed hidden sm:flex"
+        class="group hidden w-full bg-blue-500/30 px-4 text-blue-300 hover:bg-blue-500/40 disabled:cursor-not-allowed disabled:bg-blue-300/10 disabled:text-blue-300/40 sm:flex"
         @click="handleVideoExport"
         :disabled="!canDownloadVideo"
       >
-        <IconDownload width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
+        <IconDownload
+          width="16"
+          class="transition-transform group-hover:rotate-6 group-hover:scale-110"
+        />
 
         <template v-if="exportState === ExportState.PreparingToDownloadVideo">
-          <span v-if="videoExportProgress.currentFrame + 1 !== videoExportProgress.totalFrames" class="truncate">
+          <span
+            v-if="
+              videoExportProgress.currentFrame + 1 !==
+              videoExportProgress.totalFrames
+            "
+            class="truncate"
+          >
             Preparing frames ({{
-              Math.round(((videoExportProgress.currentFrame + 1) / videoExportProgress.totalFrames) * 100)
+              Math.round(
+                ((videoExportProgress.currentFrame + 1) /
+                  videoExportProgress.totalFrames) *
+                  100,
+              )
             }}%)
           </span>
           <span v-else class="truncate">Encoding...</span>
         </template>
-        <span v-else-if="exportState === ExportState.JustDownloadedVideo" class="truncate">Downloaded!</span>
+        <span
+          v-else-if="exportState === ExportState.JustDownloadedVideo"
+          class="truncate"
+          >Downloaded!</span
+        >
         <span v-else class="truncate"
           >Download MP4
           <span
             v-if="canDownloadVideo"
-            class="uppercase text-[11px] tracking-wider bg-blue-400 px-1 rounded-sm ml-2 text-blue-900"
+            class="ml-2 rounded-sm bg-blue-400 px-1 text-[11px] uppercase tracking-wider text-blue-900"
             >Beta</span
           ></span
         >

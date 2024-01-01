@@ -136,7 +136,9 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
         : {},
     ]"
   >
-    <div class="absolute inset-0 [--base-delay:0] overflow-hidden rounded-md pointer-events-none">
+    <div
+      class="pointer-events-none absolute inset-0 overflow-hidden rounded-md [--base-delay:0]"
+    >
       <!-- <div
         v-if="store.windowStyle === 'variant-1' || store.windowStyle === 'variant-2'"
         v-for="item in highlights"
@@ -184,15 +186,27 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
     </div>
 
     <div
-      class="absolute inset-0 overflow-hidden pointer-events-none rounded-md transition"
+      class="pointer-events-none absolute inset-0 overflow-hidden rounded-md transition"
       :class="{
         'opacity-0': !store.reflection,
       }"
     >
-      <svg class="absolute left-0 top-0 w-3/6" viewBox="0 0 100 172" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg
+        class="absolute left-0 top-0 w-3/6"
+        viewBox="0 0 100 172"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
         <path d="M0 0H100L47 172H0V0Z" fill="url(#paint0_linear_47_2)" />
         <defs>
-          <linearGradient id="paint0_linear_47_2" x1="50" y1="0" x2="50" y2="100" gradientUnits="userSpaceOnUse">
+          <linearGradient
+            id="paint0_linear_47_2"
+            x1="50"
+            y1="0"
+            x2="50"
+            y2="100"
+            gradientUnits="userSpaceOnUse"
+          >
             <stop stop-color="white" stop-opacity=".035" />
             <stop offset="1" stop-color="white" stop-opacity="0" />
           </linearGradient>
@@ -203,8 +217,10 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
     <div
       class="grid grid-cols-[62px_auto_62px] items-center px-5"
       :class="{
-        'grid-cols-[62px_auto_62px]': (preview || store).windowControls !== WindowControls.Windows,
-        'grid-cols-[auto_124px] -mx-5': (preview || store).windowControls === WindowControls.Windows,
+        'grid-cols-[62px_auto_62px]':
+          (preview || store).windowControls !== WindowControls.Windows,
+        '-mx-5 grid-cols-[auto_124px]':
+          (preview || store).windowControls === WindowControls.Windows,
       }"
     >
       <div
@@ -244,10 +260,15 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
         />
       </div>
 
-      <div v-if="(preview || store).windowControls === WindowControls.None"></div>
+      <div
+        v-if="(preview || store).windowControls === WindowControls.None"
+      ></div>
 
       <input
-        v-if="[ExportState.Idle, ExportState.JustCopied].includes(exportState) || block.title.trim()"
+        v-if="
+          [ExportState.Idle, ExportState.JustCopied].includes(exportState) ||
+          block.title.trim()
+        "
         :value="block.title"
         @input="block.title = ($event.target as HTMLInputElement).value"
         placeholder="Untitled"
@@ -256,10 +277,11 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
         :class="{
           // 'text-white/60 placeholder:text-white/30 ': theme.mode === 'dark',
           // 'text-black/60 placeholder:text-black/30': theme.mode === 'light',
-          'text-center': (preview || store).windowControls !== WindowControls.Windows,
+          'text-center':
+            (preview || store).windowControls !== WindowControls.Windows,
           'pl-5': (preview || store).windowControls === WindowControls.Windows,
         }"
-        class="bg-transparent z-10 mt-4 border-none text-xs w-full focus:outline-none"
+        class="z-10 mt-4 w-full border-none bg-transparent text-xs focus:outline-none"
       />
       <div v-else></div>
 
@@ -271,15 +293,37 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
           'text-black': block.mode === 'preview',
         }"
       >
-        <div class="h-8 w-10 flex items-center justify-center">
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect y="5" width="10" height="1" fill="currentColor" fill-opacity="0.5" />
+        <div class="flex h-8 w-10 items-center justify-center">
+          <svg
+            width="10"
+            height="10"
+            viewBox="0 0 10 10"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              y="5"
+              width="10"
+              height="1"
+              fill="currentColor"
+              fill-opacity="0.5"
+            />
           </svg>
         </div>
 
-        <div class="h-8 w-10 flex items-center justify-center">
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3 1H9V7H8V8H10V0H2V2H3V1Z" fill="currentColor" fill-opacity="0.5" />
+        <div class="flex h-8 w-10 items-center justify-center">
+          <svg
+            width="10"
+            height="10"
+            viewBox="0 0 10 10"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M3 1H9V7H8V8H10V0H2V2H3V1Z"
+              fill="currentColor"
+              fill-opacity="0.5"
+            />
             <path
               fill-rule="evenodd"
               clip-rule="evenodd"
@@ -290,8 +334,14 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
           </svg>
         </div>
 
-        <div class="h-8 w-11 flex items-center justify-center">
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="flex h-8 w-11 items-center justify-center">
+          <svg
+            width="10"
+            height="10"
+            viewBox="0 0 10 10"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path
               fill-rule="evenodd"
               clip-rule="evenodd"
@@ -304,14 +354,22 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
       </div>
     </div>
 
-    <div class="py-6 overflow-hidden" ref="editorContainer">
-      <TheEditor ref="editor" :block="block" :width="editorContainerWidth" v-if="block.mode === 'edit'" />
+    <div class="overflow-hidden py-6" ref="editorContainer">
+      <TheEditor
+        ref="editor"
+        :block="block"
+        :width="editorContainerWidth"
+        v-if="block.mode === 'edit'"
+      />
       <MarkdownPreview v-else :block="block" />
     </div>
 
     <div
-      v-if="[ExportState.Idle, ExportState.JustCopied].includes(exportState) && block"
-      class="flex gap-1 flex-wrap p-1 rounded-b-md"
+      v-if="
+        [ExportState.Idle, ExportState.JustCopied].includes(exportState) &&
+        block
+      "
+      class="flex flex-wrap gap-1 rounded-b-md p-1"
       :style="{
         background: block.mode === 'preview' ? '#03000ADD' : 'transparent',
       }"
@@ -330,7 +388,14 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
         :model-value="block.rowSpan"
         use-opaque-background
         @update:model-value="block.rowSpan = $event"
-        :label="(option) => `${option.value} ${typeof option.value === 'number' && option.value > 1 ? 'rows' : 'row'}`"
+        :label="
+          (option) =>
+            `${option.value} ${
+              typeof option.value === 'number' && option.value > 1
+                ? 'rows'
+                : 'row'
+            }`
+        "
         :options="ROW_OPTIONS"
       />
 
@@ -369,7 +434,12 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
         title="Remove"
         :disabled="store.blocks.length === 1"
       >
-        <svg title="Remove" class="w-2.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+        <svg
+          title="Remove"
+          class="w-2.5"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 256 256"
+        >
           <path
             fill="currentColor"
             d="M205.7 194.3a8.1 8.1 0 0 1 0 11.4a8.2 8.2 0 0 1-11.4 0L128 139.3l-66.3 66.4a8.2 8.2 0 0 1-11.4 0a8.1 8.1 0 0 1 0-11.4l66.4-66.3l-66.4-66.3a8.1 8.1 0 0 1 11.4-11.4l66.3 66.4l66.3-66.4a8.1 8.1 0 0 1 11.4 11.4L139.3 128Z"
@@ -379,7 +449,9 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
 
       <button
         v-if="block.language === 'markdown'"
-        @click="() => (block.mode = block.mode === 'preview' ? 'edit' : 'preview')"
+        @click="
+          () => (block.mode = block.mode === 'preview' ? 'edit' : 'preview')
+        "
         class="btn"
         type="button"
         title="Remove"

@@ -1,5 +1,7 @@
 <template>
-  <main class="grid grid-rows-[1fr_auto] h-screen sm:grid-rows-1 sm:grid-cols-[auto_1fr]">
+  <main
+    class="grid h-screen grid-rows-[1fr_auto] sm:grid-cols-[auto_1fr] sm:grid-rows-1"
+  >
     <TheEditorFrame class="sm:col-start-2 sm:min-h-screen" />
     <TheSidebar class="sm:col-start-1" />
   </main>

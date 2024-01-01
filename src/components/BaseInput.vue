@@ -1,11 +1,13 @@
 <template>
   <input
-    class="border font-mono transition-colors hover:border-slate-600/40 focus:outline-none focus:ring-[3px] focus:border-blue-800 ring-blue-900/20 border-slate-700 bg-slate-900 rounded-md px-2 h-7 text-[13px] w-full"
+    class="h-7 w-full rounded-md border border-slate-700 bg-slate-900 px-2 font-mono text-[13px] ring-blue-900/20 transition-colors hover:border-slate-600/40 focus:border-blue-800 focus:outline-none focus:ring-[3px]"
     type="text"
     autocomplete="off"
     spellcheck="false"
     :value="modelValue"
-    @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+    @input="
+      $emit('update:modelValue', ($event.target as HTMLInputElement).value)
+    "
   />
 </template>
 

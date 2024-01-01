@@ -18,7 +18,9 @@ export function getLineNumbers(textarea?: HTMLTextAreaElement) {
     tempElement.textContent = line;
 
     // Calculate the number of wrapped lines using the temporary element's height
-    const wrappedLines = Math.ceil(tempElement.clientHeight / textarea.scrollHeight);
+    const wrappedLines = Math.ceil(
+      tempElement.clientHeight / textarea.scrollHeight,
+    );
 
     // Add the current line number for each wrapped line
     for (let j = 0; j < wrappedLines; j++) lineNumbers.push(lineNumber);

@@ -27,7 +27,7 @@ const md = computed(() => {
         class: [].join(" "),
         tabindex: "-1",
       },
-    })
+    }),
   );
 });
 
@@ -36,7 +36,7 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
 
 <template>
   <div
-    class="grid gap-y-2 rounded-md relative text-white"
+    class="relative grid gap-y-2 rounded-md text-white"
     :style="{
       backgroundColor: '#03000a',
       backgroundImage: store.windowNoise ? 'url(/noise.png)' : undefined,
@@ -54,15 +54,22 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
       <div class="markdown" v-if="md" v-html="md.render(block.content)"></div>
     </div>
 
-    <div v-if="[ExportState.Idle, ExportState.JustCopied].includes(exportState)" class="flex gap-1 flex-wrap px-1 pb-1">
+    <div
+      v-if="[ExportState.Idle, ExportState.JustCopied].includes(exportState)"
+      class="flex flex-wrap gap-1 px-1 pb-1"
+    >
       <div>
-        <BaseInput type="number" v-model="block.fontSize" placeholder="Font Size" />
+        <BaseInput
+          type="number"
+          v-model="block.fontSize"
+          placeholder="Font Size"
+        />
       </div>
 
       <input
         type="color"
         v-model="block.fontColor"
-        class="border-none outline-none bg-transparent p-0 m-0 appearance-none"
+        class="m-0 appearance-none border-none bg-transparent p-0 outline-none"
       />
 
       <BaseSelect
@@ -101,7 +108,12 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
         title="Remove"
         :disabled="store.blocks.length === 1"
       >
-        <svg title="Remove" class="w-2.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+        <svg
+          title="Remove"
+          class="w-2.5"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 256 256"
+        >
           <path
             fill="currentColor"
             d="M205.7 194.3a8.1 8.1 0 0 1 0 11.4a8.2 8.2 0 0 1-11.4 0L128 139.3l-66.3 66.4a8.2 8.2 0 0 1-11.4 0a8.1 8.1 0 0 1 0-11.4l66.4-66.3l-66.4-66.3a8.1 8.1 0 0 1 11.4-11.4l66.3 66.4l66.3-66.4a8.1 8.1 0 0 1 11.4 11.4L139.3 128Z"

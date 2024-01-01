@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { computed, h, ref } from "vue";
 import { useElementSize, useEventListener } from "@vueuse/core";
-import { transformerCompactLineOptions, transformerNotationDiff, transformerNotationFocus } from "shikiji-transformers";
+import {
+  transformerCompactLineOptions,
+  transformerNotationDiff,
+  transformerNotationFocus,
+} from "shikiji-transformers";
 import Annotation from "./Annotation.vue";
 import { CodeBlock } from "~/types";
 import { store } from "~/composables/store";
@@ -45,12 +49,14 @@ function transformerLineNumbers(): ShikijiTransformer {
 }
 
 function transformerAnnotations(
-  transformations: { type: string; line: number; character?: number }[]
+  transformations: { type: string; line: number; character?: number }[],
 ): ShikijiTransformer {
   return {
     name: "annotations",
     line(line, index) {
-      const lineTransformations = transformations.filter((item) => item.line === index && item.type === "annotate");
+      const lineTransformations = transformations.filter(
+        (item) => item.line === index && item.type === "annotate",
+      );
       if (lineTransformations.length === 0) return line;
 
       const annotations = lineTransformations.map(
@@ -62,9 +68,13 @@ function transformerAnnotations(
               start: item.character,
               end: item.character,
               onRemove: (() => {
-                const transformationIndex = props.block.transformations.findIndex(
-                  (item) => item.type === "annotate" && item.line === index && item.character === item.character
-                );
+                const transformationIndex =
+                  props.block.transformations.findIndex(
+                    (item) =>
+                      item.type === "annotate" &&
+                      item.line === index &&
+                      item.character === item.character,
+                  );
                 if (transformationIndex !== -1) {
                   props.block.transformations.splice(transformationIndex, 1);
                 }
@@ -72,7 +82,7 @@ function transformerAnnotations(
               class: ["annotation", item.type],
             },
             children: [],
-          } satisfies typeof line)
+          }) satisfies typeof line,
       );
 
       const annotationContainer = {
@@ -97,7 +107,8 @@ function transformerAnnotations(
 }
 
 const shikiContent = computed(() => {
-  if (!shiki.value || !props.block || props.block.type !== BlockType.Code) return "";
+  if (!shiki.value || !props.block || props.block.type !== BlockType.Code)
+    return "";
   const classNames = ["shiki"];
   if (props.block.transformations.some((item) => item.type === "focus")) {
     classNames.push("has-focus");
@@ -105,18 +116,23 @@ const shikiContent = computed(() => {
   if (store.value.showLineNumbers) {
     classNames.push("show-line-numbers");
   }
-  const lineOptions = props.block.transformations.reduce((mergedOptions, item) => {
-    const existingOption = mergedOptions.find((option) => option.line === item.line);
-    if (existingOption) {
-      existingOption.classes.push(item.type);
-    } else {
-      mergedOptions.push({
-        line: item.line,
-        classes: [item.type],
-      });
-    }
-    return mergedOptions;
-  }, [] as { line: number; classes: string[] }[]);
+  const lineOptions = props.block.transformations.reduce(
+    (mergedOptions, item) => {
+      const existingOption = mergedOptions.find(
+        (option) => option.line === item.line,
+      );
+      if (existingOption) {
+        existingOption.classes.push(item.type);
+      } else {
+        mergedOptions.push({
+          line: item.line,
+          classes: [item.type],
+        });
+      }
+      return mergedOptions;
+    },
+    [] as { line: number; classes: string[] }[],
+  );
 
   const hast = shiki.value.codeToHast(props.block.content, {
     lang: props.block.language,
@@ -179,12 +195,14 @@ useEventListener(editor, "keydown", async (e) => {
     if (shiftKey) {
       // Handle shift + tab to de-indent
       if (val.substring(start - tabSize, start) === " ".repeat(tabSize)) {
-        textarea.value = val.substring(0, start - tabSize) + val.substring(start);
+        textarea.value =
+          val.substring(0, start - tabSize) + val.substring(start);
         textarea.selectionStart = textarea.selectionEnd = start - tabSize;
       }
     } else {
       // Handle tab to indent
-      textarea.value = val.substring(0, start) + " ".repeat(tabSize) + val.substring(end);
+      textarea.value =
+        val.substring(0, start) + " ".repeat(tabSize) + val.substring(end);
       textarea.selectionStart = textarea.selectionEnd = start + tabSize;
     }
     textarea.dispatchEvent(new Event("input"));
@@ -192,12 +210,19 @@ useEventListener(editor, "keydown", async (e) => {
     e.preventDefault();
     if (key === "]") {
       // Handle CMD + ] to indent
-      textarea.value = val.substring(0, startOfLine) + " ".repeat(tabSize) + val.substring(startOfLine);
+      textarea.value =
+        val.substring(0, startOfLine) +
+        " ".repeat(tabSize) +
+        val.substring(startOfLine);
       textarea.selectionStart = textarea.selectionEnd = start + tabSize; // Shifting cursor to the right
     } else if (key === "[") {
       // Handle CMD + [ to de-indent
-      if (val.substring(startOfLine, startOfLine + tabSize) === " ".repeat(tabSize)) {
-        textarea.value = val.substring(0, startOfLine) + val.substring(startOfLine + tabSize);
+      if (
+        val.substring(startOfLine, startOfLine + tabSize) ===
+        " ".repeat(tabSize)
+      ) {
+        textarea.value =
+          val.substring(0, startOfLine) + val.substring(startOfLine + tabSize);
         textarea.selectionStart = textarea.selectionEnd = start - tabSize; // Shifting cursor to the left
       }
     }
@@ -208,7 +233,11 @@ useEventListener(editor, "keydown", async (e) => {
 const gutter = computed(() => {
   const len = props.block.content.split("\n").length;
   if (!store.value.showLineNumbers) return "20px";
-  return len >= 100 ? "calc(6.5ch + 4px)" : len >= 10 ? "calc(5.5ch + 4px)" : "calc(4.5ch + 4px)";
+  return len >= 100
+    ? "calc(6.5ch + 4px)"
+    : len >= 10
+      ? "calc(5.5ch + 4px)"
+      : "calc(4.5ch + 4px)";
 });
 
 const fontFeatureSettings = computed(() => {
@@ -242,22 +271,28 @@ useEventListener(formatted, "click", (event) => {
     return;
   }
   const line = parseInt(el.dataset.line!);
-  const index = props.block.transformations.findIndex((item) => item.type === mode && item.line === line);
+  const index = props.block.transformations.findIndex(
+    (item) => item.type === mode && item.line === line,
+  );
   if (index === -1) {
     if (mode === "add") {
-      const index = props.block.transformations.findIndex((item) => item.type === "remove" && item.line === line);
+      const index = props.block.transformations.findIndex(
+        (item) => item.type === "remove" && item.line === line,
+      );
       if (index !== -1) {
         props.block.transformations.splice(index, 1);
       }
     } else if (mode === "remove") {
-      const index = props.block.transformations.findIndex((item) => item.type === "add" && item.line === line);
+      const index = props.block.transformations.findIndex(
+        (item) => item.type === "add" && item.line === line,
+      );
       if (index !== -1) {
         props.block.transformations.splice(index, 1);
       }
     } else if (mode === "highlight") {
       // remove "add" and "remove" transformations
       const index = props.block.transformations.findIndex(
-        (item) => ["add", "remove"].includes(item.type) && item.line === line
+        (item) => ["add", "remove"].includes(item.type) && item.line === line,
       );
       if (index !== -1) {
         props.block.transformations.splice(index, 1);
@@ -274,7 +309,10 @@ useEventListener(formatted, "click", (event) => {
 
 function addCharacterTransformer(line: number, character: number) {
   const index = props.block.transformations.findIndex(
-    (item) => item.type === "annotate" && item.line === line && item.character === character
+    (item) =>
+      item.type === "annotate" &&
+      item.line === line &&
+      item.character === character,
   );
   if (index === -1) {
     props.block.transformations.push({
@@ -288,12 +326,14 @@ function addCharacterTransformer(line: number, character: number) {
 }
 
 const { width: editorWidth } = useElementSize(editor);
-const charactersPerLine = computed(() => Math.floor(editorWidth.value / characterWidth.value));
+const charactersPerLine = computed(() =>
+  Math.floor(editorWidth.value / characterWidth.value),
+);
 </script>
 
 <template>
   <div
-    class="px-px [grid-template:1fr/1fr] grid"
+    class="grid px-px [grid-template:1fr/1fr]"
     :style="{
       '--line-numbers-color': 'rgba(255,255,255,0.25)',
       '--character-width': characterWidth + 'px',
@@ -314,9 +354,14 @@ const charactersPerLine = computed(() => Math.floor(editorWidth.value / characte
       <component v-once :is="() => shikiContent" />
     </div>
 
-    <div class="grid font-config character-grid relative content-start" v-if="store.editMode === 'annotate'">
+    <div
+      class="font-config character-grid relative grid content-start"
+      v-if="store.editMode === 'annotate'"
+    >
       <template
-        v-for="line in Array.from({ length: block.content.split('\n').length }).map((_, i) => i + 1)"
+        v-for="line in Array.from({
+          length: block.content.split('\n').length,
+        }).map((_, i) => i + 1)"
         :key="line"
       >
         <div
@@ -327,13 +372,15 @@ const charactersPerLine = computed(() => Math.floor(editorWidth.value / characte
         >
           <div
             @click="addCharacterTransformer(line, character)"
-            v-for="character in Array.from({ length: charactersPerLine }).map((_, i) => i)"
+            v-for="character in Array.from({ length: charactersPerLine }).map(
+              (_, i) => i,
+            )"
             :key="character"
             :style="{
               height: `${store.lineHeight}px`,
               width: `${characterWidth}px`,
             }"
-            class="hover:bg-white/10 hover:border-white/10 border border-transparent transition-colors hover:scale-x-110"
+            class="border border-transparent transition-colors hover:scale-x-110 hover:border-white/10 hover:bg-white/10"
           />
         </div>
       </template>
@@ -349,7 +396,8 @@ const charactersPerLine = computed(() => Math.floor(editorWidth.value / characte
         'pointer-events-none': store.editMode !== 'code',
       }"
       :style="{
-        'min-height': block.content.split('\n').length * store.lineHeight + 'px',
+        'min-height':
+          block.content.split('\n').length * store.lineHeight + 'px',
         'line-height': store.lineHeight + 'px',
         'font-size': store.fontSize + 'px',
       }"
@@ -416,7 +464,10 @@ const charactersPerLine = computed(() => Math.floor(editorWidth.value / characte
   position: relative;
   padding-inline-end: 20px;
   padding-inline-start: v-bind(gutter);
-  transition: padding 0.375s ease-in-out, opacity 0.375s ease-in-out, filter 0.075s ease-in-out;
+  transition:
+    padding 0.375s ease-in-out,
+    opacity 0.375s ease-in-out,
+    filter 0.075s ease-in-out;
 }
 
 .formatted .line:hover {
@@ -433,7 +484,9 @@ const charactersPerLine = computed(() => Math.floor(editorWidth.value / characte
   text-align: right;
   opacity: 0;
   user-select: none;
-  transition: opacity 0.375s cubic-bezier(0.6, 0.6, 0, 1), 0.375s cubic-bezier(0.6, 0.6, 0, 1);
+  transition:
+    opacity 0.375s cubic-bezier(0.6, 0.6, 0, 1),
+    0.375s cubic-bezier(0.6, 0.6, 0, 1);
 }
 
 .show-line-numbers .line-number {

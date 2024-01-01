@@ -4,7 +4,9 @@ import { store } from "./store";
 import { CodeBlock } from "~/types";
 
 export function getCodeBlocks() {
-  return store.value.blocks.filter((block): block is CodeBlock => block.type === BlockType.Code);
+  return store.value.blocks.filter(
+    (block): block is CodeBlock => block.type === BlockType.Code,
+  );
 }
 
 export function getCodeBlock(id: string) {
@@ -27,10 +29,13 @@ export function moveBlock(blockId: string, moveBy: number) {
 }
 
 export function addEditorBlock() {
-  const lastCodeBlock = store.value.blocks.filter((item): item is CodeBlock => item.type === BlockType.Code)[
-    store.value.blocks.length - 1
-  ];
-  const language = lastCodeBlock?.language === "markdown" ? "typescript" : lastCodeBlock?.language || "typescript";
+  const lastCodeBlock = store.value.blocks.filter(
+    (item): item is CodeBlock => item.type === BlockType.Code,
+  )[store.value.blocks.length - 1];
+  const language =
+    lastCodeBlock?.language === "markdown"
+      ? "typescript"
+      : lastCodeBlock?.language || "typescript";
   store.value.blocks.push({
     id: v4(),
     content: "",

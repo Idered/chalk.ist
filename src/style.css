@@ -4,6 +4,6 @@
 
 @layer components {
   .btn {
-    @apply h-7 disabled:opacity-50 disabled:text-white/40 text-white/60 transition hover:bg-slate-800 bg-slate-800/60 inline-block border hover:border-slate-600/40 focus:outline-none focus:ring-[3px] focus:border-blue-800 ring-blue-900/20 border-slate-700 px-2 rounded-md shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px] text-xs;
+    @apply inline-block h-7 rounded-md border border-slate-700 bg-slate-800/60 px-2 text-xs text-white/60 shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px] ring-blue-900/20 transition hover:border-slate-600/40 hover:bg-slate-800 focus:border-blue-800 focus:outline-none focus:ring-[3px] disabled:text-white/40 disabled:opacity-50;
   }
 }

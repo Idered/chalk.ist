@@ -81,7 +81,7 @@ export function createTheme(name: string, colors: Colors) {
       ...acc,
       [key]: color.startsWith("hsl") ? hslToHex(color) : color,
     }),
-    {} as Colors
+    {} as Colors,
   );
   return {
     name,
@@ -157,13 +157,21 @@ export function createTheme(name: string, colors: Colors) {
         },
       },
       {
-        scope: ["storage.modifier.package", "storage.modifier.import", "storage.type.java"],
+        scope: [
+          "storage.modifier.package",
+          "storage.modifier.import",
+          "storage.type.java",
+        ],
         settings: {
           foreground: colors.variable,
         },
       },
       {
-        scope: ["string", "punctuation.definition.string", "string punctuation.section.embedded source"],
+        scope: [
+          "string",
+          "punctuation.definition.string",
+          "string punctuation.section.embedded source",
+        ],
         settings: {
           foreground: colors.string,
         },
@@ -335,14 +343,22 @@ export function createTheme(name: string, colors: Colors) {
         },
       },
       {
-        scope: ["markup.deleted", "meta.diff.header.from-file", "punctuation.definition.deleted"],
+        scope: [
+          "markup.deleted",
+          "meta.diff.header.from-file",
+          "punctuation.definition.deleted",
+        ],
         settings: {
           background: colors.diffDeletedBg,
           foreground: colors.invalid,
         },
       },
       {
-        scope: ["markup.inserted", "meta.diff.header.to-file", "punctuation.definition.inserted"],
+        scope: [
+          "markup.inserted",
+          "meta.diff.header.to-file",
+          "punctuation.definition.inserted",
+        ],
         settings: {
           background: colors.diffInsertedBg,
           foreground: colors.keyword,

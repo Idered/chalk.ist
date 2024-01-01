@@ -12,17 +12,29 @@ const author = computed(() => {
   <div class="flex">
     <component
       :is="author.username ? 'a' : 'div'"
-      :href="author.username ? `https://twitter.com/${author.username}` : undefined"
-      class="rounded-full z-10 relative p-1 bg-black/70 text-white mt-4 flex items-center ml-auto"
+      :href="
+        author.username ? `https://twitter.com/${author.username}` : undefined
+      "
+      class="relative z-10 ml-auto mt-4 flex items-center rounded-full bg-black/70 p-1 text-white"
       :class="{
         'hover:bg-black/50': author.username,
       }"
-      v-if="(author.username || author.name || author.picture) && author.showTwitterBadge"
+      v-if="
+        (author.username || author.name || author.picture) &&
+        author.showTwitterBadge
+      "
     >
-      <img v-if="author.picture" :src="author.picture" width="32" height="32" class="rounded-full" alt="" />
+      <img
+        v-if="author.picture"
+        :src="author.picture"
+        width="32"
+        height="32"
+        class="rounded-full"
+        alt=""
+      />
       <IconTwitterCircle v-else :width="32" />
       <div v-if="author.name || author.username" class="ml-2 pr-4">
-        <div class="font-semibold text-xs" v-if="author.name">
+        <div class="text-xs font-semibold" v-if="author.name">
           {{ author.name }}
         </div>
         <div

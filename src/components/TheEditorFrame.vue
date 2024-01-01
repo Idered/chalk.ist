@@ -20,7 +20,9 @@ const editorFrame = ref<HTMLDivElement>();
 const { width: containerWidth } = useElementSize(container);
 const { height: frameHeight } = useElementSize(editorFrame);
 const frameWidth = computed(() =>
-  preview.value ? preview.value.frameWidth : store.value.frameWidth + store.value.paddingX * 2
+  preview.value
+    ? preview.value.frameWidth
+    : store.value.frameWidth + store.value.paddingX * 2,
 );
 
 watch(frameHeight, (value) => {
@@ -42,7 +44,7 @@ function handleCopy() {
   <div
     data-editor-frame-container
     ref="container"
-    class="overflow-y-auto overflow-x-hidden grid grid-rows-[auto_1fr] pb-1 px-1 font-sans"
+    class="grid grid-rows-[auto_1fr] overflow-y-auto overflow-x-hidden px-1 pb-1 font-sans"
   >
     <TheToolbar
       :frame-width="frameWidth"
@@ -52,29 +54,48 @@ function handleCopy() {
     />
 
     <div
-      class="grid justify-items-center items-start h-0"
+      class="grid h-0 items-start justify-items-center"
       :style="{
-        transform: frameWidth > containerWidth ? `scale(${containerWidth / frameWidth})` : undefined,
+        transform:
+          frameWidth > containerWidth
+            ? `scale(${containerWidth / frameWidth})`
+            : undefined,
         transformOrigin: 'top left',
       }"
       :class="{
-        'sm:content-center h-auto': frameWidth < containerWidth,
+        'h-auto sm:content-center': frameWidth < containerWidth,
       }"
     >
-      <div ref="editorFrame" data-editor-frame class="relative" :style="{ width: `${frameWidth}px` }">
+      <div
+        ref="editorFrame"
+        data-editor-frame
+        class="relative"
+        :style="{ width: `${frameWidth}px` }"
+      >
         <BaseButton
           v-if="preview"
-          class="px-4 absolute top-full left-0 mt-2 bg-emerald-600/30 text-emerald-500 hover:bg-emerald-600/40 group"
+          class="group absolute left-0 top-full mt-2 bg-emerald-600/30 px-4 text-emerald-500 hover:bg-emerald-600/40"
           @click="handleCopy"
         >
-          <IconClipboard width="16" class="group-hover:scale-110 transition-transform group-hover:rotate-6" />
+          <IconClipboard
+            width="16"
+            class="transition-transform group-hover:rotate-6 group-hover:scale-110"
+          />
 
-          {{ exportState === ExportState.JustCopiedContent ? "Copied!" : "Copy to Clipboard" }}
+          {{
+            exportState === ExportState.JustCopiedContent
+              ? "Copied!"
+              : "Copy to Clipboard"
+          }}
         </BaseButton>
 
         <TheFrameResizer />
         <TheFrameBackground />
-        <TheParticlesBackground v-if="store.showParticles" :width="frameWidth" :height="frameHeight" />
+        <TheParticlesBackground
+          v-if="store.showParticles"
+          :width="frameWidth"
+          :height="frameHeight"
+        />
 
         <div
           class="overflow-hidden"
@@ -94,7 +115,10 @@ function handleCopy() {
                 gridRow: `span ${block.rowSpan}`,
               }"
             >
-              <EditorBlock v-if="block.type === BlockType.Code" :block="block" />
+              <EditorBlock
+                v-if="block.type === BlockType.Code"
+                :block="block"
+              />
               <!-- <NoteBlock v-if="block.type === BlockType.Note" :block="block" /> -->
             </div>
           </div>
@@ -109,7 +133,7 @@ function handleCopy() {
         }"
       >
         <BaseButton
-          class="pl-3 pr-4 z-10 relative border rounded-full text-white bg-black/80 mt-4 border-slate-600/30 hover:bg-black/90 hover:border-slate-600/40 group"
+          class="group relative z-10 mt-4 rounded-full border border-slate-600/30 bg-black/80 pl-3 pr-4 text-white hover:border-slate-600/40 hover:bg-black/90"
           @click="addEditorBlock"
           :disabled="store.blocks.length >= 16"
         >
@@ -118,7 +142,7 @@ function handleCopy() {
         </BaseButton>
 
         <BaseButton
-          class="pl-3 pr-4 z-10 relative border rounded-full text-white bg-black/80 mt-4 border-slate-600/30 hover:bg-black/90 hover:border-slate-600/40 group"
+          class="group relative z-10 mt-4 rounded-full border border-slate-600/30 bg-black/80 pl-3 pr-4 text-white hover:border-slate-600/40 hover:bg-black/90"
           @click="addMarkdownBlock"
           :disabled="store.blocks.length >= 16"
         >

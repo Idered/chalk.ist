@@ -1,6 +1,8 @@
 @font-face {
   font-family: "Nova";
-  src: url("/fonts/nova-400.woff2") format("woff2"), url("/fonts/nova-400.woff") format("woff");
+  src:
+    url("/fonts/nova-400.woff2") format("woff2"),
+    url("/fonts/nova-400.woff") format("woff");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -8,7 +10,9 @@
 
 @font-face {
   font-family: "Nova";
-  src: url("/fonts/nova-700.woff2") format("woff2"), url("/fonts/nova-700.woff") format("woff");
+  src:
+    url("/fonts/nova-700.woff2") format("woff2"),
+    url("/fonts/nova-700.woff") format("woff");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
