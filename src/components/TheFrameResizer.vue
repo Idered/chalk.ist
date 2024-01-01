@@ -40,8 +40,8 @@ function startResize(event: MouseEvent, handle: "left" | "right") {
     class="sticky top-1/2 z-10 flex justify-between"
   >
     <div
-      class="group flex h-6 w-6 -translate-x-1/2 -translate-y-3 cursor-col-resize select-none items-center justify-center"
-      @mousedown="startResize($event, 'right')"
+      class="group flex h-6 w-6 -translate-y-3 -translate-x-1/2 cursor-col-resize items-center justify-center"
+      @mousedown="startResize($event, 'left')"
     >
       <div
         class="pointer-events-none h-6 w-2 rounded bg-white/90 shadow-[0_0_0_1px_rgba(0,0,0,.1),0_2px_8px_rgba(0,0,0,.2)] transition-transform group-hover:scale-150"
@@ -49,8 +49,8 @@ function startResize(event: MouseEvent, handle: "left" | "right") {
     </div>
 
     <div
-      class="group flex h-6 w-6 -translate-y-3 translate-x-1/2 cursor-col-resize items-center justify-center"
-      @mousedown="startResize($event, 'left')"
+      class="group flex h-6 w-6 translate-x-1/2 -translate-y-3 cursor-col-resize select-none items-center justify-center"
+      @mousedown="startResize($event, 'right')"
     >
       <div
         class="pointer-events-none h-6 w-2 rounded bg-white/90 shadow-[0_0_0_1px_rgba(0,0,0,.1),0_2px_8px_rgba(0,0,0,.2)] transition-transform group-hover:scale-150"
