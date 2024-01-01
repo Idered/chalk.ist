@@ -263,26 +263,21 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
       />
       <div v-else></div>
 
-      <div class="grid grid-flow-col justify-end" v-if="(preview || store).windowControls === WindowControls.Windows">
-        <div
-          class="h-8 w-10 flex items-center justify-center"
-          :class="{
-            // 'text-white': theme.mode === 'dark',
-            // 'text-black': theme.mode === 'light',
-          }"
-        >
+      <div
+        class="grid grid-flow-col justify-end"
+        v-if="(preview || store).windowControls === WindowControls.Windows"
+        :class="{
+          'text-white': block.mode === 'edit',
+          'text-black': block.mode === 'preview',
+        }"
+      >
+        <div class="h-8 w-10 flex items-center justify-center">
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect y="5" width="10" height="1" fill="currentColor" fill-opacity="0.5" />
           </svg>
         </div>
 
-        <div
-          class="h-8 w-10 flex items-center justify-center"
-          :class="{
-            // 'text-white': theme.mode === 'dark',
-            // 'text-black': theme.mode === 'light',
-          }"
-        >
+        <div class="h-8 w-10 flex items-center justify-center">
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M3 1H9V7H8V8H10V0H2V2H3V1Z" fill="currentColor" fill-opacity="0.5" />
             <path
@@ -295,13 +290,7 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
           </svg>
         </div>
 
-        <div
-          class="h-8 w-11 flex items-center justify-center"
-          :class="{
-            // 'text-white': theme.mode === 'dark',
-            // 'text-black': theme.mode === 'light',
-          }"
-        >
+        <div class="h-8 w-11 flex items-center justify-center">
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               fill-rule="evenodd"
