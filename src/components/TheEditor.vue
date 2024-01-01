@@ -335,7 +335,6 @@ const charactersPerLine = computed(() =>
   <div
     class="grid px-px [grid-template:1fr/1fr]"
     :style="{
-      '--line-numbers-color': 'rgba(255,255,255,0.25)',
       '--character-width': characterWidth + 'px',
     }"
   >
@@ -494,26 +493,29 @@ const charactersPerLine = computed(() =>
 }
 
 .formatted .line-number {
-  color: var(--line-numbers-color);
+  color: rgba(255, 255, 255, 0.25);
 }
-
-/* .formatted .shiki:not(.has-focus) .line-number {
-  color: var(--line-numbers-color);
-} */
 
 .formatted .line span {
   white-space: pre-wrap;
 }
+
 .formatted .highlight {
-  background: rgba(255, 255, 255, var(--highlight-opacity, 0.05));
+  background: rgba(255, 255, 255, var(--highlight-opacity, 0.1));
+}
+
+.formatted .highlight .line-number,
+.formatted .add .line-number,
+.formatted .remove .line-number {
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .formatted .highlight .line-number {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .formatted .line.add {
-  background: rgba(0, 255, 0, var(--highlight-opacity, 0.1));
+  background: rgba(0, 255, 0, var(--highlight-opacity, 0.15));
 }
 
 .formatted .add .line-number {
@@ -521,7 +523,7 @@ const charactersPerLine = computed(() =>
 }
 
 .formatted .line.remove {
-  background: rgba(255, 0, 0, var(--highlight-opacity, 0.1));
+  background: rgba(255, 0, 0, var(--highlight-opacity, 0.15));
 }
 
 .formatted .remove .line-number {
