@@ -11,9 +11,6 @@ import BaseSelect from "./BaseSelect.vue";
 import IconChevronDown from "./IconChevronDown.vue";
 import { Backdrops } from "~/lib/backdrops";
 import { removeBlock, moveBlock } from "~/composables/block";
-import markdownit from "markdown-it";
-import { useShiki } from "~/lib/shiki";
-import { fromHighlighter } from "markdown-it-shikiji/core";
 
 const props = defineProps<{
   block: CodeBlock;
@@ -26,25 +23,6 @@ const setEditorLanguage = (language: string) => {
   props.block.language = language;
   props.block.mode = "edit";
 };
-const shiki = useShiki();
-const md = computed(() => {
-  if (!shiki.value) return;
-  const m = markdownit({
-    html: true,
-    // linkify: true,
-    // typographer: true,
-  });
-  return m.use(
-    fromHighlighter(shiki.value as any, {
-      theme: store.value.colorTheme,
-      meta: {
-        class: [].join(" "),
-        tabindex: "-1",
-      },
-    })
-  );
-});
-
 // const highlights = ref<
 //   {
 //     start: number;
@@ -339,11 +317,7 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
 
     <div class="py-6 overflow-hidden" ref="editorContainer">
       <TheEditor ref="editor" :block="block" :width="editorContainerWidth" v-if="block.mode === 'edit'" />
-      <div
-        class="prose markdown prose-slate px-5 prose-a:no-underline mx-auto"
-        v-else-if="md"
-        v-html="md.render(block.content)"
-      ></div>
+      <MarkdownPreview v-else :block="block" />
     </div>
 
     <div
@@ -433,102 +407,3 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
     </div>
   </div>
 </template>
-
-<style>
-.markdown {
-  font-size: 16px;
-  line-height: 1.5;
-  color: #03000a;
-  padding-left: 20px;
-  padding-right: 20px;
-  color: white;
-}
-
-.markdown > :first-child {
-  margin-top: 0;
-}
-
-.markdown > :last-child,
-.markdown > :last-child > * {
-  margin-bottom: 0;
-}
-
-.markdown pre {
-  background: hsl(258, 80%, 5%) !important;
-  padding: 1rem;
-  border-radius: 4px;
-}
-
-.markdown h1 {
-  font-size: 1.75rem;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-}
-
-.markdown h2 {
-  font-size: 1.5rem;
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.markdown h3 {
-  font-size: 1.25rem;
-  margin-top: 1.25rem;
-  margin-bottom: 1rem;
-}
-.markdown h4 {
-  font-size: 1rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
-
-.markdown a {
-  color: #007bff;
-}
-
-/* .markdown code {
-  background-color: #f8f9fa;
-  padding: 0.2rem 0.4rem;
-  border-radius: 4px;
-  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-} */
-
-.markdown hr {
-  border: none;
-  border-top: 1px solid #dee2e6;
-  margin: 1rem 0;
-}
-
-.markdown table {
-  width: 100%;
-  margin-bottom: 1rem;
-  color: #212529;
-  border-collapse: collapse;
-}
-
-.markdown table th,
-.markdown table td {
-  padding: 0.75rem;
-  vertical-align: top;
-  border-top: 1px solid #dee2e6;
-}
-
-.markdown table th {
-  font-weight: bold;
-  background-color: #f8f9fa;
-}
-
-.markdown table tbody tr:nth-child(even) {
-  background-color: #f8f9fa;
-}
-
-.markdown table-striped tbody tr:nth-child(odd) {
-  background-color: #f1f1f1;
-}
-
-.markdown img {
-  max-width: 100%;
-  border-radius: 4px;
-  height: auto;
-}
-</style>

@@ -32,6 +32,7 @@ declare module 'vue' {
     'IPh:eyeOf': typeof import('~icons/ph/eye-of')['default']
     'IPh:eyeOff': typeof import('~icons/ph/eye-off')['default']
     'IPh:plus': typeof import('~icons/ph/plus')['default']
+    MarkdownPreview: typeof import('./src/components/MarkdownPreview.vue')['default']
     NoteBlock: typeof import('./src/components/NoteBlock.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
