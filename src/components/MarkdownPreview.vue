@@ -10,10 +10,24 @@ const content = useMarkdown(props.block.content);
 </script>
 
 <template>
-  <div class="prose markdown prose-blue px-5 prose-a:no-underline mx-auto" v-html="content" />
+  <div class="markdown prose px-5 prose-a:no-underline mx-auto" v-html="content" />
 </template>
 
 <style>
+.markdown {
+  --h1-size: 2rem;
+  --h2-size: 1.5rem;
+  --h3-size: 1.25rem;
+  --h4-size: 1rem;
+  --h5-size: 0.875rem;
+  --h6-size: 0.75rem;
+  --body-font-size: 0.875rem;
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji";
+  word-wrap: break-word;
+}
+
 .markdown > :first-child {
   margin-top: 0;
 }
@@ -27,31 +41,48 @@ const content = useMarkdown(props.block.content);
   background: hsl(258, 80%, 5%) !important;
 }
 
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
 .markdown h1 {
-  font-size: 1.75rem;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
+  @apply text-slate-800 border-b;
+  font-size: var(--h1-size);
+  padding-bottom: 0.3em;
+}
+
+.markdown h2 {
+  @apply text-slate-800 border-b;
+  font-size: var(--h2-size);
+  padding-bottom: 0.3em;
+}
+
+.markdown h3 {
+  font-size: var(--h3-size);
+}
+
+.markdown h4 {
+  font-size: var(--h4-size);
+}
+
+.markdown h5 {
+  font-size: var(--h5-size);
+}
+
+.markdown h6 {
+  font-size: var(--h6-size);
 }
 
 .markdown p {
   margin-top: 1rem;
-}
-
-.markdown h2 {
-  font-size: 1.5rem;
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.markdown h3 {
-  font-size: 1.25rem;
-  margin-top: 1.25rem;
-  margin-bottom: 1rem;
-}
-.markdown h4 {
-  font-size: 1rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
 }
 
 .markdown a {
