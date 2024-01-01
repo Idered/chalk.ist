@@ -12,7 +12,7 @@ defineProps<{
 <template>
   <div
     v-if="!preview"
-    class="flex items-center justify-between -mx-1 px-3 py-3 border-b border-slate-700 bg-slate-800 sticky top-0 z-10 pwa:sm:border-t pwa:sm:border-t-slate-900 pwa:sm:shadow-[inset_0_1px_0_rgb(30_30_37)]"
+    class="flex items-center justify-between -mx-1 px-3 py-3 border-b border-slate-700 bg-slate-800 sticky top-0 z-[100] pwa:sm:border-t pwa:sm:border-t-slate-900 pwa:sm:shadow-[inset_0_1px_0_rgb(30_30_37)]"
   >
     <div class="flex flex-wrap items-center space-x-1 max-w-[100vw]">
       <BaseButton

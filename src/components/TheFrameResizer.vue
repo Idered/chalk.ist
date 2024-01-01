@@ -17,8 +17,13 @@ useEventListener("mouseup", () => {
 useEventListener("mousemove", (event: MouseEvent) => {
   if (!activeResizeHandle.value) return;
   const direction = activeResizeHandle.value === "left" ? -1 : 1;
-  const nextWidth = resizeStartWidth.value + 2 * (event.clientX - resizeStartX.value) * direction;
-  store.value.frameWidth = Math.min(Math.max(nextWidth, MIN_FRAME_WIDTH), MAX_FRAME_WIDTH);
+  const nextWidth =
+    resizeStartWidth.value +
+    2 * (event.clientX - resizeStartX.value) * direction;
+  store.value.frameWidth = Math.min(
+    Math.max(nextWidth, MIN_FRAME_WIDTH),
+    MAX_FRAME_WIDTH,
+  );
 });
 
 function startResize(event: MouseEvent, handle: "left" | "right") {
@@ -32,21 +37,24 @@ function startResize(event: MouseEvent, handle: "left" | "right") {
 <template>
   <div
     v-if="exportState === ExportState.Idle && !preview"
-    class="flex w-6 h-6 absolute top-1/2 z-50 -translate-y-3 -right-3 items-center justify-center group cursor-col-resize select-none"
-    @mousedown="startResize($event, 'right')"
+    class="sticky top-1/2 z-10 flex justify-between"
   >
     <div
-      class="shadow-[0_0_0_1px_rgba(0,0,0,.1),0_2px_8px_rgba(0,0,0,.2)] pointer-events-none w-2 h-6 bg-white/90 rounded group-hover:scale-150 transition-transform"
-    />
-  </div>
+      class="group flex h-6 w-6 -translate-x-1/2 -translate-y-3 cursor-col-resize select-none items-center justify-center"
+      @mousedown="startResize($event, 'right')"
+    >
+      <div
+        class="pointer-events-none h-6 w-2 rounded bg-white/90 shadow-[0_0_0_1px_rgba(0,0,0,.1),0_2px_8px_rgba(0,0,0,.2)] transition-transform group-hover:scale-150"
+      />
+    </div>
 
-  <div
-    v-if="exportState === ExportState.Idle && !preview"
-    class="flex w-6 h-6 absolute top-1/2 z-10 -translate-y-3 -left-3 items-center justify-center group cursor-col-resize"
-    @mousedown="startResize($event, 'left')"
-  >
     <div
-      class="shadow-[0_0_0_1px_rgba(0,0,0,.1),0_2px_8px_rgba(0,0,0,.2)] pointer-events-none w-2 h-6 bg-white/90 rounded group-hover:scale-150 transition-transform"
-    />
+      class="group flex h-6 w-6 -translate-y-3 translate-x-1/2 cursor-col-resize items-center justify-center"
+      @mousedown="startResize($event, 'left')"
+    >
+      <div
+        class="pointer-events-none h-6 w-2 rounded bg-white/90 shadow-[0_0_0_1px_rgba(0,0,0,.1),0_2px_8px_rgba(0,0,0,.2)] transition-transform group-hover:scale-150"
+      />
+    </div>
   </div>
 </template>
