@@ -171,7 +171,8 @@ function handleCopy() {
         await nextTick();
         domToBlob(frame, {
           scale: 2,
-
+          width: frame.offsetWidth,
+          height: frame.offsetHeight,
           filter: (element) => {
             const el = element as HTMLElement;
             if (
@@ -211,7 +212,11 @@ async function handleDownload() {
   umami.trackEvent("Download PNG", "export");
   exportState.value = ExportState.PreparingToDownload;
   await nextTick();
-  const blob = await domToBlob(frame, { scale: 2 });
+  const blob = await domToBlob(frame, {
+    scale: 2,
+    width: frame.offsetWidth,
+    height: frame.offsetHeight,
+  });
   downloadPng(blob);
 }
 </script>
