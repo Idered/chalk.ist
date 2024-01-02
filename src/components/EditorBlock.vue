@@ -55,7 +55,7 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
 <template>
   <div
     v-if="block"
-    class="relative grid grid-rows-[auto_1fr_auto]"
+    class="relative grid grid-rows-[auto_1fr_auto] h-full"
     :class="{
       'rounded-md': store.paddingX !== 0 && store.paddingY !== 0,
       // 'bg-black/80': !theme.appStyle,
