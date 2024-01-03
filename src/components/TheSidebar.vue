@@ -542,7 +542,7 @@ const themeOptions = computed(() => [
 
             <template v-if="store.expandWatermarkOptions">
               <div
-                class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+                class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2 -my-1"
               >
                 <label
                   class="cursor-pointer select-none text-xs font-semibold"
