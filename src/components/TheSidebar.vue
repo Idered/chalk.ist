@@ -600,17 +600,23 @@ const themeOptions = computed(() => [
           class="mt-4 hidden grid-cols-[1fr_auto_1fr] gap-2 bg-slate-800 sm:static sm:grid sm:grid-cols-1 sm:bg-transparent sm:px-3 sm:py-0 pwa:hidden"
         >
           <div class="hidden text-center text-xs sm:block">
-            <span class="opacity-75">Made by</span>
+            <span class="opacity-60">Made by</span>
             <a
               href="https://twitter.com/Idered"
               class="font-medium outline-none transition hover:text-white focus:text-white"
             >
-              Idered
-            </a>
+              Idered</a
+            >
+            <span class="mx-2">&bull;</span
+            ><a
+              href="https://www.buymeacoffee.com/idered"
+              class="font-medium outline-none transition hover:text-white focus:text-white"
+              >Buy me a coffee</a
+            >
           </div>
 
           <div class="hidden pb-4 text-center text-xs sm:block">
-            <span class="opacity-75">Source on</span>
+            <span class="opacity-60">Source on</span>
             <a
               href="https://github.com/Idered/chalk.ist"
               class="font-medium outline-none transition hover:text-white focus:text-white"
