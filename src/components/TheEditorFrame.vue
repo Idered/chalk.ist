@@ -49,7 +49,7 @@ function handleCopy() {
     <TheToolbar
       :frame-width="frameWidth"
       :style="{
-        width: `${(containerWidth / frameWidth) * frameWidth}px`,
+        width: `${(containerWidth / (frameWidth - 4)) * (frameWidth + 4)}px`,
       }"
     />
 
