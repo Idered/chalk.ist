@@ -9,7 +9,17 @@ const author = computed(() => {
 </script>
 
 <template>
-  <div class="flex">
+  <div class="flex justify-between items-center">
+    <div class="h-10" v-if="store.showWatermark">
+      <div
+        class="text-white z-10 absolute left-2 bottom-2 font-medium tracking-wide [text-shadow:0_1px_1px_black]"
+        :style="{
+          opacity: store.watermarkOpacity / 100,
+        }"
+      >
+        {{ store.watermark }}
+      </div>
+    </div>
     <component
       :is="author.username ? 'a' : 'div'"
       :href="

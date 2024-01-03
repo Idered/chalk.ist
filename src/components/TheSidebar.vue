@@ -515,6 +515,78 @@ const themeOptions = computed(() => [
                 />
               </div>
             </div>
+            <div
+              class="grid grid-flow-col grid-cols-[1fr_auto_auto] items-center gap-x-2 gap-y-2"
+            >
+              <label
+                class="cursor-pointer select-none text-xs font-semibold"
+                for="showWatermark"
+                >Watermark</label
+              >
+              <BaseButton
+                class="h-5 rounded bg-blue-600/30 px-2.5 text-xs font-semibold text-blue-500 hover:bg-blue-600/40"
+                @click="
+                  store.expandWatermarkOptions = !store.expandWatermarkOptions
+                "
+              >
+                <IconChevronDown
+                  width="12"
+                  class="transition-transform"
+                  :class="{
+                    'rotate-180': store.expandWatermarkOptions,
+                  }"
+                />
+              </BaseButton>
+              <BaseSwitch v-model="store.showWatermark" id="showWatermark" />
+            </div>
+
+            <template v-if="store.expandWatermarkOptions">
+              <div
+                class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+              >
+                <label
+                  class="cursor-pointer select-none text-xs font-semibold"
+                  for="watermarkText"
+                  >Watermark text</label
+                >
+                <BaseInput
+                  class="placeholder:text-slate-600/75"
+                  type="text"
+                  id="watermarkText"
+                  autocomplete="off"
+                  spellcheck="false"
+                  placeholder="Name"
+                  v-model="store.watermark"
+                />
+              </div>
+
+              <div
+                class="grid h-5 grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+              >
+                <label
+                  class="cursor-pointer select-none text-xs font-semibold"
+                  for="watermarkOpacity"
+                  >Watermark opacity</label
+                >
+                <div class="grid grid-flow-col gap-x-2 text-sm">
+                  <input
+                    id="watermarkOpacity"
+                    class="w-full accent-blue-700"
+                    type="range"
+                    min="0"
+                    max="100"
+                    step="1"
+                    :value="store.watermarkOpacity"
+                    @input="
+                      store.watermarkOpacity = parseInt(
+                        ($event.target as HTMLInputElement).value,
+                      )
+                    "
+                  />
+                </div>
+              </div>
+            </template>
+
             <hr class="border-y border-b-slate-700 border-t-slate-900" />
           </div>
         </div>

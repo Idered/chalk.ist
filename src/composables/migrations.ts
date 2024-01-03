@@ -32,6 +32,11 @@ export function runStoreMigrations() {
   store.value.backdrop = store.value.backdrop ?? "Vue";
   store.value.backdropNoise = store.value.backdropNoise ?? false;
   store.value.windowNoise = store.value.windowNoise ?? false;
+  store.value.watermark = store.value.watermark ?? "chalk.ist";
+  store.value.watermarkOpacity = store.value.watermarkOpacity || 50;
+  store.value.showWatermark = store.value.showWatermark ?? true;
+  store.value.expandWatermarkOptions =
+    store.value.expandWatermarkOptions ?? true;
   store.value.colorTheme = store.value.colorTheme ?? "Vue";
   store.value.fontSize = store.value.fontSize ?? 13;
   store.value.showLineNumbers = store.value.showLineNumbers ?? true;
