@@ -54,7 +54,8 @@ export const store = useStorage("chalk-store", {
     | "remove"
     | "highlight"
     | "annotate",
-  expandBackdrops: true,
+  expandBackdrops: false,
+  collapse: true,
   expandTwitterOptions: true,
   expandWatermarkOptions: true,
   fontFamily: "JetBrains Mono",

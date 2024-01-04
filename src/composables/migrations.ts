@@ -43,6 +43,7 @@ export function runStoreMigrations() {
   store.value.windowControls =
     store.value.windowControls ?? WindowControls.MacOutline;
   store.value.expandBackdrops = store.value.expandBackdrops ?? true;
+  store.value.collapse = store.value.collapse ?? false;
   store.value.paddingX = store.value.paddingX || 32;
   store.value.paddingY = store.value.paddingY || 32;
   store.value.lineHeight = store.value.lineHeight || 20;
