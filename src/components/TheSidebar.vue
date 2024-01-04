@@ -89,8 +89,12 @@ const themeOptions = computed(() => [
 </script>
 
 <template>
-  <OnClickOutside @trigger="isExpanded = false">
-    <aside>
+  <OnClickOutside @trigger="isExpanded = false"  class="relative" >
+    <aside :style="{
+      transition: 'all .5s',
+      width: store.collapse ? '0px' : '270px',
+      overflow: 'hidden'
+    }">
       <div class="sm:hidden" :style="{ height: '57px' }"></div>
       <div
         class="fixed inset-x-0 bottom-0 max-h-screen content-start border-t border-slate-700 bg-slate-800 transition-[height] sm:static sm:!h-screen sm:w-[270px] sm:overflow-auto sm:border-r sm:border-t-0 sm:transition-none pwa:sm:border-t pwa:sm:border-t-slate-900 pwa:sm:shadow-[inset_0_1px_0_rgb(30_30_37)]"
@@ -626,6 +630,31 @@ const themeOptions = computed(() => [
           </div>
         </div>
       </div>
+      <BaseButton
+        dir="rtl"
+        class="
+          py-10
+          rounded-r-lg
+          font-semibold
+          bg-blue-600/15
+        text-blue-500
+        hover:bg-blue-600/40
+          duration-200
+          absolute
+          top-1/2
+          -right-3
+          -translate-y-1/2
+        "
+        @click="store.collapse = !store.collapse"
+      >
+        <IconChevronDown
+          width="12"
+          class="transition-transform"
+          :style="{
+            'transform': `rotate(${store.collapse ? -90 : 90}deg)`,
+          }"
+        />
+      </BaseButton>
     </aside>
   </OnClickOutside>
 </template>
