@@ -1,8 +1,9 @@
-import { store } from "./store";
-import { v4 } from "uuid";
 import { DEFAULT_CONTENT, DEFAULT_THEME, MIN_FRAME_WIDTH } from "~/constants";
 import { BlockType, WindowControls } from "~/enums";
 import { CodeBlock } from "~/types";
+import { v4 } from "uuid";
+
+import { store } from "./store";
 
 export function runStoreMigrations() {
   store.value.blocks = store.value.blocks ?? [
@@ -43,6 +44,7 @@ export function runStoreMigrations() {
   store.value.windowControls =
     store.value.windowControls ?? WindowControls.MacOutline;
   store.value.expandBackdrops = store.value.expandBackdrops ?? true;
+  store.value.collapse = store.value.collapse ?? false;
   store.value.paddingX = store.value.paddingX || 32;
   store.value.paddingY = store.value.paddingY || 32;
   store.value.lineHeight = store.value.lineHeight || 20;
