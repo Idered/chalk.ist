@@ -96,7 +96,7 @@ const scale = computed(() => {
             <TheFrameBackground />
             <TheParticlesBackground
               v-if="store.showParticles"
-              :width="frameWidth"
+              :width="frameWidth - 16"
               :height="frameHeight"
             />
 
