@@ -142,7 +142,7 @@ const scale = computed(() => {
       class="flex space-x-2 border-t border-slate-700 bg-slate-800 px-2 py-2"
     >
       <BaseButton
-        class="group relative z-10 rounded-md border border-slate-600/40 bg-black pl-3 pr-4 text-white hover:border-slate-600/40 hover:bg-black/90"
+        class="group relative z-10 rounded-md border border-slate-600/40 bg-black/40 pl-3 pr-4 text-white hover:border-slate-600/40 hover:bg-black/90"
         @click="addEditorBlock"
         :disabled="store.blocks.length >= 16"
       >
@@ -151,7 +151,7 @@ const scale = computed(() => {
       </BaseButton>
 
       <BaseButton
-        class="group relative z-10 rounded-md border border-slate-600/40 bg-black pl-3 pr-4 text-white hover:border-slate-600/40 hover:bg-black/90"
+        class="group relative z-10 rounded-md border border-slate-600/40 bg-black/40 pl-3 pr-4 text-white hover:border-slate-600/40 hover:bg-black/90"
         @click="addMarkdownBlock"
         :disabled="store.blocks.length >= 16"
       >
