@@ -93,7 +93,7 @@ const themeOptions = computed(() => [
     <aside>
       <div class="sm:hidden" :style="{ height: '57px' }"></div>
       <div
-        class="fixed inset-x-0 bottom-0 max-h-screen content-start border-t border-slate-700 bg-slate-800 transition-[height] sm:static sm:!h-screen sm:w-[270px] sm:overflow-auto sm:border-r sm:border-t-0 sm:transition-none pwa:sm:border-t pwa:sm:border-t-slate-900 pwa:sm:shadow-[inset_0_1px_0_rgb(30_30_37)]"
+        class="fixed z-10 inset-x-0 bottom-0 max-h-screen content-start border-t border-slate-700 bg-slate-800 transition-[height] sm:static sm:!h-screen sm:w-[270px] sm:overflow-auto sm:border-r sm:border-t-0 sm:transition-none pwa:sm:border-t pwa:sm:border-t-slate-900 pwa:sm:shadow-[inset_0_1px_0_rgb(30_30_37)]"
         :style="{
           height: isExpanded ? `${expandableContentHeight + 57}px` : `57px`,
         }"
