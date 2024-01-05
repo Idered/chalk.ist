@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import BaseButton from "./BaseButton.vue";
 import EditorBlock from "./EditorBlock.vue";
-import IconClipboard from "./IconClipboard.vue";
 import TheFooter from "./TheFooter.vue";
 import TheFrameBackground from "./TheFrameBackground.vue";
 import TheFrameResizer from "./TheFrameResizer.vue";
@@ -10,11 +9,10 @@ import TheToolbar from "./TheToolbar.vue";
 import { useElementSize } from "@vueuse/core";
 import { computed, ref, watch } from "vue";
 import { addEditorBlock, addMarkdownBlock } from "~/composables/block";
-import { exportState } from "~/composables/export-state";
 import { preview, store } from "~/composables/store";
-import { BlockType, ExportState } from "~/enums";
+import { BlockType } from "~/enums";
 
-const timeout = ref();
+// const timeout = ref();
 const container = ref<HTMLDivElement>();
 const editorFrame = ref<HTMLDivElement>();
 const { width: containerWidth, height: containerHeight } =
