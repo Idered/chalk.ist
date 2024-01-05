@@ -7,6 +7,7 @@ import TheFrameResizer from "./TheFrameResizer.vue";
 import TheParticlesBackground from "./TheParticlesBackground.vue";
 import TheToolbar from "./TheToolbar.vue";
 import { useElementSize } from "@vueuse/core";
+import { nextTick } from "vue";
 import { computed, ref, watch } from "vue";
 import { addEditorBlock, addMarkdownBlock } from "~/composables/block";
 import { preview, store } from "~/composables/store";
@@ -116,6 +117,7 @@ const scale = computed(() => {
               <div data-frame-group="2" class="grid grid-cols-12 gap-4">
                 <div
                   v-for="block in store.blocks"
+                  data-block
                   :key="block.id"
                   :style="{
                     gridColumn: `span ${block.columnSpan}`,
@@ -141,7 +143,15 @@ const scale = computed(() => {
     >
       <BaseButton
         class="group relative z-10 rounded-md border border-slate-600/40 bg-black/40 pl-3 pr-4 text-white hover:border-slate-600/40 hover:bg-black/90"
-        @click="addEditorBlock"
+        @click="
+          async () => {
+            addEditorBlock();
+            await nextTick();
+            container
+              ?.querySelector('[data-block]:last-child')
+              ?.scrollIntoView({ behavior: 'smooth' });
+          }
+        "
         :disabled="store.blocks.length >= 16"
       >
         <i-ph:plus />
@@ -150,7 +160,15 @@ const scale = computed(() => {
 
       <BaseButton
         class="group relative z-10 rounded-md border border-slate-600/40 bg-black/40 pl-3 pr-4 text-white hover:border-slate-600/40 hover:bg-black/90"
-        @click="addMarkdownBlock"
+        @click="
+          async () => {
+            addMarkdownBlock();
+            await nextTick();
+            container
+              ?.querySelector('[data-block]:last-child')
+              ?.scrollIntoView({ behavior: 'smooth' });
+          }
+        "
         :disabled="store.blocks.length >= 16"
       >
         <i-ph:plus />
