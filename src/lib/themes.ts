@@ -9,9 +9,78 @@ const excludedThemes = [
   "rose-pine-moon",
   "vitesse-black",
 ];
+
 export const shikijiThemes = bundledThemesInfo.filter(
   ({ type, id }) => type === "dark" && excludedThemes.includes(id) === false,
 );
+
+export const portedThemes = [
+  createTheme("Duotone - Dark Sea", {
+    function: "#D6E9FF", // uno-1
+    regexp: "#88B4E7", // uno-2
+    foreground: "#88B4E7", // uno-2
+    variable: "#88B4E7", // uno-2
+    comment: "#444c55", // uno-5
+    punctuation: "#444c55", // uno-5
+    keyword: "#34febb", // duo-1
+    string: "#34febb", // duo-1
+    number: "#34febb", // duo-1
+    operator: "#32AE85", // duo-2
+  }),
+
+  createTheme("Duotone - Dark Space", {
+    function: "#bebeef", // uno-1
+    regexp: "#8686cb", // uno-2
+    foreground: "#8686cb", // uno-2
+    variable: "#8686cb", // uno-2
+    comment: "#49495a", // uno-5
+    punctuation: "#49495a", // uno-5
+    keyword: "#fe7732", // duo-1
+    string: "#fe7732", // duo-1
+    number: "#fe7732", // duo-1
+    operator: "#b06845", // duo-2
+  }),
+
+  createTheme("Duotone - Dark Forest", {
+    function: "#ddf8dd", // uno-1
+    regexp: "#a9bca9", // uno-2
+    foreground: "#a9bca9", // uno-2
+    variable: "#a9bca9", // uno-2
+    comment: "#585f58", // uno-5
+    punctuation: "#585f58", // uno-5
+    keyword: "#e7f98b", // duo-1
+    string: "#e7f98b", // duo-1
+    number: "#e7f98b", // duo-1
+    operator: "#99a659", // duo-2
+  }),
+
+  createTheme("Duotone - Dark Sky", {
+    function: "#f1ebff", // uno-1
+    regexp: "#cab2fa", // uno-2
+    foreground: "#cab2fa", // uno-2
+    variable: "#cab2fa", // uno-2
+    comment: "#544d60", // uno-5
+    punctuation: "#544d60", // uno-5
+    keyword: "#fec38f", // duo-1
+    string: "#fec38f", // duo-1
+    number: "#fec38f", // duo-1
+    operator: "#b07745", // duo-2
+  }),
+
+  createTheme("Duotone - Dark Earth", {
+    function: "#ffdac2", // uno-1
+    regexp: "#bd987f", // uno-2
+    foreground: "#bd987f", // uno-2
+    variable: "#bd987f", // uno-2
+    comment: "#564b43", // uno-5
+    punctuation: "#564b43", // uno-5
+    keyword: "#fecb52", // duo-1
+    string: "#fecb52", // duo-1
+    number: "#fecb52", // duo-1
+    operator: "#b09045", // duo-2
+  }),
+];
+
 export const chalkistThemes = [
   createTheme("Vue", {
     comment: "#387156",
@@ -116,4 +185,17 @@ export const chalkistThemes = [
     function: "hsla(0, 0%, 100%, .8)",
     operator: "hsla(0, 0%, 100%, .4)",
   }),
+
+  // createTheme("Orchid", {
+  //   foreground: "hsla(320, 80%, 70%, 0.7)",
+  //   variable: "hsla(320, 0%, 70%, .4)",
+  //   comment: "hsla(320, 0%, 70%, .3)",
+  //   keyword: "hsla(320, 0%, 70%, .55)",
+  //   punctuation: "hsla(320, 0%, 70%, .7)",
+  //   string: "hsla(320, 50%, 80%, .5)",
+  //   number: "hsla(320, 80%, 70%, .7)",
+  //   regexp: "hsla(320, 0%, 70%, .7)",
+  //   function: "hsla(320, 70%, 60%, .8)",
+  //   operator: "hsla(320, 0%, 70%, .4)",
+  // }),
 ];

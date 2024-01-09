@@ -2,7 +2,7 @@ import { HighlighterCore, getHighlighterCore } from "shikiji/core";
 import { getWasmInlined } from "shikiji/wasm";
 import { onMounted, ref } from "vue";
 import { LANGUAGES } from "~/constants";
-import { chalkistThemes, shikijiThemes } from "~/lib/themes";
+import { chalkistThemes, portedThemes, shikijiThemes } from "~/lib/themes";
 
 const shiki = ref<HighlighterCore>();
 
@@ -12,6 +12,7 @@ export function useShiki() {
       shiki.value = await getHighlighterCore({
         themes: [
           ...chalkistThemes,
+          ...portedThemes,
           ...shikijiThemes.map((theme) => theme.import),
         ],
         langs: LANGUAGES.map((lang) => lang.lang),

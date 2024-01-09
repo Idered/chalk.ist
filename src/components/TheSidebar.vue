@@ -13,7 +13,7 @@ import { store } from "~/composables/store";
 import { FONTS, FRAME_STYLES, LIGATURE_FONTS } from "~/constants";
 import { WindowControls } from "~/enums";
 import { Backdrops } from "~/lib/backdrops";
-import { chalkistThemes, shikijiThemes } from "~/lib/themes";
+import { chalkistThemes, portedThemes, shikijiThemes } from "~/lib/themes";
 
 const isExpanded = ref(false);
 const expandableContent = ref();
@@ -83,6 +83,9 @@ const themeOptions = computed(() => [
     group: "Other",
     children: shikijiThemes
       .map((item) => ({ value: item.id, label: item.displayName }))
+      .concat(
+        ...portedThemes.map((item) => ({ value: item.name, label: item.name })),
+      )
       .sort((a, b) => a.label.localeCompare(b.label)),
   },
 ]);
