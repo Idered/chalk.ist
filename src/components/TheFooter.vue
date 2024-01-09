@@ -10,7 +10,7 @@ const author = computed(() => {
 
 <template>
   <div class="flex justify-between items-center">
-    <div class="h-10" v-if="store.showWatermark">
+    <div class="h-4" v-if="store.showWatermark">
       <div
         class="text-white z-10 absolute left-2 bottom-2 font-medium tracking-wide [text-shadow:0_0px_3px_black]"
         :style="{
