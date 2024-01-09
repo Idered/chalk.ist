@@ -80,7 +80,7 @@ export const chalkistThemes = [
 
   createTheme("Dawn", {
     foreground: "#e4c7c1",
-    variable: `#e8917d`,
+    variable: "#e8917d",
     comment: "#8c7c6c",
     keyword: "#d56a34",
     punctuation: "#c7bad9",
@@ -92,14 +92,14 @@ export const chalkistThemes = [
   }),
 
   createTheme("Linear", {
-    foreground: `#f18e55`,
-    variable: `#ead4c8`,
-    comment: `#645884`,
-    keyword: `#c11071`,
-    punctuation: `#4d5180`,
-    string: `#e8ab8c`,
-    number: `#ef8abe`,
-    regexp: `#f1b546`,
+    foreground: "#f18e55",
+    variable: "#ead4c8",
+    comment: "#645884",
+    keyword: "#c11071",
+    punctuation: "#4d5180",
+    string: "#e8ab8c",
+    number: "#ef8abe",
+    regexp: "#f1b546",
     function: "#ff9e64",
     operator: "#d6deeb",
   }),
