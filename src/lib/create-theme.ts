@@ -79,7 +79,7 @@ export function createTheme(name: string, colors: Colors) {
   colors = Object.entries(colors).reduce(
     (acc, [key, color]) => ({
       ...acc,
-      [key]: color.startsWith("hsl") ? hslToHex(color) : color,
+      [key]: color.startsWith("hsl(") ? hslToHex(color) : color,
     }),
     {} as Colors,
   );
