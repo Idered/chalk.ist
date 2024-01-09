@@ -21,6 +21,47 @@ export const Backdrops: Backdrop = {
   // Random4: generateRandomBackdrop(),
   // Random5: generateRandomBackdrop(),
 
+  Monochrome_1: {
+    backgroundStyle: {
+      background: `conic-gradient(
+        from 230.29deg at 51.63% 52.16%,
+        hsl(0, 0%, 0%) 0deg,
+        hsl(0, 0%, 16%) 67.5deg,
+        hsl(0, 0%, 2%) 198.75deg,
+        hsl(0, 0%, 40%) 251.25deg,
+        hsl(0, 0%, 13%) 301.88deg,
+        hsl(0, 0%, 9%) 360deg
+      )`,
+      filter: `blur(30px)`,
+      transform: `scale(1.385)`,
+    },
+    shadow: "hsl(0, 0%, 6%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.08,
+    appStyle: {
+      backgroundColor: "hsla(0, 0%, 6%, 0.85)",
+    },
+  },
+
+  Monochrome_2: {
+    backgroundStyle: {
+      background: `linear-gradient(
+        140deg, 
+        hsl(0, 0%, 18%), 
+        hsl(0, 0%, 7%), 
+        hsl(0, 0%, 2%)
+      )`,
+      filter: `blur(30px)`,
+      transform: `scale(1.385)`,
+    },
+    shadow: "hsl(0, 0%, 6%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.08,
+    appStyle: {
+      backgroundColor: "hsla(0, 0%, 6%, 0.85)",
+    },
+  },
+
   R1: {
     backgroundStyle: {
       background: `conic-gradient(from 45deg, rgb(102, 7, 203), rgb(14, 188, 212), rgb(184, 71, 243), rgb(82, 14, 204), rgb(0, 168, 244), rgb(79, 92, 184))`,

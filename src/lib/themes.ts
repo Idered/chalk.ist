@@ -103,4 +103,17 @@ export const chalkistThemes = [
     function: "#ff9e64",
     operator: "#d6deeb",
   }),
+
+  createTheme("Monochrome", {
+    foreground: `#AAAAAA`,
+    variable: `#5E5E5E`,
+    comment: `#3c3c3c`,
+    keyword: `#797979`,
+    punctuation: `#AAAAAA`,
+    string: `#878787`,
+    number: `#8D8D8D`,
+    regexp: `#AAAAAA`,
+    function: "#a6a6a6",
+    operator: "#4e4e4e",
+  }),
 ];
