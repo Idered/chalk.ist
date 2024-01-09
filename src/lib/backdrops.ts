@@ -51,10 +51,8 @@ export const Backdrops: Backdrop = {
         hsl(0, 0%, 7%), 
         hsl(0, 0%, 2%)
       )`,
-      filter: `blur(30px)`,
-      transform: `scale(1.385)`,
     },
-    shadow: "hsl(0, 0%, 6%)",
+    shadow: "hsl(0, 0%, 4%)",
     shadowsOpacity: 1,
     lightsOpacity: 0.08,
     appStyle: {
