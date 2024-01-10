@@ -1,11 +1,12 @@
-import { runStoreMigrations } from "./migrations";
 import { useStorage } from "@vueuse/core";
-import { v4 } from "uuid";
-import { ref } from "vue";
 import { DEFAULT_CONTENT, DEFAULT_THEME } from "~/constants";
 import { BlockType, WindowControls } from "~/enums";
 import { Backdrops } from "~/lib/backdrops";
 import { Block } from "~/types";
+import { v4 } from "uuid";
+import { ref } from "vue";
+
+import { runStoreMigrations } from "./migrations";
 
 export const preview = ref<{
   content: string;
@@ -55,6 +56,7 @@ export const store = useStorage("chalk-store", {
     | "highlight"
     | "annotate",
   expandBackdrops: true,
+  collapse: false,
   expandTwitterOptions: true,
   expandWatermarkOptions: true,
   fontFamily: "JetBrains Mono",
