@@ -30,6 +30,18 @@ export const preview = ref<{
 export const store = useStorage("chalk-store", {
   currentThemeSupportsWindowVariants: true,
   currentTheme: DEFAULT_THEME,
+  customTheme: {
+    foreground: "hsla(0, 0%, 100%, 0.7)",
+    variable: "hsla(0, 0%, 100%, .4)",
+    comment: "hsla(0, 0%, 100%, .3)",
+    keyword: "hsla(0, 0%, 100%, .55)",
+    punctuation: "hsla(0, 0%, 100%, .7)",
+    string: "hsla(0, 0%, 100%, .5)",
+    number: "hsla(0, 0%, 100%, .7)",
+    regexp: "hsla(0, 0%, 100%, .7)",
+    function: "hsla(0, 0%, 100%, .8)",
+    operator: "hsla(0, 0%, 100%, .4)",
+  },
   useAltBackground: false,
   blocks: [
     {
@@ -56,6 +68,7 @@ export const store = useStorage("chalk-store", {
     | "annotate",
   expandBackdrops: true,
   expandTwitterOptions: true,
+  expandCustomThemeOptions: true,
   expandWatermarkOptions: true,
   fontFamily: "JetBrains Mono",
   fontSize: 13,
@@ -69,6 +82,7 @@ export const store = useStorage("chalk-store", {
   paddingY: 16,
   picture: "",
   reflection: true,
+  useCustomTheme: false,
   showBackground: true,
   showLineNumbers: true,
   showParticles: true,

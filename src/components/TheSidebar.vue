@@ -7,7 +7,14 @@ import ExportOptions from "./ExportOptions.vue";
 import IconChevronDown from "./IconChevronDown.vue";
 import { OnClickOutside } from "@vueuse/components";
 import { useElementSize } from "@vueuse/core";
+import {
+  PopoverContent,
+  PopoverPortal,
+  PopoverRoot,
+  PopoverTrigger,
+} from "radix-vue";
 import { computed, ref } from "vue";
+import { ColorPicker } from "vue-color-kit";
 import { cropImage, resizeImage } from "~/composables/image";
 import { store } from "~/composables/store";
 import { FONTS, FRAME_STYLES, LIGATURE_FONTS } from "~/constants";
@@ -89,6 +96,19 @@ const themeOptions = computed(() => [
       .sort((a, b) => a.label.localeCompare(b.label)),
   },
 ]);
+
+const themeLabels = {
+  foreground: "text",
+  variable: "variables",
+  comment: "comments",
+  keyword: "keywords",
+  function: "functions",
+  string: "strings",
+  punctuation: "punctuations",
+  operator: "operators",
+  number: "numbers",
+  regexp: "RegExp",
+};
 </script>
 
 <template>
@@ -120,6 +140,75 @@ const themeOptions = computed(() => [
                 @update:model-value="store.colorTheme = $event"
                 :options="themeOptions"
               />
+            </div>
+
+            <div
+              class="grid grid-cols-[1fr_auto_auto] items-center justify-between gap-x-2 gap-y-2"
+            >
+              <label for="useCustomTheme" class="text-xs font-semibold"
+                >Custom theme</label
+              >
+              <BaseButton
+                class="h-5 rounded bg-blue-600/30 px-2.5 text-xs font-semibold text-blue-500 hover:bg-blue-600/40"
+                @click="
+                  store.expandCustomThemeOptions =
+                    !store.expandCustomThemeOptions
+                "
+              >
+                <span
+                  class="text-[10px] uppercase tracking-wider"
+                  v-if="!store.expandCustomThemeOptions"
+                  >Edit</span
+                >
+                <span v-else class="text-[10px] uppercase tracking-wider"
+                  >Collapse</span
+                >
+              </BaseButton>
+              <BaseSwitch v-model="store.useCustomTheme" id="useCustomTheme" />
+            </div>
+
+            <div v-if="store.expandCustomThemeOptions" class="contents">
+              <div
+                class="flex items-center gap-x-2 gap-y-2"
+                v-for="(backgroundColor, key) in store.customTheme"
+                :key="key"
+              >
+                <label
+                  for="customTheme.keyword"
+                  class="text-xs font-semibold [text-transform:capitalize] w-[118px]"
+                  >{{ themeLabels[key] || key }}</label
+                >
+                <PopoverRoot>
+                  <PopoverTrigger class="w-full">
+                    <div
+                      class="w-full h-5 rounded-sm border-2 border-slate-900 bg-slate-800 shadow-[0_0_0_1px_rgba(255,255,255,.17)]"
+                      :style="{ backgroundColor }"
+                    />
+                  </PopoverTrigger>
+                  <PopoverPortal>
+                    <PopoverContent
+                      :align-offset="-2"
+                      :side-offset="-120"
+                      side="right"
+                      align="start"
+                      class="will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade rounded-md border border-slate-700 bg-slate-800 font-mono shadow-[rgba(0,0,0,0.25)_0px_14px_28px,rgba(0,0,0,0.22)_0px_10px_10px] p-4 z-[100000]"
+                    >
+                      <ColorPicker
+                        class="box-content"
+                        :color="backgroundColor"
+                        @changeColor="
+                          store.customTheme[key] = `rgba(${[
+                            $event.rgba.r,
+                            $event.rgba.g,
+                            $event.rgba.b,
+                            $event.rgba.a,
+                          ].join(',')})`
+                        "
+                      />
+                    </PopoverContent>
+                  </PopoverPortal>
+                </PopoverRoot>
+              </div>
             </div>
 
             <div

@@ -1,3 +1,5 @@
+@import "color-picker.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

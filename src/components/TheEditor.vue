@@ -10,6 +10,7 @@ import { ShikijiTransformer } from "shikiji/index.mjs";
 import { computed, h, ref } from "vue";
 import { store } from "~/composables/store";
 import { BlockType } from "~/enums";
+import { createTheme } from "~/lib/create-theme";
 import { useShiki } from "~/lib/shiki";
 import { CodeBlock } from "~/types";
 
@@ -136,7 +137,9 @@ const shikiContent = computed(() => {
 
   const hast = shiki.value.codeToHast(props.block.content, {
     lang: props.block.language,
-    theme: store.value.colorTheme,
+    theme: store.value.useCustomTheme
+      ? createTheme("Custom", store.value.customTheme)
+      : store.value.colorTheme,
     transformers: [
       transformerNotationDiff(),
       transformerNotationFocus(),

@@ -74,6 +74,9 @@ dependencies:
   vue:
     specifier: ^3.3.13
     version: 3.3.13(typescript@5.3.3)
+  vue-color-kit:
+    specifier: 1.0.6
+    version: 1.0.6(vue@3.3.13)
   vue-demi:
     specifier: 0.13.11
     version: 0.13.11(vue@3.3.13)
@@ -5033,6 +5036,14 @@ packages:
     optionalDependencies:
       fsevents: 2.3.3
     dev: true
+
+  /vue-color-kit@1.0.6(vue@3.3.13):
+    resolution: {integrity: sha512-56oSUp8hGIZ3E4ayZLqTDAb2C7VzaWAC1EVUsZEvPCD2wiiiFd2L2BiEGN1ingfz538sYWKNXxMZQGslqbMiBg==}
+    peerDependencies:
+      vue: ^3.0.5
+    dependencies:
+      vue: 3.3.13(typescript@5.3.3)
+    dev: false
 
   /vue-demi@0.13.11(vue@3.3.13):
     resolution: {integrity: sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==}
