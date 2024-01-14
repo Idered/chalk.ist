@@ -58,8 +58,8 @@ export function runStoreMigrations() {
   store.value.windowControls =
     store.value.windowControls ?? WindowControls.MacOutline;
   store.value.expandBackdrops = store.value.expandBackdrops ?? true;
-  store.value.paddingX = store.value.paddingX || 32;
-  store.value.paddingY = store.value.paddingY || 32;
+  store.value.paddingX = store.value.paddingX ?? 32;
+  store.value.paddingY = store.value.paddingY ?? 32;
   store.value.lineHeight = store.value.lineHeight || 20;
   store.value.windowStyle = store.value.windowStyle || "variant-1";
   store.value.frameWidth = store.value.frameWidth || MIN_FRAME_WIDTH;

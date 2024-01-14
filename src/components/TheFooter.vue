@@ -10,9 +10,18 @@ const author = computed(() => {
 
 <template>
   <div class="flex justify-between items-center">
-    <div class="h-4" v-if="store.showWatermark">
+    <div
+      v-if="store.showWatermark"
+      :class="{
+        'h-9': store.paddingY === 0,
+        'h-7': store.paddingY === 8,
+        'h-5': store.paddingY === 16,
+        'h-3': store.paddingY === 24,
+        'h-1': store.paddingY === 32,
+      }"
+    >
       <div
-        class="text-white z-10 absolute left-2 bottom-2 font-medium tracking-wide [text-shadow:0_0px_3px_black]"
+        class="text-white z-10 left-2 absolute bottom-2 text-sm h-5 font-medium tracking-wide [text-shadow:0_0px_3px_black]"
         :style="{
           opacity: store.watermarkOpacity / 100,
         }"
