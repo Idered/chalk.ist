@@ -1,11 +1,11 @@
-import path from "path";
-import { defineConfig } from "vite";
 import Vue from "@vitejs/plugin-vue";
-import { VitePWA } from "vite-plugin-pwa";
-import Pages from "vite-plugin-pages";
-import Icons from "unplugin-icons/vite";
+import path from "path";
 import IconsResolver from "unplugin-icons/resolver";
+import Icons from "unplugin-icons/vite";
 import Components from "unplugin-vue-components/vite";
+import { defineConfig } from "vite";
+import Pages from "vite-plugin-pages";
+import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -22,7 +22,7 @@ export default defineConfig(({ mode }) => ({
 
         return html.replace(
           "<!-- %UMAMI% -->",
-          `<script async defer data-website-id="74b418ca-7be5-48a9-8947-d62340be88cc" src="https://umami.kasper.io/umami.js" ></script>`
+          `<script async defer data-website-id="74b418ca-7be5-48a9-8947-d62340be88cc" src="https://umami.kasper.io/umami.js" ></script>`,
         );
       },
     },
@@ -46,7 +46,7 @@ export default defineConfig(({ mode }) => ({
       workbox: {
         maximumFileSizeToCacheInBytes: 1024 * 1024 * 5,
       },
-      includeAssets: ["og-image.png", "robots.txt", "favicon.ico"],
+      includeAssets: ["og-image.jpg", "robots.txt", "favicon.ico"],
       manifest: {
         name: "Chalk",
         short_name: "Chalk",
