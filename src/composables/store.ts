@@ -75,6 +75,7 @@ export const store = useStorage("chalk-store", {
   fontLigatures: true,
   frameHeight: 0,
   frameWidth: 720,
+  showAlternatives: true,
   language: "typescript",
   lineHeight: 20,
   name: "",

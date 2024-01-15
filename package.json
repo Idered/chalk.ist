@@ -23,6 +23,8 @@
     "@fontsource/inter": "4.5.10",
     "@fontsource/jetbrains-mono": "4.5.8",
     "@fontsource/source-code-pro": "4.5.14",
+    "@iconify-json/fa6-brands": "1.1.18",
+    "@iconify-json/logos": "1.1.42",
     "@iconify-json/ph": "1.1.9",
     "@tailwindcss/typography": "0.5.10",
     "@vueuse/components": "10.4.1",
