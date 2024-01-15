@@ -450,6 +450,8 @@ const charactersPerLine = computed(() =>
 .formatted code,
 .formatted pre {
   font-family: inherit;
+  font-feature-settings: inherit;
+  font-variation-settings: inherit;
   background-color: transparent !important;
 }
 

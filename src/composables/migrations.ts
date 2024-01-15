@@ -63,9 +63,9 @@ export function runStoreMigrations() {
   store.value.lineHeight = store.value.lineHeight || 20;
   store.value.windowStyle = store.value.windowStyle || "variant-1";
   store.value.frameWidth = store.value.frameWidth || MIN_FRAME_WIDTH;
-  store.value.showParticles = store.value.showParticles || true;
+  store.value.showParticles = store.value.showParticles ?? true;
   store.value.fontFamily = store.value.fontFamily || "JetBrains Mono";
-  store.value.fontLigatures = store.value.fontLigatures || true;
+  store.value.fontLigatures = store.value.fontLigatures ?? true;
   store.value.currentTheme = ["vercel", "redline"].includes(
     store.value.currentTheme,
   )
