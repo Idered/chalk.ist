@@ -1,3 +1,5 @@
+const plugin = require("tailwindcss");
+
 /**
  * @typedef {import('tailwindcss/types').Config} BaseConfig
  *
@@ -10,6 +12,7 @@ module.exports = {
       screens: {
         pwa: { raw: "(display-mode: standalone)" },
       },
+
       keyframes: {
         slideDownAndFade: {
           from: { opacity: 0, transform: "translateY(-2px)" },

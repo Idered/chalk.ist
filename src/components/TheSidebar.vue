@@ -3,11 +3,11 @@ import BaseButton from "./BaseButton.vue";
 import BaseInput from "./BaseInput.vue";
 import BaseSelect from "./BaseSelect.vue";
 import BaseSwitch from "./BaseSwitch.vue";
-import ExportOptions from "./ExportOptions.vue";
 import IconChevronDown from "./IconChevronDown.vue";
 import { OnClickOutside } from "@vueuse/components";
 import { useElementSize } from "@vueuse/core";
 import {
+  PopoverArrow,
   PopoverContent,
   PopoverPortal,
   PopoverRoot,
@@ -25,39 +25,6 @@ import { chalkistThemes, portedThemes, shikijiThemes } from "~/lib/themes";
 const isExpanded = ref(false);
 const expandableContent = ref();
 const { height: expandableContentHeight } = useElementSize(expandableContent);
-
-// const handleCopyLink = async () => {
-//   const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
-//   if (!frame) return;
-//   umami.trackEvent("Copy Link", "export");
-
-//   // copy location.href to clipboard
-//   const { content } = store.value;
-//   const str = window.btoa(
-//     JSON.stringify({
-//       c: encodeURIComponent(content),
-//       t: store.value.currentTheme,
-//       l: store.value.language,
-//       px: store.value.paddingX,
-//       py: store.value.paddingY,
-//       w: store.value.frameWidth,
-//       n: store.value.name,
-//       u: store.value.username,
-//       b: store.value.showTwitterBadge,
-//       r: store.value.reflection,
-//       ln: store.value.showLineNumbers,
-//       wc: store.value.windowControls,
-//     })
-//   );
-//   const url = `${window.location.origin}/share/${str}`;
-//   navigator.clipboard.writeText(url);
-
-//   exportState.value = ExportState.JustCopiedLink;
-//   clearTimeout(timeout.value);
-//   timeout.value = setTimeout(() => {
-//     exportState.value = ExportState.Idle;
-//   }, 1000);
-// };
 
 function handlePicture(event: Event) {
   const target = event.target as HTMLInputElement;
@@ -116,16 +83,16 @@ const themeLabels = {
     <aside>
       <div class="sm:hidden" :style="{ height: '57px' }"></div>
       <div
-        class="fixed z-10 inset-x-0 bottom-0 max-h-screen content-start border-t border-slate-700 bg-slate-800 transition-[height] sm:static sm:!h-screen sm:w-[270px] sm:overflow-auto sm:border-r sm:border-t-0 sm:transition-none pwa:sm:border-t pwa:sm:border-t-slate-900 pwa:sm:shadow-[inset_0_1px_0_rgb(30_30_37)]"
+        class="fixed z-10 inset-x-0 bottom-0 max-h-screen content-start border-t border-zinc-800 bg-zinc-900 transition-[height] sm:static sm:!h-screen sm:w-[280px] sm:overflow-auto sm:border-r sm:border-t-0 sm:transition-none pwa:sm:border-t pwa:sm:border-t-slate-900 pwa:sm:shadow-[inset_0_1px_0_rgb(30_30_37)]"
         :style="{
           height: isExpanded ? `${expandableContentHeight + 57}px` : `57px`,
         }"
       >
         <div
           ref="expandableContent"
-          class="max-h-[calc(50svh-48px)] overflow-auto sm:max-h-none"
+          class="max-h-[calc(30svh-48px)] overflow-auto sm:max-h-none"
         >
-          <div class="grid gap-y-2 px-3 py-4">
+          <div class="grid gap-y-2 px-3 pt-4">
             <div
               class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
             >
@@ -187,12 +154,13 @@ const themeLabels = {
                   </PopoverTrigger>
                   <PopoverPortal>
                     <PopoverContent
-                      :align-offset="-2"
+                      :align-offset="-28"
                       :side-offset="-120"
                       side="right"
                       align="start"
                       class="will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade rounded-md border border-slate-700 bg-slate-800 font-mono shadow-[rgba(0,0,0,0.25)_0px_14px_28px,rgba(0,0,0,0.22)_0px_10px_10px] p-4 z-[100000]"
                     >
+                      <PopoverArrow />
                       <ColorPicker
                         class="box-content"
                         :color="backgroundColor"
@@ -210,6 +178,10 @@ const themeLabels = {
                 </PopoverRoot>
               </div>
             </div>
+
+            <hr
+              class="border-y border-b-zinc-800 border-t-black -mx-3 my-1.5"
+            />
 
             <div
               class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
@@ -306,7 +278,9 @@ const themeLabels = {
               />
             </div>
 
-            <hr class="border-y border-b-slate-700 border-t-slate-900" />
+            <hr
+              class="border-y border-b-zinc-800 border-t-black -mx-3 my-1.5"
+            />
 
             <div
               class="grid grid-cols-[1fr_auto_auto] items-center justify-between gap-x-2 gap-y-2"
@@ -427,7 +401,9 @@ const themeLabels = {
               </div>
             </div>
 
-            <hr class="border-y border-b-slate-700 border-t-slate-900" />
+            <hr
+              class="border-y border-b-zinc-800 border-t-black -mx-3 my-1.5"
+            />
 
             <div
               class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
@@ -493,7 +469,9 @@ const themeLabels = {
               <BaseSwitch v-model="store.reflection" id="reflection" />
             </div>
 
-            <hr class="border-y border-b-slate-700 border-t-slate-900" />
+            <hr
+              class="border-y border-b-zinc-800 border-t-black -mx-3 my-1.5"
+            />
 
             <div
               class="grid grid-flow-col grid-cols-[1fr_auto_auto] items-center gap-x-2 gap-y-2"
@@ -679,88 +657,39 @@ const themeLabels = {
               </div>
             </template>
 
-            <hr class="border-y border-b-slate-700 border-t-slate-900" />
+            <hr
+              class="border-y border-b-zinc-800 border-t-black -mx-3 my-1.5 hidden sm:block"
+            />
+
+            <ExportOptions />
+
+            <hr
+              class="border-y border-b-zinc-800 border-t-black -mx-3 my-1.5 hidden sm:block"
+            />
           </div>
         </div>
 
-        <ExportOptions
-          :is-expanded="isExpanded"
-          @update:is-expanded="isExpanded = $event"
-        />
-
-        <div
-          class="mt-4 hidden grid-cols-[1fr_auto_1fr] gap-2 bg-slate-800 sm:static sm:grid sm:grid-cols-1 sm:bg-transparent sm:px-3 sm:py-0 pwa:hidden"
-        >
-          <div class="hidden sm:flex justify-center items-center space-x-4">
-            <Tooltip content="Follow Idered on X">
-              <a
-                href="https://twitter.com/Idered"
-                class="font-medium outline-none transition hover:text-white focus:text-white"
-              >
-                <i-fa6-brands:x-twitter />
-              </a>
-            </Tooltip>
-
-            <span class="opacity-20 skew">/</span>
-
-            <Tooltip content="View source on GitHub">
-              <a
-                href="https://github.com/Idered/chalk.ist"
-                class="font-medium outline-none transition hover:text-white focus:text-white"
-              >
-                <i-fa6-brands:github />
-              </a>
-            </Tooltip>
-
-            <span class="opacity-20 skew">/</span>
-
-            <Tooltip content="Buy me a coffee">
-              <a
-                href="https://www.buymeacoffee.com/idered"
-                class="font-medium outline-none transition hover:text-white focus:text-white"
-              >
-                <i-ph:coffee />
-              </a>
-            </Tooltip>
-          </div>
-
-          <div
-            class="hidden px-4 text-xs sm:block border rounded border-slate-700 py-3 mt-2 relative"
-            v-if="store.showAlternatives"
-          >
-            <div class="opacity-60 text-center">
-              Not happy with chalk.ist? <br />Try these alternatives:
-            </div>
-
-            <div class="flex space-x-2 justify-center mt-2">
-              <a
-                href="https://snappify.com/?ref=chalk.ist"
-                class="font-medium outline-none transition hover:text-white focus:text-white"
-                >snappify.com</a
-              >
-              <a
-                href="https://ray.so/?ref=chalk.ist"
-                class="font-medium outline-none transition hover:text-white focus:text-white"
-                >ray.so</a
-              >
-              <a
-                href="https://carbon.now.sh/?ref=chalk.ist"
-                class="font-medium outline-none transition hover:text-white focus:text-white"
-                >carbon.now.sh</a
-              >
-            </div>
-
-            <div
-              class="absolute top-2 right-2 transition hover:text-white focus:text-white cursor-pointer"
-              @click="store.showAlternatives = false"
-            >
-              <i-ph:x-bold />
-            </div>
-          </div>
-
-          <div class="h-4"></div>
-        </div>
+        <TheMeta />
       </div>
     </aside>
+
+    <div
+      class="fixed inset-x-0 bottom-0 grid grid-cols-[1fr_auto] gap-2 px-3 py-2 sm:hidden z-10 bg-zinc-900"
+    >
+      <ExportToPNGButton />
+      <BaseButton
+        class="group w-10 justify-center bg-slate-700 text-slate-500 hover:bg-slate-700/80 sm:hidden"
+        @click="isExpanded = !isExpanded"
+        square="w-10"
+      >
+        <IconChevronDown
+          width="16"
+          class="transition"
+          :class="{
+            'rotate-180': !isExpanded,
+          }"
+        />
+      </BaseButton>
+    </div>
   </OnClickOutside>
 </template>

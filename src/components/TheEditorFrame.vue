@@ -1,19 +1,15 @@
 <script setup lang="ts">
-import BaseButton from "./BaseButton.vue";
 import EditorBlock from "./EditorBlock.vue";
-import TheFooter from "./TheFooter.vue";
 import TheFrameBackground from "./TheFrameBackground.vue";
+import TheFrameFooter from "./TheFrameFooter.vue";
 import TheFrameResizer from "./TheFrameResizer.vue";
+import TheMenu from "./TheMenu.vue";
 import TheParticlesBackground from "./TheParticlesBackground.vue";
-import TheToolbar from "./TheToolbar.vue";
 import { useElementSize } from "@vueuse/core";
-import { nextTick } from "vue";
 import { computed, ref, watch } from "vue";
-import { addEditorBlock, addMarkdownBlock } from "~/composables/block";
 import { preview, store } from "~/composables/store";
 import { BlockType } from "~/enums";
 
-// const timeout = ref();
 const container = ref<HTMLDivElement>();
 const editorFrame = ref<HTMLDivElement>();
 const { width: containerWidth, height: containerHeight } =
@@ -29,15 +25,6 @@ watch(frameHeight, (value) => {
   store.value.frameHeight = Math.round(value);
 });
 
-// function handleCopy() {
-//   if (!preview.value) return;
-//   navigator.clipboard.writeText(preview.value.content);
-//   exportState.value = ExportState.JustCopiedContent;
-//   clearTimeout(timeout.value);
-//   timeout.value = setTimeout(() => {
-//     exportState.value = ExportState.Idle;
-//   }, 1000);
-// }
 const scale = computed(() => {
   if (frameWidth.value > containerWidth.value) {
     return containerWidth.value / frameWidth.value;
@@ -51,7 +38,7 @@ const scale = computed(() => {
     data-editor-frame-container
     class="grid overflow-y-auto overflow-x-hidden font-sans grid-rows-[auto_1fr]"
   >
-    <TheToolbar :frame-width="frameWidth" />
+    <TheMenu :frame-width="frameWidth" />
 
     <div
       ref="container"
@@ -128,52 +115,13 @@ const scale = computed(() => {
                     v-if="block.type === BlockType.Code"
                     :block="block"
                   />
-                  <!-- <NoteBlock v-if="block.type === BlockType.Note" :block="block" /> -->
                 </div>
               </div>
-              <TheFooter />
+              <TheFrameFooter />
             </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <div
-      class="flex space-x-2 border-t border-slate-700 bg-slate-800 px-2 py-2"
-    >
-      <BaseButton
-        class="group relative z-10 rounded-md border border-slate-600/40 bg-black/40 pl-3 pr-4 text-white hover:border-slate-600/40 hover:bg-black/90"
-        @click="
-          async () => {
-            addEditorBlock();
-            await nextTick();
-            container
-              ?.querySelector('[data-block]:last-child')
-              ?.scrollIntoView({ behavior: 'smooth' });
-          }
-        "
-        :disabled="store.blocks.length >= 16"
-      >
-        <i-ph:plus />
-        Code Block
-      </BaseButton>
-
-      <BaseButton
-        class="group relative z-10 rounded-md border border-slate-600/40 bg-black/40 pl-3 pr-4 text-white hover:border-slate-600/40 hover:bg-black/90"
-        @click="
-          async () => {
-            addMarkdownBlock();
-            await nextTick();
-            container
-              ?.querySelector('[data-block]:last-child')
-              ?.scrollIntoView({ behavior: 'smooth' });
-          }
-        "
-        :disabled="store.blocks.length >= 16"
-      >
-        <i-ph:plus />
-        Markdown Block
-      </BaseButton>
     </div>
   </div>
 </template>
