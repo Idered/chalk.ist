@@ -20,7 +20,7 @@ defineProps({
     :class="[
       twMerge(
         'grid grid-flow-col items-center gap-x-3 rounded text-xs font-semibold ring-blue-600/30 transition focus:outline-none focus-visible:ring-[3px]',
-        $props.class,
+        $props.class as string,
       ),
       {
         'h-10': !($attrs.class as string)?.match(/h-\d+/),
