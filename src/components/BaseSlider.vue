@@ -13,7 +13,7 @@ defineEmits(["update:modelValue"]);
   <SliderRoot
     :modelValue="(modelValue as unknown as number[])"
     @update:modelValue="$emit('update:modelValue', $event)"
-    class="relative flex items-center select-none touch-none w-[200px] h-5"
+    class="relative flex items-center select-none touch-none w-[100px] h-5"
     :max="100"
     :step="1"
   >
