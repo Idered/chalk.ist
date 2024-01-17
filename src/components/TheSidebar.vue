@@ -4,6 +4,7 @@ import BaseInput from "./BaseInput.vue";
 import BaseSelect from "./BaseSelect.vue";
 import BaseSwitch from "./BaseSwitch.vue";
 import IconChevronDown from "./IconChevronDown.vue";
+import NumberInput from "./NumberInput.vue";
 import { OnClickOutside } from "@vueuse/components";
 import { useElementSize } from "@vueuse/core";
 import {
@@ -221,19 +222,12 @@ const themeLabels = {
                 >Font size</label
               >
               <div class="grid grid-flow-col gap-x-2 text-sm">
-                <input
+                <NumberInput
                   id="fontSize"
-                  class="w-full accent-blue-700"
-                  type="range"
-                  min="12"
-                  max="18"
-                  step="1"
-                  :value="store.fontSize"
-                  @input="
-                    store.fontSize = parseInt(
-                      ($event.target as HTMLInputElement).value,
-                    )
-                  "
+                  class="-my-1"
+                  :min="12"
+                  :max="20"
+                  v-model="store.fontSize"
                 />
               </div>
             </div>
@@ -247,19 +241,12 @@ const themeLabels = {
                 >Line height</label
               >
               <div class="grid grid-flow-col gap-x-2 text-sm">
-                <input
+                <NumberInput
                   id="lineHeight"
-                  class="w-full accent-blue-700"
-                  type="range"
-                  min="20"
-                  max="30"
-                  step="1"
-                  :value="store.lineHeight"
-                  @input="
-                    store.lineHeight = parseInt(
-                      ($event.target as HTMLInputElement).value,
-                    )
-                  "
+                  class="-my-1"
+                  :min="20"
+                  :max="40"
+                  v-model="store.lineHeight"
                 />
               </div>
             </div>
@@ -358,19 +345,13 @@ const themeLabels = {
                 >Padding X</label
               >
               <div class="grid grid-flow-col gap-x-2 text-sm">
-                <input
+                <BaseSlider
+                  class="w-[100px]"
                   id="paddingX"
-                  class="w-full accent-blue-700"
-                  type="range"
-                  min="0"
-                  max="128"
-                  step="8"
-                  :value="store.paddingX"
-                  @input="
-                    store.paddingX = parseInt(
-                      ($event.target as HTMLInputElement).value,
-                    )
-                  "
+                  :min="0"
+                  :max="128"
+                  :step="8"
+                  v-model="store.paddingX"
                 />
               </div>
             </div>
@@ -384,19 +365,13 @@ const themeLabels = {
                 >Padding Y</label
               >
               <div class="grid grid-flow-col gap-x-2 text-sm">
-                <input
+                <BaseSlider
+                  class="w-[100px]"
                   id="paddingY"
-                  class="w-full accent-blue-700"
-                  type="range"
-                  min="0"
-                  max="128"
-                  step="8"
-                  :value="store.paddingY"
-                  @input="
-                    store.paddingY = parseInt(
-                      ($event.target as HTMLInputElement).value,
-                    )
-                  "
+                  :min="0"
+                  :max="128"
+                  :step="8"
+                  v-model="store.paddingY"
                 />
               </div>
             </div>
