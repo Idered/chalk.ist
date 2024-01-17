@@ -70,7 +70,5 @@
         <i-ph:x-bold />
       </div>
     </div> -->
-
-    <div class="h-4"></div>
   </div>
 </template>
