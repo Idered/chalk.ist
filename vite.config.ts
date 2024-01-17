@@ -50,8 +50,8 @@ export default defineConfig(({ mode }) => ({
       manifest: {
         name: "Chalk",
         short_name: "Chalk",
-        theme_color: "#101014",
-        background_color: "#101014",
+        theme_color: "rgb(24, 24, 27)",
+        background_color: "rgb(24, 24, 27)",
         icons: [
           {
             src: "/pwa-192x192.png",
