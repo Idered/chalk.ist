@@ -11,8 +11,8 @@ defineEmits(["update:modelValue"]);
 <template>
   <!-- prettier-ignore -->
   <SliderRoot
-    :modelValue="(modelValue as unknown as number[])"
-    @update:modelValue="$emit('update:modelValue', $event)"
+    :modelValue="[modelValue]"
+    @update:modelValue="$emit('update:modelValue', $event?.[0])"
     class="relative flex items-center select-none touch-none w-[100px] h-5"
     :max="100"
     :step="1"
