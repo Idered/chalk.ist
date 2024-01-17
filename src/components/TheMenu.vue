@@ -39,7 +39,7 @@ function clearLineDecorations() {
 <template>
   <MenubarRoot
     v-model="currentMenu"
-    class="border-b border-b-zinc-800 bg-zinc-900 overflow-auto flex items-center"
+    class="border-b border-b-zinc-800 bg-zinc-900 overflow-auto flex items-center pwa:sm:border-t pwa:sm:border-t-slate-900 pwa:sm:shadow-[inset_0_1px_0_rgb(30_30_37)]"
   >
     <MenubarMenu value="blocks" v-if="store.editMode === 'code'">
       <MenubarTrigger class="menubar-trigger">

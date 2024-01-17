@@ -658,13 +658,13 @@ const themeLabels = {
             </template>
 
             <hr
-              class="border-y border-b-zinc-800 border-t-black -mx-3 my-1.5 hidden sm:block"
+              class="border-y border-b-zinc-800 border-t-black -mx-3 my-1.5 hidden sm:block pwa:hidden"
             />
 
             <ExportOptions />
 
             <hr
-              class="border-y border-b-zinc-800 border-t-black -mx-3 my-1.5 hidden sm:block"
+              class="border-y border-b-zinc-800 border-t-black -mx-3 my-1.5 hidden sm:block pwa:hidden"
             />
           </div>
         </div>
