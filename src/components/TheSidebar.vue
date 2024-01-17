@@ -84,7 +84,7 @@ const themeLabels = {
     <aside>
       <div class="sm:hidden" :style="{ height: '57px' }"></div>
       <div
-        class="fixed z-10 inset-x-0 bottom-0 max-h-screen content-start border-t border-zinc-800 bg-zinc-900 transition-[height] sm:static sm:!h-screen sm:w-[264px] sm:overflow-auto sm:border-r sm:border-t-0 sm:transition-none pwa:sm:border-t pwa:sm:border-t-slate-900 pwa:sm:shadow-[inset_0_1px_0_rgb(39_39_42)]"
+        class="fixed z-10 inset-x-0 bottom-0 max-h-screen content-start border-t border-zinc-800 bg-zinc-900 transition-[height] sm:static sm:!h-screen sm:w-[264px] sm:overflow-auto sm:border-r sm:border-t-0 sm:transition-none pwa:sm:border-t pwa:sm:border-t-black pwa:sm:shadow-[inset_0_1px_0_rgb(39_39_42)]"
         :style="{
           height: isExpanded ? `${expandableContentHeight + 57}px` : `57px`,
         }"
