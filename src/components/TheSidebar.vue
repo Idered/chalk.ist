@@ -595,7 +595,7 @@ const themeLabels = {
                   >Watermark text</label
                 >
                 <BaseInput
-                  class="placeholder:text-slate-600/75"
+                  class="placeholder:text-slate-600/75 w-[116px]"
                   type="text"
                   id="watermarkText"
                   autocomplete="off"
@@ -614,19 +614,13 @@ const themeLabels = {
                   >Watermark opacity</label
                 >
                 <div class="grid grid-flow-col gap-x-2 text-sm">
-                  <input
-                    id="watermarkOpacity"
-                    class="w-full accent-blue-700"
-                    type="range"
-                    min="0"
-                    max="100"
-                    step="1"
-                    :value="store.watermarkOpacity"
-                    @input="
-                      store.watermarkOpacity = parseInt(
-                        ($event.target as HTMLInputElement).value,
-                      )
-                    "
+                  <BaseSlider
+                    class="w-[100px]"
+                    id="paddingX"
+                    :min="0"
+                    :max="100"
+                    :step="1"
+                    v-model="store.watermarkOpacity"
                   />
                 </div>
               </div>
