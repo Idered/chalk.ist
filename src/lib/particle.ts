@@ -32,7 +32,7 @@ export class Particle {
     ctx.lineWidth = 0;
     ctx.strokeStyle = `rgba(255, 255, 255, ${this.opacity})`; // Particle color is white
     ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
-    ctx.filter = this.filter;
+    // ctx.filter = this.filter;
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
     ctx.closePath();
