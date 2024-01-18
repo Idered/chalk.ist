@@ -52,6 +52,13 @@ export default defineConfig(({ mode }) => ({
         short_name: "Chalk",
         theme_color: "#18181b",
         background_color: "#18181b",
+        share_target: {
+          action: "/",
+          method: "GET",
+          params: {
+            text: "text",
+          },
+        },
         icons: [
           {
             src: "/pwa-192x192.png",
