@@ -53,10 +53,13 @@ export default defineConfig(({ mode }) => ({
         theme_color: "#18181b",
         background_color: "#18181b",
         share_target: {
-          action: "/",
-          method: "GET",
+          action: "/web-share",
+          enctype: "multipart/form-data",
+          method: "POST",
           params: {
+            title: "title",
             text: "text",
+            url: "url",
           },
         },
         icons: [
