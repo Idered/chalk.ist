@@ -43,14 +43,14 @@ function handleBlur() {
       @click="decrement"
       class="w-7 flex justify-center items-center hover:bg-slate-700 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"
     >
-      <i-radix-icons:minus />
+      <radix-icons:minus />
     </button>
     <button
       tabindex="-1"
       @click="increment"
       class="w-7 flex justify-center items-center hover:bg-slate-700 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"
     >
-      <i-radix-icons:plus />
+      <radix-icons:plus />
     </button>
     <input
       ref="input"

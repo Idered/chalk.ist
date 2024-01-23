@@ -2,7 +2,7 @@
 import { useEventListener } from "@vueuse/core";
 import { ref } from "vue";
 import { exportState } from "~/composables/export-state";
-import { preview, store } from "~/composables/store";
+import { store } from "~/composables/store";
 import { MAX_FRAME_WIDTH, MIN_FRAME_WIDTH } from "~/constants";
 import { ExportState } from "~/enums";
 
@@ -36,7 +36,7 @@ function startResize(event: MouseEvent, handle: "left" | "right") {
 
 <template>
   <div
-    v-if="exportState === ExportState.Idle && !preview"
+    v-if="exportState === ExportState.Idle"
     class="sticky top-1/2 z-10 flex justify-between -mt-6 pointer-events-none"
   >
     <div

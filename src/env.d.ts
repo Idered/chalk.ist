@@ -22,3 +22,12 @@ declare namespace umami {
     trackView(url: string, referrer?: string, website_id?: string): void;
   }
 }
+
+declare interface ImportMetaEnv {
+  VITE_SUPABASE_PUBLIC_ANON_KEY: string;
+  VITE_SUPABASE_URL: string;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}

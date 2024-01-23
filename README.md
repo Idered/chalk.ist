@@ -22,4 +22,4 @@ pnpm run dev
 
 ## License
 
-MIT - Kasper Mikiewicz 2022
+Inspired by [Dub](https://dub.co/), Chalk.ist is open-source under the GNU Affero General Public License Version 3 (AGPLv3) or any later version. You can [find it here](https://github.com/idered/chalk.ist/blob/main/LICENSE).

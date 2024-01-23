@@ -2,6 +2,7 @@ import { BlockType } from "./enums";
 
 export type CodeBlock = {
   id: string;
+  frameId: string;
   content: string;
   language: string;
   type: BlockType.Code;
@@ -18,6 +19,7 @@ export type CodeBlock = {
 
 export type NoteBlock = {
   id: string;
+  frameId: string;
   type: BlockType.Note;
   content: string;
   columnSpan: number;
@@ -27,4 +29,4 @@ export type NoteBlock = {
   fontSize: string;
 };
 
-export type Block = CodeBlock | NoteBlock;
+export type Block = CodeBlock;

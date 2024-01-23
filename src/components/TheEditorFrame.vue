@@ -3,22 +3,20 @@ import EditorBlock from "./EditorBlock.vue";
 import TheFrameBackground from "./TheFrameBackground.vue";
 import TheFrameFooter from "./TheFrameFooter.vue";
 import TheFrameResizer from "./TheFrameResizer.vue";
-import TheMenu from "./TheMenu.vue";
 import TheParticlesBackground from "./TheParticlesBackground.vue";
 import { useElementSize } from "@vueuse/core";
 import { computed, ref, watch } from "vue";
-import { preview, store } from "~/composables/store";
+import { store } from "~/composables/store";
 import { BlockType } from "~/enums";
+import { FrameRecord } from "~/lib/records/FrameRecord";
 
 const container = ref<HTMLDivElement>();
 const editorFrame = ref<HTMLDivElement>();
 const { width: containerWidth, height: containerHeight } =
   useElementSize(container);
 const { height: frameHeight } = useElementSize(editorFrame);
-const frameWidth = computed(() =>
-  preview.value
-    ? preview.value.frameWidth
-    : store.value.frameWidth + store.value.paddingX * 2,
+const frameWidth = computed(
+  () => store.value.frameWidth + store.value.paddingX * 2,
 );
 
 watch(frameHeight, (value) => {
@@ -31,18 +29,21 @@ const scale = computed(() => {
   }
   return 1;
 });
+
+const currentFrameBlocks = computed(() => {
+  return FrameRecord.current?.blocks || [];
+});
 </script>
 
 <template>
   <div
     data-editor-frame-container
-    class="grid overflow-y-auto overflow-x-hidden font-sans grid-rows-[auto_1fr]"
+    class="grid overflow-y-auto overflow-x-hidden font-sans"
   >
-    <TheMenu :frame-width="frameWidth" />
-
     <div
       ref="container"
-      class="grid grid-rows-[1fr_auto] overflow-y-auto overflow-x-hidden relative"
+      v-if="currentFrameBlocks.length > 0"
+      class="grid grid-rows-[1fr_auto] pb-28 overflow-y-auto overflow-x-hidden relative"
     >
       <div
         class="grid items-start justify-items-center content-center origin-[center_left]"
@@ -65,22 +66,6 @@ const scale = computed(() => {
             class="relative"
             :style="{ width: `${frameWidth - 16}px` }"
           >
-            <!-- <BaseButton
-              v-if="preview"
-              class="group absolute left-0 top-full mt-2 bg-emerald-600/30 px-4 text-emerald-500 hover:bg-emerald-600/40"
-              @click="handleCopy"
-            >
-              <IconClipboard
-                width="16"
-                class="transition-transform group-hover:rotate-6 group-hover:scale-110"
-              />
-
-              {{
-                exportState === ExportState.JustCopiedContent
-                  ? "Copied!"
-                  : "Copy to Clipboard"
-              }}
-            </BaseButton> -->
             <TheFrameBackground />
             <TheParticlesBackground
               v-if="store.showParticles"
@@ -91,20 +76,16 @@ const scale = computed(() => {
             <div
               class="overflow-hidden"
               :style="{
-                paddingLeft: `${preview ? preview.paddingX : store.paddingX}px`,
-                paddingRight: `${
-                  preview ? preview.paddingX : store.paddingX
-                }px`,
-                paddingTop: `${preview ? preview.paddingY : store.paddingY}px`,
-                paddingBottom: `${
-                  preview ? preview.paddingY : store.paddingY
-                }px`,
+                paddingLeft: `${store.paddingX}px`,
+                paddingRight: `${store.paddingX}px`,
+                paddingTop: `${store.paddingY}px`,
+                paddingBottom: `${store.paddingY}px`,
               }"
             >
               <div data-frame-group="2" class="grid grid-cols-12 gap-4">
                 <div
-                  v-for="block in store.blocks"
-                  data-block
+                  v-for="block in currentFrameBlocks"
+                  :data-block="block.id"
                   :key="block.id"
                   :style="{
                     gridColumn: `span ${block.columnSpan}`,

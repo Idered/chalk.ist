@@ -4,16 +4,16 @@ import IconChevronDown from "./IconChevronDown.vue";
 import TheEditor from "./TheEditor.vue";
 import { useElementSize } from "@vueuse/core";
 import { computed, ref } from "vue";
-import { moveBlock, removeBlock } from "~/composables/block";
 import { exportState } from "~/composables/export-state";
-import { preview, store } from "~/composables/store";
+import { store } from "~/composables/store";
 import { COLUMN_OPTIONS, LANGUAGES, ROW_OPTIONS } from "~/constants";
 import { ExportState, WindowControls } from "~/enums";
 import { Backdrops } from "~/lib/backdrops";
-import { CodeBlock } from "~/types";
+import { EditorBlockRecord } from "~/lib/records/BlockRecord";
+import { FrameRecord } from "~/lib/records/FrameRecord";
 
 const props = defineProps<{
-  block: CodeBlock;
+  block: EditorBlockRecord;
 }>();
 
 const editorContainer = ref<HTMLDivElement>();
@@ -22,32 +22,8 @@ const { width: editorContainerWidth } = useElementSize(editorContainer);
 const setEditorLanguage = (language: string) => {
   props.block.language = language;
   props.block.mode = "edit";
+  props.block.save();
 };
-// const highlights = ref<
-//   {
-//     start: number;
-//     size: number;
-//     duration: number;
-//   }[]
-// >([]);
-
-// function randomBetween(min: number, max: number) {
-//   return Math.floor(Math.random() * (max - min + 1) + min);
-// }
-
-// useIntervalFn(
-//   () => {
-//     highlights.value.push({
-//       start: randomBetween(0, 50),
-//       size: randomBetween(20, 200),
-//       duration: randomBetween(1000, 3000),
-//     });
-//   },
-//   1500,
-//   {
-//     immediate: true,
-//   }
-// );
 
 const backdrop = computed(() => Backdrops[store.value.backdrop]);
 </script>
@@ -137,55 +113,6 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
     ]"
   >
     <div
-      class="pointer-events-none absolute inset-0 overflow-hidden rounded-md [--base-delay:0]"
-    >
-      <!-- <div
-        v-if="store.windowStyle === 'variant-1' || store.windowStyle === 'variant-2'"
-        v-for="item in highlights"
-        :style="{
-          '--start': item.start,
-          '--size': item.size,
-          '--duration': `${item.duration}ms`,
-        }"
-        class="right-[calc(1%*var(--start))] top-0 h-px w-[calc(1px*var(--size))] delay-[calc(var(--base-delay)+400ms)] bg-gradient-to-r from-[rgba(255,255,255,0)] to-[rgba(255,255,255,0.4)] animate-[shine-r_var(--duration)_cubic-bezier(.4,0,.6,1)] absolute duration-[--duration]"
-        @animationend="($event.target as HTMLDivElement)?.remove()"
-      ></div> -->
-
-      <!-- <div
-        v-for="item in highlights"
-        :style="{
-          '--start': item.start,
-          '--size': item.size,
-          '--duration': `${item.duration}ms`,
-        }"
-        class="right-[calc(1%*var(--start))] bottom-0 h-px w-[calc(1px*var(--size))] delay-[calc(var(--base-delay)+400ms)] bg-gradient-to-l from-[rgba(255,255,255,0)] to-[rgba(255,255,255,0.4)] animate-[shine-l_var(--duration)_cubic-bezier(.4,0,.6,1)] absolute duration-[--duration]"
-        @animationend="($event.target as HTMLDivElement)?.remove()"
-      ></div> -->
-
-      <!-- <div
-        v-for="item in highlights"
-        :style="{
-          '--start': item.start,
-          '--size': item.size,
-          '--duration': `${item.duration}ms`,
-        }"
-        class="top-[calc(1%*var(--start))] left-0 w-px h-[calc(1px*var(--size))] delay-[calc(var(--base-delay)+400ms)] bg-gradient-to-t from-[rgba(255,255,255,0)] to-[rgba(255,255,255,0.4)] animate-[shine-t_var(--duration)_cubic-bezier(.4,0,.6,1)] absolute duration-[--duration]"
-        @animationend="($event.target as HTMLDivElement)?.remove()"
-      ></div> -->
-
-      <!-- <div
-        v-for="item in highlights"
-        :style="{
-          '--start': item.start,
-          '--size': item.size,
-          '--duration': `${item.duration}ms`,
-        }"
-        class="bottom-[calc(1%*var(--start))] right-0 w-px h-[calc(1px*var(--size))] delay-[calc(var(--base-delay)+400ms)] bg-gradient-to-b from-[rgba(255,255,255,0)] to-[rgba(255,255,255,0.4)] animate-[shine-b_var(--duration)_cubic-bezier(.4,0,.6,1)] absolute duration-[--duration]"
-        @animationend="($event.target as HTMLDivElement)?.remove()"
-      ></div> -->
-    </div>
-
-    <div
       class="pointer-events-none absolute inset-0 overflow-hidden rounded-md transition"
       :class="{
         'opacity-0': !store.reflection,
@@ -218,14 +145,14 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
       class="grid grid-cols-[62px_auto_62px] items-center px-5"
       :class="{
         'grid-cols-[62px_auto_62px]':
-          (preview || store).windowControls !== WindowControls.Windows,
+          store.windowControls !== WindowControls.Windows,
         '-mx-5 grid-cols-[auto_124px]':
-          (preview || store).windowControls === WindowControls.Windows,
+          store.windowControls === WindowControls.Windows,
       }"
     >
       <div
         class="grid grid-flow-col justify-start gap-x-2 pt-4"
-        v-if="(preview || store).windowControls === WindowControls.MacColor"
+        v-if="store.windowControls === WindowControls.MacColor"
       >
         <div class="h-3 w-3 rounded-full bg-[#EC6A5E]"></div>
         <div class="h-3 w-3 rounded-full bg-[#F3BF4F]"></div>
@@ -234,7 +161,7 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
 
       <div
         class="grid grid-flow-col justify-start gap-x-2 pt-4"
-        v-if="(preview || store).windowControls === WindowControls.MacGray"
+        v-if="store.windowControls === WindowControls.MacGray"
       >
         <div
           v-for="_i in [1, 2, 3]"
@@ -248,7 +175,7 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
 
       <div
         class="grid grid-flow-col justify-start gap-x-2 pt-4"
-        v-if="(preview || store).windowControls === WindowControls.MacOutline"
+        v-if="store.windowControls === WindowControls.MacOutline"
       >
         <div
           v-for="_i in [1, 2, 3]"
@@ -260,9 +187,7 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
         />
       </div>
 
-      <div
-        v-if="(preview || store).windowControls === WindowControls.None"
-      ></div>
+      <div v-if="store.windowControls === WindowControls.None"></div>
 
       <input
         v-if="
@@ -270,16 +195,15 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
           block.title.trim()
         "
         :value="block.title"
-        @input="block.title = ($event.target as HTMLInputElement).value"
+        @input="block.rename(($event.target as HTMLInputElement).value)"
         placeholder="Untitled"
         spellcheck="false"
         autocomplete="off"
         :class="{
           // 'text-white/60 placeholder:text-white/30 ': theme.mode === 'dark',
           // 'text-black/60 placeholder:text-black/30': theme.mode === 'light',
-          'text-center':
-            (preview || store).windowControls !== WindowControls.Windows,
-          'pl-5': (preview || store).windowControls === WindowControls.Windows,
+          'text-center': store.windowControls !== WindowControls.Windows,
+          'pl-5': store.windowControls === WindowControls.Windows,
         }"
         class="z-10 mt-4 w-full border-none bg-transparent text-xs focus:outline-none"
       />
@@ -287,7 +211,7 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
 
       <div
         class="grid grid-flow-col justify-end"
-        v-if="(preview || store).windowControls === WindowControls.Windows"
+        v-if="store.windowControls === WindowControls.Windows"
         :class="{
           'text-white': block.mode === 'edit',
           'text-black': block.mode === 'preview',
@@ -378,7 +302,7 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
         class="w-28"
         use-opaque-background
         :model-value="block.columnSpan"
-        @update:model-value="block.columnSpan = $event"
+        @update:model-value="block.update({ columnSpan: $event })"
         :label="(option) => `${option.value} columns`"
         :options="COLUMN_OPTIONS"
       />
@@ -387,7 +311,7 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
         class="w-[5.5rem]"
         :model-value="block.rowSpan"
         use-opaque-background
-        @update:model-value="block.rowSpan = $event"
+        @update:model-value="block.update({ rowSpan: $event })"
         :label="
           (option) =>
             `${option.value} ${
@@ -408,31 +332,36 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
       />
 
       <button
-        @click="() => moveBlock(block.id, -1)"
+        v-if="FrameRecord.current"
+        @click="block.move(-1)"
         class="btn"
         type="button"
         title="Move left"
-        :disabled="store.blocks.indexOf(block) === 0"
+        :disabled="FrameRecord.current.blocks.findIndexById(block.id) === 0"
       >
         <IconChevronDown title="Move left" class="w-2.5 rotate-90" />
       </button>
 
       <button
-        @click="() => moveBlock(block.id, 1)"
+        v-if="FrameRecord.current"
+        @click="block.move(1)"
         class="btn"
         type="button"
         title="Move right"
-        :disabled="store.blocks.indexOf(block) === store.blocks.length - 1"
+        :disabled="
+          FrameRecord.current.blocks.findIndexById(block.id) ===
+          FrameRecord.current.blocks.length - 1
+        "
       >
         <IconChevronDown title="Move right" class="w-2.5 -rotate-90" />
       </button>
 
       <button
-        @click="() => removeBlock(block.id)"
+        @click="block.remove"
         class="btn select-none"
         type="button"
         title="Remove"
-        :disabled="store.blocks.length === 1"
+        :disabled="FrameRecord.current?.blocks.length === 1"
       >
         <svg
           title="Remove"
@@ -450,18 +379,18 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
       <button
         v-if="block.language === 'markdown'"
         @click="
-          () => (block.mode = block.mode === 'preview' ? 'edit' : 'preview')
+          block.update({ mode: block.mode === 'preview' ? 'edit' : 'preview' })
         "
         class="btn"
         type="button"
         title="Remove"
       >
         <div class="flex items-center" v-if="block.mode === 'edit'">
-          <i-ph:eye class="w-4" />
+          <ph:eye class="w-4" />
           <span class="ml-2">Render</span>
         </div>
         <div class="flex items-center" v-else>
-          <i-ph:eye-closed class="w-4" />
+          <ph:eye-closed class="w-4" />
           <span class="ml-2">Edit</span>
         </div>
       </button>

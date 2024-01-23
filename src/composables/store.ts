@@ -1,31 +1,26 @@
-import { runStoreMigrations } from "./migrations";
+import { initialBlocks, initialFiles, initialFrames } from "./initial-data";
+import runStoreMigrations from "./migrate";
 import { useStorage } from "@vueuse/core";
-import { v4 } from "uuid";
-import { ref } from "vue";
-import { DEFAULT_CONTENT, DEFAULT_THEME } from "~/constants";
-import { BlockType, WindowControls } from "~/enums";
+import { defineStore } from "pinia";
+import { DEFAULT_THEME } from "~/constants";
+import { WindowControls } from "~/enums";
 import { Backdrops } from "~/lib/backdrops";
-import { Block } from "~/types";
+import { version } from "~/migrations";
 
-export const preview = ref<{
-  content: string;
-  language: string;
-  theme: string;
-  fontFamily: string;
-  name: string;
-  title: string;
-  windowStyle: string;
-  username: string;
-  paddingX: number;
-  paddingY: number;
-  lineHeight: number;
-  frameWidth: number;
-  picture: string;
-  reflection: boolean;
-  showTwitterBadge: boolean;
-  showLineNumbers: boolean;
-  windowControls: WindowControls;
-} | null>(null);
+type EditMode = "code" | "focus" | "add" | "remove" | "highlight" | "annotate";
+
+export const useDataStore = defineStore("data", {
+  state: () => {
+    return {
+      files: useStorage("files", initialFiles),
+      frames: useStorage("frames", initialFrames),
+      blocks: useStorage("blocks", initialBlocks),
+      current_file: useStorage("files.active", initialFiles[0].id),
+      current_frame: useStorage("frames.active", initialFrames[0].id),
+      current_block: useStorage("blocks.active", ""),
+    };
+  },
+});
 
 export const store = useStorage("chalk-store", {
   currentThemeSupportsWindowVariants: true,
@@ -43,33 +38,14 @@ export const store = useStorage("chalk-store", {
     operator: "hsla(0, 0%, 100%, .4)",
   },
   useAltBackground: false,
-  blocks: [
-    {
-      id: v4(),
-      content: DEFAULT_CONTENT,
-      language: "typescript",
-      type: BlockType.Code,
-      title: "",
-      columnSpan: 12,
-      rowSpan: 1,
-      mode: "edit",
-      transformations: [],
-    },
-  ] as Block[],
   backdrop: "Vue" as keyof typeof Backdrops,
   backdropNoise: false,
   colorTheme: "Vue",
-  editMode: "code" as
-    | "code"
-    | "focus"
-    | "add"
-    | "remove"
-    | "highlight"
-    | "annotate",
+  editMode: "code" as EditMode,
   expandBackdrops: true,
-  expandTwitterOptions: true,
+  expandTwitterOptions: false,
   expandCustomThemeOptions: false,
-  expandWatermarkOptions: true,
+  expandWatermarkOptions: false,
   fontFamily: "JetBrains Mono",
   fontSize: 13,
   fontLigatures: true,
@@ -95,6 +71,7 @@ export const store = useStorage("chalk-store", {
   windowControls: WindowControls.MacOutline,
   windowNoise: false,
   windowStyle: "variant-1",
+  version,
 });
 
 runStoreMigrations();

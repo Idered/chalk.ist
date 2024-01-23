@@ -1,41 +1,42 @@
 <script setup lang="ts">
-import markdownit from "markdown-it";
-import { fromHighlighter } from "markdown-it-shikiji/core";
-import { computed } from "vue";
-import { moveBlock, removeBlock } from "~/composables/block";
-import { exportState } from "~/composables/export-state";
-import { store } from "~/composables/store";
-import { COLUMN_OPTIONS } from "~/constants";
-import { ExportState } from "~/enums";
-import { Backdrops } from "~/lib/backdrops";
-import { useShiki } from "~/lib/shiki";
-import { NoteBlock } from "~/types";
+// import markdownit from "markdown-it";
+// import { fromHighlighter } from "markdown-it-shikiji/core";
+// import { computed } from "vue";
+// import { moveBlock, removeBlock } from "~/composables/block";
+// import { exportState } from "~/composables/export-state";
+// import { store } from "~/composables/store";
+// import { COLUMN_OPTIONS } from "~/constants";
+// import { ExportState } from "~/enums";
+// import { Backdrops } from "~/lib/backdrops";
+// import { useShiki } from "~/lib/shiki";
+// import { NoteBlock } from "~/types";
 
-defineProps<{
-  block: NoteBlock;
-}>();
+// defineProps<{
+//   block: NoteBlock;
+// }>();
 
-const shiki = useShiki();
+// const shiki = useShiki();
 
-const md = computed(() => {
-  if (!shiki.value) return;
-  const m = markdownit();
-  return m.use(
-    fromHighlighter(shiki.value as any, {
-      theme: store.value.colorTheme,
-      meta: {
-        class: [].join(" "),
-        tabindex: "-1",
-      },
-    }),
-  );
-});
+// const md = computed(() => {
+//   if (!shiki.value) return;
+//   const m = markdownit();
+//   return m.use(
+//     fromHighlighter(shiki.value as any, {
+//       theme: store.value.colorTheme,
+//       meta: {
+//         class: [].join(" "),
+//         tabindex: "-1",
+//       },
+//     }),
+//   );
+// });
 
-const backdrop = computed(() => Backdrops[store.value.backdrop]);
+// const backdrop = computed(() => Backdrops[store.value.backdrop]);
 </script>
 
 <template>
-  <div
+  <div></div>
+  <!-- <div
     class="relative grid gap-y-2 rounded-md text-white"
     :style="{
       backgroundColor: '#03000a',
@@ -50,7 +51,6 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
     }"
   >
     <div class="px-4 pt-3">
-      <!-- :style="{ fontSize: `${block.fontSize}px`, color: block.fontColor }" -->
       <div class="markdown" v-if="md" v-html="md.render(block.content)"></div>
     </div>
 
@@ -121,5 +121,5 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
         </svg>
       </button>
     </div>
-  </div>
+  </div> -->
 </template>

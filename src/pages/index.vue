@@ -1,13 +1,17 @@
+<script setup lang="ts">
+import TheDetails from "~/components/TheDetails.vue";
+import TheEditorFrame from "~/components/TheEditorFrame.vue";
+import TheMenu from "~/components/TheMenu.vue";
+</script>
+
 <template>
   <main
-    class="grid h-screen grid-rows-[1fr_auto] sm:grid-cols-[auto_1fr] sm:grid-rows-1"
+    class="grid grid-rows-[auto_1fr_auto] sm:grid-rows-[49px_1fr] sm:grid-cols-[264px_1fr_264px] overflow-hidden h-screen max-h-screen"
   >
-    <TheEditorFrame class="sm:col-start-2 sm:min-h-screen" />
-    <TheSidebar class="sm:col-start-1" />
+    <TheMenu class="sm:col-span-3" />
+    <TheManager class="hidden sm:grid overflow-hidden" />
+    <TheEditorFrame />
+    <TheDetails />
+    <ExportOptions />
   </main>
 </template>
-
-<script setup lang="ts">
-import TheEditorFrame from "~/components/TheEditorFrame.vue";
-import TheSidebar from "~/components/TheSidebar.vue";
-</script>

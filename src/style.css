@@ -9,10 +9,10 @@
     @apply inline-block h-7 rounded-md border border-slate-700 bg-slate-800/60 px-2 text-xs text-white/60 shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px] ring-blue-900/20 transition hover:border-slate-600/40 hover:bg-slate-800 focus:border-blue-800 focus:outline-none focus:ring-[3px] disabled:text-white/40 disabled:opacity-50;
   }
   .menubar-trigger {
-    @apply flex h-12 select-none items-center px-3 py-1.5 text-xs font-semibold text-slate-500 outline-none hover:bg-zinc-950 data-[highlighted]:bg-zinc-950 data-[state=open]:bg-zinc-950 data-[disabled]:text-zinc-600/60;
+    @apply flex h-12 cursor-default select-none items-center px-3 py-1.5 text-xs font-semibold text-slate-500 outline-none hover:bg-zinc-950 data-[highlighted]:bg-zinc-950 data-[state=open]:bg-zinc-950 data-[disabled]:text-zinc-600/60;
   }
   .menubar-item-radio {
-    @apply flex h-12 select-none items-center px-3 py-1.5 text-xs font-semibold text-slate-500 outline-none transition-all hover:bg-zinc-950 data-[state=checked]:text-white data-[state=checked]:shadow-[inset_0_-2px_theme('colors.blue.700')];
+    @apply flex h-12 select-none items-center px-3 py-1.5 text-xs font-semibold text-slate-500 outline-none transition-all hover:bg-zinc-950 data-[state=checked]:relative data-[state=checked]:z-10 data-[state=checked]:text-white data-[state=checked]:shadow-[inset_0_-1px_0px_theme('colors.blue.700')];
   }
   .menubar-content {
     @apply min-w-[220px] rounded-md border border-zinc-800 bg-zinc-950 p-[5px] text-xs shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px] outline-none will-change-[transform,opacity] [animation-duration:_400ms] [animation-timing-function:_cubic-bezier(0.16,_1,_0.3,_1)];

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Annotation from "./Annotation.vue";
-import { useElementSize, useEventListener } from "@vueuse/core";
+import { useElementSize, useEventListener, useMounted } from "@vueuse/core";
 import {
   transformerCompactLineOptions,
   transformerNotationDiff,
@@ -11,16 +11,17 @@ import { computed, h, ref } from "vue";
 import { store } from "~/composables/store";
 import { BlockType } from "~/enums";
 import { createTheme } from "~/lib/create-theme";
+import { EditorBlockRecord } from "~/lib/records/BlockRecord";
 import { useShiki } from "~/lib/shiki";
-import { CodeBlock } from "~/types";
 
 const props = defineProps<{
-  block: CodeBlock;
+  block: EditorBlockRecord;
 }>();
 
 const shiki = useShiki();
 const editor = ref<HTMLTextAreaElement>();
 const formatted = ref<HTMLDivElement>();
+const mounted = useMounted();
 
 function transformerLineNumbers(): ShikijiTransformer {
   return {
@@ -79,6 +80,7 @@ function transformerAnnotations(
                 if (transformationIndex !== -1) {
                   props.block.transformations.splice(transformationIndex, 1);
                 }
+                props.block.save();
               }) as any,
               class: ["annotation", item.type],
             },
@@ -337,6 +339,9 @@ const charactersPerLine = computed(() =>
 <template>
   <div
     class="grid px-px [grid-template:1fr/1fr]"
+    :class="{
+      mounted,
+    }"
     :style="{
       '--character-width': characterWidth + 'px',
     }"
@@ -392,7 +397,12 @@ const charactersPerLine = computed(() =>
       rows="1"
       class="editor font-config focus-visible:outline-none"
       ref="editor"
-      v-model="block.content"
+      :value="block.content"
+      @input="
+        block.update({
+          content: ($event.target as HTMLTextAreaElement).value,
+        })
+      "
       spellcheck="false"
       :class="{
         'pointer-events-none': store.editMode !== 'code',
@@ -468,6 +478,9 @@ const charactersPerLine = computed(() =>
   position: relative;
   padding-inline-end: 20px;
   padding-inline-start: v-bind(gutter);
+}
+
+.mounted .line {
   transition:
     padding 0.375s ease-in-out,
     opacity 0.375s ease-in-out,
@@ -484,13 +497,11 @@ const charactersPerLine = computed(() =>
   float: left;
   margin-left: calc(v-bind(gutter) * -1 - 4px);
   width: v-bind(gutter);
-  padding-right: 0.5em;
+  padding-right: 12px;
   text-align: right;
   opacity: 0;
   user-select: none;
-  transition:
-    opacity 0.375s cubic-bezier(0.6, 0.6, 0, 1),
-    0.375s cubic-bezier(0.6, 0.6, 0, 1);
+  transition: opacity 0.375s cubic-bezier(0.6, 0.6, 0, 1);
 }
 
 .show-line-numbers .line-number {
