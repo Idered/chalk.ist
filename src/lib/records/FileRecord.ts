@@ -1,3 +1,4 @@
+import { Collection } from "../collection";
 import { FrameRecord } from "./FrameRecord";
 import { v4 } from "uuid";
 import { useDataStore } from "~/composables/store";
@@ -125,6 +126,6 @@ export class FileRecord implements FileRecordSchema {
   }
 
   get frames() {
-    return FrameRecord.whereFile(this.id);
+    return Collection(FrameRecord.whereFile(this.id));
   }
 }

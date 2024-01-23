@@ -1,7 +1,4 @@
-export function Collection<T extends { id: string }>(
-  items: T[],
-  activeRecordClass: (item: T) => T,
-) {
+export function Collection<T extends { id: string }>(items: T[]) {
   const collection = items as T[] & {
     first: () => T | null;
     findIndexById: (id: string) => number;
@@ -9,7 +6,7 @@ export function Collection<T extends { id: string }>(
 
   collection.first = () => {
     if (collection.length) {
-      return activeRecordClass(collection[0]);
+      return collection[0];
     }
 
     return null;

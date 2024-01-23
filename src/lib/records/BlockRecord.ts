@@ -7,6 +7,7 @@ export interface BlockRecordSchema {
   id: string;
   frameId: string;
   type?: BlockType.Code;
+  title: string;
 }
 
 type EditorBlockTransformation = {
@@ -32,10 +33,13 @@ export class BlockRecord implements BlockRecordSchema {
   id: string;
   frameId: string;
   type?: BlockType.Code;
+  title: string;
 
   constructor(data: BlockRecordSchema) {
     this.id = data.id;
     this.frameId = data.frameId;
+    this.type = data.type;
+    this.title = data.title;
   }
 
   static whereFrame(frameId: string) {
@@ -108,6 +112,8 @@ export class EditorBlockRecord extends BlockRecord {
     const id = data.id || v4();
     super({
       id,
+      title: "",
+      type: BlockType.Code,
       ...data,
     });
     this.id = id;

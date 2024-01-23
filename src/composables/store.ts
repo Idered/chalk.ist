@@ -1,11 +1,9 @@
 import { initialBlocks, initialFiles, initialFrames } from "./initial-data";
-import runStoreMigrations from "./migrate";
 import { useStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
 import { DEFAULT_THEME } from "~/constants";
 import { WindowControls } from "~/enums";
 import { Backdrops } from "~/lib/backdrops";
-import { version } from "~/migrations";
 
 type EditMode = "code" | "focus" | "add" | "remove" | "highlight" | "annotate";
 
@@ -71,7 +69,4 @@ export const store = useStorage("chalk-store", {
   windowControls: WindowControls.MacOutline,
   windowNoise: false,
   windowStyle: "variant-1",
-  version,
 });
-
-runStoreMigrations();

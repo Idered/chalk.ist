@@ -114,9 +114,6 @@ export class FrameRecord implements FrameRecordSchema {
   }
 
   get blocks() {
-    return Collection(
-      EditorBlockRecord.whereFrame(this.id),
-      (item) => new EditorBlockRecord(item),
-    );
+    return Collection(EditorBlockRecord.whereFrame(this.id));
   }
 }
