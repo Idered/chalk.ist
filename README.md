@@ -5,7 +5,7 @@ Chalk.ist
 <p align="center">Create beautiful images of your source code</p>
 
 <p align="center">
-<a href="https://chalk.ist">Go to App</a>
+<a href="https://app.chalk.ist">Go to App</a>
 </p>
 
 [![](./.github/screenshot.png)](https://chalk.ist)
