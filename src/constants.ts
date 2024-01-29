@@ -72,6 +72,11 @@ export const LANGUAGES = [
     lang: () => import("shikiji/langs/handlebars.mjs"),
   },
   {
+    value: "graphql",
+    label: "GraphQL",
+    lang: () => import("shikiji/langs/graphql.mjs"),
+  },
+  {
     value: "html",
     label: "HTML",
     lang: () => import("shikiji/langs/html.mjs"),
