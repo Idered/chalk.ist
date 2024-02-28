@@ -60,6 +60,7 @@ export const LANGUAGES = [
   },
   { value: "css", label: "CSS", lang: () => import("shikiji/langs/css.mjs") },
   { value: "csv", label: "CSV", lang: () => import("shikiji/langs/csv.mjs") },
+  { value: "elixir", label: "Elixir", lang: () => import("shikiji/langs/elixir.mjs") },
   {
     value: "glsl",
     label: "GLSL",
@@ -67,14 +68,14 @@ export const LANGUAGES = [
   },
   { value: "go", label: "Go", lang: () => import("shikiji/langs/go.mjs") },
   {
-    value: "handlebars",
-    label: "Handlebars",
-    lang: () => import("shikiji/langs/handlebars.mjs"),
-  },
-  {
     value: "graphql",
     label: "GraphQL",
     lang: () => import("shikiji/langs/graphql.mjs"),
+  },
+  {
+    value: "handlebars",
+    label: "Handlebars",
+    lang: () => import("shikiji/langs/handlebars.mjs"),
   },
   {
     value: "html",
