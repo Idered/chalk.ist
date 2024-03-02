@@ -394,6 +394,7 @@ const charactersPerLine = computed(() =>
       ref="editor"
       v-model="block.content"
       spellcheck="false"
+      data-enable-grammarly="false"
       :class="{
         'pointer-events-none': store.editMode !== 'code',
       }"
