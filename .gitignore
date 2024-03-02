@@ -31,3 +31,5 @@ dist-ssr
 *.sw?
 
 .dev
+.env
+supabase/.temp
