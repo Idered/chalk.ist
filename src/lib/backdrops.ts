@@ -1,5 +1,3 @@
-import { generateRandomBackdrop, getRandomGradient } from "./colors";
-
 export interface Backdrop {
   [key: string]: {
     backgroundStyle: {

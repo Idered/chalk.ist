@@ -79,15 +79,6 @@ const themeLabels = {
   number: "numbers",
   regexp: "RegExp",
 };
-
-function copyToClipboard(str: string) {
-  const el = document.createElement("textarea");
-  el.value = str;
-  document.body.appendChild(el);
-  el.select();
-  document.execCommand("copy");
-  document.body.removeChild(el);
-}
 </script>
 
 <template>
@@ -328,7 +319,6 @@ function copyToClipboard(str: string) {
                   () => {
                     store.backdrop = key;
                     originalBackdrop = null;
-                    // copyToClipboard(JSON.stringify(Backdrops[key], null, 2));
                   }
                 "
                 class="group focus:outline-none border-2 border-transparent"
