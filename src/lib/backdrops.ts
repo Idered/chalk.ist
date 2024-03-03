@@ -1,3 +1,5 @@
+import { generateRandomBackdrop, getRandomGradient } from "./colors";
+
 export interface Backdrop {
   [key: string]: {
     backgroundStyle: {
@@ -60,6 +62,21 @@ export const Backdrops: Backdrop = {
     },
   },
 
+  Nord: {
+    backgroundStyle: {
+      background: `linear-gradient(
+          140deg,
+          hsl(220, 16%, 36%),
+          hsl(220, 17%, 32%),
+          hsl(222, 16%, 28%),
+          hsl(220, 16%, 22%)
+        )`,
+    },
+    shadow: "hsl(220, 17%, 17%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.17,
+  },
+
   R1: {
     backgroundStyle: {
       background: `conic-gradient(from 45deg, rgb(102, 7, 203), rgb(14, 188, 212), rgb(184, 71, 243), rgb(82, 14, 204), rgb(0, 168, 244), rgb(79, 92, 184))`,
@@ -69,6 +86,25 @@ export const Backdrops: Backdrop = {
     shadow: "hsl(140, 40%, 2%)",
     shadowsOpacity: 1,
     lightsOpacity: 0.17,
+  },
+
+  Lakka: {
+    backgroundStyle: {
+      background: `conic-gradient(
+        from 230.29deg at 51.63% 52.16%,
+        hsl(238, 100%, 60%) 0deg,
+        hsl(283, 71%, 38%) 67.5deg,
+        hsl(230, 50%, 50%) 198.75deg,
+        hsl(8, 100%, 60%) 251.25deg,
+        hsl(280, 93%, 73%) 301.88deg,
+        hsl(300, 100%, 101%) 360deg
+      )`,
+      filter: `blur(30px)`,
+      transform: `scale(1.385)`,
+    },
+    shadow: "hsl(13, 80%, 7%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.19,
   },
 
   Chrome: {
@@ -91,25 +127,6 @@ export const Backdrops: Backdrop = {
     appStyle: {
       backgroundColor: "#140a17cc",
     },
-  },
-
-  Lakka: {
-    backgroundStyle: {
-      background: `conic-gradient(
-        from 230.29deg at 51.63% 52.16%,
-        hsl(238, 100%, 60%) 0deg,
-        hsl(283, 71%, 38%) 67.5deg,
-        hsl(230, 50%, 50%) 198.75deg,
-        hsl(8, 100%, 60%) 251.25deg,
-        hsl(280, 93%, 73%) 301.88deg,
-        hsl(300, 100%, 101%) 360deg
-      )`,
-      filter: `blur(30px)`,
-      transform: `scale(1.385)`,
-    },
-    shadow: "hsl(13, 80%, 7%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.19,
   },
 
   Kozuchi: {
@@ -156,34 +173,224 @@ export const Backdrops: Backdrop = {
     lightsOpacity: 0.08,
   },
 
-  Nord: {
+  Linear2: {
+    backgroundStyle: {
+      background:
+        "conic-gradient(from 135deg, #69107E, #8B2AF0, #6248FA, #130971, #D20706, #F346E1)",
+      filter: `blur(120px)`,
+      transform: `scale(.885)`,
+    },
+    appStyle: {
+      backgroundColor: `rgba(16, 15, 20, 0.9)`,
+    },
+    shadow: "hsl(140, 40%, 2%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.08,
+  },
+
+  R5: {
+    backgroundStyle: {
+      background:
+        "conic-gradient(from 45deg, #7A25AE, #0B1A4B, #F12CDE, #351FFE, #141EC3)",
+      filter: `blur(120px)`,
+      transform: `scale(.885)`,
+    },
+    appStyle: {
+      backgroundColor: `rgba(16, 15, 20, 0.9)`,
+    },
+    shadow: "hsl(140, 40%, 2%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.08,
+  },
+
+  R2: {
+    backgroundStyle: {
+      background:
+        "conic-gradient(from 90deg, #8CC3E4, #250CA3, #05C5EB, #05D1C0, #049223, #1EEF6E)",
+      filter: `blur(120px)`,
+      transform: `scale(.885)`,
+    },
+    appStyle: {
+      backgroundColor: `rgba(16, 15, 20, 0.9)`,
+    },
+    shadow: "hsl(140, 40%, 2%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.08,
+  },
+
+  R3: {
+    backgroundStyle: {
+      background:
+        "conic-gradient(from 45deg, #6A66BE, #724FF7, #24A551, #1198B2, #2287F9, #C7BCEC)",
+      filter: `blur(120px)`,
+      transform: `scale(.885)`,
+    },
+    appStyle: {
+      backgroundColor: `rgba(16, 15, 20, 0.9)`,
+    },
+    shadow: "hsl(140, 40%, 2%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.08,
+  },
+
+  R4: {
+    backgroundStyle: {
+      background:
+        "conic-gradient(from 0deg, #D6A426, #A75001, #FFAD7E, #A8B2B9, #10DBCB, #6DB19A)",
+      filter: `blur(120px)`,
+      transform: `scale(.885)`,
+    },
+    appStyle: {
+      backgroundColor: `rgba(16, 15, 20, 0.9)`,
+    },
+    shadow: "hsl(140, 40%, 2%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.08,
+  },
+
+  Supa: {
+    backgroundStyle: {
+      background:
+        "conic-gradient(from 135deg, #B0F2AD, #3AEAE6, #21BBB8, #3B8A8D, #95AC06, #B8E958)",
+      filter: "blur(120px)",
+      transform: "scale(.885)",
+    },
+    appStyle: {
+      backgroundColor: "rgba(16, 15, 20, 0.9)",
+    },
+    shadow: "hsl(140, 40%, 2%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.08,
+  },
+
+  Liveblocks: {
+    backgroundStyle: {
+      background: `linear-gradient(125deg, rgba(253,226,237,1) 0%, rgba(247,229,246,1) 91%, rgba(244,231,250,1) 100%)`,
+    },
+    appStyle: {
+      backgroundColor: `#03000AEE`,
+    },
+    shadow: "hsl(347, 100%, 8%)",
+    lightsOpacity: 0.35,
+    shadowsOpacity: 1,
+  },
+
+  Jigglypuff: {
     backgroundStyle: {
       background: `linear-gradient(
-          140deg,
-          hsl(220, 16%, 36%),
-          hsl(220, 17%, 32%),
-          hsl(222, 16%, 28%),
-          hsl(220, 16%, 22%)
-        )`,
+        140deg, 
+        hsl(300, 60%, 90%), 
+        hsl(300, 60%, 80%), 
+        hsl(300, 60%, 70%)
+      )`,
     },
-    shadow: "hsl(220, 17%, 17%)",
+    shadow: "hsl(300, 60%, 10%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.29,
+  },
+
+  Sakura: {
+    backgroundStyle: {
+      background: `linear-gradient(
+      140deg, 
+      hsl(330, 80%, 90%), 
+      hsl(330, 80%, 80%), 
+      hsl(330, 80%, 70%)
+    )`,
+    },
+    shadow: "hsl(330, 80%, 13%)",
     shadowsOpacity: 1,
     lightsOpacity: 0.17,
   },
 
-  Vue: {
+  Lavender: {
     backgroundStyle: {
       background: `linear-gradient(
         140deg, 
-        hsl(153, 47%, 49%), 
-        hsl(153, 47%, 30%), 
-        hsl(153, 47%, 24%), 
-        hsl(153, 47%, 34%)
+        hsl(255, 100%, 90%), 
+        hsl(255, 100%, 80%), 
+        hsl(255, 100%, 70%)
+        )`,
+    },
+    shadow: "hsl(255, 100%, 10%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.29,
+  },
+
+  Gengar: {
+    backgroundStyle: {
+      background: `linear-gradient(
+        140deg, 
+        hsl(270, 60%, 50%), 
+        hsl(270, 60%, 40%), 
+        hsl(270, 60%, 30%)
       )`,
     },
-    shadow: "hsl(153, 50%, 6%)",
+    shadow: "hsl(270, 60%, 10%)",
     shadowsOpacity: 1,
-    lightsOpacity: 0.24,
+    lightsOpacity: 0.29,
+  },
+
+  Lucario: {
+    backgroundStyle: {
+      background: `conic-gradient(
+        from 140deg at 50% 50%, 
+        hsl(225, 60%, 55%) 0%, 
+        hsl(225, 60%, 45%) 33%, 
+        hsl(225, 60%, 35%) 66%, 
+        hsl(225, 60%, 25%) 100%
+      )`,
+      filter: `blur(30px)`,
+      transform: `scale(1.385)`,
+    },
+    shadow: "hsl(225, 60%, 10%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.29,
+  },
+
+  Snorlax: {
+    backgroundStyle: {
+      background: `conic-gradient(
+        from 140deg at 50% 50%, 
+        hsl(240, 30%, 50%) 0%, 
+        hsl(240, 30%, 40%) 33%, 
+        hsl(240, 30%, 30%) 66%, 
+        hsl(240, 30%, 20%) 100%
+      )`,
+      filter: `blur(30px)`,
+      transform: `scale(1.385)`,
+    },
+    shadow: "hsl(240, 30%, 10%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.29,
+  },
+
+  Ocean: {
+    backgroundStyle: {
+      background: `linear-gradient(
+        140deg, 
+        hsl(200, 80%, 70%), 
+        hsl(200, 80%, 60%), 
+        hsl(200, 80%, 50%)
+      )`,
+    },
+    shadow: "hsl(200, 80%, 10%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.29,
+  },
+
+  Squirtle: {
+    backgroundStyle: {
+      background: `linear-gradient(
+        140deg, 
+        hsl(195, 100%, 50%), 
+        hsl(195, 100%, 40%), 
+        hsl(195, 100%, 30%)
+      )`,
+    },
+    shadow: "hsl(195, 100%, 10%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.29,
   },
 
   TailwindCSS: {
@@ -201,58 +408,45 @@ export const Backdrops: Backdrop = {
     lightsOpacity: 0.19,
   },
 
-  Dawn: {
+  Bulbasaur: {
     backgroundStyle: {
       background: `linear-gradient(
         140deg, 
-        hsl(33, 60%, 50%), 
-        hsl(4, 49%, 42%), 
-        hsl(296, 22%, 13%)
-        )`,
-    },
-    shadow: "hsl(8, 45%, 13%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.17,
-  },
-
-  Sakura: {
-    backgroundStyle: {
-      background: `linear-gradient(
-      140deg, 
-      hsl(330, 80%, 90%), 
-      hsl(330, 80%, 80%), 
-      hsl(330, 80%, 70%)
-    )`,
-    },
-    shadow: "hsl(330, 80%, 13%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.17,
-  },
-
-  Ocean: {
-    backgroundStyle: {
-      background: `linear-gradient(
-        140deg, 
-        hsl(200, 80%, 70%), 
-        hsl(200, 80%, 60%), 
-        hsl(200, 80%, 50%)
+        hsl(120, 40%, 50%), 
+        hsl(120, 40%, 40%), 
+        hsl(120, 40%, 30%)
       )`,
     },
-    shadow: "hsl(200, 80%, 10%)",
+    shadow: "hsl(120, 40%, 10%)",
     shadowsOpacity: 1,
     lightsOpacity: 0.29,
   },
 
-  Lavender: {
+  Vue: {
     backgroundStyle: {
       background: `linear-gradient(
         140deg, 
-        hsl(255, 100%, 90%), 
-        hsl(255, 100%, 80%), 
-        hsl(255, 100%, 70%)
-        )`,
+        hsl(153, 47%, 49%), 
+        hsl(153, 47%, 30%), 
+        hsl(153, 47%, 24%), 
+        hsl(153, 47%, 34%)
+      )`,
     },
-    shadow: "hsl(255, 100%, 10%)",
+    shadow: "hsl(153, 50%, 6%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.24,
+  },
+
+  Sand: {
+    backgroundStyle: {
+      background: `linear-gradient(
+        140deg, 
+        hsl(30, 80%, 90%), 
+        hsl(30, 80%, 80%), 
+        hsl(30, 80%, 70%)
+      )`,
+    },
+    shadow: "hsl(30, 80%, 10%)",
     shadowsOpacity: 1,
     lightsOpacity: 0.29,
   },
@@ -271,91 +465,31 @@ export const Backdrops: Backdrop = {
     lightsOpacity: 0.29,
   },
 
-  Sand: {
+  Dragonite: {
     backgroundStyle: {
       background: `linear-gradient(
         140deg, 
-        hsl(30, 80%, 90%), 
-        hsl(30, 80%, 80%), 
-        hsl(30, 80%, 70%)
+        hsl(39, 100%, 50%), 
+        hsl(39, 100%, 40%), 
+        hsl(39, 100%, 30%)
       )`,
     },
-    shadow: "hsl(30, 80%, 10%)",
+    shadow: "hsl(39, 100%, 10%)",
     shadowsOpacity: 1,
     lightsOpacity: 0.29,
   },
 
-  Liveblocks: {
+  Dawn: {
     backgroundStyle: {
-      background: `linear-gradient(125deg, rgba(253,226,237,1) 0%, rgba(247,229,246,1) 91%, rgba(244,231,250,1) 100%)`,
+      background: `linear-gradient(
+        140deg, 
+        hsl(33, 60%, 50%), 
+        hsl(4, 49%, 42%), 
+        hsl(296, 22%, 13%)
+        )`,
     },
-    appStyle: {
-      backgroundColor: `#03000AEE`,
-    },
-    shadow: "hsl(347, 100%, 8%)",
-    lightsOpacity: 0.35,
+    shadow: "hsl(8, 45%, 13%)",
     shadowsOpacity: 1,
+    lightsOpacity: 0.17,
   },
-
-  // Rose: {
-  //   backgroundStyle: {
-  //     background: `linear-gradient(
-  //           140deg,
-  //           hsl(330, 100%, 80%),
-  //           hsl(330, 100%, 60%),
-  //           hsl(330, 100%, 40%),
-  //           hsl(330, 100%, 20%),
-  //           hsl(330, 100%, 10%),
-  //           hsl(330, 100%, 5%),
-  //           hsl(330, 100%, 2%),
-  //           hsl(330, 100%, 1%)
-  //       )`,
-  //   },
-  //   shadow: "hsl(330, 100%, 10%)",
-  //   shadowsOpacity: 1,
-  //   lightsOpacity: 0.12,
-  // },
-
-  // Galaxy: {
-  //   backgroundStyle: {
-  //     background: `linear-gradient(
-  //         140deg,
-  //         hsl(240, 80%, 10%),
-  //         hsl(240, 80%, 30%),
-  //         hsl(240, 80%, 50%),
-  //         hsl(240, 80%, 70%)
-  //       )`,
-  //   },
-  //   shadow: "hsl(240, 80%, 10%)",
-  //   shadowsOpacity: 1,
-  //   lightsOpacity: 0.12,
-  // },
-
-  // MilkyWay: {
-  //   backgroundStyle: {
-  //     background: `linear-gradient(
-  //     140deg,
-  //     hsl(240, 80%, 10%),
-  //     hsl(240, 80%, 5%),
-  //     hsl(240, 80%, 2%),
-  //     hsl(240, 80%, 1%)
-  //   )`,
-  //   },
-  //   shadow: "hsl(240, 80%, 10%)",
-  //   shadowsOpacity: 1,
-  //   lightsOpacity: 0.12,
-  // },
-
-  //   Vercel: {
-  //     backgroundStyle: {
-  //       background: `#fafafa`,
-  //     },
-  //     appStyle: {
-  //       backgroundColor: `#ffffff`,
-  //       boxShadow: `0px 2px 4px rgba(0,0,0,.1)`,
-  //     },
-  //     shadow: "hsl(208, 100%, 10%)",
-  //     lightsOpacity: 0.0,
-  //     shadowsOpacity: 0.0,
-  //   },
 };

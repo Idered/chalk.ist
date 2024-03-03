@@ -47,6 +47,8 @@ function setFontFamily(fontFamily: string) {
   store.value.fontFamily = fontFamily;
 }
 
+const originalBackdrop = ref<string | number | null>(null);
+
 const themeOptions = computed(() => [
   {
     group: "Chalk.ist Originals",
@@ -77,6 +79,15 @@ const themeLabels = {
   number: "numbers",
   regexp: "RegExp",
 };
+
+function copyToClipboard(str: string) {
+  const el = document.createElement("textarea");
+  el.value = str;
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand("copy");
+  document.body.removeChild(el);
+}
 </script>
 
 <template>
@@ -295,17 +306,41 @@ const themeLabels = {
 
             <div
               v-if="store.expandBackdrops"
-              class="flex flex-wrap items-center gap-2 sm:grid sm:grid-flow-row sm:grid-cols-5"
+              class="flex flex-wrap items-center gap-0 sm:grid sm:grid-flow-row sm:grid-cols-7 -mx-0.5"
             >
               <button
                 v-for="(item, key) in Backdrops"
-                @click="store.backdrop = key"
-                class="group rounded-full focus:outline-none"
+                @mouseenter="
+                  () => {
+                    originalBackdrop = originalBackdrop ?? store.backdrop;
+                    store.backdrop = key;
+                  }
+                "
+                @mouseleave="
+                  () => {
+                    if (originalBackdrop) {
+                      store.backdrop = originalBackdrop;
+                      originalBackdrop = null;
+                    }
+                  }
+                "
+                @click="
+                  () => {
+                    store.backdrop = key;
+                    originalBackdrop = null;
+                    // copyToClipboard(JSON.stringify(Backdrops[key], null, 2));
+                  }
+                "
+                class="group focus:outline-none border-2 border-transparent"
                 :title="`Use ${key} backdrop`"
               >
                 <div
-                  class="h-10 rounded ring-blue-800 transition group-hover:scale-105 group-hover:opacity-100 group-focus:shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] group-focus:ring-[3px] group-active:scale-95 sm:h-6"
+                  class="h-[30px] shrink-0 w-[30px] rounded ring-blue-800 transition group-hover:scale-105 group-hover:opacity-100 group-focus:shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] group-focus:ring-[3px] group-active:scale-95"
                   :style="{ background: item.backgroundStyle.background }"
+                  :class="{
+                    'ring-[2px] shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)]':
+                      store.backdrop === key,
+                  }"
                 ></div>
               </button>
             </div>
