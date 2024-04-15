@@ -261,6 +261,22 @@ export const Backdrops: Backdrop = {
     lightsOpacity: 0.08,
   },
 
+  WhiteWithDots: {
+    backgroundStyle: {
+      background: `
+      url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 15 15"><circle fill-opacity="0.15" fill="%23000000" cx="1" cy="1" r="1"/></svg>'), 
+      linear-gradient(
+        140deg, 
+        hsl(0, 0%, 100%), 
+        hsl(0, 0%, 90%), 
+        hsl(0, 0%, 80%)
+      )`,
+    },
+    shadow: "hsl(0, 0%, 10%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.29,
+  },
+
   Liveblocks: {
     backgroundStyle: {
       background: `linear-gradient(125deg, rgba(253,226,237,1) 0%, rgba(247,229,246,1) 91%, rgba(244,231,250,1) 100%)`,
