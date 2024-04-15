@@ -18,7 +18,12 @@ import { computed, ref } from "vue";
 import { ColorPicker } from "vue-color-kit";
 import { cropImage, resizeImage } from "~/composables/image";
 import { store } from "~/composables/store";
-import { FONTS, FRAME_STYLES, LIGATURE_FONTS } from "~/constants";
+import {
+  FONTS,
+  FRAME_STYLES,
+  LIGATURE_FONTS,
+  SHADOW_OVERLAY_STYLES,
+} from "~/constants";
 import { WindowControls } from "~/enums";
 import { Backdrops } from "~/lib/backdrops";
 import { chalkistThemes, portedThemes, shikijiThemes } from "~/lib/themes";
@@ -86,7 +91,7 @@ const themeLabels = {
     <aside>
       <div class="sm:hidden" :style="{ height: '57px' }"></div>
       <div
-        class="fixed z-10 inset-x-0 bottom-0 max-h-screen content-start border-t border-zinc-800 bg-zinc-900 transition-[height] sm:static sm:!h-screen sm:w-[264px] sm:overflow-auto sm:border-r sm:border-t-0 sm:transition-none pwa:sm:border-t pwa:sm:border-t-black pwa:sm:shadow-[inset_0_1px_0_rgb(39_39_42)]"
+        class="fixed z-10 inset-x-0 bottom-0 max-h-screen content-start border-t border-zinc-800 bg-zinc-900 transition-[height] sm:static sm:!h-screen sm:w-[274px] sm:overflow-auto sm:border-r sm:border-t-0 sm:transition-none pwa:sm:border-t pwa:sm:border-t-black pwa:sm:shadow-[inset_0_1px_0_rgb(39_39_42)]"
         :style="{
           height: isExpanded ? `${expandableContentHeight + 57}px` : `57px`,
         }"
@@ -359,6 +364,28 @@ const themeLabels = {
                 >Backdrop particles</label
               >
               <BaseSwitch v-model="store.showParticles" id="showParticles" />
+            </div>
+            <div
+              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+            >
+              <div class="flex items-center">
+                <label for="shadowOverlay" class="text-xs font-semibold"
+                  >Shadow overlay</label
+                >
+                <div
+                  class="uppercase bg-blue-700 text-white text-[11px] font-semibold px-1 h-4 rounded ml-2"
+                >
+                  New
+                </div>
+              </div>
+              <BaseSelect
+                id="shadowOverlay"
+                class="-my-1"
+                preview-on-focus
+                :model-value="store.shadowOverlay"
+                @update:model-value="store.shadowOverlay = $event"
+                :options="SHADOW_OVERLAY_STYLES"
+              />
             </div>
 
             <div

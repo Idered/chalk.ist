@@ -2,7 +2,11 @@ import { runStoreMigrations } from "./migrations";
 import { useStorage } from "@vueuse/core";
 import { v4 } from "uuid";
 import { ref } from "vue";
-import { DEFAULT_CONTENT, DEFAULT_THEME } from "~/constants";
+import {
+  DEFAULT_CONTENT,
+  DEFAULT_THEME,
+  SHADOW_OVERLAY_MAPPING,
+} from "~/constants";
 import { BlockType, WindowControls } from "~/enums";
 import { Backdrops } from "~/lib/backdrops";
 import { Block } from "~/types";
@@ -56,7 +60,7 @@ export const store = useStorage("chalk-store", {
       transformations: [],
     },
   ] as Block[],
-  backdrop: "Vue" as keyof typeof Backdrops,
+  backdrop: "R3" as keyof typeof Backdrops,
   backdropNoise: false,
   colorTheme: "Vue",
   editMode: "code" as
@@ -67,9 +71,9 @@ export const store = useStorage("chalk-store", {
     | "highlight"
     | "annotate",
   expandBackdrops: true,
-  expandTwitterOptions: true,
+  expandTwitterOptions: false,
   expandCustomThemeOptions: false,
-  expandWatermarkOptions: true,
+  expandWatermarkOptions: false,
   fontFamily: "JetBrains Mono",
   fontSize: 13,
   fontLigatures: true,
@@ -79,8 +83,8 @@ export const store = useStorage("chalk-store", {
   language: "typescript",
   lineHeight: 20,
   name: "",
-  paddingX: 16,
-  paddingY: 16,
+  paddingX: 80,
+  paddingY: 80,
   picture: "",
   reflection: true,
   useCustomTheme: false,
@@ -89,12 +93,13 @@ export const store = useStorage("chalk-store", {
   showParticles: true,
   watermark: "chalk.ist",
   watermarkOpacity: 50,
-  showWatermark: true,
-  showTwitterBadge: true,
+  showWatermark: false,
+  showTwitterBadge: false,
   username: "",
   windowControls: WindowControls.MacOutline,
   windowNoise: false,
   windowStyle: "variant-1",
+  shadowOverlay: "variant-1" as keyof typeof SHADOW_OVERLAY_MAPPING,
 });
 
 runStoreMigrations();

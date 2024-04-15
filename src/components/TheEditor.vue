@@ -341,6 +341,12 @@ const charactersPerLine = computed(() =>
       '--character-width': characterWidth + 'px',
     }"
   >
+    <!-- <div
+      class="absolute mix-blend-multiply inset-px bg-cover z-10"
+      :style="{
+        backgroundImage: 'url(/shadows/shadow-8.png)',
+      }"
+    /> -->
     <div
       class="formatted font-config transition-opacity duration-500"
       ref="formatted"

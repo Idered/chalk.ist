@@ -1,3 +1,5 @@
+import { CSSProperties } from "vue";
+
 export const DEFAULT_CONTENT = `const btn = document.getElementById('btn')
 let count = 0
 function render() {
@@ -16,9 +18,42 @@ export const FRAME_STYLES = [
   { value: "variant-1", label: "Variant 1" },
   { value: "variant-2", label: "Variant 2" },
   { value: "variant-3", label: "Variant 3" },
-  { value: "variant-4", label: "Variant 4" },
-  { value: "variant-5", label: "Variant 5" },
 ];
+export const SHADOW_OVERLAY_STYLES = [
+  { value: "none", label: "None" },
+  { value: "variant-1", label: "Variant 1" },
+  { value: "variant-2", label: "Variant 2" },
+  { value: "variant-3", label: "Variant 3" },
+  { value: "variant-4", label: "Variant 4" },
+];
+export const SHADOW_OVERLAY_MAPPING: Record<
+  string,
+  {
+    image: string;
+    blendMode: CSSProperties["mixBlendMode"];
+  }
+> = {
+  none: {
+    image: "none",
+    blendMode: "normal",
+  },
+  "variant-1": {
+    image: "url(/shadows/shadow-8.png)",
+    blendMode: "multiply",
+  },
+  "variant-2": {
+    image: "url(/shadows/shadow-10.png)",
+    blendMode: "overlay",
+  },
+  "variant-3": {
+    image: "url(/shadows/shadow-3.png)",
+    blendMode: "overlay",
+  },
+  "variant-4": {
+    image: "url(/shadows/shadow-13.png)",
+    blendMode: "overlay",
+  },
+};
 export const MAX_FRAME_WIDTH = 1600;
 export const MIN_FRAME_WIDTH = 320;
 export const DEFAULT_THEME = "chrome";
@@ -60,7 +95,11 @@ export const LANGUAGES = [
   },
   { value: "css", label: "CSS", lang: () => import("shikiji/langs/css.mjs") },
   { value: "csv", label: "CSV", lang: () => import("shikiji/langs/csv.mjs") },
-  { value: "elixir", label: "Elixir", lang: () => import("shikiji/langs/elixir.mjs") },
+  {
+    value: "elixir",
+    label: "Elixir",
+    lang: () => import("shikiji/langs/elixir.mjs"),
+  },
   {
     value: "glsl",
     label: "GLSL",
