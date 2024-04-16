@@ -11,7 +11,8 @@ import { COLUMN_OPTIONS, LANGUAGES, ROW_OPTIONS } from "~/constants";
 import { ExportState, WindowControls } from "~/enums";
 import { Backdrops } from "~/lib/backdrops";
 import { CodeBlock } from "~/types";
-
+import { Icon } from "@iconify/vue";
+import IconPicker from "./IconPicker.vue";
 const props = defineProps<{
   block: CodeBlock;
 }>();
@@ -55,7 +56,7 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
 <template>
   <div
     v-if="block"
-    class="relative grid grid-rows-[auto_1fr_auto] h-full"
+    class="relative grid h-full grid-rows-[auto_1fr_auto]"
     :class="{
       'rounded-md': store.paddingX !== 0 && store.paddingY !== 0,
       // 'bg-black/80': !theme.appStyle,
@@ -264,25 +265,42 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
         v-if="(preview || store).windowControls === WindowControls.None"
       ></div>
 
-      <input
+      <div
+        class="mt-4 flex items-center justify-center"
         v-if="
           [ExportState.Idle, ExportState.JustCopied].includes(exportState) ||
           block.title.trim()
         "
-        :value="block.title"
-        @input="block.title = ($event.target as HTMLInputElement).value"
-        placeholder="Untitled"
-        spellcheck="false"
-        autocomplete="off"
-        :class="{
-          // 'text-white/60 placeholder:text-white/30 ': theme.mode === 'dark',
-          // 'text-black/60 placeholder:text-black/30': theme.mode === 'light',
-          'text-center':
-            (preview || store).windowControls !== WindowControls.Windows,
-          'pl-5': (preview || store).windowControls === WindowControls.Windows,
-        }"
-        class="z-10 mt-4 w-full border-none bg-transparent text-xs focus:outline-none"
-      />
+      >
+        <IconPicker
+          v-if="
+            [ExportState.Idle, ExportState.JustCopied].includes(exportState) ||
+            block.icon
+          "
+          v-model="block.icon"
+        />
+
+        <div
+          contenteditable
+          @input="
+            block.title = ($event.target as HTMLInputElement).textContent || ''
+          "
+          spellcheck="false"
+          autocomplete="off"
+          data-placeholder="Untitled..."
+          :class="{
+            // 'text-white/60 placeholder:text-white/30 ': theme.mode === 'dark',
+            // 'text-black/60 placeholder:text-black/30': theme.mode === 'light',
+            'text-center':
+              (preview || store).windowControls !== WindowControls.Windows,
+            'pl-5':
+              (preview || store).windowControls === WindowControls.Windows,
+          }"
+          class="z-10 inline-flex min-w-[0] shrink-0 border-none bg-transparent px-1 text-xs empty:before:content-[attr(data-placeholder)] focus:outline-none"
+        >
+          {{ block.title }}
+        </div>
+      </div>
       <div v-else></div>
 
       <div

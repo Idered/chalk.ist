@@ -9,6 +9,9 @@ import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  define: {
+    __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: "false",
+  },
   resolve: {
     alias: {
       "~/": `${path.resolve(__dirname, "src")}/`,

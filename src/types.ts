@@ -6,6 +6,7 @@ export type CodeBlock = {
   language: string;
   type: BlockType.Code;
   title: string;
+  icon: string;
   columnSpan: number;
   mode: "edit" | "preview";
   rowSpan: number;

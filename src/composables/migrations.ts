@@ -12,6 +12,7 @@ export function runStoreMigrations() {
       language: "typescript",
       type: BlockType.Code,
       title: "",
+      icon: "",
       columnSpan: 12,
       rowSpan: 1,
       mode: "edit",
@@ -35,6 +36,7 @@ export function runStoreMigrations() {
       return {
         ...block,
         mode: block.mode ?? "edit",
+        icon: block.icon === undefined ? "js" : block.icon,
         transformations: block.transformations || [],
       };
     }
