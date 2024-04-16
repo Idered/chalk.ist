@@ -863,7 +863,7 @@ onUnmounted(() => {
         align="start"
         position="popper"
         :side-offset="5"
-        class="z-[100] grid h-[calc(var(--radix-combobox-content-available-height)-16px)] max-h-[500px] min-w-[var(--radix-popper-anchor-width)] overflow-auto rounded-md border border-slate-700 bg-slate-800 font-mono antialiased shadow-[rgba(0,0,0,0.25)_0px_14px_28px,rgba(0,0,0,0.22)_0px_10px_10px]"
+        class="z-[100] grid max-h-[calc(var(--radix-combobox-content-available-height)-16px)] min-w-[var(--radix-popper-anchor-width)] overflow-auto rounded-md border border-slate-700 bg-slate-800 font-mono antialiased shadow-[rgba(0,0,0,0.25)_0px_14px_28px,rgba(0,0,0,0.22)_0px_10px_10px]"
       >
         <div class="p-2">
           <ComboboxInput
