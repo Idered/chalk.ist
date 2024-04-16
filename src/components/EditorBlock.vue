@@ -11,7 +11,6 @@ import { COLUMN_OPTIONS, LANGUAGES, ROW_OPTIONS } from "~/constants";
 import { ExportState, WindowControls } from "~/enums";
 import { Backdrops } from "~/lib/backdrops";
 import { CodeBlock } from "~/types";
-import { Icon } from "@iconify/vue";
 import IconPicker from "./IconPicker.vue";
 const props = defineProps<{
   block: CodeBlock;
