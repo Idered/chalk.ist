@@ -5,10 +5,8 @@ import {
   MenubarItem,
   MenubarMenu,
   MenubarPortal,
-  MenubarRadioGroup,
   RadioGroupRoot,
   RadioGroupItem,
-  MenubarRadioItem,
   MenubarRoot,
   MenubarTrigger,
 } from "radix-vue";
