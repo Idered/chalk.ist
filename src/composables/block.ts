@@ -42,7 +42,7 @@ export function addEditorBlock() {
     type: BlockType.Code,
     language,
     title: "",
-    icon: "js",
+    icon: "",
     columnSpan: 12,
     rowSpan: 1,
     mode: "edit",

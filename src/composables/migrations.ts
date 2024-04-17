@@ -36,7 +36,7 @@ export function runStoreMigrations() {
       return {
         ...block,
         mode: block.mode ?? "edit",
-        icon: block.icon === undefined ? "js" : block.icon,
+        icon: block.icon === undefined ? "" : block.icon,
         transformations: block.transformations || [],
       };
     }
@@ -65,7 +65,7 @@ export function runStoreMigrations() {
   store.value.paddingY = store.value.paddingY ?? 32;
   store.value.lineHeight = store.value.lineHeight || 20;
   store.value.windowStyle = store.value.windowStyle || "variant-1";
-  store.value.shadowOverlay = store.value.shadowOverlay || "variant-1";
+  store.value.shadowOverlay = store.value.shadowOverlay || "none";
   store.value.frameWidth = store.value.frameWidth || MIN_FRAME_WIDTH;
   store.value.showParticles = store.value.showParticles ?? true;
   store.value.fontFamily = store.value.fontFamily || "JetBrains Mono";

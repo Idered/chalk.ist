@@ -54,7 +54,7 @@ export const store = useStorage("chalk-store", {
       language: "typescript",
       type: BlockType.Code,
       title: "example.js",
-      icon: "js",
+      icon: "",
       columnSpan: 12,
       rowSpan: 1,
       mode: "edit",
@@ -100,7 +100,7 @@ export const store = useStorage("chalk-store", {
   windowControls: WindowControls.MacOutline,
   windowNoise: false,
   windowStyle: "variant-1",
-  shadowOverlay: "variant-1" as keyof typeof SHADOW_OVERLAY_MAPPING,
+  shadowOverlay: "none" as keyof typeof SHADOW_OVERLAY_MAPPING,
 });
 
 runStoreMigrations();
