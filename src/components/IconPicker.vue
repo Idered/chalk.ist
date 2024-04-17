@@ -851,7 +851,10 @@ onUnmounted(() => {
           :icon="`vscode-icons:file-type-${model}`"
           class="-my-1 size-5"
         />
-        <div v-else class="-my-2 rounded bg-white/10 px-1 py-1 text-xs">
+        <div
+          v-else
+          class="-my-2 rounded bg-white/10 px-2 py-1 text-xs text-slate-300 hover:bg-white/15"
+        >
           Select icon
         </div>
       </ComboboxTrigger>
