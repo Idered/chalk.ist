@@ -378,7 +378,11 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
         :width="editorContainerWidth"
         v-if="block.mode === 'edit'"
       />
-      <MarkdownPreview v-else :block="block" />
+      <MarkdownPreview
+        v-else-if="block.language === 'markdown'"
+        :block="block"
+      />
+      <HTMLPreview v-else-if="block.language === 'html'" :block="block" />
     </div>
 
     <div
@@ -465,7 +469,7 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
       </button>
 
       <button
-        v-if="block.language === 'markdown'"
+        v-if="['markdown', 'html'].includes(block.language)"
         @click="
           () => (block.mode = block.mode === 'preview' ? 'edit' : 'preview')
         "

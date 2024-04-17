@@ -23,6 +23,7 @@ declare module 'vue' {
     ExportToMP4Button: typeof import('./src/components/ExportToMP4Button.vue')['default']
     ExportToPNGButton: typeof import('./src/components/ExportToPNGButton.vue')['default']
     ExportVideoButton: typeof import('./src/components/ExportVideoButton.vue')['default']
+    HTMLPreview: typeof import('./src/components/HTMLPreview.vue')['default']
     IconAnalytics: typeof import('./src/components/IconAnalytics.vue')['default']
     IconCheck: typeof import('./src/components/IconCheck.vue')['default']
     IconChevronDown: typeof import('./src/components/IconChevronDown.vue')['default']
