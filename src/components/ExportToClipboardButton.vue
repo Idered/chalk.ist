@@ -21,7 +21,7 @@ function handleCopy() {
           "[data-editor-frame]",
         );
         if (!frame) return;
-        umami.trackEvent("Copy to Clipboard", "export");
+        // umami.trackEvent("Copy to Clipboard", "export");
         exportState.value = ExportState.PreparingToCopy;
         await nextTick();
         domToBlob(frame, {
@@ -67,7 +67,7 @@ function handleCopy() {
     v-if="!isFirefox"
     :class="
       twMerge(
-        'group sm:flex w-full bg-emerald-600/30 px-4 text-emerald-500 hover:bg-emerald-600/40 ',
+        'group w-full bg-emerald-600/30 px-4 text-emerald-500 hover:bg-emerald-600/40 sm:flex ',
         $attrs.class as string,
       )
     "

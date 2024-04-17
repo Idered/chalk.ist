@@ -24,7 +24,7 @@ function downloadPng(blob: Blob | null) {
 async function handleDownload() {
   const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
   if (!frame) return;
-  umami.trackEvent("Download PNG", "export");
+  // umami.trackEvent("Download PNG", "export");
   exportState.value = ExportState.PreparingToDownload;
   await nextTick();
   const blob = await domToBlob(frame, {

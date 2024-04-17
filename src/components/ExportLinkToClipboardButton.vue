@@ -9,7 +9,7 @@ const timeout = ref();
 const handleCopyLink = async () => {
   const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
   if (!frame) return;
-  umami.trackEvent("Copy Link", "export");
+  // umami.trackEvent("Copy Link", "export");
 
   // copy location.href to clipboard
   //   const { content } = store.value;
@@ -42,12 +42,12 @@ const handleCopyLink = async () => {
 
 <template>
   <BaseButton
-    class="px-4 w-full bg-blue-600/30 text-blue-500 hover:bg-blue-600/40 group"
+    class="group w-full bg-blue-600/30 px-4 text-blue-500 hover:bg-blue-600/40"
     @click="handleCopyLink"
   >
     <IconClipboardLink
       width="16"
-      class="group-hover:scale-110 transition-transform group-hover:rotate-6"
+      class="transition-transform group-hover:rotate-6 group-hover:scale-110"
     />
     <span class="truncate">
       {{
