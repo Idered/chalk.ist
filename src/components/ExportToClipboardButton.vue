@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { track } from "@vercel/analytics";
 import { domToBlob } from "modern-screenshot";
 import { twMerge } from "tailwind-merge";
 import { ref } from "vue";
 import { computed } from "vue";
 import { nextTick } from "vue";
 import { exportState } from "~/composables/export-state";
+import { store } from "~/composables/store";
 import { ExportState } from "~/enums";
 
 const timeout = ref();
@@ -21,7 +23,12 @@ function handleCopy() {
           "[data-editor-frame]",
         );
         if (!frame) return;
-        // umami.trackEvent("Copy to Clipboard", "export");
+        track("Export to Clipboard", {
+          color_theme: store.value.useCustomTheme
+            ? "custom"
+            : store.value.colorTheme,
+          backdrop: store.value.showBackground ? "none" : store.value.backdrop,
+        });
         exportState.value = ExportState.PreparingToCopy;
         await nextTick();
         domToBlob(frame, {
