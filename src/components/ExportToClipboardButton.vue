@@ -27,7 +27,7 @@ function handleCopy() {
           color_theme: store.value.useCustomTheme
             ? "custom"
             : store.value.colorTheme,
-          backdrop: store.value.showBackground ? "none" : store.value.backdrop,
+          backdrop: store.value.showBackground ? store.value.backdrop : "none",
         });
         exportState.value = ExportState.PreparingToCopy;
         await nextTick();
