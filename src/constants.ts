@@ -153,6 +153,11 @@ export const LANGUAGES = [
     label: "Markdown",
     lang: () => import("shikiji/langs/markdown.mjs"),
   },
+  {
+    value: "perl",
+    label: "Perl",
+    lang: () => import("shikiji/langs/perl.mjs"),
+  },
   { value: "php", label: "PHP", lang: () => import("shikiji/langs/php.mjs") },
   {
     value: "powershell",
