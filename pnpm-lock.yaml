@@ -35,6 +35,12 @@ dependencies:
   '@iconify/vue':
     specifier: 4.1.1
     version: 4.1.1(vue@3.4.23)
+  '@shikijs/markdown-it':
+    specifier: 1.3.0
+    version: 1.3.0
+  '@shikijs/transformers':
+    specifier: 1.3.0
+    version: 1.3.0
   '@tailwindcss/typography':
     specifier: 0.5.10
     version: 0.5.10(tailwindcss@3.4.0)
@@ -56,9 +62,6 @@ dependencies:
   markdown-it:
     specifier: 13.0.2
     version: 13.0.2
-  markdown-it-shikiji:
-    specifier: 0.9.15
-    version: 0.9.15
   modern-screenshot:
     specifier: 4.4.37
     version: 4.4.37
@@ -71,12 +74,9 @@ dependencies:
   radix-vue:
     specifier: ^1.7.0
     version: 1.7.0(vue@3.4.23)
-  shikiji:
-    specifier: ^0.9.15
-    version: 0.9.15
-  shikiji-transformers:
-    specifier: ^0.9.15
-    version: 0.9.15
+  shiki:
+    specifier: 1.3.0
+    version: 1.3.0
   tailwind-merge:
     specifier: 2.2.0
     version: 2.2.0
@@ -1818,6 +1818,24 @@ packages:
       estree-walker: 2.0.2
       picomatch: 2.3.1
       rollup: 2.79.1
+    dev: false
+
+  /@shikijs/core@1.3.0:
+    resolution: {integrity: sha512-7fedsBfuILDTBmrYZNFI8B6ATTxhQAasUHllHmjvSZPnoq4bULWoTpHwmuQvZ8Aq03/tAa2IGo6RXqWtHdWaCA==}
+    dev: false
+
+  /@shikijs/markdown-it@1.3.0:
+    resolution: {integrity: sha512-fIf4dGj2TeJbRujCMp7J+OpvEPCWltRvzlwHtC3ixqZi8IvaqdAcnIqFuWDCvBlbIFsxtYaQiyXSHJXxXPxDAw==}
+    dependencies:
+      '@shikijs/transformers': 1.3.0
+      markdown-it: 14.1.0
+      shiki: 1.3.0
+    dev: false
+
+  /@shikijs/transformers@1.3.0:
+    resolution: {integrity: sha512-3mlpg2I9CjhjE96dEWQOGeCWoPcyTov3s4aAsHmgvnTHa8MBknEnCQy8/xivJPSpD+olqOqIEoHnLfbNJK29AA==}
+    dependencies:
+      shiki: 1.3.0
     dev: false
 
   /@surma/rollup-plugin-off-main-thread@2.2.3:
@@ -3694,13 +3712,6 @@ packages:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  /markdown-it-shikiji@0.9.15:
-    resolution: {integrity: sha512-mdXxavJqGX5JJwpgEUX3TptcRGDdFBE3QVt6fdZu3T89+4D+x1lCsJ2/aWSgWmZVKOMWKBYifpUY8i8HoiMfcA==}
-    dependencies:
-      markdown-it: 14.0.0
-      shikiji: 0.9.15
-    dev: false
-
   /markdown-it@13.0.2:
     resolution: {integrity: sha512-FtwnEuuK+2yVU7goGn/MJ0WBZMM9ZPgU9spqlFs7/A/pDIUNSOQZhUgOqYCficIuR2QaFnrt8LHqBWsbTAoI5w==}
     hasBin: true
@@ -3712,8 +3723,8 @@ packages:
       uc.micro: 1.0.6
     dev: false
 
-  /markdown-it@14.0.0:
-    resolution: {integrity: sha512-seFjF0FIcPt4P9U39Bq1JYblX0KZCjDLFFQPHpL5AzHpqPEKtosxmdq/LTVZnjfH7tjt9BxStm+wXcDBNuYmzw==}
+  /markdown-it@14.1.0:
+    resolution: {integrity: sha512-a54IwgWPaeBCAAsv13YgmALOF1elABB08FxO9i+r4VFk5Vl4pKokRPeX8u5TCgSsPi6ec1otfLjdOpVcgbpshg==}
     hasBin: true
     dependencies:
       argparse: 2.0.1
@@ -3721,7 +3732,7 @@ packages:
       linkify-it: 5.0.0
       mdurl: 2.0.0
       punycode.js: 2.3.1
-      uc.micro: 2.0.0
+      uc.micro: 2.1.0
     dev: false
 
   /mdurl@1.0.1:
@@ -4451,20 +4462,10 @@ packages:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
 
-  /shikiji-core@0.9.15:
-    resolution: {integrity: sha512-7hqIcUKS15OMs/61Qp2GvO1fSajBB36bDqi8vexIg5kp80V6v6SGtBrlq+nLlo7erMG2d1kvIuTIq1bwKI6fEg==}
-    dev: false
-
-  /shikiji-transformers@0.9.15:
-    resolution: {integrity: sha512-k0sQ6tX26/cdb8QV9CCwwr7QjRp6/AVP9C0oNIXNld3of+xCrpf74kD74piybG6vMfzBoHGsz/s60RVBJOUaYQ==}
+  /shiki@1.3.0:
+    resolution: {integrity: sha512-9aNdQy/etMXctnPzsje1h1XIGm9YfRcSksKOGqZWXA/qP9G18/8fpz5Bjpma8bOgz3tqIpjERAd6/lLjFyzoww==}
     dependencies:
-      shikiji: 0.9.15
-    dev: false
-
-  /shikiji@0.9.15:
-    resolution: {integrity: sha512-+inN4cN+nY7b0uCPOiqFHAk+cn2DEdM3AIQgPhAV7QKqhww/o7OGS5xvLh3SNnjke9C/HispALqGOQGYHVq7KQ==}
-    dependencies:
-      shikiji-core: 0.9.15
+      '@shikijs/core': 1.3.0
     dev: false
 
   /side-channel@1.0.4:
@@ -4822,6 +4823,10 @@ packages:
 
   /uc.micro@2.0.0:
     resolution: {integrity: sha512-DffL94LsNOccVn4hyfRe5rdKa273swqeA5DJpMOeFmEn1wCDc7nAbbB0gXlgBCL7TNzeTv6G7XVWzan7iJtfig==}
+    dev: false
+
+  /uc.micro@2.1.0:
+    resolution: {integrity: sha512-ARDJmphmdvUk6Glw7y9DQ2bFkKBHwQHLi2lsaH6PPmz/Ka9sFOBsBluozhDltWmnv9u/cF6Rt87znRTPV+yp/A==}
     dev: false
 
   /ufo@1.3.2:

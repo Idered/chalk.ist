@@ -1,6 +1,6 @@
 import { useShiki } from "./shiki";
 import markdownit from "markdown-it";
-import { fromHighlighter } from "markdown-it-shikiji/core";
+import { fromHighlighter } from "@shikijs/markdown-it";
 import { computed } from "vue";
 import { store } from "~/composables/store";
 

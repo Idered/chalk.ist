@@ -5,8 +5,8 @@ import {
   transformerCompactLineOptions,
   transformerNotationDiff,
   transformerNotationFocus,
-} from "shikiji-transformers";
-import { ShikijiTransformer } from "shikiji/index.mjs";
+} from "@shikijs/transformers";
+import { ShikiTransformer } from "shiki";
 import { computed, h, ref } from "vue";
 import { store } from "~/composables/store";
 import { BlockType } from "~/enums";
@@ -22,7 +22,7 @@ const shiki = useShiki();
 const editor = ref<HTMLTextAreaElement>();
 const formatted = ref<HTMLDivElement>();
 
-function transformerLineNumbers(): ShikijiTransformer {
+function transformerLineNumbers(): ShikiTransformer {
   return {
     name: "line-number",
     line(line, index) {
@@ -51,7 +51,7 @@ function transformerLineNumbers(): ShikijiTransformer {
 
 function transformerAnnotations(
   transformations: { type: string; line: number; character?: number }[],
-): ShikijiTransformer {
+): ShikiTransformer {
   return {
     name: "annotations",
     line(line, index) {
@@ -153,22 +153,22 @@ const shikiContent = computed(() => {
     },
   });
 
-  return shikijiHastToVueH(hast);
+  return shikiHastToVueH(hast);
 });
 
 const components: { [key: string]: any } = {
   Annotation,
 };
 
-function shikijiHastToVueH(node: any) {
+function shikiHastToVueH(node: any) {
   if (node.type === "root") {
-    return node.children.map(shikijiHastToVueH);
+    return node.children.map(shikiHastToVueH);
   }
   if (node.type === "text") {
     return node.value;
   }
   if (node.type === "element") {
-    const children = node.children.map(shikijiHastToVueH);
+    const children = node.children.map(shikiHastToVueH);
     if (node.tagName in components) {
       return h(components[node.tagName], node.properties, () => children);
     }

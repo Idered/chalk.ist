@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import markdownit from "markdown-it";
-import { fromHighlighter } from "markdown-it-shikiji/core";
+import { fromHighlighter } from "@shikijs/markdown-it";
 import { computed } from "vue";
 import { moveBlock, removeBlock } from "~/composables/block";
 import { exportState } from "~/composables/export-state";

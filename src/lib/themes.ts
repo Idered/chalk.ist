@@ -1,4 +1,4 @@
-import { bundledThemesInfo } from "shikiji/themes";
+import { bundledThemesInfo } from "shiki";
 import { createTheme } from "~/lib/create-theme";
 
 const excludedThemes = [
@@ -8,9 +8,11 @@ const excludedThemes = [
   "dracula-soft",
   "rose-pine-moon",
   "vitesse-black",
+  "catppuccin-frappe",
+  "catppuccin-macchiato",
 ];
 
-export const shikijiThemes = bundledThemesInfo.filter(
+export const shikiThemes = bundledThemesInfo.filter(
   ({ type, id }) => type === "dark" && excludedThemes.includes(id) === false,
 );
 

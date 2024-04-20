@@ -26,7 +26,7 @@ import {
 } from "~/constants";
 import { WindowControls } from "~/enums";
 import { Backdrops } from "~/lib/backdrops";
-import { chalkistThemes, portedThemes, shikijiThemes } from "~/lib/themes";
+import { chalkistThemes, portedThemes, shikiThemes } from "~/lib/themes";
 
 const isExpanded = ref(false);
 const expandableContent = ref();
@@ -63,7 +63,7 @@ const themeOptions = computed(() => [
   },
   {
     group: "Other",
-    children: shikijiThemes
+    children: shikiThemes
       .map((item) => ({ value: item.id, label: item.displayName }))
       .concat(
         ...portedThemes.map((item) => ({ value: item.name, label: item.name })),
@@ -91,7 +91,7 @@ const themeLabels = {
     <aside>
       <div class="sm:hidden" :style="{ height: '57px' }"></div>
       <div
-        class="fixed z-10 inset-x-0 bottom-0 max-h-screen content-start border-t border-zinc-800 bg-zinc-900 transition-[height] sm:static sm:!h-screen sm:w-[274px] sm:overflow-auto sm:border-r sm:border-t-0 sm:transition-none pwa:sm:border-t pwa:sm:border-t-black pwa:sm:shadow-[inset_0_1px_0_rgb(39_39_42)]"
+        class="fixed inset-x-0 bottom-0 z-10 max-h-screen content-start border-t border-zinc-800 bg-zinc-900 transition-[height] sm:static sm:!h-screen sm:w-[274px] sm:overflow-auto sm:border-r sm:border-t-0 sm:transition-none pwa:sm:border-t pwa:sm:border-t-black pwa:sm:shadow-[inset_0_1px_0_rgb(39_39_42)]"
         :style="{
           height: isExpanded ? `${expandableContentHeight + 57}px` : `57px`,
         }"
@@ -150,13 +150,13 @@ const themeLabels = {
               >
                 <label
                   for="customTheme.keyword"
-                  class="text-xs font-semibold [text-transform:capitalize] w-[118px]"
+                  class="w-[118px] text-xs font-semibold [text-transform:capitalize]"
                   >{{ themeLabels[key] || key }}</label
                 >
                 <PopoverRoot>
                   <PopoverTrigger class="w-full">
                     <div
-                      class="w-full h-5 rounded-sm border-2 border-slate-900 bg-slate-800 shadow-[0_0_0_1px_rgba(255,255,255,.17)]"
+                      class="h-5 w-full rounded-sm border-2 border-slate-900 bg-slate-800 shadow-[0_0_0_1px_rgba(255,255,255,.17)]"
                       :style="{ backgroundColor }"
                     />
                   </PopoverTrigger>
@@ -166,7 +166,7 @@ const themeLabels = {
                       :side-offset="-120"
                       side="right"
                       align="start"
-                      class="will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade rounded-md border border-slate-700 bg-slate-800 font-mono shadow-[rgba(0,0,0,0.25)_0px_14px_28px,rgba(0,0,0,0.22)_0px_10px_10px] p-4 z-[100000]"
+                      class="z-[100000] rounded-md border border-slate-700 bg-slate-800 p-4 font-mono shadow-[rgba(0,0,0,0.25)_0px_14px_28px,rgba(0,0,0,0.22)_0px_10px_10px] will-change-[transform,opacity] data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=top]:animate-slideDownAndFade"
                     >
                       <PopoverArrow />
                       <ColorPicker
@@ -188,7 +188,7 @@ const themeLabels = {
             </div>
 
             <hr
-              class="border-y border-b-zinc-800 border-t-black -mx-3 my-1.5"
+              class="-mx-3 my-1.5 border-y border-b-zinc-800 border-t-black"
             />
 
             <div
@@ -273,7 +273,7 @@ const themeLabels = {
             </div>
 
             <hr
-              class="border-y border-b-zinc-800 border-t-black -mx-3 my-1.5"
+              class="-mx-3 my-1.5 border-y border-b-zinc-800 border-t-black"
             />
 
             <div
@@ -302,7 +302,7 @@ const themeLabels = {
 
             <div
               v-if="store.expandBackdrops"
-              class="flex flex-wrap items-center gap-0 sm:grid sm:grid-flow-row sm:grid-cols-7 -mx-0.5"
+              class="-mx-0.5 flex flex-wrap items-center gap-0 sm:grid sm:grid-flow-row sm:grid-cols-7"
             >
               <button
                 v-for="(item, key) in Backdrops"
@@ -326,14 +326,14 @@ const themeLabels = {
                     originalBackdrop = null;
                   }
                 "
-                class="group focus:outline-none border-2 border-transparent"
+                class="group border-2 border-transparent focus:outline-none"
                 :title="`Use ${key} backdrop`"
               >
                 <div
-                  class="h-[30px] shrink-0 w-[30px] rounded ring-blue-800 transition group-hover:scale-105 group-hover:opacity-100 group-focus:shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] group-focus:ring-[3px] group-active:scale-95"
+                  class="h-[30px] w-[30px] shrink-0 rounded ring-blue-800 transition group-hover:scale-105 group-hover:opacity-100 group-focus:shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] group-focus:ring-[3px] group-active:scale-95"
                   :style="{ background: item.backgroundStyle.background }"
                   :class="{
-                    'ring-[2px] shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)]':
+                    'shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] ring-[2px]':
                       store.backdrop === key,
                   }"
                 ></div>
@@ -373,7 +373,7 @@ const themeLabels = {
                   >Shadow overlay</label
                 >
                 <div
-                  class="uppercase bg-blue-700 text-white text-[11px] font-semibold px-1 h-4 rounded ml-2"
+                  class="ml-2 h-4 rounded bg-blue-700 px-1 text-[11px] font-semibold uppercase text-white"
                 >
                   New
                 </div>
@@ -429,7 +429,7 @@ const themeLabels = {
             </div>
 
             <hr
-              class="border-y border-b-zinc-800 border-t-black -mx-3 my-1.5"
+              class="-mx-3 my-1.5 border-y border-b-zinc-800 border-t-black"
             />
 
             <div
@@ -497,7 +497,7 @@ const themeLabels = {
             </div>
 
             <hr
-              class="border-y border-b-zinc-800 border-t-black -mx-3 my-1.5"
+              class="-mx-3 my-1.5 border-y border-b-zinc-800 border-t-black"
             />
 
             <div
@@ -639,7 +639,7 @@ const themeLabels = {
 
             <template v-if="store.expandWatermarkOptions">
               <div
-                class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2 -my-1"
+                class="-my-1 grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
               >
                 <label
                   class="cursor-pointer select-none text-xs font-semibold"
@@ -647,7 +647,7 @@ const themeLabels = {
                   >Watermark text</label
                 >
                 <BaseInput
-                  class="placeholder:text-slate-600/75 w-[116px]"
+                  class="w-[116px] placeholder:text-slate-600/75"
                   type="text"
                   id="watermarkText"
                   autocomplete="off"
@@ -679,13 +679,13 @@ const themeLabels = {
             </template>
 
             <hr
-              class="border-y border-b-zinc-800 border-t-black -mx-3 my-1.5 hidden sm:block"
+              class="-mx-3 my-1.5 hidden border-y border-b-zinc-800 border-t-black sm:block"
             />
 
             <ExportOptions />
 
             <hr
-              class="border-y border-b-zinc-800 border-t-black -mx-3 my-1.5 hidden sm:block pwa:hidden"
+              class="-mx-3 my-1.5 hidden border-y border-b-zinc-800 border-t-black sm:block pwa:hidden"
             />
           </div>
         </div>
@@ -697,7 +697,7 @@ const themeLabels = {
     </aside>
 
     <div
-      class="fixed inset-x-0 bottom-0 grid grid-cols-[1fr_auto] gap-2 px-3 py-2 sm:hidden z-10 bg-zinc-900"
+      class="fixed inset-x-0 bottom-0 z-10 grid grid-cols-[1fr_auto] gap-2 bg-zinc-900 px-3 py-2 sm:hidden"
     >
       <ExportToPNGButton />
       <BaseButton
