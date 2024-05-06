@@ -265,7 +265,12 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
       ></div>
 
       <div
-        class="mt-4 flex items-center justify-center"
+        class="mt-4 flex items-center"
+        :class="{
+          'justify-center':
+            (preview || store).windowControls !== WindowControls.Windows,
+          'pl-5': (preview || store).windowControls === WindowControls.Windows,
+        }"
         v-if="
           [ExportState.Idle, ExportState.JustCopied].includes(exportState) ||
           block.title.trim()
@@ -290,15 +295,15 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
           :class="{
             // 'text-white/60 placeholder:text-white/30 ': theme.mode === 'dark',
             // 'text-black/60 placeholder:text-black/30': theme.mode === 'light',
+            'inline-flex after:inline-flex after:cursor-text empty:after:content-[attr(data-placeholder)]':
+              block.title.trim() === '',
             'text-center':
               (preview || store).windowControls !== WindowControls.Windows,
-            'pl-5':
-              (preview || store).windowControls === WindowControls.Windows,
           }"
-          class="z-10 inline-flex min-w-[0] shrink-0 border-none bg-transparent px-1 text-xs empty:before:content-[attr(data-placeholder)] focus:outline-none"
-        >
-          {{ block.title }}
-        </div>
+          v-text="block.title"
+          v-once
+          class="z-10 inline-flex h-4 min-w-[0] shrink-0 border-none bg-transparent px-2 text-xs leading-4 focus:outline-none"
+        ></div>
       </div>
       <div v-else></div>
 

@@ -372,11 +372,6 @@ const themeLabels = {
                 <label for="shadowOverlay" class="text-xs font-semibold"
                   >Shadow overlay</label
                 >
-                <div
-                  class="ml-2 h-4 rounded bg-blue-700 px-1 text-[11px] font-semibold uppercase text-white"
-                >
-                  New
-                </div>
               </div>
               <BaseSelect
                 id="shadowOverlay"
