@@ -273,7 +273,8 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
         }"
         v-if="
           [ExportState.Idle, ExportState.JustCopied].includes(exportState) ||
-          block.title.trim()
+          block.title.trim() ||
+          block.icon
         "
       >
         <IconPicker
@@ -285,8 +286,11 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
         />
 
         <div
+          v-if="
+            [ExportState.Idle, ExportState.JustCopied].includes(exportState)
+          "
           contenteditable
-          @input="
+          @blur="
             block.title = ($event.target as HTMLInputElement).textContent || ''
           "
           spellcheck="false"
@@ -295,15 +299,17 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
           :class="{
             // 'text-white/60 placeholder:text-white/30 ': theme.mode === 'dark',
             // 'text-black/60 placeholder:text-black/30': theme.mode === 'light',
-            'inline-flex after:inline-flex after:cursor-text empty:after:content-[attr(data-placeholder)]':
-              block.title.trim() === '',
             'text-center':
               (preview || store).windowControls !== WindowControls.Windows,
           }"
           v-text="block.title"
-          v-once
-          class="z-10 inline-flex h-4 min-w-[0] shrink-0 border-none bg-transparent px-2 text-xs leading-4 focus:outline-none"
-        ></div>
+          class="z-10 inline-flex h-4 min-w-[0] shrink-0 border-none bg-transparent px-2 text-xs leading-4 after:inline-flex after:cursor-text empty:after:content-[attr(data-placeholder)] focus:outline-none"
+        />
+        <div
+          v-else-if="block.title.trim()"
+          class="z-10 inline-flex h-4 min-w-[0] shrink-0 border-none bg-transparent px-2 text-xs leading-4"
+          v-text="block.title"
+        />
       </div>
       <div v-else></div>
 
