@@ -42,17 +42,54 @@ function clearLineDecorations() {
       v-model="currentMenu"
       class="flex items-center overflow-auto border-b border-b-zinc-800 bg-zinc-900 pwa:sm:border-t pwa:sm:border-t-black pwa:sm:shadow-[inset_0_1px_0_rgb(39_39_42)]"
     >
-      <MenubarMenu value="blocks" v-if="store.editMode === 'code'">
+      <MenubarMenu value="help" v-if="store.editMode === 'code'">
         <MenubarTrigger class="menubar-trigger">
-          Blocks
+          Chalk
           <i-radix-icons:chevron-down class="ml-1" />
         </MenubarTrigger>
+
         <MenubarPortal>
           <MenubarContent
             class="menubar-content"
             :side-offset="8"
             :align-offset="8"
           >
+            <MenubarItem
+              as="a"
+              class="menubar-item group"
+              href="https://twitter.com/Idered"
+            >
+              <i-fa6-brands:x-twitter class="mr-2 size-4" />
+              Follow on X
+            </MenubarItem>
+            <MenubarItem
+              as="a"
+              class="menubar-item group"
+              href="https://github.com/Idered/chalk.ist"
+            >
+              <i-fa6-brands:github class="mr-2 size-4" />
+              View source on GitHub
+            </MenubarItem>
+            <MenubarItem
+              as="a"
+              class="menubar-item group"
+              href="https://www.buymeacoffee.com/idered"
+            >
+              <i-ph:coffee class="mr-2 size-4" />
+              Buy me a coffee
+            </MenubarItem>
+            <!-- <MenubarSeparator class="h-[1px] bg-green6 m-[5px]" /> -->
+          </MenubarContent>
+        </MenubarPortal>
+      </MenubarMenu>
+
+      <MenubarMenu value="blocks" v-if="store.editMode === 'code'">
+        <MenubarTrigger class="menubar-trigger">
+          Blocks
+          <i-radix-icons:chevron-down class="ml-1" />
+        </MenubarTrigger>
+        <MenubarPortal>
+          <MenubarContent class="menubar-content" :side-offset="8">
             <MenubarItem class="menubar-item group" @click="addEditorBlock">
               Add Code Block
               <div class="menubar-item-shortcut">⌃ E</div>
@@ -155,6 +192,13 @@ function clearLineDecorations() {
       >
         Done
       </BaseButton>
+      <div
+        class="ml-auto hidden items-center space-x-2 pr-2 lg:flex"
+        v-if="store.editMode === 'code'"
+      >
+        <ExportToClipboardButton class="h-8" />
+        <ExportToPNGButton class="h-8" />
+      </div>
     </MenubarRoot>
   </div>
 </template>

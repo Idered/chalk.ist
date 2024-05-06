@@ -674,18 +674,18 @@ const themeLabels = {
             </template>
 
             <hr
-              class="-mx-3 my-1.5 hidden border-y border-b-zinc-800 border-t-black sm:block"
+              class="-mx-3 my-1.5 hidden border-y border-b-zinc-800 border-t-black sm:block lg:hidden"
             />
 
-            <ExportOptions />
+            <ExportOptions class="lg:hidden" />
 
-            <hr
+            <!-- <hr
               class="-mx-3 my-1.5 hidden border-y border-b-zinc-800 border-t-black sm:block pwa:hidden"
-            />
+            /> -->
           </div>
         </div>
 
-        <TheMeta />
+        <!-- <TheMeta /> -->
 
         <div class="h-3"></div>
       </div>

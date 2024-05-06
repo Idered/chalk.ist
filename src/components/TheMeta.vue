@@ -2,9 +2,9 @@
 
 <template>
   <div
-    class="hidden grid-cols-[1fr_auto_1fr] gap-2 bg-slate-800 sm:static sm:grid sm:grid-cols-1 sm:bg-transparent sm:px-3 sm:py-0 pwa:hidden mt-4"
+    class="mt-4 hidden grid-cols-[1fr_auto_1fr] gap-2 bg-slate-800 sm:static sm:grid sm:grid-cols-1 sm:bg-transparent sm:px-3 sm:py-0 pwa:hidden"
   >
-    <div class="hidden sm:flex justify-center items-center space-x-4">
+    <div class="hidden items-center justify-center space-x-4 sm:flex">
       <Tooltip content="Follow Idered on X">
         <a
           href="https://twitter.com/Idered"
@@ -14,7 +14,7 @@
         </a>
       </Tooltip>
 
-      <span class="opacity-20 skew">/</span>
+      <span class="skew opacity-20">/</span>
 
       <Tooltip content="View source on GitHub">
         <a
@@ -25,7 +25,7 @@
         </a>
       </Tooltip>
 
-      <span class="opacity-20 skew">/</span>
+      <span class="skew opacity-20">/</span>
 
       <Tooltip content="Buy me a coffee">
         <a

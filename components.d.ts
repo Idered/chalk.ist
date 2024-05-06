@@ -49,6 +49,7 @@ declare module 'vue' {
     'IFa6Brands:gith': typeof import('~icons/fa6-brands/gith')['default']
     'IFa6Brands:githu': typeof import('~icons/fa6-brands/githu')['default']
     'IFa6Brands:github': typeof import('~icons/fa6-brands/github')['default']
+    'IFa6Brands:twitter': typeof import('~icons/fa6-brands/twitter')['default']
     'IFa6Brands:x': typeof import('~icons/fa6-brands/x')['default']
     'IFa6Brands:xTwitter': typeof import('~icons/fa6-brands/x-twitter')['default']
     IFa6L: typeof import('~icons/fa/6-l')['default']
