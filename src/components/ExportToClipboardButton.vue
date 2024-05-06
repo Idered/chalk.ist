@@ -71,10 +71,10 @@ function handleCopy() {
 
 <template>
   <BaseButton
-    v-if="!isFirefox"
+    v-if="isFirefox"
     :class="
       twMerge(
-        'group w-full bg-emerald-600/30 px-4 text-emerald-500 hover:bg-emerald-600/40 sm:flex ',
+        'group w-full shrink-0 bg-emerald-600/30 px-4 text-emerald-500 hover:bg-emerald-600/40 sm:flex lg:w-[204px] ',
         $attrs.class as string,
       )
     "
@@ -84,7 +84,7 @@ function handleCopy() {
       width="16"
       class="transition-transform group-hover:rotate-6 group-hover:scale-110"
     />
-    <span class="truncate">
+    <span class="truncate whitespace-nowrap lg:overflow-visible">
       {{
         exportState === ExportState.PreparingToCopy
           ? "..."

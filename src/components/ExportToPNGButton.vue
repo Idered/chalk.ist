@@ -44,14 +44,14 @@ async function handleDownload() {
 
 <template>
   <BaseButton
-    class="w-full justify-center bg-rose-500/30 px-4 text-rose-300 hover:bg-rose-500/40 sm:justify-start"
+    class="w-full justify-center bg-rose-500/30 px-4 text-rose-300 hover:bg-rose-500/40 sm:justify-start lg:w-[150px]"
     @click="handleDownload"
   >
     <IconDownload
       width="16"
       class="transition-transform group-hover:rotate-6 group-hover:scale-110"
     />
-    <span class="truncate">
+    <span class="whitespace-nowrap">
       {{
         exportState === ExportState.PreparingToDownload
           ? "..."
