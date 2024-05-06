@@ -673,11 +673,11 @@ const themeLabels = {
               </div>
             </template>
 
-            <hr
+            <!-- <hr
               class="-mx-3 my-1.5 hidden border-y border-b-zinc-800 border-t-black sm:block lg:hidden"
-            />
+            /> -->
 
-            <ExportOptions class="lg:hidden" />
+            <!-- <ExportOptions class="lg:hidden" /> -->
 
             <!-- <hr
               class="-mx-3 my-1.5 hidden border-y border-b-zinc-800 border-t-black sm:block pwa:hidden"

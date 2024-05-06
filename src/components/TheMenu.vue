@@ -10,7 +10,7 @@ import {
   MenubarRoot,
   MenubarTrigger,
 } from "radix-vue";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import {
   addEditorBlock,
   addMarkdownBlock,
@@ -18,9 +18,13 @@ import {
 } from "~/composables/block";
 import { store } from "~/composables/store";
 import { BlockType } from "~/enums";
+import { copyPngToClipboard, downloadPNG } from "~/lib/export";
 
 const currentMenu = ref("");
 const keys = useMagicKeys();
+const isFirefox = computed(() => {
+  return navigator.userAgent.toLowerCase().includes("firefox");
+});
 
 whenever(() => keys.ctrl_e.value && !keys.current.has("shift"), addEditorBlock);
 whenever(keys.ctrl_shift_e, addMarkdownBlock);
@@ -85,7 +89,7 @@ function clearLineDecorations() {
 
       <MenubarMenu value="blocks" v-if="store.editMode === 'code'">
         <MenubarTrigger class="menubar-trigger">
-          Blocks
+          <span>Blocks</span>
           <i-radix-icons:chevron-down class="ml-1" />
         </MenubarTrigger>
         <MenubarPortal>
@@ -105,7 +109,7 @@ function clearLineDecorations() {
 
       <MenubarMenu value="line decorations" v-if="store.editMode === 'code'">
         <MenubarTrigger class="menubar-trigger">
-          Line decorations
+          <span>Line decorations</span>
           <i-radix-icons:chevron-down class="ml-1" />
         </MenubarTrigger>
 
@@ -155,6 +159,42 @@ function clearLineDecorations() {
         </MenubarPortal>
       </MenubarMenu>
 
+      <MenubarMenu value="export" v-if="store.editMode === 'code'">
+        <MenubarTrigger class="menubar-trigger text-white">
+          <div
+            v-if="store.lastCopyMethod === 'copy_png' && !isFirefox"
+            :tabindex="0"
+            @pointerdown.stop.prevent="copyPngToClipboard"
+            class="-ml-1 mr-2 flex size-8 items-center justify-center rounded hover:bg-slate-700"
+          >
+            <i-radix-icons:clipboard class="size-4" />
+          </div>
+          <div
+            v-if="store.lastCopyMethod === 'download_png'"
+            :tabindex="0"
+            @pointerdown.stop.prevent="downloadPNG"
+            class="-ml-1 mr-2 flex size-8 items-center justify-center rounded hover:bg-slate-700"
+          >
+            <i-radix-icons:download class="size-4" />
+          </div>
+          <span>Export</span>
+          <i-radix-icons:chevron-down class="ml-1" />
+        </MenubarTrigger>
+
+        <MenubarPortal>
+          <MenubarContent class="menubar-content" :side-offset="8">
+            <MenubarItem class="menubar-item" @click="copyPngToClipboard">
+              <i-radix-icons:clipboard class="mr-2 size-4" />
+              <span>Copy Image</span>
+            </MenubarItem>
+            <MenubarItem class="menubar-item" @click="downloadPNG">
+              <i-radix-icons:download class="mr-2 size-4" />
+              <span>Download PNG</span>
+            </MenubarItem>
+          </MenubarContent>
+        </MenubarPortal>
+      </MenubarMenu>
+
       <RadioGroupRoot
         class="flex"
         v-model="store.editMode"
@@ -192,13 +232,14 @@ function clearLineDecorations() {
       >
         Done
       </BaseButton>
-      <div
+
+      <!-- <div
         class="ml-auto hidden items-center space-x-2 pr-2 lg:flex"
         v-if="store.editMode === 'code'"
       >
         <ExportToClipboardButton class="h-8" />
         <ExportToPNGButton class="h-8" />
-      </div>
+      </div> -->
     </MenubarRoot>
   </div>
 </template>

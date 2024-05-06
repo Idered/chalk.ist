@@ -81,6 +81,7 @@ export const store = useStorage("chalk-store", {
   frameHeight: 0,
   frameWidth: 720,
   showAlternatives: true,
+  lastCopyMethod: "download_png",
   language: "typescript",
   lineHeight: 20,
   name: "",

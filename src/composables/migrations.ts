@@ -75,4 +75,5 @@ export function runStoreMigrations() {
   )
     ? DEFAULT_THEME
     : store.value.currentTheme;
+  store.value.lastCopyMethod = store.value.lastCopyMethod ?? "download_png";
 }
