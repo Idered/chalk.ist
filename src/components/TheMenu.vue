@@ -10,7 +10,7 @@ import {
   MenubarRoot,
   MenubarTrigger,
 } from "radix-vue";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import {
   addEditorBlock,
   addMarkdownBlock,
