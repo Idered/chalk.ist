@@ -162,7 +162,7 @@ function clearLineDecorations() {
       <MenubarMenu value="export" v-if="store.editMode === 'code'">
         <MenubarTrigger class="menubar-trigger text-white">
           <div
-            v-if="store.lastCopyMethod === 'copy_png' && !isFirefox"
+            v-if="store.lastCopyMethod === 'copy_png'"
             :tabindex="0"
             @pointerdown.stop.prevent="copyPngToClipboard"
             class="-ml-1 mr-2 flex size-8 items-center justify-center rounded hover:bg-slate-700"
