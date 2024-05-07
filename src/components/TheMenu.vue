@@ -22,9 +22,9 @@ import { copyPngToClipboard, downloadPNG } from "~/lib/export";
 
 const currentMenu = ref("");
 const keys = useMagicKeys();
-const isFirefox = computed(() => {
-  return navigator.userAgent.toLowerCase().includes("firefox");
-});
+// const isFirefox = computed(() => {
+//   return navigator.userAgent.toLowerCase().includes("firefox");
+// });
 
 whenever(() => keys.ctrl_e.value && !keys.current.has("shift"), addEditorBlock);
 whenever(keys.ctrl_shift_e, addMarkdownBlock);
