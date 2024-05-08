@@ -268,18 +268,29 @@ function handleKeyDown(e: KeyboardEvent) {
                 v-for="(result, i) in results"
                 :key="result.item.value + result.item.label"
                 @click="handleSelect(result.item)"
-                class="relative grid h-[24px] cursor-pointer items-center px-2 pl-6 text-[13px] font-medium transition-colors"
                 :class="{
                   'text-white': i === activeIndex,
                 }"
                 @mouseenter="activeIndex = i"
               >
-                <IconCheck
-                  width="12"
-                  class="absolute left-2"
-                  v-if="modelValue === result.item.value"
-                />
-                <span class="whitespace-nowrap">{{ result.item.label }}</span>
+                <slot name="item" :item="result.item">
+                  <div
+                    class="relative grid h-[24px] cursor-pointer items-center px-2 pl-6 text-[13px] font-medium transition-colors"
+                    :class="{
+                      'text-white': i === activeIndex,
+                    }"
+                    @mouseenter="activeIndex = i"
+                  >
+                    <IconCheck
+                      width="12"
+                      class="absolute left-2"
+                      v-if="modelValue === result.item.value"
+                    />
+                    <span class="whitespace-nowrap">{{
+                      result.item.label
+                    }}</span>
+                  </div>
+                </slot>
               </div>
               <div
                 v-if="!search"

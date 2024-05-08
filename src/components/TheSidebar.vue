@@ -114,7 +114,25 @@ const themeLabels = {
                 :model-value="store.colorTheme"
                 @update:model-value="store.colorTheme = $event"
                 :options="themeOptions"
-              />
+              >
+                <!-- <template #item="{ item }">
+                  <div class="flex items-center pl-6">
+                    <div
+                      v-for="{ key, color } in getThemePrimaryColors(
+                        allThemes.find((theme) => theme.id === item.value),
+                      )"
+                      :key="key"
+                      :style="{ backgroundColor: color }"
+                      class="ml-[-5px] h-4 w-4 rounded-full shadow-[0_0_0_1px_rgba(0,0,0)]"
+                    ></div>
+                    <div
+                      class="relative grid h-[24px] cursor-pointer items-center pl-2 text-[13px] font-medium transition-colors"
+                    >
+                      {{ item.label }}
+                    </div>
+                  </div>
+                </template> -->
+              </BaseSelect>
             </div>
 
             <div

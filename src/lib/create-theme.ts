@@ -85,6 +85,8 @@ export function createTheme(name: string, colors: Colors) {
   );
   return {
     name,
+    id: name,
+    displayName: name,
     colors: {
       "editor.background": "#ff000000",
     },
