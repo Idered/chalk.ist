@@ -66,6 +66,9 @@ type Colors = {
 };
 
 export function createTheme(name: string, colors: Colors) {
+  const raw = Object.fromEntries(
+    Object.entries({ ...colors }).sort(([a], [b]) => a.localeCompare(b)),
+  );
   colors = {
     invalid: "#fdaeb7",
     bracketHighlight: "#d1d5da",
@@ -87,6 +90,7 @@ export function createTheme(name: string, colors: Colors) {
     name,
     id: name,
     displayName: name,
+    raw,
     colors: {
       "editor.background": "#ff000000",
     },
@@ -447,6 +451,7 @@ export function createTheme(name: string, colors: Colors) {
     ],
   } satisfies ThemeRegistrationRaw & {
     id: string;
+    raw: Colors;
     colors: Record<string, string>;
   };
 }

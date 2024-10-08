@@ -58,7 +58,7 @@ const themeOptions = computed(() => [
   {
     group: "Chalk.ist Originals",
     children: chalkistThemes
-      .map((item) => ({ value: item.name!, label: item.name! }))
+      .map((item) => ({ value: item.name!, label: item.name!, showEdit: true }))
       .sort((a, b) => a.label.localeCompare(b.label)),
   },
   {
@@ -66,7 +66,11 @@ const themeOptions = computed(() => [
     children: shikiThemes
       .map((item) => ({ value: item.id, label: item.displayName }))
       .concat(
-        ...portedThemes.map((item) => ({ value: item.name, label: item.name })),
+        ...portedThemes.map((item) => ({
+          value: item.name,
+          label: item.name,
+          showEdit: true,
+        })),
       )
       .sort((a, b) => a.label.localeCompare(b.label)),
   },
@@ -84,6 +88,12 @@ const themeLabels = {
   number: "numbers",
   regexp: "RegExp",
 };
+
+const themes = [...chalkistThemes, ...portedThemes];
+
+function getThemeColors(themeName: string) {
+  return themes.find((theme) => theme.name === themeName)?.raw;
+}
 </script>
 
 <template>
@@ -115,23 +125,35 @@ const themeLabels = {
                 @update:model-value="store.colorTheme = $event"
                 :options="themeOptions"
               >
-                <!-- <template #item="{ item }">
-                  <div class="flex items-center pl-6">
-                    <div
-                      v-for="{ key, color } in getThemePrimaryColors(
-                        allThemes.find((theme) => theme.id === item.value),
-                      )"
-                      :key="key"
-                      :style="{ backgroundColor: color }"
-                      class="ml-[-5px] h-4 w-4 rounded-full shadow-[0_0_0_1px_rgba(0,0,0)]"
-                    ></div>
-                    <div
-                      class="relative grid h-[24px] cursor-pointer items-center pl-2 text-[13px] font-medium transition-colors"
+                <template #item="{ item }">
+                  <div
+                    class="group relative flex h-[24px] cursor-pointer items-center px-2 pl-6 text-[13px] font-medium transition-colors"
+                  >
+                    <IconCheck
+                      width="12"
+                      class="absolute left-2"
+                      v-if="store.colorTheme === item.value"
+                    />
+                    <span class="whitespace-nowrap pr-2">{{ item.label }}</span>
+
+                    <BaseButton
+                      v-if="item.showEdit"
+                      @click.stop="
+                        () => {
+                          const colors = getThemeColors(item.value);
+                          if (colors) {
+                            store.customTheme = colors;
+                          }
+                        }
+                      "
+                      class="ml-auto h-5 rounded bg-blue-600/30 px-2.5 text-xs font-semibold text-blue-500 opacity-0 hover:bg-blue-600/40 group-hover:opacity-100"
                     >
-                      {{ item.label }}
-                    </div>
+                      <span class="text-[10px] uppercase tracking-wider"
+                        >Edit</span
+                      >
+                    </BaseButton>
                   </div>
-                </template> -->
+                </template>
               </BaseSelect>
             </div>
 
