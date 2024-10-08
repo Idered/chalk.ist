@@ -1,4 +1,4 @@
-import { BundledThemeInfo, bundledThemesInfo, RawTheme } from "shiki";
+import { bundledThemesInfo } from "shiki";
 import { createTheme } from "~/lib/create-theme";
 
 const excludedThemes = [

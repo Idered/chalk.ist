@@ -446,6 +446,7 @@ export function createTheme(name: string, colors: Colors) {
       },
     ],
   } satisfies ThemeRegistrationRaw & {
+    id: string;
     colors: Record<string, string>;
   };
 }

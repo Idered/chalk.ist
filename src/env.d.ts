@@ -8,6 +8,7 @@ declare module "*.vue" {
 }
 
 declare var umami: umami.umami;
+declare module "vue-color-kit";
 
 // https://umami.is/docs/tracker-functions
 declare namespace umami {
