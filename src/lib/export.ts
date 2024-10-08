@@ -18,7 +18,7 @@ export async function downloadPNG() {
   exportState.value = ExportState.PreparingToDownload;
   await nextTick();
   const blob = await domToBlob(frame, {
-    scale: 2,
+    scale: 4,
     width: frame.offsetWidth,
     height: frame.offsetHeight,
   });
@@ -54,7 +54,7 @@ export function copyPngToClipboard() {
         exportState.value = ExportState.PreparingToCopy;
         await nextTick();
         domToBlob(frame, {
-          scale: 2,
+          scale: 4,
           width: frame.offsetWidth,
           height: frame.offsetHeight,
           filter: (element) => {
