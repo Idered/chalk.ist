@@ -61,7 +61,7 @@ function clearLineDecorations() {
             <MenubarItem
               as="a"
               class="menubar-item group"
-              href="https://twitter.com/Idered"
+              href="https://x.com/Idered"
             >
               <i-fa6-brands:x-twitter class="mr-2 size-4" />
               Follow on X

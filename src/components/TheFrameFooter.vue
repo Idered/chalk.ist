@@ -9,7 +9,7 @@ const author = computed(() => {
 </script>
 
 <template>
-  <div class="flex justify-between items-center">
+  <div class="flex items-center justify-between">
     <div
       v-if="store.showWatermark"
       :class="{
@@ -21,7 +21,7 @@ const author = computed(() => {
       }"
     >
       <div
-        class="text-white z-10 left-2 absolute bottom-2 text-sm h-5 font-medium tracking-wide [text-shadow:0_0px_3px_black]"
+        class="absolute bottom-2 left-2 z-10 h-5 text-sm font-medium tracking-wide text-white [text-shadow:0_0px_3px_black]"
         :style="{
           opacity: store.watermarkOpacity / 100,
         }"
@@ -34,7 +34,7 @@ const author = computed(() => {
       :href="
         author.username ? `https://twitter.com/${author.username}` : undefined
       "
-      class="relative z-10 ml-auto mt-4 flex items-center rounded-full bg-black/70 p-1 text-white"
+      class="relative z-10 ml-auto mt-4 flex items-center rounded-full bg-black/70 px-4 py-1 text-white"
       :class="{
         'hover:bg-black/50': author.username,
       }"
@@ -51,8 +51,8 @@ const author = computed(() => {
         class="rounded-full"
         alt=""
       />
-      <IconTwitterCircle v-else :width="32" />
-      <div v-if="author.name || author.username" class="ml-2 pr-4">
+      <IconTwitterCircle v-else :width="24" />
+      <div v-if="author.name || author.username" class="ml-2">
         <div class="text-xs font-semibold" v-if="author.name">
           {{ author.name }}
         </div>
