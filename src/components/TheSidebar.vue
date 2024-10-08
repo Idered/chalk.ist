@@ -143,6 +143,8 @@ function getThemeColors(themeName: string) {
                           const colors = getThemeColors(item.value);
                           if (colors) {
                             store.customTheme = colors;
+                            store.expandCustomThemeOptions = true;
+                            store.useCustomTheme = true;
                           }
                         }
                       "
