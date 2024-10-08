@@ -68,7 +68,7 @@ type Colors = {
 export function createTheme(name: string, colors: Colors) {
   const raw = Object.fromEntries(
     Object.entries({ ...colors }).sort(([a], [b]) => a.localeCompare(b)),
-  );
+  ) as Colors;
   colors = {
     invalid: "#fdaeb7",
     bracketHighlight: "#d1d5da",
