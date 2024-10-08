@@ -34,7 +34,7 @@ const author = computed(() => {
       :href="
         author.username ? `https://twitter.com/${author.username}` : undefined
       "
-      class="relative z-10 ml-auto mt-4 flex items-center rounded-full bg-black/70 px-4 py-1 text-white"
+      class="relative z-10 ml-auto mt-4 flex items-center rounded-full bg-black/70 py-1.5 pl-3 pr-4 text-white"
       :class="{
         'hover:bg-black/50': author.username,
       }"
@@ -48,12 +48,12 @@ const author = computed(() => {
         :src="author.picture"
         width="32"
         height="32"
-        class="rounded-full"
+        class="-my-2 -ml-2 rounded-full"
         alt=""
       />
-      <IconTwitterCircle v-else :width="24" />
-      <div v-if="author.name || author.username" class="ml-2">
-        <div class="text-xs font-semibold" v-if="author.name">
+      <IconTwitterCircle v-else :width="20" />
+      <div v-if="author.name || author.username" class="ml-2 grid gap-0.5">
+        <div class="text-xs font-semibold leading-3" v-if="author.name">
           {{ author.name }}
         </div>
         <div
