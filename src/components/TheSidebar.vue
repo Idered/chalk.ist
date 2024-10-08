@@ -598,7 +598,7 @@ const themeLabels = {
               <label
                 class="cursor-pointer select-none text-xs font-semibold"
                 for="showTwitterBadge"
-                >Twitter badge</label
+                >Twitter/X badge</label
               >
               <BaseButton
                 class="h-5 rounded bg-blue-600/30 px-2.5 text-xs font-semibold text-blue-500 hover:bg-blue-600/40"

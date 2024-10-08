@@ -7,7 +7,7 @@
     <div class="hidden items-center justify-center space-x-4 sm:flex">
       <Tooltip content="Follow Idered on X">
         <a
-          href="https://twitter.com/Idered"
+          href="https://x.com/Idered"
           class="font-medium outline-none transition hover:text-white focus:text-white"
         >
           <i-fa6-brands:x-twitter />
