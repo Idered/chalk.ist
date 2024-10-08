@@ -45,7 +45,7 @@ const icons = [
   "binary",
   "biome",
   "bitbucketpipeline",
-  "blade",
+  ["blade", "laravel"],
   "blitzbasic",
   "bolt",
   "browserslist",
@@ -815,7 +815,11 @@ const limit = ref(80);
 const list = computed(() =>
   icons
     .filter((icon) =>
-      icon.toLowerCase().includes(searchTerm.value.toLowerCase()),
+      Array.isArray(icon)
+        ? icon.some((i) =>
+            i.toLowerCase().includes(searchTerm.value.toLowerCase()),
+          )
+        : icon.toLowerCase().includes(searchTerm.value.toLowerCase()),
     )
     .slice(0, limit.value),
 );
@@ -884,24 +888,26 @@ onUnmounted(() => {
           <div
             :tabindex="0"
             v-for="item of list"
-            :key="item"
-            :title="item"
+            :key="Array.isArray(item) ? item.join('') : item"
+            :title="Array.isArray(item) ? item.join(', ') : item"
             class="cursor-pointer items-center rounded-md p-1.5 text-[13px] font-medium outline-none transition-colors hover:bg-slate-700 focus:ring-2 focus:ring-blue-800"
             @keydown.enter="
               () => {
-                model = item;
+                model = Array.isArray(item) ? item[0] : item;
                 open = false;
               }
             "
             @click="
               () => {
-                model = item;
+                model = Array.isArray(item) ? item[0] : item;
                 open = false;
               }
             "
           >
             <Icon
-              :icon="`vscode-icons:file-type-${item}`"
+              :icon="`vscode-icons:file-type-${
+                Array.isArray(item) ? item[0] : item
+              }`"
               class="size-7 text-white"
             />
           </div>
