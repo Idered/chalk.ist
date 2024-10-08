@@ -322,8 +322,76 @@ const themeLabels = {
               v-if="store.expandBackdrops"
               class="-mx-0.5 flex flex-wrap items-center gap-0 sm:grid sm:grid-flow-row sm:grid-cols-7"
             >
+              <PopoverRoot>
+                <PopoverTrigger
+                  class="group col-span-2 border-2 border-transparent focus:outline-none"
+                  :title="`Use Solid backdrop`"
+                  @mouseenter="
+                    () => {
+                      originalBackdrop = originalBackdrop ?? store.backdrop;
+                      store.backdrop = 'Solid';
+                    }
+                  "
+                  @mouseleave="
+                    () => {
+                      if (originalBackdrop) {
+                        store.backdrop = originalBackdrop;
+                        originalBackdrop = null;
+                      }
+                    }
+                  "
+                  @click="
+                    () => {
+                      store.backdrop = 'Solid';
+                      originalBackdrop = null;
+                    }
+                  "
+                >
+                  <div
+                    class="flex h-[30px] shrink-0 items-center justify-center rounded ring-blue-800 transition group-hover:scale-105 group-hover:opacity-100 group-focus:shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] group-focus:ring-[3px] group-active:scale-95"
+                    :style="{ backgroundColor: 'var(--solid-background)' }"
+                    :class="{
+                      'shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] ring-[2px]':
+                        store.backdrop === 'Solid',
+                    }"
+                  >
+                    <div
+                      class="rounded-[3px] bg-black/40 px-1 text-[10px] font-bold uppercase tracking-wider text-white"
+                    >
+                      Custom
+                    </div>
+                  </div>
+                </PopoverTrigger>
+
+                <PopoverPortal>
+                  <PopoverContent
+                    :align-offset="8"
+                    :side-offset="-12"
+                    side="bottom"
+                    align="start"
+                    class="z-[100000] rounded-md border border-slate-700 bg-slate-800 p-4 font-mono shadow-[rgba(0,0,0,0.25)_0px_14px_28px,rgba(0,0,0,0.22)_0px_10px_10px] will-change-[transform,opacity] data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=top]:animate-slideDownAndFade"
+                  >
+                    <PopoverArrow />
+                    <ColorPicker
+                      class="box-content"
+                      :color="store.solidBackground"
+                      @changeColor="
+                        store.solidBackground = `rgba(${[
+                          $event.rgba.r,
+                          $event.rgba.g,
+                          $event.rgba.b,
+                          $event.rgba.a,
+                        ].join(',')})`
+                      "
+                    />
+                  </PopoverContent>
+                </PopoverPortal>
+              </PopoverRoot>
               <button
                 v-for="(item, key) in Backdrops"
+                :class="{
+                  hidden: key === 'Solid',
+                }"
                 @mouseenter="
                   () => {
                     originalBackdrop = originalBackdrop ?? store.backdrop;
@@ -444,6 +512,17 @@ const themeLabels = {
             <hr
               class="-mx-3 my-1.5 border-y border-b-zinc-800 border-t-black"
             />
+
+            <div
+              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+            >
+              <label
+                class="cursor-pointer select-none text-xs font-semibold"
+                for="showWindow"
+                >Window</label
+              >
+              <BaseSwitch v-model="store.showWindow" id="showWindow" />
+            </div>
 
             <div
               class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"

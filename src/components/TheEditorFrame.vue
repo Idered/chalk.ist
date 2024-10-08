@@ -36,16 +36,16 @@ const scale = computed(() => {
 <template>
   <div
     data-editor-frame-container
-    class="grid overflow-y-auto overflow-x-hidden font-sans grid-rows-[auto_1fr]"
+    class="grid grid-rows-[auto_1fr] overflow-y-auto overflow-x-hidden font-sans"
   >
     <TheMenu :frame-width="frameWidth" />
 
     <div
       ref="container"
-      class="grid grid-rows-[1fr_auto] overflow-y-auto overflow-x-hidden relative"
+      class="relative grid grid-rows-[1fr_auto] overflow-y-auto overflow-x-hidden"
     >
       <div
-        class="grid items-start justify-items-center content-center origin-[center_left]"
+        class="grid origin-[center_left] content-center items-start justify-items-center"
         :style="{
           marginBlock:
             frameHeight <= containerHeight

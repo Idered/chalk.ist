@@ -15,8 +15,9 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
     }"
   >
     <div
-      class="absolute inset-0 transition"
+      class="absolute inset-0"
       :class="{
+        transition: store.backdrop !== 'Solid',
         'opacity-0': !store.showBackground,
       }"
       :style="{

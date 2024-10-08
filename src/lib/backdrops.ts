@@ -21,6 +21,18 @@ export const Backdrops: Backdrop = {
   // Random4: generateRandomBackdrop(),
   // Random5: generateRandomBackdrop(),
 
+  Solid: {
+    backgroundStyle: {
+      background: `var(--solid-background)`,
+    },
+    shadow: "hsl(0, 0%, 6%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.08,
+    appStyle: {
+      backgroundColor: "hsla(0, 0%, 6%, 0.85)",
+    },
+  },
+
   Monochrome_1: {
     backgroundStyle: {
       background: `conic-gradient(

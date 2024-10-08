@@ -61,6 +61,7 @@ export const store = useStorage("chalk-store", {
       transformations: [],
     },
   ] as Block[],
+  solidBackground: "hsl(0, 0%, 0%)",
   backdrop: "R3" as keyof typeof Backdrops,
   backdropNoise: false,
   colorTheme: "Vue",
@@ -101,6 +102,7 @@ export const store = useStorage("chalk-store", {
   windowControls: WindowControls.MacOutline,
   windowNoise: false,
   windowStyle: "variant-1",
+  showWindow: true,
   shadowOverlay: "none" as keyof typeof SHADOW_OVERLAY_MAPPING,
 });
 

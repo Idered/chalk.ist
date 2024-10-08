@@ -46,7 +46,7 @@
     "unplugin-vue-components": "0.26.0",
     "uuid": "9.0.0",
     "vue": "^3.4.23",
-    "vue-color-kit": "1.0.6",
+    "vue-color-kit": "github:Idered/vue-color-kit",
     "vue-demi": "0.13.11",
     "vue-router": "4.2.4"
   },
