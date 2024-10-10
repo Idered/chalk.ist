@@ -275,7 +275,7 @@ function getThemeColors(themeName: string) {
                   id="fontSize"
                   class="-my-1"
                   :min="12"
-                  :max="20"
+                  :max="40"
                   v-model="store.fontSize"
                 />
               </div>
@@ -294,7 +294,7 @@ function getThemeColors(themeName: string) {
                   id="lineHeight"
                   class="-my-1"
                   :min="20"
-                  :max="40"
+                  :max="64"
                   v-model="store.lineHeight"
                 />
               </div>
@@ -529,6 +529,46 @@ function getThemeColors(themeName: string) {
                   :max="128"
                   :step="8"
                   v-model="store.paddingY"
+                />
+              </div>
+            </div>
+
+            <div
+              class="grid h-5 grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+            >
+              <label
+                class="cursor-pointer select-none text-xs font-semibold"
+                for="innerPaddingX"
+                >Inner Padding X</label
+              >
+              <div class="grid grid-flow-col gap-x-2 text-sm">
+                <BaseSlider
+                  class="w-[100px]"
+                  id="innerPaddingX"
+                  :min="20"
+                  :max="128"
+                  :step="4"
+                  v-model="store.innerPaddingX"
+                />
+              </div>
+            </div>
+
+            <div
+              class="grid h-5 grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+            >
+              <label
+                class="cursor-pointer select-none text-xs font-semibold"
+                for="innerPaddingY"
+                >Inner Padding Y</label
+              >
+              <div class="grid grid-flow-col gap-x-2 text-sm">
+                <BaseSlider
+                  class="w-[100px]"
+                  id="innerPaddingY"
+                  :min="24"
+                  :max="128"
+                  :step="4"
+                  v-model="store.innerPaddingY"
                 />
               </div>
             </div>

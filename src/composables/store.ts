@@ -88,6 +88,8 @@ export const store = useStorage("chalk-store", {
   name: "",
   paddingX: 80,
   paddingY: 80,
+  innerPaddingX: 20,
+  innerPaddingY: 24,
   picture: "",
   reflection: true,
   useCustomTheme: false,

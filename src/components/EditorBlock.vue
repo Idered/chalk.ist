@@ -392,7 +392,14 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
       </div>
     </div>
 
-    <div class="overflow-hidden py-6" ref="editorContainer">
+    <div
+      class="overflow-hidden"
+      ref="editorContainer"
+      :style="{
+        paddingTop: `${store.innerPaddingY}px`,
+        paddingBottom: `${store.innerPaddingY}px`,
+      }"
+    >
       <TheEditor
         ref="editor"
         :block="block"

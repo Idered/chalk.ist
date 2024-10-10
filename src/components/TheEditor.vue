@@ -234,13 +234,14 @@ useEventListener(editor, "keydown", async (e) => {
 });
 
 const gutter = computed(() => {
+  const base = store.value.innerPaddingX;
   const len = props.block.content.split("\n").length;
-  if (!store.value.showLineNumbers) return "20px";
+  if (!store.value.showLineNumbers) return `${base}px`;
   return len >= 100
-    ? "calc(6.5ch + 4px)"
+    ? `calc(6.5ch + 4px + ${base}px)`
     : len >= 10
-      ? "calc(5.5ch + 4px)"
-      : "calc(4.5ch + 4px)";
+      ? `calc(5.5ch + 4px + ${base}px)`
+      : `calc(4.5ch + 4px + ${base}px)`;
 });
 
 const fontFeatureSettings = computed(() => {
@@ -332,6 +333,8 @@ const { width: editorWidth } = useElementSize(editor);
 const charactersPerLine = computed(() =>
   Math.floor(editorWidth.value / characterWidth.value),
 );
+
+const innerPaddingX = computed(() => `${store.value.innerPaddingX}px`);
 </script>
 
 <template>
@@ -439,7 +442,7 @@ const charactersPerLine = computed(() =>
   resize: none;
   background: transparent;
   border: none;
-  margin-inline-end: 20px;
+  margin-inline-end: v-bind(innerPaddingX);
   margin-inline-start: v-bind(gutter);
   -webkit-text-fill-color: transparent;
   -webkit-text-size-adjust: none;
@@ -473,7 +476,7 @@ const charactersPerLine = computed(() =>
 
 .formatted .line {
   position: relative;
-  padding-inline-end: 20px;
+  padding-inline-end: v-bind(innerPaddingX);
   padding-inline-start: v-bind(gutter);
   transition:
     padding 0.375s ease-in-out,
