@@ -97,7 +97,7 @@ function startResize(
   @apply absolute z-10 flex items-center justify-center bg-red-500/10;
 }
 .handle-container {
-  @apply pointer-events-auto relative z-10 flex h-4 w-6 items-center justify-center;
+  @apply pointer-events-auto relative z-20 flex h-4 w-6 items-center justify-center;
 }
 .handle {
   @apply border border-white bg-red-900/90 shadow-[0_0_0_1px_rgba(0,0,0,.1),0_2px_8px_rgba(0,0,0,.2)] transition-transform group-hover:scale-150;

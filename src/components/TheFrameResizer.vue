@@ -37,7 +37,7 @@ function startResize(event: MouseEvent, handle: "left" | "right") {
 <template>
   <div
     v-if="exportState === ExportState.Idle && !preview"
-    class="pointer-events-none sticky top-1/2 z-10 -mt-6 flex justify-between"
+    class="pointer-events-none sticky top-1/2 z-20 -mt-6 flex justify-between"
   >
     <div
       class="group pointer-events-auto flex h-6 w-6 -translate-x-1/2 -translate-y-1/2 cursor-col-resize items-center justify-center"
