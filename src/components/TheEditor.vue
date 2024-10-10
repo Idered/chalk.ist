@@ -358,6 +358,7 @@ const innerPaddingX = computed(() => `${store.value.innerPaddingX}px`);
         'font-size': store.fontSize + 'px',
       }"
       :class="{
+        'is-resizing': store.isResizingInnerPadding,
         'pointer-events-none': store.editMode === 'code',
         'opacity-0': !shiki,
       }"
@@ -482,6 +483,10 @@ const innerPaddingX = computed(() => `${store.value.innerPaddingX}px`);
     padding 0.375s ease-in-out,
     opacity 0.375s ease-in-out,
     filter 0.075s ease-in-out;
+}
+
+.formatted.is-resizing .line {
+  transition: none;
 }
 
 .formatted .line:hover {

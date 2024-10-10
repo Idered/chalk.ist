@@ -145,6 +145,7 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
     <div
       class="pointer-events-none absolute inset-0 overflow-hidden rounded-md [--base-delay:0]"
     >
+      <TheContentResizer />
       <!-- <div
         v-if="store.windowStyle === 'variant-1' || store.windowStyle === 'variant-2'"
         v-for="item in highlights"

@@ -95,6 +95,7 @@ export const store = useStorage("chalk-store", {
   useCustomTheme: false,
   showBackground: true,
   showLineNumbers: true,
+  isResizingInnerPadding: false,
   showParticles: true,
   watermark: "chalk.ist",
   watermarkOpacity: 50,

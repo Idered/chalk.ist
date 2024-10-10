@@ -57,7 +57,7 @@ const scale = computed(() => {
               : undefined,
         }"
       >
-        <div class="px-2">
+        <div class="relative px-2">
           <TheFrameResizer />
           <div
             ref="editorFrame"
@@ -65,6 +65,7 @@ const scale = computed(() => {
             class="relative"
             :style="{ width: `${frameWidth - 16}px` }"
           >
+            <TheWindowResizer />
             <!-- <BaseButton
               v-if="preview"
               class="group absolute left-0 top-full mt-2 bg-emerald-600/30 px-4 text-emerald-500 hover:bg-emerald-600/40"

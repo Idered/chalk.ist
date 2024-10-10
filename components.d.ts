@@ -47,6 +47,7 @@ declare module 'vue' {
     NumberInput: typeof import('./src/components/NumberInput.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TheContentResizer: typeof import('./src/components/TheContentResizer.vue')['default']
     TheEditor: typeof import('./src/components/TheEditor.vue')['default']
     TheEditorFrame: typeof import('./src/components/TheEditorFrame.vue')['default']
     TheFrameBackground: typeof import('./src/components/TheFrameBackground.vue')['default']
@@ -57,6 +58,7 @@ declare module 'vue' {
     TheParticlesBackground: typeof import('./src/components/TheParticlesBackground.vue')['default']
     TheSidebar: typeof import('./src/components/TheSidebar.vue')['default']
     TheToolbar: typeof import('./src/components/TheToolbar.vue')['default']
+    TheWindowResizer: typeof import('./src/components/TheWindowResizer.vue')['default']
     Tooltip: typeof import('./src/components/Tooltip.vue')['default']
   }
 }
