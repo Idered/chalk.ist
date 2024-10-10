@@ -238,10 +238,10 @@ const gutter = computed(() => {
   const len = props.block.content.split("\n").length;
   if (!store.value.showLineNumbers) return `${base}px`;
   return len >= 100
-    ? `calc(6.5ch + 4px + ${base}px)`
+    ? `calc(4ch + 4px + ${base}px)`
     : len >= 10
-      ? `calc(5.5ch + 4px + ${base}px)`
-      : `calc(4.5ch + 4px + ${base}px)`;
+      ? `calc(3ch + 4px + ${base}px)`
+      : `calc(2ch + 4px + ${base}px)`;
 });
 
 const fontFeatureSettings = computed(() => {
