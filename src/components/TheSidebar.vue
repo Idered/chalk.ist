@@ -546,7 +546,7 @@ function getThemeColors(themeName: string) {
                   class="w-[100px]"
                   id="innerPaddingX"
                   :min="20"
-                  :max="128"
+                  :max="200"
                   :step="4"
                   v-model="store.innerPaddingX"
                 />
