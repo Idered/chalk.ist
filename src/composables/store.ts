@@ -107,6 +107,7 @@ export const store = useStorage("chalk-store", {
   windowStyle: "variant-1",
   showWindow: true,
   shadowOverlay: "none" as keyof typeof SHADOW_OVERLAY_MAPPING,
+  showUI: true,
 });
 
 runStoreMigrations();

@@ -5,6 +5,7 @@ import { BlockType, WindowControls } from "~/enums";
 import { CodeBlock } from "~/types";
 
 export function runStoreMigrations() {
+  store.value.showUI = store.value.showUI ?? true;
   store.value.innerPaddingX = store.value.innerPaddingX ?? 20;
   store.value.innerPaddingY = store.value.innerPaddingY ?? 24;
   store.value.solidBackground = store.value.solidBackground ?? "hsl(0, 0%, 0%)";

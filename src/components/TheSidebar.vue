@@ -97,7 +97,7 @@ function getThemeColors(themeName: string) {
 </script>
 
 <template>
-  <OnClickOutside @trigger="isExpanded = false">
+  <OnClickOutside v-if="store.showUI" @trigger="isExpanded = false">
     <aside>
       <div class="sm:hidden" :style="{ height: '57px' }"></div>
       <div

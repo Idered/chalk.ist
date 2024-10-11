@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useMagicKeys, whenever } from "@vueuse/core";
+import { onKeyStroke, useMagicKeys, whenever } from "@vueuse/core";
 import {
   MenubarContent,
   MenubarItem,
@@ -26,6 +26,11 @@ const keys = useMagicKeys();
 //   return navigator.userAgent.toLowerCase().includes("firefox");
 // });
 
+onKeyStroke(["cmd", "."], (e) => {
+  e.preventDefault();
+  store.value.showUI = !store.value.showUI;
+});
+
 whenever(() => keys.ctrl_e.value && !keys.current.has("shift"), addEditorBlock);
 whenever(keys.ctrl_shift_e, addMarkdownBlock);
 
@@ -41,7 +46,8 @@ function clearLineDecorations() {
 </script>
 ©
 <template>
-  <div>
+  <div v-if="!store.showUI"></div>
+  <div v-else>
     <MenubarRoot
       v-model="currentMenu"
       class="flex items-center overflow-auto border-b border-b-zinc-800 bg-zinc-900 pwa:sm:border-t pwa:sm:border-t-black pwa:sm:shadow-[inset_0_1px_0_rgb(39_39_42)]"
