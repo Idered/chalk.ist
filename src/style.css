@@ -15,7 +15,7 @@
     @apply flex h-12 select-none items-center px-3 py-1.5 text-xs font-semibold text-slate-500 outline-none transition-all hover:bg-zinc-950 data-[state=checked]:text-white data-[state=checked]:shadow-[inset_0_-2px_theme('colors.blue.700')];
   }
   .menubar-content {
-    @apply min-w-[220px] rounded-md border border-zinc-800 bg-zinc-950 p-[5px] text-xs shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px] outline-none will-change-[transform,opacity] [animation-duration:_400ms] [animation-timing-function:_cubic-bezier(0.16,_1,_0.3,_1)];
+    @apply relative z-30 min-w-[220px] rounded-md border border-zinc-800 bg-zinc-950 p-[5px] text-xs shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px] outline-none will-change-[transform,opacity] [animation-duration:_400ms] [animation-timing-function:_cubic-bezier(0.16,_1,_0.3,_1)];
   }
   .menubar-item {
     @apply relative flex h-[25px] select-none items-center rounded px-[10px] text-slate-500 outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-blue-600 data-[state=open]:bg-zinc-800 data-[highlighted]:to-slate-800 data-[disabled]:text-slate-500/40 data-[highlighted]:data-[state=open]:text-white data-[highlighted]:text-white data-[state=open]:text-slate-500;
