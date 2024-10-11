@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { track } from "@vercel/analytics";
 import { domToBlob } from "modern-screenshot";
 import { ref } from "vue";
 import { nextTick } from "vue";
@@ -27,10 +26,7 @@ async function handleDownload() {
   const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
   if (!frame) return;
 
-  track("Export PNG", {
-    color_theme: store.value.useCustomTheme ? "custom" : store.value.colorTheme,
-    backdrop: store.value.showBackground ? "none" : store.value.backdrop,
-  });
+  umami.track("Download PNG");
   exportState.value = ExportState.PreparingToDownload;
   await nextTick();
   const blob = await domToBlob(frame, {

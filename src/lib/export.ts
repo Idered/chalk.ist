@@ -1,4 +1,3 @@
-import { track } from "@vercel/analytics";
 import { domToBlob } from "modern-screenshot";
 import { nextTick } from "vue";
 import { exportState } from "~/composables/export-state";
@@ -11,10 +10,7 @@ export async function downloadPNG() {
   const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
   if (!frame) return;
   store.value.lastCopyMethod = "download_png";
-  track("Export PNG", {
-    color_theme: store.value.useCustomTheme ? "custom" : store.value.colorTheme,
-    backdrop: store.value.showBackground ? "none" : store.value.backdrop,
-  });
+  umami.track("Download PNG");
   exportState.value = ExportState.PreparingToDownload;
   await nextTick();
   const blob = await domToBlob(frame, {
@@ -45,12 +41,7 @@ export function copyPngToClipboard() {
           "[data-editor-frame]",
         );
         if (!frame) return;
-        track("Export to Clipboard", {
-          color_theme: store.value.useCustomTheme
-            ? "custom"
-            : store.value.colorTheme,
-          backdrop: store.value.showBackground ? store.value.backdrop : "none",
-        });
+        umami.track("Copy PNG to Clipboard");
         exportState.value = ExportState.PreparingToCopy;
         await nextTick();
         domToBlob(frame, {
