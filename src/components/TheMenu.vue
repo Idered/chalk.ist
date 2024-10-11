@@ -26,9 +26,11 @@ const keys = useMagicKeys();
 //   return navigator.userAgent.toLowerCase().includes("firefox");
 // });
 
-onKeyStroke(["cmd", "."], (e) => {
-  e.preventDefault();
-  store.value.showUI = !store.value.showUI;
+onKeyStroke(".", (e) => {
+  if (e.metaKey) {
+    e.preventDefault();
+    store.value.showUI = !store.value.showUI;
+  }
 });
 
 whenever(() => keys.ctrl_e.value && !keys.current.has("shift"), addEditorBlock);
@@ -46,8 +48,7 @@ function clearLineDecorations() {
 </script>
 ©
 <template>
-  <div v-if="!store.showUI"></div>
-  <div v-else>
+  <div>
     <MenubarRoot
       v-model="currentMenu"
       class="flex items-center overflow-auto border-b border-b-zinc-800 bg-zinc-900 pwa:sm:border-t pwa:sm:border-t-black pwa:sm:shadow-[inset_0_1px_0_rgb(39_39_42)]"
