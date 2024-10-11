@@ -318,7 +318,7 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
         />
         <div
           v-else-if="block.title.trim()"
-          class="z-10 inline-flex h-4 min-w-[0] shrink-0 border-none bg-transparent px-2 text-xs leading-4"
+          class="z-10 inline-flex h-4 min-w-[0] shrink-0 whitespace-nowrap border-none bg-transparent px-2 text-xs leading-4"
           v-text="block.title"
         />
       </div>
