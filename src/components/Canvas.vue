@@ -84,7 +84,13 @@ const paddingStyle = computed(() => ({
                   gridRow: `span ${block.rowSpan}`,
                 }"
               >
-                <Window v-if="block.type === BlockType.Code" :block="block" />
+                <Window v-if="block.type === BlockType.Code" :mode="block.mode">
+                  <EditorResizer />
+                  <WindowReflection />
+                  <WindowTitle :block="block" />
+                  <WindowContent :block="block" />
+                  <WindowFooter :block="block" />
+                </Window>
               </div>
             </div>
 

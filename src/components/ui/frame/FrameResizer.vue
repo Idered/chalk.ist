@@ -40,7 +40,7 @@ function startResize(event: MouseEvent, handle: "left" | "right") {
     class="pointer-events-none sticky top-1/2 z-20 -mt-6 flex justify-between"
   >
     <div
-      class="group pointer-events-auto flex h-6 w-6 -translate-x-1/2 -translate-y-1/2 cursor-col-resize items-center justify-center"
+      class="group pointer-events-auto flex -translate-x-3/4 -translate-y-1/2 cursor-col-resize items-center justify-center"
       @mousedown="startResize($event, 'left')"
     >
       <div
@@ -49,7 +49,7 @@ function startResize(event: MouseEvent, handle: "left" | "right") {
     </div>
 
     <div
-      class="group pointer-events-auto flex h-6 w-6 -translate-y-1/2 translate-x-1/2 cursor-col-resize select-none items-center justify-center"
+      class="group pointer-events-auto flex -translate-y-1/2 translate-x-3/4 cursor-col-resize select-none items-center justify-center"
       @mousedown="startResize($event, 'right')"
     >
       <div

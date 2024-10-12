@@ -2,10 +2,9 @@
 import { computed } from "vue";
 import { store } from "~/lib/store";
 import { Backdrops } from "~/lib/backdrops";
-import { CodeBlock } from "~/types";
 
 defineProps<{
-  block: CodeBlock;
+  mode: "preview" | "edit";
 }>();
 
 const backdrop = computed(() => Backdrops[store.value.backdrop]);
@@ -13,7 +12,6 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
 
 <template>
   <div
-    v-if="block"
     class="relative grid h-full grid-rows-[auto_1fr_auto]"
     :class="{
       'rounded-md': store.paddingX !== 0 && store.paddingY !== 0,
@@ -81,7 +79,7 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
                 }[store.windowStyle] || {}
               : {},
             backdrop.appStyle || {},
-            block.mode === 'preview'
+            mode === 'preview'
               ? {
                   backgroundColor: 'white',
                   boxShadow: (() => {
@@ -100,10 +98,6 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
           ]
     "
   >
-    <EditorResizer />
-    <WindowReflection />
-    <WindowTitle :block="block" />
-    <WindowContent :block="block" />
-    <WindowFooter :block="block" />
+    <slot />
   </div>
 </template>
