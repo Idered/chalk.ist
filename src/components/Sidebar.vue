@@ -99,7 +99,7 @@ function getThemeColors(themeName: string) {
     <aside>
       <div class="sm:hidden" :style="{ height: '57px' }"></div>
       <div
-        class="fixed inset-x-0 bottom-0 z-10 max-h-screen content-start border-t border-zinc-800 bg-zinc-900 transition-[height] sm:static sm:!h-screen sm:w-[274px] sm:overflow-auto sm:border-r sm:border-t-0 sm:transition-none pwa:sm:border-t pwa:sm:border-t-black pwa:sm:shadow-[inset_0_1px_0_rgb(39_39_42)]"
+        class="fixed inset-x-0 bottom-0 z-10 max-h-screen content-start border-t border-zinc-800 bg-zinc-900 transition-[height] sm:static sm:!h-screen sm:w-[282px] sm:overflow-auto sm:border-r sm:border-t-0 sm:transition-none pwa:sm:border-t pwa:sm:border-t-black pwa:sm:shadow-[inset_0_1px_0_rgb(39_39_42)]"
         :style="{
           height: isExpanded ? `${expandableContentHeight + 57}px` : `57px`,
         }"

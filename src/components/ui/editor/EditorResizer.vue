@@ -118,7 +118,7 @@ function startResize(
 
 <style scoped>
 .side {
-  @apply pointer-events-auto absolute z-50 flex items-center justify-center bg-red-500/10;
+  @apply pointer-events-auto absolute z-10 flex items-center justify-center bg-red-500/10;
 }
 .handle-container {
   @apply pointer-events-auto relative z-10 flex h-4 w-6 items-center justify-center;

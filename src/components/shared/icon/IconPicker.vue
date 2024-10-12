@@ -857,7 +857,7 @@ onUnmounted(() => {
         />
         <div
           v-else
-          class="-my-2 rounded bg-white/10 px-2 py-1 text-xs text-slate-300 hover:bg-white/15"
+          class="relative -my-2 rounded bg-white/10 px-2 py-1 text-xs text-slate-300 hover:z-40 hover:bg-white/15"
         >
           Select icon
         </div>
