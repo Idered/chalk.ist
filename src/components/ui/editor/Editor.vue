@@ -157,13 +157,6 @@ const shikiContent = computed(() => {
     [] as { line: number; classes: string[] }[],
   );
 
-  // try {
-  //   shiki.value.getLanguage(props.block.language);
-  // } catch (err) {
-  //   console.log(bundledLanguages[props.block.language]);
-  //   shiki.value?.loadLanguageSync(bundledLanguages[props.block.language]);
-  // }
-
   const hast = shiki.value?.codeToHast(props.block.content, {
     lang: props.block.language,
     theme: store.value.useCustomTheme

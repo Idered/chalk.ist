@@ -15,10 +15,6 @@ import "@fontsource/jetbrains-mono/400.css";
 import "@fontsource/jetbrains-mono/700.css";
 import "@fontsource/source-code-pro/400.css";
 import "@fontsource/source-code-pro/700.css";
-import "@fontsource-variable/pixelify-sans/wght.css";
-import "@fontsource/unifontex/400.css";
-import "@fontsource/share-tech-mono";
-import "@fontsource/vt323";
 import { ViteSSG } from "vite-ssg/single-page";
 import App from "~/App.vue";
 
