@@ -16,6 +16,7 @@ import {
   ref,
   watch,
 } from "vue";
+import Input from "./Input.vue";
 
 type Option = {
   value: string | number;
@@ -68,7 +69,7 @@ const props = defineProps({
 });
 
 const activeIndex = ref(-1);
-const inputRef = ref<ComponentPublicInstance<typeof BaseInput>>();
+const inputRef = ref<ComponentPublicInstance<typeof Input>>();
 const search = ref("");
 const isOpen = ref(false);
 const isFocused = ref(false);
@@ -209,7 +210,7 @@ function handleKeyDown(e: KeyboardEvent) {
       "
     >
       <PopoverTrigger class="relative" tabindex="-1">
-        <BaseInput
+        <Input
           :aria-expanded="isOpen"
           :disabled="disabled"
           :id="id"

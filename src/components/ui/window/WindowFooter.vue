@@ -5,12 +5,13 @@ import { store } from "~/lib/store";
 import { COLUMN_OPTIONS, LANGUAGES, ROW_OPTIONS } from "~/constants";
 import { ExportState } from "~/enums";
 import { CodeBlock } from "~/types";
+import { BundledLanguage } from "shiki/langs";
 
 const props = defineProps<{
   block: CodeBlock;
 }>();
 
-const setEditorLanguage = (language: string) => {
+const setEditorLanguage = (language: BundledLanguage) => {
   props.block.language = language;
   props.block.mode = "edit";
 };
@@ -26,7 +27,7 @@ const setEditorLanguage = (language: string) => {
       background: block.mode === 'preview' ? '#03000ADD' : 'transparent',
     }"
   >
-    <BaseSelect
+    <Select
       class="w-28"
       use-opaque-background
       :model-value="block.columnSpan"
@@ -35,7 +36,7 @@ const setEditorLanguage = (language: string) => {
       :options="COLUMN_OPTIONS"
     />
 
-    <BaseSelect
+    <Select
       class="w-[5.5rem]"
       :model-value="block.rowSpan"
       use-opaque-background
@@ -51,7 +52,7 @@ const setEditorLanguage = (language: string) => {
       :options="ROW_OPTIONS"
     />
 
-    <BaseSelect
+    <Select
       class="w-32"
       use-opaque-background
       :model-value="block.language"

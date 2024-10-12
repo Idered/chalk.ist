@@ -38,7 +38,7 @@ async function handleDownload() {
 </script>
 
 <template>
-  <BaseButton
+  <Button
     class="w-full justify-center bg-rose-500/30 px-4 text-rose-300 hover:bg-rose-500/40 sm:justify-start lg:w-[150px]"
     @click="handleDownload"
   >
@@ -55,5 +55,5 @@ async function handleDownload() {
             : "Download PNG"
       }}
     </span>
-  </BaseButton>
+  </Button>
 </template>

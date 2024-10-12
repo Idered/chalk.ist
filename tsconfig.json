@@ -2,8 +2,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "module": "ESNext",
-    "target": "es2016",
-    "lib": ["DOM", "ESNext"],
+    "noEmit": true,
+    "target": "es2022",
+    "lib": ["es2022", "dom", "dom.iterable"],
     "strict": true,
     "esModuleInterop": true,
     "incremental": false,
@@ -14,7 +15,6 @@
     "noUnusedLocals": true,
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["vite/client", "vite-plugin-pages/client"],
     "paths": {
       "~/*": ["src/*"]
     }

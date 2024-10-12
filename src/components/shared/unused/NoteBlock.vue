@@ -59,11 +59,7 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
       class="flex flex-wrap gap-1 px-1 pb-1"
     >
       <div>
-        <BaseInput
-          type="number"
-          v-model="block.fontSize"
-          placeholder="Font Size"
-        />
+        <Input type="number" v-model="block.fontSize" placeholder="Font Size" />
       </div>
 
       <input
@@ -72,7 +68,7 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
         class="m-0 appearance-none border-none bg-transparent p-0 outline-none"
       />
 
-      <BaseSelect
+      <Select
         class="w-28"
         use-opaque-background
         :model-value="block.columnSpan"

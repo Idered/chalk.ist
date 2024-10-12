@@ -5,8 +5,8 @@ import {
   transformerNotationDiff,
   transformerNotationFocus,
 } from "@shikijs/transformers";
-import { ShikiTransformer } from "shiki";
-import { computed, h, ref } from "vue";
+import { bundledLanguages, ShikiTransformer } from "shiki";
+import { computed, h, ref, watch } from "vue";
 import { store } from "~/lib/store";
 import { BlockType } from "~/enums";
 import { createTheme } from "~/lib/create-theme";
@@ -107,8 +107,30 @@ function transformerAnnotations(
   };
 }
 
+const hasLanguage = ref(false);
+
+watch(
+  [() => props.block.language, shiki],
+  async () => {
+    if (!shiki.value) return;
+    hasLanguage.value = shiki.value
+      .getLoadedLanguages()
+      .includes(props.block.language);
+    if (!hasLanguage.value) {
+      await shiki.value?.loadLanguage(bundledLanguages[props.block.language]);
+      hasLanguage.value = true;
+    }
+  },
+  { immediate: true },
+);
+
 const shikiContent = computed(() => {
-  if (!shiki.value || !props.block || props.block.type !== BlockType.Code)
+  if (
+    !shiki.value ||
+    !props.block ||
+    props.block.type !== BlockType.Code ||
+    !hasLanguage.value
+  )
     return "";
   const classNames = ["shiki"];
   if (props.block.transformations.some((item) => item.type === "focus")) {
@@ -135,7 +157,14 @@ const shikiContent = computed(() => {
     [] as { line: number; classes: string[] }[],
   );
 
-  const hast = shiki.value.codeToHast(props.block.content, {
+  // try {
+  //   shiki.value.getLanguage(props.block.language);
+  // } catch (err) {
+  //   console.log(bundledLanguages[props.block.language]);
+  //   shiki.value?.loadLanguageSync(bundledLanguages[props.block.language]);
+  // }
+
+  const hast = shiki.value?.codeToHast(props.block.content, {
     lang: props.block.language,
     theme: store.value.useCustomTheme
       ? createTheme("Custom", store.value.customTheme)

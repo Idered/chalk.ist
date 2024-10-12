@@ -16,7 +16,7 @@ defineProps<{
       class="overflow-auto rounded-full border border-slate-700 bg-slate-800 px-3 py-2"
     >
       <div class="flex max-w-[100vw] items-center space-x-1">
-        <BaseButton
+        <Button
           @click="store.editMode = 'code'"
           class="h-6 rounded-full px-2 hover:text-slate-100"
           :class="{
@@ -25,17 +25,17 @@ defineProps<{
           }"
         >
           Edit
-        </BaseButton>
+        </Button>
 
-        <!-- <BaseButton
+        <!-- <Button
         @click="store.editMode = 'annotate'"
         class="h-6 px-2 rounded-full hover:text-slate-100"
         :class="{ 'bg-slate-50 text-slate-900 hover:text-slate-900': store.editMode === 'annotate' }"
       >
         Annotate
-      </BaseButton> -->
+      </Button> -->
 
-        <BaseButton
+        <Button
           @click="store.editMode = 'highlight'"
           class="h-6 rounded-full px-2 hover:text-slate-100"
           :class="{
@@ -44,9 +44,9 @@ defineProps<{
           }"
         >
           Highlight
-        </BaseButton>
+        </Button>
 
-        <BaseButton
+        <Button
           @click="store.editMode = 'focus'"
           class="h-6 rounded-full px-2 hover:text-slate-100"
           :class="{
@@ -55,9 +55,9 @@ defineProps<{
           }"
         >
           Focus
-        </BaseButton>
+        </Button>
 
-        <BaseButton
+        <Button
           @click="store.editMode = 'add'"
           class="h-6 whitespace-nowrap rounded-full px-2 hover:text-slate-100"
           :class="{
@@ -66,9 +66,9 @@ defineProps<{
           }"
         >
           Diff: Add
-        </BaseButton>
+        </Button>
 
-        <BaseButton
+        <Button
           @click="store.editMode = 'remove'"
           class="h-6 whitespace-nowrap rounded-full px-2 hover:text-slate-100"
           :class="{
@@ -77,9 +77,9 @@ defineProps<{
           }"
         >
           Diff: Remove
-        </BaseButton>
+        </Button>
 
-        <BaseButton
+        <Button
           @click="
             store.blocks.forEach((item) => {
               if (item.type !== BlockType.Code) {
@@ -95,7 +95,7 @@ defineProps<{
           "
         >
           Clear
-        </BaseButton>
+        </Button>
       </div>
     </div>
   </div>

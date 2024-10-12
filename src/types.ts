@@ -1,9 +1,10 @@
+import { BundledLanguage } from "shiki/langs";
 import { BlockType } from "./enums";
 
 export type CodeBlock = {
   id: string;
   content: string;
-  language: string;
+  language: BundledLanguage;
   type: BlockType.Code;
   title: string;
   icon: string;

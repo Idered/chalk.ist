@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { createContext, destroyContext, domToCanvas } from "modern-screenshot";
-import screenshotWorkerUrl from "modern-screenshot/worker?url";
+// import screenshotWorkerUrl from "modern-screenshot/worker?url";
 import { ArrayBufferTarget, Muxer } from "mp4-muxer";
 import { computed, reactive, ref } from "vue";
 import { exportState } from "~/lib/export-state";
@@ -35,7 +35,7 @@ async function handleVideoExport() {
     "[data-editor-frame]",
   )!;
   const context = await createContext(element, {
-    workerUrl: screenshotWorkerUrl as unknown as string,
+    // workerUrl: screenshotWorkerUrl as unknown as string,
     scale: 2,
     workerNumber: 1,
     font: {
@@ -125,7 +125,7 @@ async function handleVideoExport() {
 </script>
 
 <template>
-  <BaseButton
+  <Button
     v-if="!hideVideoExport"
     class="group hidden w-full bg-blue-500/30 px-4 text-blue-300 hover:bg-blue-500/40 disabled:cursor-not-allowed disabled:bg-blue-300/10 disabled:text-blue-300/40 sm:flex"
     @click="handleVideoExport"
@@ -167,5 +167,5 @@ async function handleVideoExport() {
         >Beta</span
       ></span
     >
-  </BaseButton>
+  </Button>
 </template>

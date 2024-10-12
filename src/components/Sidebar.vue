@@ -111,7 +111,7 @@ function getThemeColors(themeName: string) {
               <label for="colorTheme" class="text-xs font-semibold"
                 >Color theme</label
               >
-              <BaseSelect
+              <Select
                 id="colorTheme"
                 class="-my-1"
                 preview-on-focus
@@ -130,7 +130,7 @@ function getThemeColors(themeName: string) {
                     />
                     <span class="whitespace-nowrap pr-2">{{ item.label }}</span>
 
-                    <BaseButton
+                    <Button
                       v-if="item.showEdit"
                       @click.stop="
                         () => {
@@ -147,10 +147,10 @@ function getThemeColors(themeName: string) {
                       <span class="text-[10px] uppercase tracking-wider"
                         >Edit</span
                       >
-                    </BaseButton>
+                    </Button>
                   </div>
                 </template>
-              </BaseSelect>
+              </Select>
             </div>
 
             <div
@@ -159,7 +159,7 @@ function getThemeColors(themeName: string) {
               <label for="useCustomTheme" class="text-xs font-semibold"
                 >Custom theme</label
               >
-              <BaseButton
+              <Button
                 class="h-5 rounded bg-blue-600/30 px-2.5 text-xs font-semibold text-blue-500 hover:bg-blue-600/40"
                 @click="
                   store.expandCustomThemeOptions =
@@ -174,8 +174,8 @@ function getThemeColors(themeName: string) {
                 <span v-else class="text-[10px] uppercase tracking-wider"
                   >Collapse</span
                 >
-              </BaseButton>
-              <BaseSwitch v-model="store.useCustomTheme" id="useCustomTheme" />
+              </Button>
+              <Switch v-model="store.useCustomTheme" id="useCustomTheme" />
             </div>
 
             <div v-if="store.expandCustomThemeOptions" class="contents">
@@ -231,7 +231,7 @@ function getThemeColors(themeName: string) {
               class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
             >
               <label for="fontFamily" class="text-xs font-semibold">Font</label>
-              <BaseSelect
+              <Select
                 class="-my-1"
                 id="fontFamily"
                 preview-on-focus
@@ -249,7 +249,7 @@ function getThemeColors(themeName: string) {
                 for="fontLigatures"
                 >Font ligatures</label
               >
-              <BaseSwitch
+              <Switch
                 :disabled="!LIGATURE_FONTS.includes(store.fontFamily)"
                 v-model="store.fontLigatures"
                 id="fontLigatures"
@@ -302,10 +302,7 @@ function getThemeColors(themeName: string) {
                 for="showLineNumbers"
                 >Line numbers</label
               >
-              <BaseSwitch
-                v-model="store.showLineNumbers"
-                id="showLineNumbers"
-              />
+              <Switch v-model="store.showLineNumbers" id="showLineNumbers" />
             </div>
 
             <hr
@@ -321,7 +318,7 @@ function getThemeColors(themeName: string) {
                 >Backdrop</label
               >
 
-              <BaseButton
+              <Button
                 class="h-5 rounded bg-blue-600/30 px-2.5 text-xs font-semibold text-blue-500 hover:bg-blue-600/40"
                 @click="store.expandBackdrops = !store.expandBackdrops"
               >
@@ -332,8 +329,8 @@ function getThemeColors(themeName: string) {
                     'rotate-180': store.expandBackdrops,
                   }"
                 />
-              </BaseButton>
-              <BaseSwitch v-model="store.showBackground" id="showBackground" />
+              </Button>
+              <Switch v-model="store.showBackground" id="showBackground" />
             </div>
 
             <div
@@ -452,7 +449,7 @@ function getThemeColors(themeName: string) {
                 for="backdropNoise"
                 >Backdrop noise</label
               >
-              <BaseSwitch
+              <Switch
                 v-model="store.backdropNoise"
                 id="backdropNoise"
                 :disabled="!store.showBackground"
@@ -467,7 +464,7 @@ function getThemeColors(themeName: string) {
                 for="showParticles"
                 >Backdrop particles</label
               >
-              <BaseSwitch v-model="store.showParticles" id="showParticles" />
+              <Switch v-model="store.showParticles" id="showParticles" />
             </div>
             <div
               class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
@@ -477,7 +474,7 @@ function getThemeColors(themeName: string) {
                   >Shadow overlay</label
                 >
               </div>
-              <BaseSelect
+              <Select
                 id="shadowOverlay"
                 class="-my-1"
                 preview-on-focus
@@ -496,7 +493,7 @@ function getThemeColors(themeName: string) {
                 >Padding X</label
               >
               <div class="grid grid-flow-col gap-x-2 text-sm">
-                <BaseSlider
+                <Slider
                   class="w-[100px]"
                   id="paddingX"
                   :min="0"
@@ -516,7 +513,7 @@ function getThemeColors(themeName: string) {
                 >Padding Y</label
               >
               <div class="grid grid-flow-col gap-x-2 text-sm">
-                <BaseSlider
+                <Slider
                   class="w-[100px]"
                   id="paddingY"
                   :min="0"
@@ -536,7 +533,7 @@ function getThemeColors(themeName: string) {
                 >Inner Padding X</label
               >
               <div class="grid grid-flow-col gap-x-2 text-sm">
-                <BaseSlider
+                <Slider
                   class="w-[100px]"
                   id="innerPaddingX"
                   :min="20"
@@ -556,7 +553,7 @@ function getThemeColors(themeName: string) {
                 >Inner Padding Y</label
               >
               <div class="grid grid-flow-col gap-x-2 text-sm">
-                <BaseSlider
+                <Slider
                   class="w-[100px]"
                   id="innerPaddingY"
                   :min="24"
@@ -579,7 +576,7 @@ function getThemeColors(themeName: string) {
                 for="showWindow"
                 >Window</label
               >
-              <BaseSwitch v-model="store.showWindow" id="showWindow" />
+              <Switch v-model="store.showWindow" id="showWindow" />
             </div>
 
             <div
@@ -588,7 +585,7 @@ function getThemeColors(themeName: string) {
               <label for="windowStyle" class="text-xs font-semibold"
                 >Window style</label
               >
-              <BaseSelect
+              <Select
                 id="windowStyle"
                 class="-my-1"
                 preview-on-focus
@@ -605,7 +602,7 @@ function getThemeColors(themeName: string) {
               <label for="windowControls" class="text-xs font-semibold"
                 >Window controls</label
               >
-              <BaseSelect
+              <Select
                 id="windowControls"
                 class="-my-1"
                 preview-on-focus
@@ -632,7 +629,7 @@ function getThemeColors(themeName: string) {
                 for="windowNoise"
                 >Window noise</label
               >
-              <BaseSwitch v-model="store.windowNoise" id="windowNoise" />
+              <Switch v-model="store.windowNoise" id="windowNoise" />
             </div>
 
             <div
@@ -643,7 +640,7 @@ function getThemeColors(themeName: string) {
                 for="reflection"
                 >Window reflection</label
               >
-              <BaseSwitch v-model="store.reflection" id="reflection" />
+              <Switch v-model="store.reflection" id="reflection" />
             </div>
 
             <hr
@@ -658,7 +655,7 @@ function getThemeColors(themeName: string) {
                 for="showTwitterBadge"
                 >Twitter/X badge</label
               >
-              <BaseButton
+              <Button
                 class="h-5 rounded bg-blue-600/30 px-2.5 text-xs font-semibold text-blue-500 hover:bg-blue-600/40"
                 @click="
                   store.expandTwitterOptions = !store.expandTwitterOptions
@@ -671,11 +668,8 @@ function getThemeColors(themeName: string) {
                     'rotate-180': store.expandTwitterOptions,
                   }"
                 />
-              </BaseButton>
-              <BaseSwitch
-                v-model="store.showTwitterBadge"
-                id="showTwitterBadge"
-              />
+              </Button>
+              <Switch v-model="store.showTwitterBadge" id="showTwitterBadge" />
             </div>
 
             <div
@@ -686,7 +680,7 @@ function getThemeColors(themeName: string) {
                 v-if="store.picture"
                 class="group relative row-start-1 row-end-3"
               >
-                <BaseButton
+                <Button
                   @click="store.picture = ''"
                   class="absolute right-0 top-0 h-5 w-5 justify-center rounded-full bg-red-600/80 text-white opacity-0 transition hover:bg-red-600 group-hover:opacity-100"
                 >
@@ -709,7 +703,7 @@ function getThemeColors(themeName: string) {
                       ></path>
                     </g>
                   </svg>
-                </BaseButton>
+                </Button>
                 <img
                   :src="store.picture"
                   alt=""
@@ -739,7 +733,7 @@ function getThemeColors(themeName: string) {
               </label>
 
               <div class="col-start-2 grid gap-y-1">
-                <BaseInput
+                <Input
                   class="placeholder:text-slate-600/75"
                   type="text"
                   id="name"
@@ -751,7 +745,7 @@ function getThemeColors(themeName: string) {
               </div>
 
               <div class="col-start-2 grid gap-y-1">
-                <BaseInput
+                <Input
                   class="placeholder:text-slate-600/75"
                   type="text"
                   id="username"
@@ -770,7 +764,7 @@ function getThemeColors(themeName: string) {
                 for="showWatermark"
                 >Watermark</label
               >
-              <BaseButton
+              <Button
                 class="h-5 rounded bg-blue-600/30 px-2.5 text-xs font-semibold text-blue-500 hover:bg-blue-600/40"
                 @click="
                   store.expandWatermarkOptions = !store.expandWatermarkOptions
@@ -783,8 +777,8 @@ function getThemeColors(themeName: string) {
                     'rotate-180': store.expandWatermarkOptions,
                   }"
                 />
-              </BaseButton>
-              <BaseSwitch v-model="store.showWatermark" id="showWatermark" />
+              </Button>
+              <Switch v-model="store.showWatermark" id="showWatermark" />
             </div>
 
             <template v-if="store.expandWatermarkOptions">
@@ -796,7 +790,7 @@ function getThemeColors(themeName: string) {
                   for="watermarkText"
                   >Watermark text</label
                 >
-                <BaseInput
+                <Input
                   class="w-[116px] placeholder:text-slate-600/75"
                   type="text"
                   id="watermarkText"
@@ -816,7 +810,7 @@ function getThemeColors(themeName: string) {
                   >Watermark opacity</label
                 >
                 <div class="grid grid-flow-col gap-x-2 text-sm">
-                  <BaseSlider
+                  <Slider
                     class="w-[100px]"
                     id="paddingX"
                     :min="0"
@@ -848,7 +842,7 @@ function getThemeColors(themeName: string) {
       class="fixed inset-x-0 bottom-0 z-10 grid grid-cols-[1fr_auto] gap-2 bg-zinc-900 px-3 py-2 sm:hidden"
     >
       <ExportToPNGButton />
-      <BaseButton
+      <Button
         class="group w-10 justify-center bg-slate-700 text-slate-500 hover:bg-slate-700/80 sm:hidden"
         @click="isExpanded = !isExpanded"
         square="w-10"
@@ -860,7 +854,7 @@ function getThemeColors(themeName: string) {
             'rotate-180': !isExpanded,
           }"
         />
-      </BaseButton>
+      </Button>
     </div>
   </OnClickOutside>
 </template>

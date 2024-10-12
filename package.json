@@ -44,7 +44,7 @@
     "tailwind-merge": "2.5.3",
     "unplugin-icons": "0.19.3",
     "unplugin-vue-components": "0.27.4",
-    "vue": "^3.5.12",
+    "vue": "^3.4.38",
     "vue-color-kit": "github:Idered/vue-color-kit",
     "vue-demi": "0.14.10"
   },

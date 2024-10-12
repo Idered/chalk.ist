@@ -11,7 +11,7 @@ const isFirefox = computed(() => {
 </script>
 
 <template>
-  <BaseButton
+  <Button
     v-if="!isFirefox"
     :class="
       twMerge(
@@ -36,5 +36,5 @@ const isFirefox = computed(() => {
               : "Copy image to clipboard"
       }}
     </span>
-  </BaseButton>
+  </Button>
 </template>

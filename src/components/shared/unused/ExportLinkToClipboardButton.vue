@@ -41,7 +41,7 @@ const handleCopyLink = async () => {
 </script>
 
 <template>
-  <BaseButton
+  <Button
     class="group w-full bg-blue-600/30 px-4 text-blue-500 hover:bg-blue-600/40"
     @click="handleCopyLink"
   >
@@ -56,5 +56,5 @@ const handleCopyLink = async () => {
           : "Copy Link to Clipboard"
       }}
     </span>
-  </BaseButton>
+  </Button>
 </template>

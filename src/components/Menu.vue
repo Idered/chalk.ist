@@ -228,13 +228,13 @@ function clearLineDecorations() {
         Clear
       </button>
 
-      <BaseButton
+      <Button
         v-if="store.editMode !== 'code'"
         @click="store.editMode = 'code'"
         class="ml-4 h-8 bg-blue-700 px-4 text-white"
       >
         Done
-      </BaseButton>
+      </Button>
 
       <!-- <div
         class="ml-auto hidden items-center space-x-2 pr-2 lg:flex"

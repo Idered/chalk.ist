@@ -1,5 +1,4 @@
 import { store } from "./store";
-import { v4 } from "uuid";
 import { DEFAULT_CONTENT, DEFAULT_THEME, MIN_FRAME_WIDTH } from "~/constants";
 import { BlockType, WindowControls } from "~/enums";
 import { CodeBlock } from "~/types";

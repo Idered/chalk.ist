@@ -1,5 +1,4 @@
 import { store } from "./store";
-import { v4 } from "uuid";
 import { BlockType } from "~/enums";
 import { CodeBlock } from "~/types";
 
