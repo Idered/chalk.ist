@@ -1,10 +1,4 @@
 <script setup lang="ts">
-import BaseButton from "./BaseButton.vue";
-import BaseInput from "./BaseInput.vue";
-import BaseSelect from "./BaseSelect.vue";
-import BaseSwitch from "./BaseSwitch.vue";
-import IconChevronDown from "./IconChevronDown.vue";
-import NumberInput from "./NumberInput.vue";
 import { OnClickOutside } from "@vueuse/components";
 import { useElementSize } from "@vueuse/core";
 import {
@@ -16,8 +10,8 @@ import {
 } from "radix-vue";
 import { computed, ref } from "vue";
 import { ColorPicker } from "vue-color-kit";
-import { cropImage, resizeImage } from "~/composables/image";
-import { store } from "~/composables/store";
+import { cropImage, resizeImage } from "~/lib/image";
+import { store } from "~/lib/store";
 import {
   FONTS,
   FRAME_STYLES,
@@ -845,8 +839,6 @@ function getThemeColors(themeName: string) {
             /> -->
           </div>
         </div>
-
-        <!-- <TheMeta /> -->
 
         <div class="h-3"></div>
       </div>

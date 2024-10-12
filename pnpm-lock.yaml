@@ -8,6 +8,12 @@ importers:
 
   .:
     dependencies:
+      '@fontsource-variable/pixelify-sans':
+        specifier: 5.1.0
+        version: 5.1.0
+      '@fontsource/cutive-mono':
+        specifier: 5.1.0
+        version: 5.1.0
       '@fontsource/fira-code':
         specifier: 4.5.13
         version: 4.5.13
@@ -20,9 +26,18 @@ importers:
       '@fontsource/jetbrains-mono':
         specifier: 4.5.8
         version: 4.5.8
+      '@fontsource/share-tech-mono':
+        specifier: 5.1.0
+        version: 5.1.0
       '@fontsource/source-code-pro':
         specifier: 4.5.14
         version: 4.5.14
+      '@fontsource/unifontex':
+        specifier: 5.1.0
+        version: 5.1.0
+      '@fontsource/vt323':
+        specifier: 5.1.0
+        version: 5.1.0
       '@iconify-json/fa6-brands':
         specifier: 1.1.18
         version: 1.1.18
@@ -47,9 +62,6 @@ importers:
       '@tailwindcss/typography':
         specifier: 0.5.10
         version: 0.5.10(tailwindcss@3.4.0)
-      '@vercel/analytics':
-        specifier: 1.2.2
-        version: 1.2.2
       '@vueuse/components':
         specifier: 10.4.1
         version: 10.4.1(vue@3.4.23(typescript@5.3.3))
@@ -66,8 +78,8 @@ importers:
         specifier: 13.0.2
         version: 13.0.2
       modern-screenshot:
-        specifier: 4.4.37
-        version: 4.4.37
+        specifier: 4.4.39
+        version: 4.4.39
       mp4-muxer:
         specifier: ^2.3.0
         version: 2.3.0
@@ -910,6 +922,12 @@ packages:
   '@floating-ui/vue@1.0.6':
     resolution: {integrity: sha512-EdrOljjkpkkqZnrpqUcPoz9NvHxuTjUtSInh6GMv3+Mcy+giY2cE2pHh9rpacRcZ2eMSCxel9jWkWXTjLmY55w==}
 
+  '@fontsource-variable/pixelify-sans@5.1.0':
+    resolution: {integrity: sha512-NBt2JLCcJCbx+gv4VgZ4VvukHPSTF1i4Pd7zG/rc5GWCYKSJ5G+FqVAKhLeeLdrtwZZoANcX/r08X+s7Q1iOzQ==}
+
+  '@fontsource/cutive-mono@5.1.0':
+    resolution: {integrity: sha512-dynCFSa+NNkmZIi/QOtmZoin7zRkbiogpew5eFNahBmnxQ3uxkk7eYFCEu1VZQmOCVwnGfIMyzE+VENPu5fwFQ==}
+
   '@fontsource/fira-code@4.5.13':
     resolution: {integrity: sha512-T1IG6/2AXSwEKwlrEm3kyIL3RQTMblPyj68HgnBGl0IBGFxgS5LZ7StRdDo/QimJ4Tz6FQGHuy1Y/ShNxaUefA==}
 
@@ -922,8 +940,17 @@ packages:
   '@fontsource/jetbrains-mono@4.5.8':
     resolution: {integrity: sha512-Wp2oUcXNFqw7pwEZdstZLv09v8lWhMscuSbmPU8VpdxPpC+kbQb6u0sOF/wZX/GZcwJHZyXBaZan0iia16r30Q==}
 
+  '@fontsource/share-tech-mono@5.1.0':
+    resolution: {integrity: sha512-u160pF0vGTvg02bhwgiMw7lVhGLWC3aJryP/WGhiKhCVSEFb68sdQZlntiJh8vPGUsdMxFTfzm1+SzW4mR8AxQ==}
+
   '@fontsource/source-code-pro@4.5.14':
     resolution: {integrity: sha512-EWE0djE7wFCBmExWa9oT1vIp+qj5MUroVvXWb9G7Ig4t4aXDd9QDidYZzMzNemb8gQxTdOzGmhx6EZnDTFMh5Q==}
+
+  '@fontsource/unifontex@5.1.0':
+    resolution: {integrity: sha512-DEI4VDQoamRAF5ra/60ny+HtlfMyLc5WUG3KSkZG455RAl9yZDbGOrT8uMOzhcaOHy0QGkbuVxHIdM22OVmY/g==}
+
+  '@fontsource/vt323@5.1.0':
+    resolution: {integrity: sha512-Uw/aNcz6WkvFGEeWLPB/cuLXJxP93PiJLltR9zdRTYLA6H+VF4EhtZ/lzTXVKzAqbcgiVndmEmtrcxs7goSxsg==}
 
   '@iconify-json/fa6-brands@1.1.18':
     resolution: {integrity: sha512-vmeJP06Xbj0XbVGiBHg0q8H3M894d4bGXKCmiHt6JqUdpiGcIV7r96N+BOU4ZS1+hvpV57fTfXlFPiUfxAIfkg==}
@@ -1125,17 +1152,6 @@ packages:
     resolution: {integrity: sha512-sL1d2IRBZd5rjzhgTYni2DiociSpt+Cfz3iVWKb0EZwQHgg0GzV8Hkoj5TjZYZow6EjDSPRfVPXDwOwxkVOgug==}
     peerDependencies:
       vue: '>=2.7 || >=3'
-
-  '@vercel/analytics@1.2.2':
-    resolution: {integrity: sha512-X0rctVWkQV1e5Y300ehVNqpOfSOufo7ieA5PIdna8yX/U7Vjz0GFsGf4qvAhxV02uQ2CVt7GYcrFfddXXK2Y4A==}
-    peerDependencies:
-      next: '>= 13'
-      react: ^18 || ^19
-    peerDependenciesMeta:
-      next:
-        optional: true
-      react:
-        optional: true
 
   '@vitejs/plugin-vue@2.3.4':
     resolution: {integrity: sha512-IfFNbtkbIm36O9KB8QodlwwYvTEsJb4Lll4c2IwB3VHc2gie2mSPtSzL0eYay7X2jd/2WX02FjSGTWR6OPr/zg==}
@@ -2150,8 +2166,8 @@ packages:
   mlly@1.4.2:
     resolution: {integrity: sha512-i/Ykufi2t1EZ6NaPLdfnZk2AX8cs0d+mTzVKuPfqPKPatxLApaBoxJQ9x1/uckXtrS/U5oisPMDkNs0yQTaBRg==}
 
-  modern-screenshot@4.4.37:
-    resolution: {integrity: sha512-D4u8dndnFRe4OyWDiUj/N0BNtViqQrdVkj0YSBM9aV7uqZegnIKVUNYN0l7AbXj9iKS5AubAap2/HctB+Lg5kg==}
+  modern-screenshot@4.4.39:
+    resolution: {integrity: sha512-p+I4yLZUDnoJMa5zoi+71nLQmoLQ6WRU4W8vZu1BZk2PlIYOz5mGnj9/7t2lGWKYeOr4zo6pajhY0/9TS5Zcdw==}
 
   mp4-muxer@2.3.0:
     resolution: {integrity: sha512-eupg1QMfcVJy/nZ2smUbC4OcEKdKBaLxKe+oeoDlklB5Dkb+4mv4CdPVYtzo1ZnzBKuVCclDk/znQwFQJIC32g==}
@@ -2553,9 +2569,6 @@ packages:
 
   serialize-javascript@4.0.0:
     resolution: {integrity: sha512-GaNA54380uFefWghODBWEGisLZFj00nS5ACs6yHa9nLqlLpVLO8ChDGeKRjZnV4Nh4n0Qi7nhYZD/9fCPzEqkw==}
-
-  server-only@0.0.1:
-    resolution: {integrity: sha512-qepMx2JxAa5jjfzxG79yPPq+8BuFToHd1hm7kI+Z4zAq1ftQiP7HcxMhDDItrbtwVeLg/cY2JnKnrcFkmiswNA==}
 
   set-function-length@1.1.1:
     resolution: {integrity: sha512-VoaqjbBJKiWtg4yRcKBQ7g7wnGnLV3M8oLvVWwOk2PdYY6PEFegR1vezXR0tw6fZGF9csVakIRjrJiy2veSBFQ==}
@@ -3969,6 +3982,10 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
+  '@fontsource-variable/pixelify-sans@5.1.0': {}
+
+  '@fontsource/cutive-mono@5.1.0': {}
+
   '@fontsource/fira-code@4.5.13': {}
 
   '@fontsource/ibm-plex-mono@4.5.13': {}
@@ -3977,7 +3994,13 @@ snapshots:
 
   '@fontsource/jetbrains-mono@4.5.8': {}
 
+  '@fontsource/share-tech-mono@5.1.0': {}
+
   '@fontsource/source-code-pro@4.5.14': {}
+
+  '@fontsource/unifontex@5.1.0': {}
+
+  '@fontsource/vt323@5.1.0': {}
 
   '@iconify-json/fa6-brands@1.1.18':
     dependencies:
@@ -4207,10 +4230,6 @@ snapshots:
       hookable: 5.5.3
       unhead: 1.8.9
       vue: 3.4.23(typescript@5.3.3)
-
-  '@vercel/analytics@1.2.2':
-    dependencies:
-      server-only: 0.0.1
 
   '@vitejs/plugin-vue@2.3.4(vite@4.5.1(@types/node@20.10.5)(terser@5.26.0))(vue@3.4.23(typescript@5.3.3))':
     dependencies:
@@ -5345,7 +5364,7 @@ snapshots:
       pkg-types: 1.0.3
       ufo: 1.3.2
 
-  modern-screenshot@4.4.37: {}
+  modern-screenshot@4.4.39: {}
 
   mp4-muxer@2.3.0:
     dependencies:
@@ -5683,8 +5702,6 @@ snapshots:
   serialize-javascript@4.0.0:
     dependencies:
       randombytes: 2.1.0
-
-  server-only@0.0.1: {}
 
   set-function-length@1.1.1:
     dependencies:

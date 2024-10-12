@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import BaseButton from "./BaseButton.vue";
 import { createContext, destroyContext, domToCanvas } from "modern-screenshot";
 import screenshotWorkerUrl from "modern-screenshot/worker?url";
 import { ArrayBufferTarget, Muxer } from "mp4-muxer";
 import { computed, reactive, ref } from "vue";
-import { exportState } from "~/composables/export-state";
-import { store } from "~/composables/store";
+import { exportState } from "~/lib/export-state";
+import { store } from "~/lib/store";
 import { ExportState } from "~/enums";
 
 const timeout = ref();

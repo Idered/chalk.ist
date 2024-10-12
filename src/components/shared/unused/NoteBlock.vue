@@ -2,9 +2,9 @@
 import markdownit from "markdown-it";
 import { fromHighlighter } from "@shikijs/markdown-it";
 import { computed } from "vue";
-import { moveBlock, removeBlock } from "~/composables/block";
-import { exportState } from "~/composables/export-state";
-import { store } from "~/composables/store";
+import { moveBlock, removeBlock } from "~/lib/block";
+import { exportState } from "~/lib/export-state";
+import { store } from "~/lib/store";
 import { COLUMN_OPTIONS } from "~/constants";
 import { ExportState } from "~/enums";
 import { Backdrops } from "~/lib/backdrops";

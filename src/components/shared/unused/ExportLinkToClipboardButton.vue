@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { exportState } from "~/composables/export-state";
-import { store } from "~/composables/store";
+import { exportState } from "~/lib/export-state";
+import { store } from "~/lib/store";
 import { ExportState } from "~/enums";
 
 const timeout = ref();

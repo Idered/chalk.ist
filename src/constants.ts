@@ -65,6 +65,10 @@ export const FONTS = [
   "JetBrains Mono",
   "Nova",
   "Source Code Pro",
+  "UnifontEX",
+  "Pixelify Sans Variable",
+  "Share Tech Mono",
+  "VT323",
 ]
   .map((font) => ({ value: font, label: font }))
   .sort((a, b) => a.label.localeCompare(b.label));

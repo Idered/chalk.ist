@@ -2,7 +2,7 @@ import { useShiki } from "./shiki";
 import markdownit from "markdown-it";
 import { fromHighlighter } from "@shikijs/markdown-it";
 import { computed } from "vue";
-import { store } from "~/composables/store";
+import { store } from "~/lib/store";
 
 export function useMarkdown(content: string) {
   const shiki = useShiki();

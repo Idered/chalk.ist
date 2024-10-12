@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { store } from "~/composables/store";
+import { store } from "~/lib/store";
 import { SHADOW_OVERLAY_MAPPING } from "~/constants";
 import { Backdrops } from "~/lib/backdrops";
 

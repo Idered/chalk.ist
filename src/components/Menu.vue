@@ -11,12 +11,8 @@ import {
   MenubarTrigger,
 } from "radix-vue";
 import { ref } from "vue";
-import {
-  addEditorBlock,
-  addMarkdownBlock,
-  getCodeBlocks,
-} from "~/composables/block";
-import { store } from "~/composables/store";
+import { addEditorBlock, addMarkdownBlock, getCodeBlocks } from "~/lib/block";
+import { store } from "~/lib/store";
 import { BlockType } from "~/enums";
 import { copyPngToClipboard, downloadPNG } from "~/lib/export";
 

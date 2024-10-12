@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import BaseInput from "./BaseInput.vue";
-import IconCheck from "./IconCheck.vue";
-import IconChevronDown from "./IconChevronDown.vue";
 import { OnClickOutside } from "@vueuse/components";
 import { useFuse } from "@vueuse/integrations/useFuse";
 import {

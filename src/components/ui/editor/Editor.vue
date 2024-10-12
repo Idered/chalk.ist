@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Annotation from "./Annotation.vue";
 import { useElementSize, useEventListener } from "@vueuse/core";
 import {
   transformerCompactLineOptions,
@@ -8,11 +7,12 @@ import {
 } from "@shikijs/transformers";
 import { ShikiTransformer } from "shiki";
 import { computed, h, ref } from "vue";
-import { store } from "~/composables/store";
+import { store } from "~/lib/store";
 import { BlockType } from "~/enums";
 import { createTheme } from "~/lib/create-theme";
 import { useShiki } from "~/lib/shiki";
 import { CodeBlock } from "~/types";
+import Annotation from "~/components/ui/editor/Annotation.vue";
 
 const props = defineProps<{
   block: CodeBlock;

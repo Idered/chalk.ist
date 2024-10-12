@@ -1,11 +1,5 @@
 <script setup lang="ts">
-import IconTwitterCircle from "./IconTwitterCircle.vue";
-import { computed } from "vue";
-import { preview, store } from "~/composables/store";
-
-const author = computed(() => {
-  return preview.value ? preview.value : store.value;
-});
+import { store } from "~/lib/store";
 </script>
 
 <template>
@@ -30,41 +24,41 @@ const author = computed(() => {
       </div>
     </div>
     <component
-      :is="author.username ? 'a' : 'div'"
+      :is="store.username ? 'a' : 'div'"
       :href="
-        author.username ? `https://twitter.com/${author.username}` : undefined
+        store.username ? `https://twitter.com/${store.username}` : undefined
       "
       class="relative z-10 ml-auto mt-4 flex items-center rounded-full bg-black/70 py-1.5 pl-3 pr-4 text-white"
       :class="{
-        'hover:bg-black/50': author.username,
+        'hover:bg-black/50': store.username,
       }"
       v-if="
-        (author.username || author.name || author.picture) &&
-        author.showTwitterBadge
+        (store.username || store.name || store.picture) &&
+        store.showTwitterBadge
       "
     >
       <img
-        v-if="author.picture"
-        :src="author.picture"
+        v-if="store.picture"
+        :src="store.picture"
         width="32"
         height="32"
         class="-my-2 -ml-2 rounded-full"
         alt=""
       />
       <IconTwitterCircle v-else :width="20" />
-      <div v-if="author.name || author.username" class="ml-2 grid gap-0.5">
-        <div class="text-xs font-semibold leading-3" v-if="author.name">
-          {{ author.name }}
+      <div v-if="store.name || store.username" class="ml-2 grid gap-0.5">
+        <div class="text-xs font-semibold leading-3" v-if="store.name">
+          {{ store.name }}
         </div>
         <div
           class="font-medium leading-3"
-          v-if="author.username"
+          v-if="store.username"
           :class="{
-            'text-sm': !author.name,
-            'text-[11px] text-white/50': author.name,
+            'text-sm': !store.name,
+            'text-[11px] text-white/50': store.name,
           }"
         >
-          @{{ author.username }}
+          @{{ store.username }}
         </div>
       </div>
     </component>

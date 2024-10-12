@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import BaseButton from "./BaseButton.vue";
-import { getCodeBlocks } from "~/composables/block";
-import { preview, store } from "~/composables/store";
+import { getCodeBlocks } from "~/lib/block";
+import { store } from "~/lib/store";
 import { BlockType } from "~/enums";
 
 defineProps<{
@@ -11,7 +10,6 @@ defineProps<{
 
 <template>
   <div
-    v-if="!preview"
     class="flex items-center justify-center overflow-hidden px-2 pt-2 pwa:sm:border-t pwa:sm:border-t-slate-900 pwa:sm:shadow-[inset_0_1px_0_rgb(30_30_37)]"
   >
     <div

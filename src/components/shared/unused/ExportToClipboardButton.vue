@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { twMerge } from "tailwind-merge";
 import { computed } from "vue";
-import { exportState } from "~/composables/export-state";
+import { exportState } from "~/lib/export-state";
 import { ExportState } from "~/enums";
 import { copyPngToClipboard } from "~/lib/export";
 

@@ -1,7 +1,6 @@
 import { runStoreMigrations } from "./migrations";
 import { useStorage } from "@vueuse/core";
 import { v4 } from "uuid";
-import { ref } from "vue";
 import {
   DEFAULT_CONTENT,
   DEFAULT_THEME,
@@ -10,26 +9,6 @@ import {
 import { BlockType, WindowControls } from "~/enums";
 import { Backdrops } from "~/lib/backdrops";
 import { Block } from "~/types";
-
-export const preview = ref<{
-  content: string;
-  language: string;
-  theme: string;
-  fontFamily: string;
-  name: string;
-  title: string;
-  windowStyle: string;
-  username: string;
-  paddingX: number;
-  paddingY: number;
-  lineHeight: number;
-  frameWidth: number;
-  picture: string;
-  reflection: boolean;
-  showTwitterBadge: boolean;
-  showLineNumbers: boolean;
-  windowControls: WindowControls;
-} | null>(null);
 
 export const store = useStorage("chalk-store", {
   currentThemeSupportsWindowVariants: true,

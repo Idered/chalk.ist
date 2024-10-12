@@ -2,7 +2,7 @@
 import { domToBlob } from "modern-screenshot";
 import { ref } from "vue";
 import { nextTick } from "vue";
-import { exportState } from "~/composables/export-state";
+import { exportState } from "~/lib/export-state";
 import { ExportState } from "~/enums";
 
 const timeout = ref();
