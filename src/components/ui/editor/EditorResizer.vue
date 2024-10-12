@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { useEventListener } from "@vueuse/core";
 import { ref } from "vue";
-import { exportState } from "~/lib/export-state";
+import { state } from "~/lib/state";
 import { store } from "~/lib/store";
-import { ExportState } from "~/enums";
+import { ExportState } from "~/lib/enums";
 import {
   MAX_INNER_PADDING_X,
   MAX_INNER_PADDING_Y,
   MIN_INNER_PADDING_X,
   MIN_INNER_PADDING_Y,
-} from "~/constants";
+} from "~/lib/constants";
 
 const resizeStartX = ref(0);
 const resizeStartY = ref(0);
@@ -68,7 +68,7 @@ function startResize(
 </script>
 
 <template>
-  <div v-if="exportState === ExportState.Idle">
+  <div v-if="state.exportState === ExportState.Idle">
     <div
       class="side opacity-[0.0000001] transition-opacity duration-100 hover:opacity-100"
       v-for="side in ['left', 'right', 'top', 'bottom'] as const"

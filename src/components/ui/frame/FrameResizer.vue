@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useEventListener } from "@vueuse/core";
 import { ref } from "vue";
-import { exportState } from "~/lib/export-state";
+import { state } from "~/lib/state";
 import { store } from "~/lib/store";
-import { MAX_FRAME_WIDTH, MIN_FRAME_WIDTH } from "~/constants";
-import { ExportState } from "~/enums";
+import { MAX_FRAME_WIDTH, MIN_FRAME_WIDTH } from "~/lib/constants";
+import { ExportState } from "~/lib/enums";
 
 const resizeStartX = ref(0);
 const resizeStartWidth = ref(0);
@@ -36,7 +36,7 @@ function startResize(event: MouseEvent, handle: "left" | "right") {
 
 <template>
   <div
-    v-if="exportState === ExportState.Idle"
+    v-if="state.exportState === ExportState.Idle"
     class="pointer-events-none sticky top-1/2 z-20 -mt-6 flex justify-between"
   >
     <div

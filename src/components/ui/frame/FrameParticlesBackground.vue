@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { Particle } from "~/lib/particle";
+import { store } from "~/lib/store";
 
 defineProps<{
   width: number;
@@ -59,6 +60,7 @@ onMounted(() => {
 
 <template>
   <canvas
+    v-if="store.showParticles"
     ref="canvas"
     class="particles-bg absolute inset-0"
     :width="width"

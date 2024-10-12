@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { moveBlock, removeBlock } from "~/lib/block";
-import { exportState } from "~/lib/export-state";
+import { state } from "~/lib/state";
 import { store } from "~/lib/store";
-import { COLUMN_OPTIONS, LANGUAGES, ROW_OPTIONS } from "~/constants";
-import { ExportState } from "~/enums";
+import { COLUMN_OPTIONS, LANGUAGES, ROW_OPTIONS } from "~/lib/constants";
+import { ExportState } from "~/lib/enums";
 import { CodeBlock } from "~/types";
 import { BundledLanguage } from "shiki/langs";
 
@@ -20,7 +20,8 @@ const setEditorLanguage = (language: BundledLanguage) => {
 <template>
   <div
     v-if="
-      [ExportState.Idle, ExportState.JustCopied].includes(exportState) && block
+      [ExportState.Idle, ExportState.JustCopied].includes(state.exportState) &&
+      block
     "
     class="flex flex-wrap gap-1 rounded-b-md p-1"
     :style="{

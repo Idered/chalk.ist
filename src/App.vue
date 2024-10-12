@@ -9,7 +9,13 @@ import { store } from "~/lib/store";
       '--solid-background': store.solidBackground,
     }"
   >
-    <Canvas class="sm:col-start-2 sm:min-h-screen" />
+    <div
+      class="grid grid-rows-[auto_1fr] overflow-y-auto overflow-x-hidden sm:col-start-2 sm:min-h-screen"
+    >
+      <Menu />
+      <Canvas />
+    </div>
+
     <Sidebar class="sm:col-start-1" />
   </main>
 </template>

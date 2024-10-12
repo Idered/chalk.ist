@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { twMerge } from "tailwind-merge";
 import { computed } from "vue";
-import { exportState } from "~/lib/export-state";
-import { ExportState } from "~/enums";
+import { state } from "~/lib/state";
+import { ExportState } from "~/lib/enums";
 import { copyPngToClipboard } from "~/lib/export";
 
 const isFirefox = computed(() => {
@@ -15,7 +15,7 @@ const isFirefox = computed(() => {
     v-if="!isFirefox"
     :class="
       twMerge(
-        'group w-full shrink-0 bg-emerald-600/30 px-4 text-emerald-500 hover:bg-emerald-600/40 sm:flex lg:w-[204px] ',
+        'group w-full shrink-0 bg-emerald-600/30 px-4 text-emerald-500 hover:bg-emerald-600/40 sm:flex lg:w-[204px]',
         $attrs.class as string,
       )
     "
@@ -27,11 +27,11 @@ const isFirefox = computed(() => {
     />
     <span class="truncate whitespace-nowrap lg:overflow-visible">
       {{
-        exportState === ExportState.PreparingToCopy
+        state.exportState === ExportState.PreparingToCopy
           ? "..."
-          : exportState === ExportState.JustCopied
+          : state.exportState === ExportState.JustCopied
             ? "Copied!"
-            : exportState === ExportState.CopyFailure
+            : state.exportState === ExportState.CopyFailure
               ? "Error! Try to download"
               : "Copy image to clipboard"
       }}

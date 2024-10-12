@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { store } from "~/lib/store";
-import { SHADOW_OVERLAY_MAPPING } from "~/constants";
+import { SHADOW_OVERLAY_MAPPING } from "~/lib/constants";
 import { Backdrops } from "~/lib/backdrops";
 
 const backdrop = computed(() => Backdrops[store.value.backdrop]);

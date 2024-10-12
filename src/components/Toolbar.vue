@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { getCodeBlocks } from "~/lib/block";
 import { store } from "~/lib/store";
-import { BlockType } from "~/enums";
+import { BlockType } from "~/lib/enums";
 
 defineProps<{
   frameWidth: number;
@@ -26,14 +26,6 @@ defineProps<{
         >
           Edit
         </Button>
-
-        <!-- <Button
-        @click="store.editMode = 'annotate'"
-        class="h-6 px-2 rounded-full hover:text-slate-100"
-        :class="{ 'bg-slate-50 text-slate-900 hover:text-slate-900': store.editMode === 'annotate' }"
-      >
-        Annotate
-      </Button> -->
 
         <Button
           @click="store.editMode = 'highlight'"

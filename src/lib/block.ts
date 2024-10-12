@@ -1,5 +1,5 @@
 import { store } from "./store";
-import { BlockType } from "~/enums";
+import { BlockType } from "~/lib/enums";
 import { CodeBlock } from "~/types";
 
 export function getCodeBlocks() {

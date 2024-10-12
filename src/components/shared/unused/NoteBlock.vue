@@ -3,10 +3,10 @@ import markdownit from "markdown-it";
 import { fromHighlighter } from "@shikijs/markdown-it";
 import { computed } from "vue";
 import { moveBlock, removeBlock } from "~/lib/block";
-import { exportState } from "~/lib/export-state";
+import { state } from "~/lib/state";
 import { store } from "~/lib/store";
-import { COLUMN_OPTIONS } from "~/constants";
-import { ExportState } from "~/enums";
+import { COLUMN_OPTIONS } from "~/lib/constants";
+import { ExportState } from "~/lib/enums";
 import { Backdrops } from "~/lib/backdrops";
 import { useShiki } from "~/lib/shiki";
 import { NoteBlock } from "~/types";
@@ -55,7 +55,9 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
     </div>
 
     <div
-      v-if="[ExportState.Idle, ExportState.JustCopied].includes(exportState)"
+      v-if="
+        [ExportState.Idle, ExportState.JustCopied].includes(state.exportState)
+      "
       class="flex flex-wrap gap-1 px-1 pb-1"
     >
       <div>

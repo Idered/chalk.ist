@@ -10,6 +10,7 @@ declare module 'vue' {
     Annotation: typeof import('./src/components/ui/editor/Annotation.vue')['default']
     Button: typeof import('./src/components/shared/Button.vue')['default']
     Canvas: typeof import('./src/components/Canvas.vue')['default']
+    CanvasContent: typeof import('./src/components/CanvasContent.vue')['default']
     Editor: typeof import('./src/components/ui/editor/Editor.vue')['default']
     EditorResizer: typeof import('./src/components/ui/editor/EditorResizer.vue')['default']
     ExportLinkToClipboardButton: typeof import('./src/components/shared/unused/ExportLinkToClipboardButton.vue')['default']

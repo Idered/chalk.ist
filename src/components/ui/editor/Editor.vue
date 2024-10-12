@@ -8,7 +8,7 @@ import {
 import { bundledLanguages, ShikiTransformer } from "shiki";
 import { computed, h, ref, watch } from "vue";
 import { store } from "~/lib/store";
-import { BlockType } from "~/enums";
+import { BlockType } from "~/lib/enums";
 import { createTheme } from "~/lib/create-theme";
 import { useShiki } from "~/lib/shiki";
 import { CodeBlock } from "~/types";

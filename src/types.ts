@@ -1,5 +1,5 @@
 import { BundledLanguage } from "shiki/langs";
-import { BlockType } from "./enums";
+import { BlockType } from "./lib/enums";
 
 export type CodeBlock = {
   id: string;

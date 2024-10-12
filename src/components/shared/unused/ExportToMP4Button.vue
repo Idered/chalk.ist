@@ -3,9 +3,9 @@ import { createContext, destroyContext, domToCanvas } from "modern-screenshot";
 // import screenshotWorkerUrl from "modern-screenshot/worker?url";
 import { ArrayBufferTarget, Muxer } from "mp4-muxer";
 import { computed, reactive, ref } from "vue";
-import { exportState } from "~/lib/export-state";
+import { state } from "~/lib/state";
 import { store } from "~/lib/store";
-import { ExportState } from "~/enums";
+import { ExportState } from "~/lib/enums";
 
 const timeout = ref();
 
@@ -29,7 +29,7 @@ async function handleVideoExport() {
   const frameCount = fps * durationInSeconds;
   const delayBetweenFrames = 1000 / fps;
   const frames = [] as HTMLCanvasElement[];
-  exportState.value = ExportState.PreparingToDownloadVideo;
+  state.exportState = ExportState.PreparingToDownloadVideo;
   videoExportProgress.totalFrames = fps * durationInSeconds;
   const element = document.querySelector<HTMLDivElement>(
     "[data-editor-frame]",
@@ -116,10 +116,10 @@ async function handleVideoExport() {
   a.download = "output.mp4";
   a.click();
   window.URL.revokeObjectURL(url);
-  exportState.value = ExportState.JustDownloadedVideo;
+  state.exportState = ExportState.JustDownloadedVideo;
   clearTimeout(timeout.value);
   timeout.value = setTimeout(() => {
-    exportState.value = ExportState.Idle;
+    state.exportState = ExportState.Idle;
   }, 1000);
 }
 </script>
@@ -136,7 +136,7 @@ async function handleVideoExport() {
       class="transition-transform group-hover:rotate-6 group-hover:scale-110"
     />
 
-    <template v-if="exportState === ExportState.PreparingToDownloadVideo">
+    <template v-if="state.exportState === ExportState.PreparingToDownloadVideo">
       <span
         v-if="
           videoExportProgress.currentFrame + 1 !==
@@ -155,7 +155,7 @@ async function handleVideoExport() {
       <span v-else class="truncate">Encoding...</span>
     </template>
     <span
-      v-else-if="exportState === ExportState.JustDownloadedVideo"
+      v-else-if="state.exportState === ExportState.JustDownloadedVideo"
       class="truncate"
       >Downloaded!</span
     >

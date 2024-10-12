@@ -1,17 +1,12 @@
 import { runStoreMigrations } from "./migrations";
 import { useStorage } from "@vueuse/core";
-import {
-  DEFAULT_CONTENT,
-  DEFAULT_THEME,
-  SHADOW_OVERLAY_MAPPING,
-} from "~/constants";
-import { BlockType, WindowControls } from "~/enums";
+import { DEFAULT_CONTENT, SHADOW_OVERLAY_MAPPING } from "~/lib/constants";
+import { BlockType, WindowControls } from "~/lib/enums";
 import { Backdrops } from "~/lib/backdrops";
 import { Block } from "~/types";
 
 export const store = useStorage("chalk-store", {
   currentThemeSupportsWindowVariants: true,
-  currentTheme: DEFAULT_THEME,
   customTheme: {
     foreground: "hsla(0, 0%, 100%, 0.7)",
     variable: "hsla(0, 0%, 100%, .4)",

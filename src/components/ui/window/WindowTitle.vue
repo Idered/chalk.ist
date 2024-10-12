@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { store } from "~/lib/store";
-import { ExportState, WindowControls } from "~/enums";
+import { ExportState, WindowControls } from "~/lib/enums";
 import { CodeBlock } from "~/types";
-import { exportState } from "~/lib/export-state";
+import { state } from "~/lib/state";
 
 defineProps<{
   block: CodeBlock;
@@ -69,21 +69,26 @@ defineProps<{
         'pl-5': store.windowControls === WindowControls.Windows,
       }"
       v-if="
-        [ExportState.Idle, ExportState.JustCopied].includes(exportState) ||
+        [ExportState.Idle, ExportState.JustCopied].includes(
+          state.exportState,
+        ) ||
         block.title.trim() ||
         block.icon
       "
     >
       <IconPicker
         v-if="
-          [ExportState.Idle, ExportState.JustCopied].includes(exportState) ||
-          block.icon
+          [ExportState.Idle, ExportState.JustCopied].includes(
+            state.exportState,
+          ) || block.icon
         "
         v-model="block.icon"
       />
 
       <div
-        v-if="[ExportState.Idle, ExportState.JustCopied].includes(exportState)"
+        v-if="
+          [ExportState.Idle, ExportState.JustCopied].includes(state.exportState)
+        "
         contenteditable
         @blur="
           block.title = ($event.target as HTMLInputElement).textContent || ''

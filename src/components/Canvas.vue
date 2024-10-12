@@ -2,7 +2,7 @@
 import { useElementSize } from "@vueuse/core";
 import { computed, ref, watch } from "vue";
 import { store } from "~/lib/store";
-import { BlockType } from "~/enums";
+import { BlockType } from "~/lib/enums";
 
 const container = ref<HTMLDivElement>();
 const editorFrame = ref<HTMLDivElement>();
@@ -23,72 +23,72 @@ const scale = computed(() => {
   }
   return 1;
 });
+
+// New computed properties
+const marginBlock = computed(() => {
+  if (frameHeight.value <= containerHeight.value) return 0;
+  return `${-((frameHeight.value - scale.value * frameHeight.value) / 2)}px`;
+});
+
+const transform = computed(() => {
+  if (frameWidth.value > containerWidth.value) {
+    return `scale(${containerWidth.value / frameWidth.value})`;
+  }
+  return undefined;
+});
+
+const editorFrameStyle = computed(() => ({
+  width: `${frameWidth.value - 16}px`,
+}));
+
+const paddingStyle = computed(() => ({
+  paddingLeft: `${store.value.paddingX}px`,
+  paddingRight: `${store.value.paddingX}px`,
+  paddingTop: `${store.value.paddingY}px`,
+  paddingBottom: `${store.value.paddingY}px`,
+}));
 </script>
 
 <template>
   <div
-    data-editor-frame-container
-    class="grid grid-rows-[auto_1fr] overflow-y-auto overflow-x-hidden font-sans"
+    ref="container"
+    class="relative grid grid-rows-[1fr_auto] overflow-y-auto overflow-x-hidden"
   >
-    <Menu :frame-width="frameWidth" />
-
     <div
-      ref="container"
-      class="relative grid grid-rows-[1fr_auto] overflow-y-auto overflow-x-hidden"
+      class="grid origin-[center_left] content-center items-start justify-items-center"
+      :style="{ marginBlock, transform }"
     >
-      <div
-        class="grid origin-[center_left] content-center items-start justify-items-center"
-        :style="{
-          marginBlock:
-            frameHeight <= containerHeight
-              ? 0
-              : `${-((frameHeight - scale * frameHeight) / 2)}px`,
-          transform:
-            frameWidth > containerWidth
-              ? `scale(${containerWidth / frameWidth})`
-              : undefined,
-        }"
-      >
-        <div class="relative px-2">
-          <FrameResizer />
-          <div
-            ref="editorFrame"
-            data-editor-frame
-            class="relative"
-            :style="{ width: `${frameWidth - 16}px` }"
-          >
-            <WindowResizer />
-            <FrameBackground />
-            <FrameParticlesBackground
-              v-if="store.showParticles"
-              :width="frameWidth - 16"
-              :height="frameHeight"
-            />
+      <div class="relative px-2">
+        <FrameResizer />
+        <div
+          ref="editorFrame"
+          data-editor-frame
+          class="relative"
+          :style="editorFrameStyle"
+        >
+          <WindowResizer />
+          <FrameBackground />
+          <FrameParticlesBackground
+            :width="frameWidth - 16"
+            :height="frameHeight"
+          />
 
-            <div
-              class="overflow-hidden"
-              :style="{
-                paddingLeft: `${store.paddingX}px`,
-                paddingRight: `${store.paddingX}px`,
-                paddingTop: `${store.paddingY}px`,
-                paddingBottom: `${store.paddingY}px`,
-              }"
-            >
-              <div data-frame-group="2" class="grid grid-cols-12 gap-4">
-                <div
-                  v-for="block in store.blocks"
-                  data-block
-                  :key="block.id"
-                  :style="{
-                    gridColumn: `span ${block.columnSpan}`,
-                    gridRow: `span ${block.rowSpan}`,
-                  }"
-                >
-                  <Window v-if="block.type === BlockType.Code" :block="block" />
-                </div>
+          <div class="overflow-hidden" :style="paddingStyle">
+            <div class="grid grid-cols-12 gap-4">
+              <div
+                v-for="block in store.blocks"
+                data-block
+                :key="block.id"
+                :style="{
+                  gridColumn: `span ${block.columnSpan}`,
+                  gridRow: `span ${block.rowSpan}`,
+                }"
+              >
+                <Window v-if="block.type === BlockType.Code" :block="block" />
               </div>
-              <FrameFooter />
             </div>
+
+            <FrameFooter />
           </div>
         </div>
       </div>

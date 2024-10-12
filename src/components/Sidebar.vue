@@ -21,8 +21,8 @@ import {
   MIN_INNER_PADDING_X,
   MIN_INNER_PADDING_Y,
   SHADOW_OVERLAY_STYLES,
-} from "~/constants";
-import { WindowControls } from "~/enums";
+} from "~/lib/constants";
+import { WindowControls } from "~/lib/enums";
 import { Backdrops } from "~/lib/backdrops";
 import { chalkistThemes, portedThemes, shikiThemes } from "~/lib/themes";
 

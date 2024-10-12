@@ -2,8 +2,8 @@
 import { domToBlob } from "modern-screenshot";
 import { ref } from "vue";
 import { nextTick } from "vue";
-import { exportState } from "~/lib/export-state";
-import { ExportState } from "~/enums";
+import { state } from "~/lib/state";
+import { ExportState } from "~/lib/enums";
 
 const timeout = ref();
 
@@ -14,10 +14,10 @@ function downloadPng(blob: Blob | null) {
   link.href = url;
   link.download = "screenshot.png";
   link.click();
-  exportState.value = ExportState.JustDownloaded;
+  state.exportState = ExportState.JustDownloaded;
   clearTimeout(timeout.value);
   timeout.value = setTimeout(() => {
-    exportState.value = ExportState.Idle;
+    state.exportState = ExportState.Idle;
   }, 1000);
 }
 
@@ -26,7 +26,7 @@ async function handleDownload() {
   if (!frame) return;
 
   umami.track("Download PNG");
-  exportState.value = ExportState.PreparingToDownload;
+  state.exportState = ExportState.PreparingToDownload;
   await nextTick();
   const blob = await domToBlob(frame, {
     scale: 2,
@@ -48,9 +48,9 @@ async function handleDownload() {
     />
     <span class="whitespace-nowrap">
       {{
-        exportState === ExportState.PreparingToDownload
+        state.exportState === ExportState.PreparingToDownload
           ? "..."
-          : exportState === ExportState.JustDownloaded
+          : state.exportState === ExportState.JustDownloaded
             ? "Downloaded!"
             : "Download PNG"
       }}

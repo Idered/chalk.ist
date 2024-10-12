@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { exportState } from "~/lib/export-state";
+import { state } from "~/lib/state";
 import { store } from "~/lib/store";
-import { ExportState } from "~/enums";
+import { ExportState } from "~/lib/enums";
 
 const timeout = ref();
 
@@ -16,7 +16,7 @@ const handleCopyLink = async () => {
   const str = window.btoa(
     JSON.stringify({
       //   c: encodeURIComponent(content),
-      t: store.value.currentTheme,
+      // t: store.value.currentTheme,
       l: store.value.language,
       px: store.value.paddingX,
       py: store.value.paddingY,
@@ -32,10 +32,10 @@ const handleCopyLink = async () => {
   const url = `${window.location.origin}/share/${str}`;
   navigator.clipboard.writeText(url);
 
-  exportState.value = ExportState.JustCopiedLink;
+  state.exportState = ExportState.JustCopiedLink;
   clearTimeout(timeout.value);
   timeout.value = setTimeout(() => {
-    exportState.value = ExportState.Idle;
+    state.exportState = ExportState.Idle;
   }, 1000);
 };
 </script>
@@ -51,7 +51,7 @@ const handleCopyLink = async () => {
     />
     <span class="truncate">
       {{
-        exportState === ExportState.JustCopiedLink
+        state.exportState === ExportState.JustCopiedLink
           ? "Copied!"
           : "Copy Link to Clipboard"
       }}

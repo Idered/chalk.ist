@@ -13,7 +13,7 @@ import {
 import { ref } from "vue";
 import { addEditorBlock, addMarkdownBlock, getCodeBlocks } from "~/lib/block";
 import { store } from "~/lib/store";
-import { BlockType } from "~/enums";
+import { BlockType } from "~/lib/enums";
 import { copyPngToClipboard, downloadPNG } from "~/lib/export";
 
 const currentMenu = ref("");
