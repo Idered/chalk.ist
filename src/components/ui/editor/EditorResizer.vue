@@ -4,6 +4,12 @@ import { ref } from "vue";
 import { exportState } from "~/lib/export-state";
 import { store } from "~/lib/store";
 import { ExportState } from "~/enums";
+import {
+  MAX_INNER_PADDING_X,
+  MAX_INNER_PADDING_Y,
+  MIN_INNER_PADDING_X,
+  MIN_INNER_PADDING_Y,
+} from "~/constants";
 
 const resizeStartX = ref(0);
 const resizeStartY = ref(0);
@@ -32,12 +38,18 @@ useEventListener("mousemove", (event: MouseEvent) => {
     const nextWidth =
       resizeStartWidth.value +
       2 * (event.clientX - resizeStartX.value) * direction;
-    store.value.innerPaddingX = Math.min(Math.max(nextWidth, 20), 200);
+    store.value.innerPaddingX = Math.min(
+      Math.max(nextWidth, MIN_INNER_PADDING_X),
+      MAX_INNER_PADDING_X,
+    );
   } else {
     const nextHeight =
       resizeStartHeight.value +
       2 * (event.clientY - resizeStartY.value) * direction;
-    store.value.innerPaddingY = Math.min(Math.max(nextHeight, 24), 128);
+    store.value.innerPaddingY = Math.min(
+      Math.max(nextHeight, MIN_INNER_PADDING_Y),
+      MAX_INNER_PADDING_Y,
+    );
   }
 });
 

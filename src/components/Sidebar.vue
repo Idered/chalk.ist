@@ -16,6 +16,10 @@ import {
   FONTS,
   FRAME_STYLES,
   LIGATURE_FONTS,
+  MAX_INNER_PADDING_X,
+  MAX_INNER_PADDING_Y,
+  MIN_INNER_PADDING_X,
+  MIN_INNER_PADDING_Y,
   SHADOW_OVERLAY_STYLES,
 } from "~/constants";
 import { WindowControls } from "~/enums";
@@ -536,8 +540,8 @@ function getThemeColors(themeName: string) {
                 <Slider
                   class="w-[100px]"
                   id="innerPaddingX"
-                  :min="20"
-                  :max="200"
+                  :min="MIN_INNER_PADDING_X"
+                  :max="MAX_INNER_PADDING_X"
                   :step="4"
                   v-model="store.innerPaddingX"
                 />
@@ -556,8 +560,8 @@ function getThemeColors(themeName: string) {
                 <Slider
                   class="w-[100px]"
                   id="innerPaddingY"
-                  :min="24"
-                  :max="128"
+                  :min="MIN_INNER_PADDING_Y"
+                  :max="MAX_INNER_PADDING_Y"
                   :step="4"
                   v-model="store.innerPaddingY"
                 />

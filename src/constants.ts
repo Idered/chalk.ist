@@ -158,3 +158,9 @@ export const ROW_OPTIONS = [
     value: 6,
   },
 ];
+
+export const MIN_INNER_PADDING_Y = 12;
+export const MAX_INNER_PADDING_Y = 128;
+
+export const MIN_INNER_PADDING_X = 20;
+export const MAX_INNER_PADDING_X = 200;
