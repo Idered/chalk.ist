@@ -37,7 +37,7 @@ export function addEditorBlock() {
       ? "typescript"
       : lastCodeBlock?.language || "typescript";
   store.value.blocks.push({
-    id: v4(),
+    id: crypto.randomUUID(),
     content: "",
     type: BlockType.Code,
     language,
@@ -52,7 +52,7 @@ export function addEditorBlock() {
 
 export function addMarkdownBlock() {
   store.value.blocks.push({
-    id: v4(),
+    id: crypto.randomUUID(),
     content: "",
     type: BlockType.Code,
     language: "markdown",
@@ -67,7 +67,7 @@ export function addMarkdownBlock() {
 
 export function addNoteBlock() {
   store.value.blocks.push({
-    id: v4(),
+    id: crypto.randomUUID(),
     content: "",
     type: BlockType.Note,
     columnSpan: 12,

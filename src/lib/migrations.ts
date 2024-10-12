@@ -12,7 +12,7 @@ export function runStoreMigrations() {
   store.value.showWindow = store.value.showWindow ?? true;
   store.value.blocks = store.value.blocks ?? [
     {
-      id: v4(),
+      id: crypto.randomUUID(),
       content: DEFAULT_CONTENT,
       language: "typescript",
       type: BlockType.Code,

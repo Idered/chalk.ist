@@ -1,6 +1,5 @@
 import { runStoreMigrations } from "./migrations";
 import { useStorage } from "@vueuse/core";
-import { v4 } from "uuid";
 import {
   DEFAULT_CONTENT,
   DEFAULT_THEME,
@@ -28,7 +27,7 @@ export const store = useStorage("chalk-store", {
   useAltBackground: false,
   blocks: [
     {
-      id: v4(),
+      id: crypto.randomUUID(),
       content: DEFAULT_CONTENT,
       language: "typescript",
       type: BlockType.Code,
