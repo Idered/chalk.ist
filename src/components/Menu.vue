@@ -52,7 +52,7 @@ function clearLineDecorations() {
       <MenubarMenu value="help" v-if="store.editMode === 'code'">
         <MenubarTrigger class="menubar-trigger">
           Chalk
-          <i-radix-icons:chevron-down class="ml-1" />
+          <i-radix-icons:chevron-down class="ml-1 size-3" />
         </MenubarTrigger>
 
         <MenubarPortal>
@@ -93,7 +93,7 @@ function clearLineDecorations() {
       <MenubarMenu value="blocks" v-if="store.editMode === 'code'">
         <MenubarTrigger class="menubar-trigger">
           <span>Blocks</span>
-          <i-radix-icons:chevron-down class="ml-1" />
+          <i-radix-icons:chevron-down class="ml-1 size-3" />
         </MenubarTrigger>
         <MenubarPortal>
           <MenubarContent class="menubar-content" :side-offset="8">
@@ -113,7 +113,7 @@ function clearLineDecorations() {
       <MenubarMenu value="line decorations" v-if="store.editMode === 'code'">
         <MenubarTrigger class="menubar-trigger">
           <span>Line decorations</span>
-          <i-radix-icons:chevron-down class="ml-1" />
+          <i-radix-icons:chevron-down class="ml-1 size-3" />
         </MenubarTrigger>
 
         <MenubarPortal>
@@ -181,7 +181,7 @@ function clearLineDecorations() {
             <i-radix-icons:download class="size-4" />
           </div>
           <span>Export</span>
-          <i-radix-icons:chevron-down class="ml-1" />
+          <i-radix-icons:chevron-down class="ml-1 size-3" />
         </MenubarTrigger>
 
         <MenubarPortal>

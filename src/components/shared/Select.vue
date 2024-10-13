@@ -235,16 +235,15 @@ function handleKeyDown(e: KeyboardEvent) {
                 }
               : {
                   'cursor-not-allowed opacity-50': disabled,
-                  'bg-slate-900  placeholder-slate-600/50': isFocused,
+                  'bg-slate-900 placeholder-slate-600/50': isFocused,
                   'cursor-pointer border-opacity-0 bg-transparent pr-6 text-right hover:bg-slate-800 hover:shadow-[rgba(0,0,0,0.12)_0px_1px_3px,rgba(0,0,0,0.24)_0px_1px_2px]':
                     !isFocused,
                 }
           "
         />
 
-        <IconChevronDown
-          height="12"
-          class="pointer-events-none absolute right-2 top-1/2 -mt-[6px] transition-transform"
+        <i-radix-icons:chevron-down
+          class="pointer-events-none absolute right-2 top-1/2 -mt-[6px] size-3 transition-transform"
           :class="{
             'rotate-180': isFocused,
           }"

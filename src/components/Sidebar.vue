@@ -113,7 +113,7 @@ const themeOptions = computed(() => [
       <div
         class="fixed inset-x-0 bottom-[56px] z-10 max-h-[calc(30svh-48px)] content-start overflow-auto border-t border-zinc-800 bg-zinc-900 transition-[height] sm:static sm:!h-screen sm:max-h-screen sm:w-[282px] sm:overflow-auto sm:border-r sm:border-t-0 sm:transition-none pwa:sm:border-t pwa:sm:border-t-black pwa:sm:shadow-[inset_0_1px_0_rgb(39_39_42)]"
       >
-        <div class="grid gap-y-2 px-3 pt-3 sm:pb-3">
+        <div class="grid gap-y-2 px-3 pt-3.5 sm:pb-3">
           <div
             class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
           >
