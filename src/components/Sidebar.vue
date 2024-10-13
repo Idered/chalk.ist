@@ -99,303 +99,113 @@ function getThemeColors(themeName: string) {
     <aside>
       <div class="sm:hidden" :style="{ height: '57px' }"></div>
       <div
-        class="fixed inset-x-0 bottom-0 z-10 max-h-screen content-start border-t border-zinc-800 bg-zinc-900 transition-[height] sm:static sm:!h-screen sm:w-[282px] sm:overflow-auto sm:border-r sm:border-t-0 sm:transition-none pwa:sm:border-t pwa:sm:border-t-black pwa:sm:shadow-[inset_0_1px_0_rgb(39_39_42)]"
-        :style="{
-          height: isExpanded ? `${expandableContentHeight + 57}px` : `57px`,
-        }"
+        class="fixed inset-x-0 bottom-[56px] z-10 max-h-[calc(30svh-48px)] content-start overflow-auto border-t border-zinc-800 bg-zinc-900 transition-[height] sm:static sm:!h-screen sm:max-h-screen sm:w-[282px] sm:overflow-auto sm:border-r sm:border-t-0 sm:transition-none pwa:sm:border-t pwa:sm:border-t-black pwa:sm:shadow-[inset_0_1px_0_rgb(39_39_42)]"
       >
-        <div
-          ref="expandableContent"
-          class="max-h-[calc(30svh-48px)] overflow-auto sm:max-h-none"
-        >
-          <div class="grid gap-y-2 px-3 pt-4">
-            <div
-              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+        <div class="grid gap-y-2 px-3 pt-3 sm:pb-3">
+          <div
+            class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+          >
+            <label for="colorTheme" class="text-xs font-semibold"
+              >Color theme</label
             >
-              <label for="colorTheme" class="text-xs font-semibold"
-                >Color theme</label
-              >
-              <Select
-                id="colorTheme"
-                class="-my-1"
-                preview-on-focus
-                :model-value="store.colorTheme"
-                @update:model-value="store.colorTheme = $event"
-                :options="themeOptions"
-              >
-                <template #item="{ item }">
-                  <div
-                    class="group relative flex h-[24px] cursor-pointer items-center px-2 pl-6 text-[13px] font-medium transition-colors"
-                  >
-                    <IconCheck
-                      width="12"
-                      class="absolute left-2"
-                      v-if="store.colorTheme === item.value"
-                    />
-                    <span class="whitespace-nowrap pr-2">{{ item.label }}</span>
+            <Select
+              id="colorTheme"
+              class="-my-1"
+              preview-on-focus
+              :model-value="store.colorTheme"
+              @update:model-value="store.colorTheme = $event"
+              :options="themeOptions"
+            >
+              <template #item="{ item }">
+                <div
+                  class="group relative flex h-[24px] cursor-pointer items-center px-2 pl-6 text-[13px] font-medium transition-colors"
+                >
+                  <IconCheck
+                    width="12"
+                    class="absolute left-2"
+                    v-if="store.colorTheme === item.value"
+                  />
+                  <span class="whitespace-nowrap pr-2">{{ item.label }}</span>
 
-                    <Button
-                      v-if="item.showEdit"
-                      @click.stop="
-                        () => {
-                          const colors = getThemeColors(item.value);
-                          if (colors) {
-                            store.customTheme = colors;
-                            store.expandCustomThemeOptions = true;
-                            store.useCustomTheme = true;
-                          }
+                  <Button
+                    v-if="item.showEdit"
+                    @click.stop="
+                      () => {
+                        const colors = getThemeColors(item.value);
+                        if (colors) {
+                          store.customTheme = colors;
+                          store.expandCustomThemeOptions = true;
+                          store.useCustomTheme = true;
                         }
-                      "
-                      class="ml-auto h-5 rounded bg-blue-600/30 px-2.5 text-xs font-semibold text-blue-500 opacity-0 hover:bg-blue-600/40 group-hover:opacity-100"
-                    >
-                      <span class="text-[10px] uppercase tracking-wider"
-                        >Edit</span
-                      >
-                    </Button>
-                  </div>
-                </template>
-              </Select>
-            </div>
-
-            <div
-              class="grid grid-cols-[1fr_auto_auto] items-center justify-between gap-x-2 gap-y-2"
-            >
-              <label for="useCustomTheme" class="text-xs font-semibold"
-                >Custom theme</label
-              >
-              <Button
-                class="h-5 rounded bg-blue-600/30 px-2.5 text-xs font-semibold text-blue-500 hover:bg-blue-600/40"
-                @click="
-                  store.expandCustomThemeOptions =
-                    !store.expandCustomThemeOptions
-                "
-              >
-                <span
-                  class="text-[10px] uppercase tracking-wider"
-                  v-if="!store.expandCustomThemeOptions"
-                  >Edit</span
-                >
-                <span v-else class="text-[10px] uppercase tracking-wider"
-                  >Collapse</span
-                >
-              </Button>
-              <Switch v-model="store.useCustomTheme" id="useCustomTheme" />
-            </div>
-
-            <div v-if="store.expandCustomThemeOptions" class="contents">
-              <div
-                class="flex items-center gap-x-2 gap-y-2"
-                v-for="(backgroundColor, key) in store.customTheme"
-                :key="key"
-              >
-                <label
-                  for="customTheme.keyword"
-                  class="w-[118px] text-xs font-semibold [text-transform:capitalize]"
-                  >{{ themeLabels[key] || key }}</label
-                >
-                <PopoverRoot>
-                  <PopoverTrigger class="w-full">
-                    <div
-                      class="h-5 w-full rounded-sm border-2 border-slate-900 bg-slate-800 shadow-[0_0_0_1px_rgba(255,255,255,.17)]"
-                      :style="{ backgroundColor }"
-                    />
-                  </PopoverTrigger>
-                  <PopoverPortal>
-                    <PopoverContent
-                      :align-offset="-28"
-                      :side-offset="-120"
-                      side="right"
-                      align="start"
-                      class="z-[100000] rounded-md border border-slate-700 bg-slate-800 p-4 font-mono shadow-[rgba(0,0,0,0.25)_0px_14px_28px,rgba(0,0,0,0.22)_0px_10px_10px] will-change-[transform,opacity] data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=top]:animate-slideDownAndFade"
-                    >
-                      <PopoverArrow />
-                      <ColorPicker
-                        class="box-content"
-                        :color="backgroundColor"
-                        @changeColor="
-                          store.customTheme[key] = `rgba(${[
-                            $event.rgba.r,
-                            $event.rgba.g,
-                            $event.rgba.b,
-                            $event.rgba.a,
-                          ].join(',')})`
-                        "
-                      />
-                    </PopoverContent>
-                  </PopoverPortal>
-                </PopoverRoot>
-              </div>
-            </div>
-
-            <hr
-              class="-mx-3 my-1.5 border-y border-b-zinc-800 border-t-black"
-            />
-
-            <div
-              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
-            >
-              <label for="fontFamily" class="text-xs font-semibold">Font</label>
-              <Select
-                class="-my-1"
-                id="fontFamily"
-                preview-on-focus
-                :model-value="store.fontFamily"
-                @update:model-value="setFontFamily"
-                :options="FONTS"
-              />
-            </div>
-
-            <div
-              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
-            >
-              <label
-                class="cursor-pointer select-none text-xs font-semibold"
-                for="fontLigatures"
-                >Font ligatures</label
-              >
-              <Switch
-                :disabled="!LIGATURE_FONTS.includes(store.fontFamily)"
-                v-model="store.fontLigatures"
-                id="fontLigatures"
-              />
-            </div>
-
-            <div
-              class="grid h-5 grid-flow-col items-center justify-between gap-x-2 gap-y-2"
-            >
-              <label
-                class="cursor-pointer select-none text-xs font-semibold"
-                for="fontSize"
-                >Font size</label
-              >
-              <div class="grid grid-flow-col gap-x-2 text-sm">
-                <NumberInput
-                  id="fontSize"
-                  class="-my-1"
-                  :min="12"
-                  :max="40"
-                  v-model="store.fontSize"
-                />
-              </div>
-            </div>
-
-            <div
-              class="grid h-5 grid-flow-col items-center justify-between gap-x-2 gap-y-2"
-            >
-              <label
-                class="cursor-pointer select-none text-xs font-semibold"
-                for="lineHeight"
-                >Line height</label
-              >
-              <div class="grid grid-flow-col gap-x-2 text-sm">
-                <NumberInput
-                  id="lineHeight"
-                  class="-my-1"
-                  :min="20"
-                  :max="64"
-                  v-model="store.lineHeight"
-                />
-              </div>
-            </div>
-
-            <div
-              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
-            >
-              <label
-                class="cursor-pointer select-none text-xs font-semibold"
-                for="showLineNumbers"
-                >Line numbers</label
-              >
-              <Switch v-model="store.showLineNumbers" id="showLineNumbers" />
-            </div>
-
-            <hr
-              class="-mx-3 my-1.5 border-y border-b-zinc-800 border-t-black"
-            />
-
-            <div
-              class="grid grid-cols-[1fr_auto_auto] items-center justify-between gap-x-2 gap-y-2"
-            >
-              <label
-                class="cursor-pointer select-none text-xs font-semibold"
-                for="showBackground"
-                >Backdrop</label
-              >
-
-              <Button
-                class="h-5 rounded bg-blue-600/30 px-2.5 text-xs font-semibold text-blue-500 hover:bg-blue-600/40"
-                @click="store.expandBackdrops = !store.expandBackdrops"
-              >
-                <IconChevronDown
-                  width="12"
-                  class="transition-transform"
-                  :class="{
-                    'rotate-180': store.expandBackdrops,
-                  }"
-                />
-              </Button>
-              <Switch v-model="store.showBackground" id="showBackground" />
-            </div>
-
-            <div
-              v-if="store.expandBackdrops"
-              class="-mx-0.5 flex flex-wrap items-center gap-0 sm:grid sm:grid-flow-row sm:grid-cols-7"
-            >
-              <PopoverRoot>
-                <PopoverTrigger
-                  class="group col-span-2 border-2 border-transparent focus:outline-none"
-                  :title="`Use Solid backdrop`"
-                  @mouseenter="
-                    () => {
-                      originalBackdrop = originalBackdrop ?? store.backdrop;
-                      store.backdrop = 'Solid';
-                    }
-                  "
-                  @mouseleave="
-                    () => {
-                      if (originalBackdrop) {
-                        store.backdrop = originalBackdrop;
-                        originalBackdrop = null;
                       }
-                    }
-                  "
-                  @click="
-                    () => {
-                      store.backdrop = 'Solid';
-                      originalBackdrop = null;
-                    }
-                  "
-                >
-                  <div
-                    class="flex h-[30px] shrink-0 items-center justify-center rounded ring-blue-800 transition group-hover:scale-105 group-hover:opacity-100 group-focus:shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] group-focus:ring-[3px] group-active:scale-95"
-                    :style="{ backgroundColor: 'var(--solid-background)' }"
-                    :class="{
-                      'shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] ring-[2px]':
-                        store.backdrop === 'Solid',
-                    }"
+                    "
+                    class="ml-auto h-5 rounded bg-blue-600/30 px-2.5 text-xs font-semibold text-blue-500 opacity-0 hover:bg-blue-600/40 group-hover:opacity-100"
                   >
-                    <div
-                      class="rounded-[3px] bg-black/40 px-1 text-[10px] font-bold uppercase tracking-wider text-white"
+                    <span class="text-[10px] uppercase tracking-wider"
+                      >Edit</span
                     >
-                      Custom
-                    </div>
-                  </div>
-                </PopoverTrigger>
+                  </Button>
+                </div>
+              </template>
+            </Select>
+          </div>
 
+          <div
+            class="grid grid-cols-[1fr_auto_auto] items-center justify-between gap-x-2 gap-y-2"
+          >
+            <label for="useCustomTheme" class="text-xs font-semibold"
+              >Custom theme</label
+            >
+            <Button
+              class="h-5 rounded bg-blue-600/30 px-2.5 text-xs font-semibold text-blue-500 hover:bg-blue-600/40"
+              @click="
+                store.expandCustomThemeOptions = !store.expandCustomThemeOptions
+              "
+            >
+              <span
+                class="text-[10px] uppercase tracking-wider"
+                v-if="!store.expandCustomThemeOptions"
+                >Edit</span
+              >
+              <span v-else class="text-[10px] uppercase tracking-wider"
+                >Collapse</span
+              >
+            </Button>
+            <Switch v-model="store.useCustomTheme" id="useCustomTheme" />
+          </div>
+
+          <div v-if="store.expandCustomThemeOptions" class="contents">
+            <div
+              class="flex items-center gap-x-2 gap-y-2"
+              v-for="(backgroundColor, key) in store.customTheme"
+              :key="key"
+            >
+              <label
+                for="customTheme.keyword"
+                class="w-[118px] text-xs font-semibold [text-transform:capitalize]"
+                >{{ themeLabels[key] || key }}</label
+              >
+              <PopoverRoot>
+                <PopoverTrigger class="w-full">
+                  <div
+                    class="h-5 w-full rounded-sm border-2 border-slate-900 bg-slate-800 shadow-[0_0_0_1px_rgba(255,255,255,.17)]"
+                    :style="{ backgroundColor }"
+                  />
+                </PopoverTrigger>
                 <PopoverPortal>
                   <PopoverContent
-                    :align-offset="8"
-                    :side-offset="-12"
-                    side="bottom"
+                    :align-offset="-28"
+                    :side-offset="-120"
+                    side="right"
                     align="start"
                     class="z-[100000] rounded-md border border-slate-700 bg-slate-800 p-4 font-mono shadow-[rgba(0,0,0,0.25)_0px_14px_28px,rgba(0,0,0,0.22)_0px_10px_10px] will-change-[transform,opacity] data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=top]:animate-slideDownAndFade"
                   >
                     <PopoverArrow />
                     <ColorPicker
                       class="box-content"
-                      :color="store.solidBackground"
+                      :color="backgroundColor"
                       @changeColor="
-                        store.solidBackground = `rgba(${[
+                        store.customTheme[key] = `rgba(${[
                           $event.rgba.r,
                           $event.rgba.g,
                           $event.rgba.b,
@@ -406,15 +216,127 @@ function getThemeColors(themeName: string) {
                   </PopoverContent>
                 </PopoverPortal>
               </PopoverRoot>
-              <button
-                v-for="(item, key) in Backdrops"
+            </div>
+          </div>
+
+          <hr class="-mx-3 my-1.5 border-y border-b-zinc-800 border-t-black" />
+
+          <div
+            class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+          >
+            <label for="fontFamily" class="text-xs font-semibold">Font</label>
+            <Select
+              class="-my-1"
+              id="fontFamily"
+              preview-on-focus
+              :model-value="store.fontFamily"
+              @update:model-value="setFontFamily"
+              :options="FONTS"
+            />
+          </div>
+
+          <div
+            class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+          >
+            <label
+              class="cursor-pointer select-none text-xs font-semibold"
+              for="fontLigatures"
+              >Font ligatures</label
+            >
+            <Switch
+              :disabled="!LIGATURE_FONTS.includes(store.fontFamily)"
+              v-model="store.fontLigatures"
+              id="fontLigatures"
+            />
+          </div>
+
+          <div
+            class="grid h-5 grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+          >
+            <label
+              class="cursor-pointer select-none text-xs font-semibold"
+              for="fontSize"
+              >Font size</label
+            >
+            <div class="grid grid-flow-col gap-x-2 text-sm">
+              <NumberInput
+                id="fontSize"
+                class="-my-1"
+                :min="12"
+                :max="40"
+                v-model="store.fontSize"
+              />
+            </div>
+          </div>
+
+          <div
+            class="grid h-5 grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+          >
+            <label
+              class="cursor-pointer select-none text-xs font-semibold"
+              for="lineHeight"
+              >Line height</label
+            >
+            <div class="grid grid-flow-col gap-x-2 text-sm">
+              <NumberInput
+                id="lineHeight"
+                class="-my-1"
+                :min="20"
+                :max="64"
+                v-model="store.lineHeight"
+              />
+            </div>
+          </div>
+
+          <div
+            class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+          >
+            <label
+              class="cursor-pointer select-none text-xs font-semibold"
+              for="showLineNumbers"
+              >Line numbers</label
+            >
+            <Switch v-model="store.showLineNumbers" id="showLineNumbers" />
+          </div>
+
+          <hr class="-mx-3 my-1.5 border-y border-b-zinc-800 border-t-black" />
+
+          <div
+            class="grid grid-cols-[1fr_auto_auto] items-center justify-between gap-x-2 gap-y-2"
+          >
+            <label
+              class="cursor-pointer select-none text-xs font-semibold"
+              for="showBackground"
+              >Backdrop</label
+            >
+
+            <Button
+              class="h-5 rounded bg-blue-600/30 px-2.5 text-xs font-semibold text-blue-500 hover:bg-blue-600/40"
+              @click="store.expandBackdrops = !store.expandBackdrops"
+            >
+              <IconChevronDown
+                width="12"
+                class="transition-transform"
                 :class="{
-                  hidden: key === 'Solid',
+                  'rotate-180': store.expandBackdrops,
                 }"
+              />
+            </Button>
+            <Switch v-model="store.showBackground" id="showBackground" />
+          </div>
+
+          <div
+            v-if="store.expandBackdrops"
+            class="-mx-0.5 flex flex-wrap items-center gap-0 sm:grid sm:grid-flow-row sm:grid-cols-7"
+          >
+            <PopoverRoot>
+              <PopoverTrigger
+                class="group col-span-2 border-2 border-transparent focus:outline-none"
+                :title="`Use Solid backdrop`"
                 @mouseenter="
                   () => {
                     originalBackdrop = originalBackdrop ?? store.backdrop;
-                    store.backdrop = key;
+                    store.backdrop = 'Solid';
                   }
                 "
                 @mouseleave="
@@ -427,64 +349,441 @@ function getThemeColors(themeName: string) {
                 "
                 @click="
                   () => {
-                    store.backdrop = key;
+                    store.backdrop = 'Solid';
                     originalBackdrop = null;
                   }
                 "
-                class="group border-2 border-transparent focus:outline-none"
-                :title="`Use ${key} backdrop`"
               >
                 <div
-                  class="h-[30px] w-[30px] shrink-0 rounded ring-blue-800 transition group-hover:scale-105 group-hover:opacity-100 group-focus:shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] group-focus:ring-[3px] group-active:scale-95"
-                  :style="{ background: item.backgroundStyle.background }"
+                  class="flex h-[30px] shrink-0 items-center justify-center rounded ring-blue-800 transition group-hover:scale-105 group-hover:opacity-100 group-focus:shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] group-focus:ring-[3px] group-active:scale-95"
+                  :style="{ backgroundColor: 'var(--solid-background)' }"
                   :class="{
                     'shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] ring-[2px]':
-                      store.backdrop === key,
+                      store.backdrop === 'Solid',
                   }"
-                ></div>
-              </button>
-            </div>
+                >
+                  <div
+                    class="rounded-[3px] bg-black/40 px-1 text-[10px] font-bold uppercase tracking-wider text-white"
+                  >
+                    Custom
+                  </div>
+                </div>
+              </PopoverTrigger>
 
-            <div
-              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+              <PopoverPortal>
+                <PopoverContent
+                  :align-offset="8"
+                  :side-offset="-12"
+                  side="bottom"
+                  align="start"
+                  class="z-[100000] rounded-md border border-slate-700 bg-slate-800 p-4 font-mono shadow-[rgba(0,0,0,0.25)_0px_14px_28px,rgba(0,0,0,0.22)_0px_10px_10px] will-change-[transform,opacity] data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=top]:animate-slideDownAndFade"
+                >
+                  <PopoverArrow />
+                  <ColorPicker
+                    class="box-content"
+                    :color="store.solidBackground"
+                    @changeColor="
+                      store.solidBackground = `rgba(${[
+                        $event.rgba.r,
+                        $event.rgba.g,
+                        $event.rgba.b,
+                        $event.rgba.a,
+                      ].join(',')})`
+                    "
+                  />
+                </PopoverContent>
+              </PopoverPortal>
+            </PopoverRoot>
+            <button
+              v-for="(item, key) in Backdrops"
+              :class="{
+                hidden: key === 'Solid',
+              }"
+              @mouseenter="
+                () => {
+                  originalBackdrop = originalBackdrop ?? store.backdrop;
+                  store.backdrop = key;
+                }
+              "
+              @mouseleave="
+                () => {
+                  if (originalBackdrop) {
+                    store.backdrop = originalBackdrop;
+                    originalBackdrop = null;
+                  }
+                }
+              "
+              @click="
+                () => {
+                  store.backdrop = key;
+                  originalBackdrop = null;
+                }
+              "
+              class="group border-2 border-transparent focus:outline-none"
+              :title="`Use ${key} backdrop`"
             >
-              <label
-                class="cursor-pointer select-none text-xs font-semibold"
-                for="backdropNoise"
-                >Backdrop noise</label
+              <div
+                class="h-[30px] w-[30px] shrink-0 rounded ring-blue-800 transition group-hover:scale-105 group-hover:opacity-100 group-focus:shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] group-focus:ring-[3px] group-active:scale-95"
+                :style="{ background: item.backgroundStyle.background }"
+                :class="{
+                  'shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] ring-[2px]':
+                    store.backdrop === key,
+                }"
+              ></div>
+            </button>
+          </div>
+
+          <div
+            class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+          >
+            <label
+              class="cursor-pointer select-none text-xs font-semibold"
+              for="backdropNoise"
+              >Backdrop noise</label
+            >
+            <Switch
+              v-model="store.backdropNoise"
+              id="backdropNoise"
+              :disabled="!store.showBackground"
+            />
+          </div>
+
+          <div
+            class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+          >
+            <label
+              class="cursor-pointer select-none text-xs font-semibold"
+              for="showParticles"
+              >Backdrop particles</label
+            >
+            <Switch v-model="store.showParticles" id="showParticles" />
+          </div>
+          <div
+            class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+          >
+            <div class="flex items-center">
+              <label for="shadowOverlay" class="text-xs font-semibold"
+                >Shadow overlay</label
               >
-              <Switch
-                v-model="store.backdropNoise"
-                id="backdropNoise"
-                :disabled="!store.showBackground"
+            </div>
+            <Select
+              id="shadowOverlay"
+              class="-my-1"
+              preview-on-focus
+              :model-value="store.shadowOverlay"
+              @update:model-value="store.shadowOverlay = $event"
+              :options="SHADOW_OVERLAY_STYLES"
+            />
+          </div>
+
+          <div
+            class="grid h-5 grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+          >
+            <label
+              class="cursor-pointer select-none text-xs font-semibold"
+              for="paddingX"
+              >Padding X</label
+            >
+            <div class="grid grid-flow-col gap-x-2 text-sm">
+              <Slider
+                class="w-[100px]"
+                id="paddingX"
+                :min="0"
+                :max="128"
+                :step="8"
+                v-model="store.paddingX"
+              />
+            </div>
+          </div>
+
+          <div
+            class="grid h-5 grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+          >
+            <label
+              class="cursor-pointer select-none text-xs font-semibold"
+              for="paddingY"
+              >Padding Y</label
+            >
+            <div class="grid grid-flow-col gap-x-2 text-sm">
+              <Slider
+                class="w-[100px]"
+                id="paddingY"
+                :min="0"
+                :max="128"
+                :step="8"
+                v-model="store.paddingY"
+              />
+            </div>
+          </div>
+
+          <div
+            class="grid h-5 grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+          >
+            <label
+              class="cursor-pointer select-none text-xs font-semibold"
+              for="innerPaddingX"
+              >Inner Padding X</label
+            >
+            <div class="grid grid-flow-col gap-x-2 text-sm">
+              <Slider
+                class="w-[100px]"
+                id="innerPaddingX"
+                :min="MIN_INNER_PADDING_X"
+                :max="MAX_INNER_PADDING_X"
+                :step="4"
+                v-model="store.innerPaddingX"
+              />
+            </div>
+          </div>
+
+          <div
+            class="grid h-5 grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+          >
+            <label
+              class="cursor-pointer select-none text-xs font-semibold"
+              for="innerPaddingY"
+              >Inner Padding Y</label
+            >
+            <div class="grid grid-flow-col gap-x-2 text-sm">
+              <Slider
+                class="w-[100px]"
+                id="innerPaddingY"
+                :min="MIN_INNER_PADDING_Y"
+                :max="MAX_INNER_PADDING_Y"
+                :step="4"
+                v-model="store.innerPaddingY"
+              />
+            </div>
+          </div>
+
+          <hr class="-mx-3 my-1.5 border-y border-b-zinc-800 border-t-black" />
+
+          <div
+            class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+          >
+            <label
+              class="cursor-pointer select-none text-xs font-semibold"
+              for="showWindow"
+              >Window</label
+            >
+            <Switch v-model="store.showWindow" id="showWindow" />
+          </div>
+
+          <div
+            class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+          >
+            <label for="windowStyle" class="text-xs font-semibold"
+              >Window style</label
+            >
+            <Select
+              id="windowStyle"
+              class="-my-1"
+              preview-on-focus
+              :disabled="!store.currentThemeSupportsWindowVariants"
+              :model-value="store.windowStyle"
+              @update:model-value="store.windowStyle = $event"
+              :options="FRAME_STYLES"
+            />
+          </div>
+
+          <div
+            class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+          >
+            <label for="windowControls" class="text-xs font-semibold"
+              >Window controls</label
+            >
+            <Select
+              id="windowControls"
+              class="-my-1"
+              preview-on-focus
+              :model-value="store.windowControls"
+              @update:model-value="store.windowControls = $event"
+              :options="[
+                { label: 'None', value: WindowControls.None },
+                { label: 'macOS - Color', value: WindowControls.MacColor },
+                { label: 'macOS - Gray', value: WindowControls.MacGray },
+                {
+                  label: 'macOS - Outline',
+                  value: WindowControls.MacOutline,
+                },
+                { label: 'Windows', value: WindowControls.Windows },
+              ]"
+            />
+          </div>
+
+          <div
+            class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+          >
+            <label
+              class="cursor-pointer select-none text-xs font-semibold"
+              for="windowNoise"
+              >Window noise</label
+            >
+            <Switch v-model="store.windowNoise" id="windowNoise" />
+          </div>
+
+          <div
+            class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+          >
+            <label
+              class="cursor-pointer select-none text-xs font-semibold"
+              for="reflection"
+              >Window reflection</label
+            >
+            <Switch v-model="store.reflection" id="reflection" />
+          </div>
+
+          <hr class="-mx-3 my-1.5 border-y border-b-zinc-800 border-t-black" />
+
+          <div
+            class="grid grid-flow-col grid-cols-[1fr_auto_auto] items-center gap-x-2 gap-y-2"
+          >
+            <label
+              class="cursor-pointer select-none text-xs font-semibold"
+              for="showTwitterBadge"
+              >Twitter/X badge</label
+            >
+            <Button
+              class="h-5 rounded bg-blue-600/30 px-2.5 text-xs font-semibold text-blue-500 hover:bg-blue-600/40"
+              @click="store.expandTwitterOptions = !store.expandTwitterOptions"
+            >
+              <IconChevronDown
+                width="12"
+                class="transition-transform"
+                :class="{
+                  'rotate-180': store.expandTwitterOptions,
+                }"
+              />
+            </Button>
+            <Switch v-model="store.showTwitterBadge" id="showTwitterBadge" />
+          </div>
+
+          <div
+            class="grid grid-cols-[auto_1fr] items-start gap-x-2 gap-y-1"
+            v-if="store.expandTwitterOptions"
+          >
+            <div
+              v-if="store.picture"
+              class="group relative row-start-1 row-end-3"
+            >
+              <Button
+                @click="store.picture = ''"
+                class="absolute right-0 top-0 h-5 w-5 justify-center rounded-full bg-red-600/80 text-white opacity-0 transition hover:bg-red-600 group-hover:opacity-100"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  aria-hidden="true"
+                  role="img"
+                  width="16"
+                  height="16"
+                  preserveAspectRatio="xMidYMid meet"
+                  viewBox="0 0 20 20"
+                >
+                  <g fill="currentColor">
+                    <path
+                      d="M7.172 14.243a1 1 0 1 1-1.415-1.415l7.071-7.07a1 1 0 0 1 1.415 1.414l-7.071 7.07Z"
+                    ></path>
+                    <path
+                      d="M5.757 7.172a1 1 0 1 1 1.415-1.415l7.07 7.071a1 1 0 0 1-1.414 1.415l-7.07-7.071Z"
+                    ></path>
+                  </g>
+                </svg>
+              </Button>
+              <img
+                :src="store.picture"
+                alt=""
+                class="h-14 w-14 rounded-full border border-slate-700 bg-slate-700/30"
+              />
+            </div>
+            <label
+              v-else
+              class="row-start-1 row-end-3 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full border border-slate-700 bg-slate-700/30 text-slate-600 transition-colors hover:bg-slate-700/50 hover:text-slate-400"
+            >
+              <input type="file" class="sr-only" @change="handlePicture" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                aria-hidden="true"
+                role="img"
+                width="24"
+                height="24"
+                preserveAspectRatio="xMidYMid meet"
+                viewBox="0 0 256 256"
+              >
+                <path
+                  fill="currentColor"
+                  d="M172 56a4 4 0 0 1 4-4h20V32a4 4 0 0 1 8 0v20h20a4 4 0 0 1 0 8h-20v20a4 4 0 0 1-8 0V60h-20a4 4 0 0 1-4-4Zm54.8 56.2A104.1 104.1 0 0 1 228 128a99.6 99.6 0 0 1-32.7 73.9l-.8.8a99.9 99.9 0 0 1-132.9 0a3.6 3.6 0 0 1-.9-.8A100 100 0 0 1 128 28a104.1 104.1 0 0 1 15.8 1.2a4 4 0 0 1 3.3 4.6a4 4 0 0 1-4.6 3.3A100 100 0 0 0 128 36a92 92 0 0 0-65.2 156.9a75.8 75.8 0 0 1 44.5-34.1a44 44 0 1 1 41.4 0a75.8 75.8 0 0 1 44.5 34.1A92.1 92.1 0 0 0 220 128a99 99 0 0 0-1.1-14.5a4 4 0 0 1 3.3-4.6a4 4 0 0 1 4.6 3.3ZM128 156a36 36 0 1 0-36-36a36 36 0 0 0 36 36Zm0 64a91.3 91.3 0 0 0 59.1-21.6a68 68 0 0 0-118.2 0A91.3 91.3 0 0 0 128 220Z"
+                ></path>
+              </svg>
+            </label>
+
+            <div class="col-start-2 grid gap-y-1">
+              <Input
+                class="placeholder:text-slate-600/75"
+                type="text"
+                id="name"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="Name"
+                v-model="store.name"
               />
             </div>
 
+            <div class="col-start-2 grid gap-y-1">
+              <Input
+                class="placeholder:text-slate-600/75"
+                type="text"
+                id="username"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="Username"
+                v-model="store.username"
+              />
+            </div>
+          </div>
+          <div
+            class="grid grid-flow-col grid-cols-[1fr_auto_auto] items-center gap-x-2 gap-y-2"
+          >
+            <label
+              class="cursor-pointer select-none text-xs font-semibold"
+              for="showWatermark"
+              >Watermark</label
+            >
+            <Button
+              class="h-5 rounded bg-blue-600/30 px-2.5 text-xs font-semibold text-blue-500 hover:bg-blue-600/40"
+              @click="
+                store.expandWatermarkOptions = !store.expandWatermarkOptions
+              "
+            >
+              <IconChevronDown
+                width="12"
+                class="transition-transform"
+                :class="{
+                  'rotate-180': store.expandWatermarkOptions,
+                }"
+              />
+            </Button>
+            <Switch v-model="store.showWatermark" id="showWatermark" />
+          </div>
+
+          <template v-if="store.expandWatermarkOptions">
             <div
-              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+              class="-my-1 grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
             >
               <label
                 class="cursor-pointer select-none text-xs font-semibold"
-                for="showParticles"
-                >Backdrop particles</label
+                for="watermarkText"
+                >Watermark text</label
               >
-              <Switch v-model="store.showParticles" id="showParticles" />
-            </div>
-            <div
-              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
-            >
-              <div class="flex items-center">
-                <label for="shadowOverlay" class="text-xs font-semibold"
-                  >Shadow overlay</label
-                >
-              </div>
-              <Select
-                id="shadowOverlay"
-                class="-my-1"
-                preview-on-focus
-                :model-value="store.shadowOverlay"
-                @update:model-value="store.shadowOverlay = $event"
-                :options="SHADOW_OVERLAY_STYLES"
+              <Input
+                class="w-[116px] placeholder:text-slate-600/75"
+                type="text"
+                id="watermarkText"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="Name"
+                v-model="store.watermark"
               />
             </div>
 
@@ -493,352 +792,32 @@ function getThemeColors(themeName: string) {
             >
               <label
                 class="cursor-pointer select-none text-xs font-semibold"
-                for="paddingX"
-                >Padding X</label
+                for="watermarkOpacity"
+                >Watermark opacity</label
               >
               <div class="grid grid-flow-col gap-x-2 text-sm">
                 <Slider
                   class="w-[100px]"
                   id="paddingX"
                   :min="0"
-                  :max="128"
-                  :step="8"
-                  v-model="store.paddingX"
+                  :max="100"
+                  :step="1"
+                  v-model="store.watermarkOpacity"
                 />
               </div>
             </div>
+          </template>
 
-            <div
-              class="grid h-5 grid-flow-col items-center justify-between gap-x-2 gap-y-2"
-            >
-              <label
-                class="cursor-pointer select-none text-xs font-semibold"
-                for="paddingY"
-                >Padding Y</label
-              >
-              <div class="grid grid-flow-col gap-x-2 text-sm">
-                <Slider
-                  class="w-[100px]"
-                  id="paddingY"
-                  :min="0"
-                  :max="128"
-                  :step="8"
-                  v-model="store.paddingY"
-                />
-              </div>
-            </div>
+          <!-- <hr
+            class="-mx-3 my-1.5 hidden border-y border-b-zinc-800 border-t-black sm:block lg:hidden"
+          /> -->
 
-            <div
-              class="grid h-5 grid-flow-col items-center justify-between gap-x-2 gap-y-2"
-            >
-              <label
-                class="cursor-pointer select-none text-xs font-semibold"
-                for="innerPaddingX"
-                >Inner Padding X</label
-              >
-              <div class="grid grid-flow-col gap-x-2 text-sm">
-                <Slider
-                  class="w-[100px]"
-                  id="innerPaddingX"
-                  :min="MIN_INNER_PADDING_X"
-                  :max="MAX_INNER_PADDING_X"
-                  :step="4"
-                  v-model="store.innerPaddingX"
-                />
-              </div>
-            </div>
+          <!-- <ExportOptions class="lg:hidden" /> -->
 
-            <div
-              class="grid h-5 grid-flow-col items-center justify-between gap-x-2 gap-y-2"
-            >
-              <label
-                class="cursor-pointer select-none text-xs font-semibold"
-                for="innerPaddingY"
-                >Inner Padding Y</label
-              >
-              <div class="grid grid-flow-col gap-x-2 text-sm">
-                <Slider
-                  class="w-[100px]"
-                  id="innerPaddingY"
-                  :min="MIN_INNER_PADDING_Y"
-                  :max="MAX_INNER_PADDING_Y"
-                  :step="4"
-                  v-model="store.innerPaddingY"
-                />
-              </div>
-            </div>
-
-            <hr
-              class="-mx-3 my-1.5 border-y border-b-zinc-800 border-t-black"
-            />
-
-            <div
-              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
-            >
-              <label
-                class="cursor-pointer select-none text-xs font-semibold"
-                for="showWindow"
-                >Window</label
-              >
-              <Switch v-model="store.showWindow" id="showWindow" />
-            </div>
-
-            <div
-              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
-            >
-              <label for="windowStyle" class="text-xs font-semibold"
-                >Window style</label
-              >
-              <Select
-                id="windowStyle"
-                class="-my-1"
-                preview-on-focus
-                :disabled="!store.currentThemeSupportsWindowVariants"
-                :model-value="store.windowStyle"
-                @update:model-value="store.windowStyle = $event"
-                :options="FRAME_STYLES"
-              />
-            </div>
-
-            <div
-              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
-            >
-              <label for="windowControls" class="text-xs font-semibold"
-                >Window controls</label
-              >
-              <Select
-                id="windowControls"
-                class="-my-1"
-                preview-on-focus
-                :model-value="store.windowControls"
-                @update:model-value="store.windowControls = $event"
-                :options="[
-                  { label: 'None', value: WindowControls.None },
-                  { label: 'macOS - Color', value: WindowControls.MacColor },
-                  { label: 'macOS - Gray', value: WindowControls.MacGray },
-                  {
-                    label: 'macOS - Outline',
-                    value: WindowControls.MacOutline,
-                  },
-                  { label: 'Windows', value: WindowControls.Windows },
-                ]"
-              />
-            </div>
-
-            <div
-              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
-            >
-              <label
-                class="cursor-pointer select-none text-xs font-semibold"
-                for="windowNoise"
-                >Window noise</label
-              >
-              <Switch v-model="store.windowNoise" id="windowNoise" />
-            </div>
-
-            <div
-              class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
-            >
-              <label
-                class="cursor-pointer select-none text-xs font-semibold"
-                for="reflection"
-                >Window reflection</label
-              >
-              <Switch v-model="store.reflection" id="reflection" />
-            </div>
-
-            <hr
-              class="-mx-3 my-1.5 border-y border-b-zinc-800 border-t-black"
-            />
-
-            <div
-              class="grid grid-flow-col grid-cols-[1fr_auto_auto] items-center gap-x-2 gap-y-2"
-            >
-              <label
-                class="cursor-pointer select-none text-xs font-semibold"
-                for="showTwitterBadge"
-                >Twitter/X badge</label
-              >
-              <Button
-                class="h-5 rounded bg-blue-600/30 px-2.5 text-xs font-semibold text-blue-500 hover:bg-blue-600/40"
-                @click="
-                  store.expandTwitterOptions = !store.expandTwitterOptions
-                "
-              >
-                <IconChevronDown
-                  width="12"
-                  class="transition-transform"
-                  :class="{
-                    'rotate-180': store.expandTwitterOptions,
-                  }"
-                />
-              </Button>
-              <Switch v-model="store.showTwitterBadge" id="showTwitterBadge" />
-            </div>
-
-            <div
-              class="grid grid-cols-[auto_1fr] items-start gap-x-2 gap-y-1"
-              v-if="store.expandTwitterOptions"
-            >
-              <div
-                v-if="store.picture"
-                class="group relative row-start-1 row-end-3"
-              >
-                <Button
-                  @click="store.picture = ''"
-                  class="absolute right-0 top-0 h-5 w-5 justify-center rounded-full bg-red-600/80 text-white opacity-0 transition hover:bg-red-600 group-hover:opacity-100"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink"
-                    aria-hidden="true"
-                    role="img"
-                    width="16"
-                    height="16"
-                    preserveAspectRatio="xMidYMid meet"
-                    viewBox="0 0 20 20"
-                  >
-                    <g fill="currentColor">
-                      <path
-                        d="M7.172 14.243a1 1 0 1 1-1.415-1.415l7.071-7.07a1 1 0 0 1 1.415 1.414l-7.071 7.07Z"
-                      ></path>
-                      <path
-                        d="M5.757 7.172a1 1 0 1 1 1.415-1.415l7.07 7.071a1 1 0 0 1-1.414 1.415l-7.07-7.071Z"
-                      ></path>
-                    </g>
-                  </svg>
-                </Button>
-                <img
-                  :src="store.picture"
-                  alt=""
-                  class="h-14 w-14 rounded-full border border-slate-700 bg-slate-700/30"
-                />
-              </div>
-              <label
-                v-else
-                class="row-start-1 row-end-3 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full border border-slate-700 bg-slate-700/30 text-slate-600 transition-colors hover:bg-slate-700/50 hover:text-slate-400"
-              >
-                <input type="file" class="sr-only" @change="handlePicture" />
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                  aria-hidden="true"
-                  role="img"
-                  width="24"
-                  height="24"
-                  preserveAspectRatio="xMidYMid meet"
-                  viewBox="0 0 256 256"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M172 56a4 4 0 0 1 4-4h20V32a4 4 0 0 1 8 0v20h20a4 4 0 0 1 0 8h-20v20a4 4 0 0 1-8 0V60h-20a4 4 0 0 1-4-4Zm54.8 56.2A104.1 104.1 0 0 1 228 128a99.6 99.6 0 0 1-32.7 73.9l-.8.8a99.9 99.9 0 0 1-132.9 0a3.6 3.6 0 0 1-.9-.8A100 100 0 0 1 128 28a104.1 104.1 0 0 1 15.8 1.2a4 4 0 0 1 3.3 4.6a4 4 0 0 1-4.6 3.3A100 100 0 0 0 128 36a92 92 0 0 0-65.2 156.9a75.8 75.8 0 0 1 44.5-34.1a44 44 0 1 1 41.4 0a75.8 75.8 0 0 1 44.5 34.1A92.1 92.1 0 0 0 220 128a99 99 0 0 0-1.1-14.5a4 4 0 0 1 3.3-4.6a4 4 0 0 1 4.6 3.3ZM128 156a36 36 0 1 0-36-36a36 36 0 0 0 36 36Zm0 64a91.3 91.3 0 0 0 59.1-21.6a68 68 0 0 0-118.2 0A91.3 91.3 0 0 0 128 220Z"
-                  ></path>
-                </svg>
-              </label>
-
-              <div class="col-start-2 grid gap-y-1">
-                <Input
-                  class="placeholder:text-slate-600/75"
-                  type="text"
-                  id="name"
-                  autocomplete="off"
-                  spellcheck="false"
-                  placeholder="Name"
-                  v-model="store.name"
-                />
-              </div>
-
-              <div class="col-start-2 grid gap-y-1">
-                <Input
-                  class="placeholder:text-slate-600/75"
-                  type="text"
-                  id="username"
-                  autocomplete="off"
-                  spellcheck="false"
-                  placeholder="Username"
-                  v-model="store.username"
-                />
-              </div>
-            </div>
-            <div
-              class="grid grid-flow-col grid-cols-[1fr_auto_auto] items-center gap-x-2 gap-y-2"
-            >
-              <label
-                class="cursor-pointer select-none text-xs font-semibold"
-                for="showWatermark"
-                >Watermark</label
-              >
-              <Button
-                class="h-5 rounded bg-blue-600/30 px-2.5 text-xs font-semibold text-blue-500 hover:bg-blue-600/40"
-                @click="
-                  store.expandWatermarkOptions = !store.expandWatermarkOptions
-                "
-              >
-                <IconChevronDown
-                  width="12"
-                  class="transition-transform"
-                  :class="{
-                    'rotate-180': store.expandWatermarkOptions,
-                  }"
-                />
-              </Button>
-              <Switch v-model="store.showWatermark" id="showWatermark" />
-            </div>
-
-            <template v-if="store.expandWatermarkOptions">
-              <div
-                class="-my-1 grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
-              >
-                <label
-                  class="cursor-pointer select-none text-xs font-semibold"
-                  for="watermarkText"
-                  >Watermark text</label
-                >
-                <Input
-                  class="w-[116px] placeholder:text-slate-600/75"
-                  type="text"
-                  id="watermarkText"
-                  autocomplete="off"
-                  spellcheck="false"
-                  placeholder="Name"
-                  v-model="store.watermark"
-                />
-              </div>
-
-              <div
-                class="grid h-5 grid-flow-col items-center justify-between gap-x-2 gap-y-2"
-              >
-                <label
-                  class="cursor-pointer select-none text-xs font-semibold"
-                  for="watermarkOpacity"
-                  >Watermark opacity</label
-                >
-                <div class="grid grid-flow-col gap-x-2 text-sm">
-                  <Slider
-                    class="w-[100px]"
-                    id="paddingX"
-                    :min="0"
-                    :max="100"
-                    :step="1"
-                    v-model="store.watermarkOpacity"
-                  />
-                </div>
-              </div>
-            </template>
-
-            <!-- <hr
-              class="-mx-3 my-1.5 hidden border-y border-b-zinc-800 border-t-black sm:block lg:hidden"
-            /> -->
-
-            <!-- <ExportOptions class="lg:hidden" /> -->
-
-            <!-- <hr
-              class="-mx-3 my-1.5 hidden border-y border-b-zinc-800 border-t-black sm:block pwa:hidden"
-            /> -->
-          </div>
+          <!-- <hr
+            class="-mx-3 my-1.5 hidden border-y border-b-zinc-800 border-t-black sm:block pwa:hidden"
+          /> -->
         </div>
-
-        <div class="h-3"></div>
       </div>
     </aside>
 
