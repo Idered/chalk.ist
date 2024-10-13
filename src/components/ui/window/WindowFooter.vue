@@ -23,7 +23,7 @@ const setEditorLanguage = (language: BundledLanguage) => {
       [ExportState.Idle, ExportState.JustCopied].includes(state.exportState) &&
       block
     "
-    class="flex flex-wrap gap-1 rounded-b-md p-1"
+    class="relative z-10 flex flex-wrap gap-1 rounded-b-md p-1"
     :style="{
       background: block.mode === 'preview' ? '#03000ADD' : 'transparent',
     }"
