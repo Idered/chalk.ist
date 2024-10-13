@@ -44,6 +44,14 @@ export const WINDOW_STYLES: {
       reflection: false,
     },
   },
+  {
+    value: "variant-5",
+    label: "Variant 5",
+    features: {
+      particles: false,
+      reflection: false,
+    },
+  },
 ];
 
 export const SHADOW_OVERLAY_STYLES = [

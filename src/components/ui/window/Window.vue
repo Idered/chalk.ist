@@ -57,9 +57,7 @@ const enableAppStyle = computed(() => {
                 0 0 18px 1px rgba(0,0,0,.6)
               `,
               },
-              'variant-4': {
-                boxShadow: '0 0 0 1px #ffffff10',
-              },
+              'variant-4': {},
             }[store.windowStyle] || {},
             enableAppStyle ? backdrop.appStyle : {},
             mode === 'preview'
@@ -84,17 +82,35 @@ const enableAppStyle = computed(() => {
     <template v-if="store.windowStyle === 'variant-4' && store.showWindow">
       <div
         :style="{ top: `${-store.paddingY}px`, bottom: `${-store.paddingY}px` }"
-        class="absolute -left-px z-40 w-px bg-[#282828]" />
+        class="absolute -left-px z-40 w-px bg-[#282828] mix-blend-luminosity" />
       <div
         :style="{ top: `${-store.paddingY}px`, bottom: `${-store.paddingY}px` }"
-        class="absolute -right-px z-40 w-px bg-[#282828]" />
+        class="absolute -right-px z-40 w-px bg-[#282828] mix-blend-luminosity" />
       <div
         :style="{ left: `${-store.paddingX}px`, right: `${-store.paddingX}px` }"
-        class="absolute -top-px z-40 h-px bg-[#282828]" />
+        class="absolute -top-px z-40 h-px bg-[#282828] mix-blend-luminosity" />
       <div
         :style="{ left: `${-store.paddingX}px`, right: `${-store.paddingX}px` }"
-        class="absolute -bottom-px z-40 h-px bg-[#282828]"
+        class="absolute -bottom-px z-40 h-px bg-[#282828] mix-blend-luminosity"
     /></template>
+
+    <template v-if="store.windowStyle === 'variant-5' && store.showWindow">
+      <div
+        class="pointer-events-none absolute inset-0 z-40 border border-blue-700"
+      />
+      <div
+        class="absolute -left-1 -top-1 z-40 size-2 border border-blue-700 bg-white"
+      />
+      <div
+        class="absolute -right-1 -top-1 z-40 size-2 border border-blue-700 bg-white"
+      />
+      <div
+        class="absolute -bottom-1 -left-1 z-40 size-2 border border-blue-700 bg-white"
+      />
+      <div
+        class="absolute -bottom-1 -right-1 z-40 size-2 border border-blue-700 bg-white"
+      />
+    </template>
     <slot />
   </div>
 </template>
