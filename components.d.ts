@@ -54,6 +54,7 @@ declare module 'vue' {
     Select: typeof import('./src/components/shared/Select.vue')['default']
     Sidebar: typeof import('./src/components/Sidebar.vue')['default']
     Slider: typeof import('./src/components/shared/Slider.vue')['default']
+    SliderAlt: typeof import('./src/components/shared/SliderAlt.vue')['default']
     Switch: typeof import('./src/components/shared/Switch.vue')['default']
     Toolbar: typeof import('./src/components/Toolbar.vue')['default']
     Tooltip: typeof import('./src/components/shared/Tooltip.vue')['default']

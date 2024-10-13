@@ -4,7 +4,7 @@ import { CSSProperties } from "vue";
 export const MAX_FRAME_WIDTH = 1600;
 export const MIN_FRAME_WIDTH = 320;
 
-export const MIN_INNER_PADDING_Y = 12;
+export const MIN_INNER_PADDING_Y = 16;
 export const MAX_INNER_PADDING_Y = 128;
 
 export const MIN_INNER_PADDING_X = 20;

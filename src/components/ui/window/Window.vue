@@ -59,8 +59,6 @@ const enableAppStyle = computed(() => {
               },
               'variant-4': {
                 boxShadow: '0 0 0 1px #ffffff10',
-                borderRadius: '0',
-                backgroundColor: '#03000A80',
               },
             }[store.windowStyle] || {},
             enableAppStyle ? backdrop.appStyle : {},
@@ -83,20 +81,20 @@ const enableAppStyle = computed(() => {
           ]
     "
   >
-    <!-- <template v-if="store.windowStyle === 'variant-4'">
+    <template v-if="store.windowStyle === 'variant-4' && store.showWindow">
       <div
         :style="{ top: `${-store.paddingY}px`, bottom: `${-store.paddingY}px` }"
-        class="absolute -left-px z-40 w-px bg-slate-600/50" />
+        class="absolute -left-px z-40 w-px bg-[#282828]" />
       <div
         :style="{ top: `${-store.paddingY}px`, bottom: `${-store.paddingY}px` }"
-        class="absolute -right-px z-40 w-px bg-slate-600/50" />
+        class="absolute -right-px z-40 w-px bg-[#282828]" />
       <div
         :style="{ left: `${-store.paddingX}px`, right: `${-store.paddingX}px` }"
-        class="absolute -top-px z-40 h-px bg-slate-600/50" />
+        class="absolute -top-px z-40 h-px bg-[#282828]" />
       <div
         :style="{ left: `${-store.paddingX}px`, right: `${-store.paddingX}px` }"
-        class="absolute -bottom-px z-40 h-px bg-slate-600/50"
-    /></template> -->
+        class="absolute -bottom-px z-40 h-px bg-[#282828]"
+    /></template>
     <slot />
   </div>
 </template>

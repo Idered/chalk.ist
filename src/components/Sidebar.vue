@@ -31,6 +31,7 @@ import {
   shikiThemes,
   themeLabels,
 } from "~/lib/themes";
+import { state } from "~/lib/state";
 
 const isExpanded = ref(false);
 
@@ -467,7 +468,11 @@ const themeOptions = computed(() => [
               for="showParticles"
               >Backdrop particles</label
             >
-            <Switch v-model="store.showParticles" id="showParticles" />
+            <Switch
+              v-model="store.showParticles"
+              id="showParticles"
+              :disabled="!state.supported.particles"
+            />
           </div>
           <div
             class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
@@ -496,7 +501,7 @@ const themeOptions = computed(() => [
               >Padding X</label
             >
             <div class="grid grid-flow-col gap-x-2 text-sm">
-              <Slider
+              <SliderAlt
                 class="w-[100px]"
                 id="paddingX"
                 :min="0"
@@ -516,7 +521,7 @@ const themeOptions = computed(() => [
               >Padding Y</label
             >
             <div class="grid grid-flow-col gap-x-2 text-sm">
-              <Slider
+              <SliderAlt
                 class="w-[100px]"
                 id="paddingY"
                 :min="0"
@@ -536,7 +541,7 @@ const themeOptions = computed(() => [
               >Inner Padding X</label
             >
             <div class="grid grid-flow-col gap-x-2 text-sm">
-              <Slider
+              <SliderAlt
                 class="w-[100px]"
                 id="innerPaddingX"
                 :min="MIN_INNER_PADDING_X"
@@ -556,7 +561,7 @@ const themeOptions = computed(() => [
               >Inner Padding Y</label
             >
             <div class="grid grid-flow-col gap-x-2 text-sm">
-              <Slider
+              <SliderAlt
                 class="w-[100px]"
                 id="innerPaddingY"
                 :min="MIN_INNER_PADDING_Y"
@@ -807,7 +812,7 @@ const themeOptions = computed(() => [
                 >Watermark opacity</label
               >
               <div class="grid grid-flow-col gap-x-2 text-sm">
-                <Slider
+                <SliderAlt
                   class="w-[100px]"
                   id="paddingX"
                   :min="0"
