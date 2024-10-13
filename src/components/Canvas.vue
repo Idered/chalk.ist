@@ -3,6 +3,7 @@ import { useElementSize } from "@vueuse/core";
 import { computed, ref, watch } from "vue";
 import { store } from "~/lib/store";
 import { BlockType } from "~/lib/enums";
+import { state } from "~/lib/state";
 
 const container = ref<HTMLDivElement>();
 const editorFrame = ref<HTMLDivElement>();
@@ -24,7 +25,6 @@ const scale = computed(() => {
   return 1;
 });
 
-// New computed properties
 const marginBlock = computed(() => {
   if (frameHeight.value <= containerHeight.value) return 0;
   return `${-((frameHeight.value - scale.value * frameHeight.value) / 2)}px`;
@@ -36,17 +36,6 @@ const transform = computed(() => {
   }
   return undefined;
 });
-
-const editorFrameStyle = computed(() => ({
-  width: `${frameWidth.value - 16}px`,
-}));
-
-const paddingStyle = computed(() => ({
-  paddingLeft: `${store.value.paddingX}px`,
-  paddingRight: `${store.value.paddingX}px`,
-  paddingTop: `${store.value.paddingY}px`,
-  paddingBottom: `${store.value.paddingY}px`,
-}));
 </script>
 
 <template>
@@ -60,24 +49,21 @@ const paddingStyle = computed(() => ({
     >
       <div class="relative px-2">
         <FrameResizer />
+
         <div
           ref="editorFrame"
           data-editor-frame
           class="relative"
-          :style="editorFrameStyle"
+          :style="{ width: `${frameWidth - 16}px` }"
         >
           <WindowResizer />
           <FrameBackground />
-          <FrameParticlesBackground
-            :width="frameWidth - 16"
-            :height="frameHeight"
-          />
+          <FrameBackgroundParticles />
 
-          <div class="overflow-hidden" :style="paddingStyle">
+          <div :style="{ padding: `${store.paddingY}px ${store.paddingX}px` }">
             <div class="grid grid-cols-12 gap-4">
               <div
                 v-for="block in store.blocks"
-                data-block
                 :key="block.id"
                 :style="{
                   gridColumn: `span ${block.columnSpan}`,

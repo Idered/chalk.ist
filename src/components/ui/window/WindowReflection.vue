@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { state } from "~/lib/state";
 import { store } from "~/lib/store";
 </script>
 
@@ -6,7 +7,8 @@ import { store } from "~/lib/store";
   <div
     class="pointer-events-none absolute inset-0 overflow-hidden rounded-md transition"
     :class="{
-      'opacity-0': !store.reflection || !store.showWindow,
+      'opacity-0':
+        !store.reflection || !store.showWindow || !state.supported.reflection,
     }"
   >
     <svg

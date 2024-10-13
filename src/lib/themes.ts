@@ -201,3 +201,22 @@ export const chalkistThemes = [
   //   operator: "hsla(320, 0%, 70%, .4)",
   // }),
 ];
+
+export const themeLabels = {
+  foreground: "text",
+  variable: "variables",
+  comment: "comments",
+  keyword: "keywords",
+  function: "functions",
+  string: "strings",
+  punctuation: "punctuations",
+  operator: "operators",
+  number: "numbers",
+  regexp: "RegExp",
+};
+
+export const allThemes = [...chalkistThemes, ...portedThemes, ...shikiThemes];
+
+export function getThemeColors(themeName: string) {
+  return allThemes.find((theme) => theme.displayName === themeName)?.raw;
+}

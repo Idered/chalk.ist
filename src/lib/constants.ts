@@ -23,11 +23,27 @@ btn.addEventListener('click', () => {
   }
 })`;
 
-export const FRAME_STYLES = [
+export const WINDOW_STYLES: {
+  value: string;
+  label: string;
+  features?: {
+    particles?: boolean;
+    reflection?: boolean;
+    windowTitle?: boolean;
+  };
+}[] = [
   { value: "none", label: "None" },
   { value: "variant-1", label: "Variant 1" },
   { value: "variant-2", label: "Variant 2" },
   { value: "variant-3", label: "Variant 3" },
+  {
+    value: "variant-4",
+    label: "Variant 4",
+    features: {
+      particles: false,
+      reflection: false,
+    },
+  },
 ];
 
 export const SHADOW_OVERLAY_STYLES = [

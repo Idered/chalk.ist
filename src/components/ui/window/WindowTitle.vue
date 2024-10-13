@@ -11,6 +11,7 @@ defineProps<{
 
 <template>
   <div
+    v-if="state.supported.windowTitle"
     class="grid grid-cols-[62px_auto_62px] items-center px-5"
     :class="{
       'grid-cols-[62px_auto_62px]':

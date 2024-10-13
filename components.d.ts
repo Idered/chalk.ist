@@ -19,6 +19,7 @@ declare module 'vue' {
     ExportToMP4Button: typeof import('./src/components/shared/unused/ExportToMP4Button.vue')['default']
     ExportToPNGButton: typeof import('./src/components/shared/unused/ExportToPNGButton.vue')['default']
     FrameBackground: typeof import('./src/components/ui/frame/FrameBackground.vue')['default']
+    FrameBackgroundParticles: typeof import('./src/components/ui/frame/FrameBackgroundParticles.vue')['default']
     FrameFooter: typeof import('./src/components/ui/frame/FrameFooter.vue')['default']
     FrameParticlesBackground: typeof import('./src/components/ui/frame/FrameParticlesBackground.vue')['default']
     FrameResizer: typeof import('./src/components/ui/frame/FrameResizer.vue')['default']

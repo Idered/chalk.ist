@@ -1,16 +1,21 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { useElementSize, useParentElement, watchImmediate } from "@vueuse/core";
+import { computed, nextTick, ref } from "vue";
 import { Particle } from "~/lib/particle";
+import { state } from "~/lib/state";
 import { store } from "~/lib/store";
 
-defineProps<{
-  width: number;
-  height: number;
-}>();
+const parentElement = useParentElement();
+const { height } = useElementSize(parentElement);
 
+const width = computed(() => store.value.frameWidth + store.value.paddingX * 2);
 const canvas = ref<HTMLCanvasElement | null>(null);
+const showParticles = computed(
+  () => store.value.showParticles && state.supported.particles,
+);
 
-onMounted(() => {
+watchImmediate(showParticles, async () => {
+  await nextTick();
   const ctx = canvas.value?.getContext("2d");
   if (!ctx || !canvas.value) return;
   const particlesArray: Particle[] = [];
@@ -31,7 +36,12 @@ onMounted(() => {
     }
     ctx.clearRect(0, 0, canvas.value.width, canvas.value.height);
 
-    // const bg = cssGradientToCanvas(ctx, props.theme.background, canvas.value.width, canvas.value.height);
+    // const bg = cssGradientToCanvas(
+    //   ctx,
+    //   props.theme.background,
+    //   canvas.value.width,
+    //   canvas.value.height,
+    // );
 
     // if (bg instanceof CanvasGradient) {
     //   ctx.fillStyle = bg;
@@ -60,7 +70,7 @@ onMounted(() => {
 
 <template>
   <canvas
-    v-if="store.showParticles"
+    v-if="showParticles"
     ref="canvas"
     class="particles-bg absolute inset-0"
     :width="width"

@@ -1,6 +1,10 @@
 import { runStoreMigrations } from "./migrations";
 import { useStorage } from "@vueuse/core";
-import { DEFAULT_CONTENT, SHADOW_OVERLAY_MAPPING } from "~/lib/constants";
+import {
+  DEFAULT_CONTENT,
+  SHADOW_OVERLAY_MAPPING,
+  WINDOW_STYLES,
+} from "~/lib/constants";
 import { BlockType, WindowControls } from "~/lib/enums";
 import { Backdrops } from "~/lib/backdrops";
 import { Block } from "~/types";

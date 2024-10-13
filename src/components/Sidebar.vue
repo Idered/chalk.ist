@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { OnClickOutside } from "@vueuse/components";
-import { useElementSize } from "@vueuse/core";
 import {
   PopoverArrow,
   PopoverContent,
@@ -14,7 +13,7 @@ import { cropImage, resizeImage } from "~/lib/image";
 import { store } from "~/lib/store";
 import {
   FONTS,
-  FRAME_STYLES,
+  WINDOW_STYLES,
   LIGATURE_FONTS,
   MAX_INNER_PADDING_X,
   MAX_INNER_PADDING_Y,
@@ -24,11 +23,16 @@ import {
 } from "~/lib/constants";
 import { WindowControls } from "~/lib/enums";
 import { Backdrops } from "~/lib/backdrops";
-import { chalkistThemes, portedThemes, shikiThemes } from "~/lib/themes";
+import {
+  allThemes,
+  chalkistThemes,
+  getThemeColors,
+  portedThemes,
+  shikiThemes,
+  themeLabels,
+} from "~/lib/themes";
 
 const isExpanded = ref(false);
-const expandableContent = ref();
-const { height: expandableContentHeight } = useElementSize(expandableContent);
 
 function handlePicture(event: Event) {
   const target = event.target as HTMLInputElement;
@@ -52,11 +56,27 @@ function setFontFamily(fontFamily: string) {
 
 const originalBackdrop = ref<string | number | null>(null);
 
+const featuredThemes = allThemes.filter((item) =>
+  [
+    "CodeSandbox",
+    "Duotone - Dark Sea",
+    "Liveblocks",
+    "Monochrome",
+    "Poimandres",
+    "Tailwind CSS",
+    "Vue",
+  ].includes(item.displayName),
+);
+
 const themeOptions = computed(() => [
   {
-    group: "Chalk.ist Originals",
-    children: chalkistThemes
-      .map((item) => ({ value: item.name!, label: item.name!, showEdit: true }))
+    group: "Featured",
+    children: featuredThemes
+      .map((item) => ({
+        value: item.id!,
+        label: item.displayName!,
+        showEdit: "raw" in item,
+      }))
       .sort((a, b) => a.label.localeCompare(b.label)),
   },
   {
@@ -64,34 +84,25 @@ const themeOptions = computed(() => [
     children: shikiThemes
       .map((item) => ({ value: item.id, label: item.displayName }))
       .concat(
-        ...portedThemes.map((item) => ({
-          value: item.name,
-          label: item.name,
+        ...chalkistThemes.map((item) => ({
+          value: item.id,
+          label: item.displayName,
           showEdit: true,
         })),
+      )
+      .concat(
+        ...portedThemes.map((item) => ({
+          value: item.id,
+          label: item.displayName,
+          showEdit: true,
+        })),
+      )
+      .filter(
+        (item) => !featuredThemes.find((theme) => theme.id === item.value),
       )
       .sort((a, b) => a.label.localeCompare(b.label)),
   },
 ]);
-
-const themeLabels = {
-  foreground: "text",
-  variable: "variables",
-  comment: "comments",
-  keyword: "keywords",
-  function: "functions",
-  string: "strings",
-  punctuation: "punctuations",
-  operator: "operators",
-  number: "numbers",
-  regexp: "RegExp",
-};
-
-const themes = [...chalkistThemes, ...portedThemes];
-
-function getThemeColors(themeName: string) {
-  return themes.find((theme) => theme.name === themeName)?.raw;
-}
 </script>
 
 <template>
@@ -582,7 +593,7 @@ function getThemeColors(themeName: string) {
               :disabled="!store.currentThemeSupportsWindowVariants"
               :model-value="store.windowStyle"
               @update:model-value="store.windowStyle = $event"
-              :options="FRAME_STYLES"
+              :options="WINDOW_STYLES"
             />
           </div>
 
