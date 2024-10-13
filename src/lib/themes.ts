@@ -218,5 +218,6 @@ export const themeLabels = {
 export const allThemes = [...chalkistThemes, ...portedThemes, ...shikiThemes];
 
 export function getThemeColors(themeName: string) {
-  return allThemes.find((theme) => theme.displayName === themeName)?.raw;
+  const theme = allThemes.find((theme) => theme.displayName === themeName);
+  return theme && "raw" in theme ? theme.raw : null;
 }

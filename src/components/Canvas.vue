@@ -3,7 +3,6 @@ import { useElementSize } from "@vueuse/core";
 import { computed, ref, watch } from "vue";
 import { store } from "~/lib/store";
 import { BlockType } from "~/lib/enums";
-import { state } from "~/lib/state";
 
 const container = ref<HTMLDivElement>();
 const editorFrame = ref<HTMLDivElement>();

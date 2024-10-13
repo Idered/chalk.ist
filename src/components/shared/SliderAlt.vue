@@ -36,7 +36,12 @@ if (!CSS.supports("animation-timeline: scroll()")) {
       :max="max"
       :step="step"
       :value="modelValue"
-      @input="emit('update:modelValue', Number($event.target?.value))"
+      @input="
+        emit(
+          'update:modelValue',
+          Number(($event.target as HTMLInputElement)?.value ?? '0'),
+        )
+      "
       ref="input"
     />
     <div class="control__track">
