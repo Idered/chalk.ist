@@ -522,7 +522,13 @@ export const Backdrops: Backdrop = {
   Transparent: {
     backgroundStyle: {
       background:
-        "repeating-conic-gradient(#000 0% 25%, #141414 0% 50%) 0% 0% / 16px 16px",
+        "repeating-conic-gradient(#000 0% 25%, #111 0% 50%) 0% 0% / 16px 16px",
+    },
+    shadow: "hsl(0, 0%, 6%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.08,
+    appStyle: {
+      backgroundColor: "hsla(0, 0%, 2%, 0.9)",
     },
   },
 };

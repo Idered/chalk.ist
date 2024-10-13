@@ -39,25 +39,26 @@ const enableAppStyle = computed(() => {
               none: '',
               'variant-1': {
                 boxShadow: `
-                0 0 0px 1px rgba(17, 4, 14, ${backdrop.shadowsOpacity}),
+                0 0 0px 1px rgba(4, 4, 4, ${backdrop.shadowsOpacity}),
                 inset 0 0 0 1px rgba(255,255,255,${backdrop.lightsOpacity}),
                 0 0 18px 1px rgba(0,0,0,.6)
               `,
               },
               'variant-2': {
                 boxShadow: `
-                0px 0px 0px 1px rgba(17, 4, 14, ${backdrop.shadowsOpacity}),
+                0px 0px 0px 1px rgba(4, 4, 4, ${backdrop.shadowsOpacity}),
                 inset 0 1px 0 rgba(255,255,255,${backdrop.lightsOpacity}),
                 0px 0px 18px 1px rgba(0,0,0,.6)
               `,
               },
               'variant-3': {
                 boxShadow: `
-                0 0 0px 1px rgba(17, 4, 14, ${backdrop.shadowsOpacity}),
+                0 0 0px 1px rgba(4, 4, 4, ${backdrop.shadowsOpacity}),
                 0 0 18px 1px rgba(0,0,0,.6)
               `,
               },
               'variant-4': {},
+              'variant-5': {},
             }[store.windowStyle] || {},
             enableAppStyle ? backdrop.appStyle : {},
             mode === 'preview'
