@@ -26,7 +26,7 @@ const isSafari =
       browser.
     </div>
     <Menu class="[grid-area:menu]" />
-    <Canvas class="h-[1fr] [grid-area:canvas]" />
+    <Canvas class="[grid-area:canvas]" />
     <Sidebar class="[grid-area:sidebar]" />
   </main>
 </template>
