@@ -91,7 +91,7 @@ function clearLineDecorations() {
       </MenubarMenu>
 
       <MenubarMenu value="blocks" v-if="store.editMode === 'code'">
-        <MenubarTrigger class="menubar-trigger">
+        <MenubarTrigger class="menubar-trigger hidden sm:flex">
           <span>Blocks</span>
           <i-radix-icons:chevron-down class="ml-1 size-3" />
         </MenubarTrigger>
@@ -112,7 +112,8 @@ function clearLineDecorations() {
 
       <MenubarMenu value="line decorations" v-if="store.editMode === 'code'">
         <MenubarTrigger class="menubar-trigger">
-          <span>Line decorations</span>
+          <span class="hidden sm:block">Line decorations</span>
+          <span class="sm:hidden">Decorations</span>
           <i-radix-icons:chevron-down class="ml-1 size-3" />
         </MenubarTrigger>
 
