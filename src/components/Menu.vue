@@ -237,14 +237,6 @@ function clearLineDecorations() {
       >
         Done
       </Button>
-
-      <!-- <div
-        class="ml-auto hidden items-center space-x-2 pr-2 lg:flex"
-        v-if="state.editMode === 'code'"
-      >
-        <ExportToClipboardButton class="h-8" />
-        <ExportToPNGButton class="h-8" />
-      </div> -->
     </MenubarRoot>
   </div>
 </template>
