@@ -17,7 +17,7 @@ const handleCopyLink = async () => {
     JSON.stringify({
       //   c: encodeURIComponent(content),
       // t: store.value.currentTheme,
-      l: store.value.language,
+      // l: store.value.language,
       px: store.value.paddingX,
       py: store.value.paddingY,
       w: store.value.frameWidth,

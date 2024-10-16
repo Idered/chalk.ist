@@ -1,29 +1,57 @@
 import { store } from "./store";
-import { DEFAULT_CONTENT, MIN_FRAME_WIDTH } from "~/lib/constants";
+import { MIN_FRAME_WIDTH } from "~/lib/constants";
 import { BlockType, WindowControls } from "~/lib/enums";
-import { CodeBlock } from "~/types";
+import { persistentState } from "./persistent-state";
 
-export function runStoreMigrations() {
+export function runMigrations() {
+  if ((store.value as any).blocks) {
+    persistentState.value.blocks = (store.value as any).blocks;
+    persistentState.value.expandBackdrops = (
+      store.value as any
+    ).expandBackdrops;
+    persistentState.value.expandCustomThemeOptions = (
+      store.value as any
+    ).expandCustomThemeOptions;
+    persistentState.value.expandPresets = (store.value as any).expandPresets;
+    persistentState.value.expandTwitterOptions = (
+      store.value as any
+    ).expandTwitterOptions;
+    persistentState.value.expandWatermarkOptions = (
+      store.value as any
+    ).expandWatermarkOptions;
+    persistentState.value.lastCopyMethod = (store.value as any).lastCopyMethod;
+    persistentState.value.showUI = (store.value as any).showUI;
+    delete (store.value as any).blocks;
+    delete (store.value as any).editMode;
+    delete (store.value as any).expandBackdrops;
+    delete (store.value as any).currentThemeSupportsWindowVariants;
+    delete (store.value as any).isResizingInnerPadding;
+    delete (store.value as any).language;
+    delete (store.value as any).expandCustomThemeOptions;
+    delete (store.value as any).showAlternatives;
+    delete (store.value as any).useAltBackground;
+    delete (store.value as any).expandPresets;
+    delete (store.value as any).expandTwitterOptions;
+    delete (store.value as any).expandWatermarkOptions;
+    delete (store.value as any).lastCopyMethod;
+    delete (store.value as any).showUI;
+  }
+
   store.value.backdrop = store.value.backdrop ?? "Vue";
   store.value.backdropNoise = store.value.backdropNoise ?? false;
   store.value.colorTheme = store.value.colorTheme ?? "Vue";
-  store.value.editMode = store.value.editMode ?? "code";
-  store.value.expandBackdrops = store.value.expandBackdrops ?? true;
   store.value.fontFamily = store.value.fontFamily || "JetBrains Mono";
   store.value.fontLigatures = store.value.fontLigatures ?? true;
   store.value.fontSize = store.value.fontSize ?? 13;
   store.value.frameWidth = store.value.frameWidth || MIN_FRAME_WIDTH;
   store.value.innerPaddingX = store.value.innerPaddingX ?? 20;
   store.value.innerPaddingY = store.value.innerPaddingY ?? 24;
-  store.value.lastCopyMethod = store.value.lastCopyMethod ?? "download_png";
   store.value.lineHeight = store.value.lineHeight || 20;
   store.value.paddingX = store.value.paddingX ?? 32;
   store.value.paddingY = store.value.paddingY ?? 32;
   store.value.shadowOverlay = store.value.shadowOverlay || "none";
-  store.value.showAlternatives = store.value.showAlternatives ?? true;
   store.value.showLineNumbers = store.value.showLineNumbers ?? true;
   store.value.showParticles = store.value.showParticles ?? true;
-  store.value.showUI = store.value.showUI ?? true;
   store.value.showWatermark = store.value.showWatermark ?? true;
   store.value.showWindow = store.value.showWindow ?? true;
   store.value.solidBackground = store.value.solidBackground ?? "hsl(0, 0%, 0%)";
@@ -32,26 +60,8 @@ export function runStoreMigrations() {
   store.value.watermarkOpacity = store.value.watermarkOpacity || 50;
   store.value.windowNoise = store.value.windowNoise ?? false;
   store.value.windowStyle = store.value.windowStyle || "variant-1";
-  store.value.expandCustomThemeOptions =
-    store.value.expandCustomThemeOptions ?? false;
-  store.value.expandWatermarkOptions =
-    store.value.expandWatermarkOptions ?? true;
   store.value.windowControls =
     store.value.windowControls ?? WindowControls.MacOutline;
-  store.value.blocks = store.value.blocks ?? [
-    {
-      id: crypto.randomUUID(),
-      content: DEFAULT_CONTENT,
-      language: "typescript",
-      type: BlockType.Code,
-      title: "",
-      icon: "",
-      columnSpan: 12,
-      rowSpan: 1,
-      mode: "edit",
-      transformations: [],
-    } satisfies CodeBlock,
-  ];
   store.value.customTheme = store.value.customTheme || {
     foreground: "hsla(0, 2%, 18%, 0.7)",
     variable: "hsla(0, 0%, 100%, .4)",
@@ -64,7 +74,7 @@ export function runStoreMigrations() {
     function: "hsla(0, 0%, 100%, .8)",
     operator: "hsla(0, 0%, 100%, .4)",
   };
-  store.value.blocks = store.value.blocks.map((block) => {
+  persistentState.value.blocks = persistentState.value.blocks.map((block) => {
     if (block.type === BlockType.Code) {
       return {
         ...block,

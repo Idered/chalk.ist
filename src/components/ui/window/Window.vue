@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { store } from "~/lib/store";
 import { Backdrops } from "~/lib/backdrops";
+import { Store } from "~/lib/store";
 
-defineProps<{
+const props = defineProps<{
   mode: "preview" | "edit";
+  store: Store;
 }>();
 
-const backdrop = computed(() => Backdrops[store.value.backdrop]);
+const backdrop = computed(() => Backdrops[props.store.backdrop]);
 
 const enableAppStyle = computed(() => {
   return ["variant-1", "variant-2", "variant-3"].includes(
-    store.value.windowStyle,
+    props.store.windowStyle,
   );
 });
 </script>

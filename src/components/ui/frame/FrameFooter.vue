@@ -15,7 +15,7 @@ import { store } from "~/lib/store";
       }"
     >
       <div
-        class="absolute bottom-2 left-2 z-10 h-5 text-sm font-medium tracking-wide text-white [text-shadow:0_0px_3px_black]"
+        class="absolute bottom-2 left-2 z-10 h-5 whitespace-nowrap text-sm font-medium tracking-wide text-white [text-shadow:0_0px_3px_black]"
         :style="{
           opacity: store.watermarkOpacity / 100,
         }"

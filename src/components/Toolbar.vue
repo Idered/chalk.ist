@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { getCodeBlocks } from "~/lib/block";
-import { store } from "~/lib/store";
+import { persistentState } from "~/lib/persistent-state";
 import { BlockType } from "~/lib/enums";
+import { state } from "~/lib/state";
 
 defineProps<{
   frameWidth: number;
@@ -17,55 +18,55 @@ defineProps<{
     >
       <div class="flex max-w-[100vw] items-center space-x-1">
         <Button
-          @click="store.editMode = 'code'"
+          @click="state.editMode = 'code'"
           class="h-6 rounded-full px-2 hover:text-slate-100"
           :class="{
             'bg-slate-50 text-slate-900 hover:text-slate-900':
-              store.editMode === 'code',
+              state.editMode === 'code',
           }"
         >
           Edit
         </Button>
 
         <Button
-          @click="store.editMode = 'highlight'"
+          @click="state.editMode = 'highlight'"
           class="h-6 rounded-full px-2 hover:text-slate-100"
           :class="{
             'bg-slate-50 text-slate-900 hover:text-slate-900':
-              store.editMode === 'highlight',
+              state.editMode === 'highlight',
           }"
         >
           Highlight
         </Button>
 
         <Button
-          @click="store.editMode = 'focus'"
+          @click="state.editMode = 'focus'"
           class="h-6 rounded-full px-2 hover:text-slate-100"
           :class="{
             'bg-slate-50 text-slate-900 hover:text-slate-900':
-              store.editMode === 'focus',
+              state.editMode === 'focus',
           }"
         >
           Focus
         </Button>
 
         <Button
-          @click="store.editMode = 'add'"
+          @click="state.editMode = 'add'"
           class="h-6 whitespace-nowrap rounded-full px-2 hover:text-slate-100"
           :class="{
             'bg-slate-50 text-slate-900 hover:text-slate-900':
-              store.editMode === 'add',
+              state.editMode === 'add',
           }"
         >
           Diff: Add
         </Button>
 
         <Button
-          @click="store.editMode = 'remove'"
+          @click="state.editMode = 'remove'"
           class="h-6 whitespace-nowrap rounded-full px-2 hover:text-slate-100"
           :class="{
             'bg-slate-50 text-slate-900 hover:text-slate-900':
-              store.editMode === 'remove',
+              state.editMode === 'remove',
           }"
         >
           Diff: Remove
@@ -73,7 +74,7 @@ defineProps<{
 
         <Button
           @click="
-            store.blocks.forEach((item) => {
+            persistentState.blocks.forEach((item) => {
               if (item.type !== BlockType.Code) {
                 return;
               }

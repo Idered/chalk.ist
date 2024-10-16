@@ -13,6 +13,7 @@ import { createTheme } from "~/lib/create-theme";
 import { useShiki } from "~/lib/shiki";
 import { CodeBlock } from "~/types";
 import Annotation from "~/components/ui/editor/Annotation.vue";
+import { state } from "~/lib/state";
 
 const props = defineProps<{
   block: CodeBlock;
@@ -291,31 +292,30 @@ const characterWidth = computed(() => {
 
 useEventListener(formatted, "click", (event) => {
   const el = (event.target as HTMLElement).closest(".line") as HTMLSpanElement;
-  const mode = store.value.editMode;
-  if (mode === "code") return;
+  if (state.editMode === "code") return;
   if (!el?.classList?.contains("line")) {
     return;
   }
   const line = parseInt(el.dataset.line!);
   const index = props.block.transformations.findIndex(
-    (item) => item.type === mode && item.line === line,
+    (item) => item.type === state.editMode && item.line === line,
   );
   if (index === -1) {
-    if (mode === "add") {
+    if (state.editMode === "add") {
       const index = props.block.transformations.findIndex(
         (item) => item.type === "remove" && item.line === line,
       );
       if (index !== -1) {
         props.block.transformations.splice(index, 1);
       }
-    } else if (mode === "remove") {
+    } else if (state.editMode === "remove") {
       const index = props.block.transformations.findIndex(
         (item) => item.type === "add" && item.line === line,
       );
       if (index !== -1) {
         props.block.transformations.splice(index, 1);
       }
-    } else if (mode === "highlight") {
+    } else if (state.editMode === "highlight") {
       // remove "add" and "remove" transformations
       const index = props.block.transformations.findIndex(
         (item) => ["add", "remove"].includes(item.type) && item.line === line,
@@ -325,7 +325,7 @@ useEventListener(formatted, "click", (event) => {
       }
     }
     props.block.transformations.push({
-      type: mode,
+      type: state.editMode,
       line,
     });
   } else {
@@ -380,8 +380,8 @@ const innerPaddingX = computed(() => `${store.value.innerPaddingX}px`);
         'font-size': store.fontSize + 'px',
       }"
       :class="{
-        'is-resizing': store.isResizingInnerPadding,
-        'pointer-events-none': store.editMode === 'code',
+        'is-resizing': state.isResizingInnerPadding,
+        'pointer-events-none': state.editMode === 'code',
         'opacity-0': !shiki,
       }"
     >
@@ -390,7 +390,7 @@ const innerPaddingX = computed(() => `${store.value.innerPaddingX}px`);
 
     <div
       class="font-config character-grid relative grid content-start"
-      v-if="store.editMode === 'annotate'"
+      v-if="state.editMode === 'annotate'"
     >
       <template
         v-for="line in Array.from({
@@ -428,7 +428,7 @@ const innerPaddingX = computed(() => `${store.value.innerPaddingX}px`);
       spellcheck="false"
       data-enable-grammarly="false"
       :class="{
-        'pointer-events-none': store.editMode !== 'code',
+        'pointer-events-none': state.editMode !== 'code',
       }"
       :style="{
         'min-height':

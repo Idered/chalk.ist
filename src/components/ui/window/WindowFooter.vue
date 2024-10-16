@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { moveBlock, removeBlock } from "~/lib/block";
 import { state } from "~/lib/state";
-import { store } from "~/lib/store";
 import { COLUMN_OPTIONS, LANGUAGES, ROW_OPTIONS } from "~/lib/constants";
 import { ExportState } from "~/lib/enums";
 import { CodeBlock } from "~/types";
 import { BundledLanguage } from "shiki/langs";
+import { persistentState } from "~/lib/persistent-state";
 
 const props = defineProps<{
   block: CodeBlock;
@@ -66,7 +66,7 @@ const setEditorLanguage = (language: BundledLanguage) => {
       class="btn"
       type="button"
       title="Move left"
-      :disabled="store.blocks.indexOf(block) === 0"
+      :disabled="persistentState.blocks.indexOf(block) === 0"
     >
       <IconChevronDown title="Move left" class="w-2.5 rotate-90" />
     </button>
@@ -76,7 +76,10 @@ const setEditorLanguage = (language: BundledLanguage) => {
       class="btn"
       type="button"
       title="Move right"
-      :disabled="store.blocks.indexOf(block) === store.blocks.length - 1"
+      :disabled="
+        persistentState.blocks.indexOf(block) ===
+        persistentState.blocks.length - 1
+      "
     >
       <IconChevronDown title="Move right" class="w-2.5 -rotate-90" />
     </button>
@@ -86,7 +89,7 @@ const setEditorLanguage = (language: BundledLanguage) => {
       class="btn select-none"
       type="button"
       title="Remove"
-      :disabled="store.blocks.length === 1"
+      :disabled="persistentState.blocks.length === 1"
     >
       <svg
         title="Remove"

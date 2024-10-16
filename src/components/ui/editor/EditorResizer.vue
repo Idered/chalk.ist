@@ -21,7 +21,7 @@ const activeResizeHandle = ref<"left" | "right" | "top" | "bottom" | null>(
 
 useEventListener("mouseup", () => {
   activeResizeHandle.value = null;
-  store.value.isResizingInnerPadding = false;
+  state.isResizingInnerPadding = false;
 });
 
 useEventListener("mousemove", (event: MouseEvent) => {
@@ -63,7 +63,7 @@ function startResize(
   resizeStartWidth.value = store.value.innerPaddingX;
   resizeStartY.value = event.clientY;
   resizeStartHeight.value = store.value.innerPaddingY;
-  store.value.isResizingInnerPadding = true;
+  state.isResizingInnerPadding = true;
 }
 </script>
 

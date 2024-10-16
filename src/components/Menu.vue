@@ -12,9 +12,10 @@ import {
 } from "radix-vue";
 import { ref } from "vue";
 import { addEditorBlock, addMarkdownBlock, getCodeBlocks } from "~/lib/block";
-import { store } from "~/lib/store";
 import { BlockType } from "~/lib/enums";
 import { copyPngToClipboard, downloadPNG } from "~/lib/export";
+import { state } from "~/lib/state";
+import { persistentState } from "~/lib/persistent-state";
 
 const currentMenu = ref("");
 const keys = useMagicKeys();
@@ -25,7 +26,7 @@ const keys = useMagicKeys();
 onKeyStroke(".", (e) => {
   if (e.metaKey) {
     e.preventDefault();
-    store.value.showUI = !store.value.showUI;
+    persistentState.value.showUI = !persistentState.value.showUI;
   }
 });
 
@@ -33,7 +34,7 @@ whenever(() => keys.ctrl_e.value && !keys.current.has("shift"), addEditorBlock);
 whenever(keys.ctrl_shift_e, addMarkdownBlock);
 
 function clearLineDecorations() {
-  store.value.blocks.forEach((item) => {
+  persistentState.value.blocks.forEach((item) => {
     if (item.type !== BlockType.Code) {
       return;
     }
@@ -49,7 +50,7 @@ function clearLineDecorations() {
       v-model="currentMenu"
       class="flex items-center overflow-auto border-b border-b-zinc-800 bg-zinc-900 pwa:sm:border-t pwa:sm:border-t-black pwa:sm:shadow-[inset_0_1px_0_rgb(39_39_42)]"
     >
-      <MenubarMenu value="help" v-if="store.editMode === 'code'">
+      <MenubarMenu value="help" v-if="state.editMode === 'code'">
         <MenubarTrigger class="menubar-trigger">
           Chalk
           <i-radix-icons:chevron-down class="ml-1 size-3" />
@@ -90,7 +91,7 @@ function clearLineDecorations() {
         </MenubarPortal>
       </MenubarMenu>
 
-      <MenubarMenu value="blocks" v-if="store.editMode === 'code'">
+      <MenubarMenu value="blocks" v-if="state.editMode === 'code'">
         <MenubarTrigger class="menubar-trigger hidden sm:flex">
           <span>Blocks</span>
           <i-radix-icons:chevron-down class="ml-1 size-3" />
@@ -110,7 +111,7 @@ function clearLineDecorations() {
         </MenubarPortal>
       </MenubarMenu>
 
-      <MenubarMenu value="line decorations" v-if="store.editMode === 'code'">
+      <MenubarMenu value="line decorations" v-if="state.editMode === 'code'">
         <MenubarTrigger class="menubar-trigger">
           <span class="hidden sm:block">Line decorations</span>
           <span class="sm:hidden">Decorations</span>
@@ -121,28 +122,28 @@ function clearLineDecorations() {
           <MenubarContent class="menubar-content" :side-offset="8">
             <MenubarItem
               class="menubar-item group"
-              @click="store.editMode = 'highlight'"
+              @click="state.editMode = 'highlight'"
             >
               Highlight
               <!-- <div class="menubar-item-shortcut">⌘ E</div> -->
             </MenubarItem>
             <MenubarItem
               class="menubar-item group"
-              @click="store.editMode = 'focus'"
+              @click="state.editMode = 'focus'"
             >
               Focus
               <!-- <div class="menubar-item-shortcut">⇧ ⌘ E</div> -->
             </MenubarItem>
             <MenubarItem
               class="menubar-item group"
-              @click="store.editMode = 'add'"
+              @click="state.editMode = 'add'"
             >
               Diff: Add
               <!-- <div class="menubar-item-shortcut">⇧ ⌘ E</div> -->
             </MenubarItem>
             <MenubarItem
               class="menubar-item group"
-              @click="store.editMode = 'remove'"
+              @click="state.editMode = 'remove'"
             >
               Diff: Remove
               <!-- <div class="menubar-item-shortcut">⇧ ⌘ E</div> -->
@@ -163,10 +164,10 @@ function clearLineDecorations() {
         </MenubarPortal>
       </MenubarMenu>
 
-      <MenubarMenu value="export" v-if="store.editMode === 'code'">
+      <MenubarMenu value="export" v-if="state.editMode === 'code'">
         <MenubarTrigger class="menubar-trigger text-white">
           <div
-            v-if="store.lastCopyMethod === 'copy_png'"
+            v-if="persistentState.lastCopyMethod === 'copy_png'"
             :tabindex="0"
             @pointerdown.stop.prevent="copyPngToClipboard"
             class="-ml-1 mr-2 flex size-8 items-center justify-center rounded hover:bg-slate-700"
@@ -174,7 +175,7 @@ function clearLineDecorations() {
             <i-radix-icons:clipboard class="size-4" />
           </div>
           <div
-            v-if="store.lastCopyMethod === 'download_png'"
+            v-if="persistentState.lastCopyMethod === 'download_png'"
             :tabindex="0"
             @pointerdown.stop.prevent="downloadPNG"
             class="-ml-1 mr-2 flex size-8 items-center justify-center rounded hover:bg-slate-700"
@@ -201,8 +202,8 @@ function clearLineDecorations() {
 
       <RadioGroupRoot
         class="flex"
-        v-model="store.editMode"
-        v-if="store.editMode !== 'code'"
+        v-model="state.editMode"
+        v-if="state.editMode !== 'code'"
       >
         <RadioGroupItem value="highlight" class="menubar-item-radio">
           Highlight
@@ -219,7 +220,7 @@ function clearLineDecorations() {
       </RadioGroupRoot>
 
       <button
-        v-if="store.editMode !== 'code'"
+        v-if="state.editMode !== 'code'"
         class="menubar-trigger group cursor-pointer"
         @click="clearLineDecorations"
         :disabled="
@@ -230,8 +231,8 @@ function clearLineDecorations() {
       </button>
 
       <Button
-        v-if="store.editMode !== 'code'"
-        @click="store.editMode = 'code'"
+        v-if="state.editMode !== 'code'"
+        @click="state.editMode = 'code'"
         class="ml-4 h-8 bg-blue-700 px-4 text-white"
       >
         Done
@@ -239,7 +240,7 @@ function clearLineDecorations() {
 
       <!-- <div
         class="ml-auto hidden items-center space-x-2 pr-2 lg:flex"
-        v-if="store.editMode === 'code'"
+        v-if="state.editMode === 'code'"
       >
         <ExportToClipboardButton class="h-8" />
         <ExportToPNGButton class="h-8" />

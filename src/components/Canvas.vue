@@ -3,6 +3,7 @@ import { useElementSize } from "@vueuse/core";
 import { computed, ref, watch } from "vue";
 import { store } from "~/lib/store";
 import { BlockType } from "~/lib/enums";
+import { persistentState } from "~/lib/persistent-state";
 
 const container = ref<HTMLDivElement>();
 const editorFrame = ref<HTMLDivElement>();
@@ -62,17 +63,21 @@ const transform = computed(() => {
           <div :style="{ padding: `${store.paddingY}px ${store.paddingX}px` }">
             <div class="grid grid-cols-12 gap-4">
               <div
-                v-for="block in store.blocks"
+                v-for="block in persistentState.blocks"
                 :key="block.id"
                 :style="{
                   gridColumn: `span ${block.columnSpan}`,
                   gridRow: `span ${block.rowSpan}`,
                 }"
               >
-                <Window v-if="block.type === BlockType.Code" :mode="block.mode">
+                <Window
+                  v-if="block.type === BlockType.Code"
+                  :store="store"
+                  :mode="block.mode"
+                >
                   <EditorResizer />
                   <WindowReflection />
-                  <WindowTitle :block="block" />
+                  <WindowTitle :settings="store" :block="block" />
                   <WindowContent :block="block" />
                   <WindowFooter :block="block" />
                 </Window>

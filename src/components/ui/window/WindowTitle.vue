@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import { store } from "~/lib/store";
 import { ExportState, WindowControls } from "~/lib/enums";
 import { CodeBlock } from "~/types";
 import { state } from "~/lib/state";
 
 defineProps<{
-  block: CodeBlock;
+  settings: {
+    windowControls: WindowControls;
+    showWindow: boolean;
+  };
+  block: Pick<CodeBlock, "title" | "icon" | "mode">;
+  readonly?: boolean;
+  hideTitle?: boolean;
 }>();
 </script>
 
@@ -15,15 +20,15 @@ defineProps<{
     class="grid grid-cols-[62px_auto_62px] items-center px-5"
     :class="{
       'grid-cols-[62px_auto_62px]':
-        store.windowControls !== WindowControls.Windows,
+        settings.windowControls !== WindowControls.Windows,
       '-mx-5 grid-cols-[auto_124px]':
-        store.windowControls === WindowControls.Windows,
+        settings.windowControls === WindowControls.Windows,
     }"
   >
-    <template v-if="store.showWindow">
+    <template v-if="settings.showWindow">
       <div
         class="grid grid-flow-col justify-start gap-x-2 pt-4"
-        v-if="store.windowControls === WindowControls.MacColor"
+        v-if="settings.windowControls === WindowControls.MacColor"
       >
         <div class="h-3 w-3 rounded-full bg-[#EC6A5E]"></div>
         <div class="h-3 w-3 rounded-full bg-[#F3BF4F]"></div>
@@ -32,7 +37,7 @@ defineProps<{
 
       <div
         class="grid grid-flow-col justify-start gap-x-2 pt-4"
-        v-if="store.windowControls === WindowControls.MacGray"
+        v-if="settings.windowControls === WindowControls.MacGray"
       >
         <div
           v-for="_i in [1, 2, 3]"
@@ -46,7 +51,7 @@ defineProps<{
 
       <div
         class="grid grid-flow-col justify-start gap-x-2 pt-4"
-        v-if="store.windowControls === WindowControls.MacOutline"
+        v-if="settings.windowControls === WindowControls.MacOutline"
       >
         <div
           v-for="_i in [1, 2, 3]"
@@ -58,7 +63,7 @@ defineProps<{
         />
       </div>
 
-      <div v-if="store.windowControls === WindowControls.None"></div>
+      <div v-if="settings.windowControls === WindowControls.None"></div>
     </template>
 
     <div v-else></div>
@@ -66,29 +71,34 @@ defineProps<{
     <div
       class="mt-4 flex items-center"
       :class="{
-        'justify-center': store.windowControls !== WindowControls.Windows,
-        'pl-5': store.windowControls === WindowControls.Windows,
+        'justify-center': settings.windowControls !== WindowControls.Windows,
+        'pl-5': settings.windowControls === WindowControls.Windows,
       }"
       v-if="
-        [ExportState.Idle, ExportState.JustCopied].includes(
+        !hideTitle &&
+        ([ExportState.Idle, ExportState.JustCopied].includes(
           state.exportState,
         ) ||
-        block.title.trim() ||
-        block.icon
+          block.title.trim() ||
+          block.icon)
       "
     >
       <IconPicker
         v-if="
-          [ExportState.Idle, ExportState.JustCopied].includes(
+          ([ExportState.Idle, ExportState.JustCopied].includes(
             state.exportState,
-          ) || block.icon
+          ) ||
+            block.icon) &&
+          !readonly
         "
         v-model="block.icon"
       />
 
       <div
         v-if="
-          [ExportState.Idle, ExportState.JustCopied].includes(state.exportState)
+          [ExportState.Idle, ExportState.JustCopied].includes(
+            state.exportState,
+          ) && !readonly
         "
         contenteditable
         @blur="
@@ -100,7 +110,7 @@ defineProps<{
         :class="{
           // 'text-white/60 placeholder:text-white/30 ': theme.mode === 'dark',
           // 'text-black/60 placeholder:text-black/30': theme.mode === 'light',
-          'text-center': store.windowControls !== WindowControls.Windows,
+          'text-center': settings.windowControls !== WindowControls.Windows,
         }"
         v-text="block.title"
         class="z-10 inline-flex h-4 min-w-[0] shrink-0 border-none bg-transparent px-2 text-xs leading-4 after:inline-flex after:cursor-text empty:after:content-[attr(data-placeholder)] focus:outline-none"
@@ -115,7 +125,7 @@ defineProps<{
 
     <div
       class="grid grid-flow-col justify-end"
-      v-if="store.windowControls === WindowControls.Windows"
+      v-if="settings.windowControls === WindowControls.Windows"
       :class="{
         'text-white': block.mode === 'edit',
         'text-black': block.mode === 'preview',

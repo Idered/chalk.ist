@@ -1,3 +1,5 @@
+// import { generateRandomBackdrop } from "./colors";
+
 export interface Backdrop {
   [key: string]: {
     backgroundStyle: {
@@ -198,6 +200,18 @@ export const Backdrops: Backdrop = {
     lightsOpacity: 0.08,
   },
 
+  R6: {
+    backgroundStyle: {
+      background:
+        "conic-gradient(from 0deg, #380A1A, #F9493A, #209BC6, #032F73, #B7D6B4, #11298B)",
+      filter: "blur(30px)",
+      transform: "scale(1.385)",
+    },
+    shadow: "hsl(140, 40%, 2%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.17,
+  },
+
   R5: {
     backgroundStyle: {
       background:
@@ -276,7 +290,7 @@ export const Backdrops: Backdrop = {
   WhiteWithDots: {
     backgroundStyle: {
       background: `
-      url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 15 15"><circle fill-opacity="0.15" fill="%23000000" cx="1" cy="1" r="1"/></svg>'), 
+      url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 15 15"><circle fill-opacity="0.25" fill="%23000000" cx="13.5" cy="13.5" r="1.5"/></svg>'), 
       linear-gradient(
         140deg, 
         hsl(0, 0%, 100%), 

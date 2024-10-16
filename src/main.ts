@@ -17,9 +17,12 @@ import "@fontsource/source-code-pro/400.css";
 import "@fontsource/source-code-pro/700.css";
 import { ViteSSG } from "vite-ssg/single-page";
 import App from "~/App.vue";
+import { createPinia } from "pinia";
 
 // https://github.com/antfu/vite-ssg
 export const createApp = ViteSSG(App, async (ctx) => {
+  const pinia = createPinia();
+  ctx.app.use(pinia);
   // @ts-ignore
   const { registerSW } = await import("virtual:pwa-register");
   registerSW({ immediate: true });

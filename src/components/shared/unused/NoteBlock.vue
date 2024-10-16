@@ -10,6 +10,7 @@ import { ExportState } from "~/lib/enums";
 import { Backdrops } from "~/lib/backdrops";
 import { useShiki } from "~/lib/shiki";
 import { NoteBlock } from "~/types";
+import { persistentState } from "~/lib/persistent-state";
 
 defineProps<{
   block: NoteBlock;
@@ -84,7 +85,7 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
         class="btn"
         type="button"
         title="Move left"
-        :disabled="store.blocks.indexOf(block) === 0"
+        :disabled="persistentState.blocks.indexOf(block) === 0"
       >
         <IconChevronDown title="Move left" class="w-2.5 rotate-90" />
       </button>
@@ -94,7 +95,10 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
         class="btn"
         type="button"
         title="Move right"
-        :disabled="store.blocks.indexOf(block) === store.blocks.length - 1"
+        :disabled="
+          persistentState.blocks.indexOf(block) ===
+          persistentState.blocks.length - 1
+        "
       >
         <IconChevronDown title="Move right" class="w-2.5 -rotate-90" />
       </button>
@@ -104,7 +108,7 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
         class="btn"
         type="button"
         title="Remove"
-        :disabled="store.blocks.length === 1"
+        :disabled="persistentState.blocks.length === 1"
       >
         <svg
           title="Remove"

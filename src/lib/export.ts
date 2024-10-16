@@ -1,7 +1,7 @@
 import { domToBlob } from "modern-screenshot";
 import { nextTick } from "vue";
 import { state } from "~/lib/state";
-import { store } from "~/lib/store";
+import { persistentState } from "~/lib/persistent-state";
 import { ExportState } from "~/lib/enums";
 
 let timeout: NodeJS.Timeout;
@@ -9,7 +9,7 @@ let timeout: NodeJS.Timeout;
 export async function downloadPNG() {
   const frame = document.querySelector<HTMLDivElement>("[data-editor-frame]");
   if (!frame) return;
-  store.value.lastCopyMethod = "download_png";
+  persistentState.value.lastCopyMethod = "download_png";
   umami.track("Download PNG");
   state.exportState = ExportState.PreparingToDownload;
   await nextTick();
@@ -33,7 +33,7 @@ export async function downloadPNG() {
 }
 
 export function copyPngToClipboard() {
-  store.value.lastCopyMethod = "copy_png";
+  persistentState.value.lastCopyMethod = "copy_png";
   navigator.clipboard.write([
     new ClipboardItem({
       "image/png": new Promise(async (resolve) => {

@@ -30,3 +30,10 @@ export type NoteBlock = {
 };
 
 export type Block = CodeBlock | NoteBlock;
+export type EditMode =
+  | "code"
+  | "focus"
+  | "add"
+  | "remove"
+  | "highlight"
+  | "annotate";

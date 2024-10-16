@@ -39,6 +39,7 @@
     "modern-screenshot": "4.4.39",
     "mp4-muxer": "^2.3.0",
     "pica": "7.1.0",
+    "pinia": "2.2.4",
     "radix-vue": "^1.7.3",
     "shiki": "1.22.0",
     "tailwind-merge": "2.5.3",
