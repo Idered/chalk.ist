@@ -49,6 +49,7 @@ const focusNewPreset = async (id: string) => {
 
 const createNewPreset = async () => {
   const id = presetsStore.createPreset("", store.value);
+  persistentState.value.expandPresets = true;
   focusNewPreset(id);
 };
 </script>
