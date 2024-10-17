@@ -12,7 +12,7 @@ import { HighlighterCore } from "shiki/types.mjs";
 import { Backdrops } from "~/lib/backdrops";
 import { createTheme } from "~/lib/create-theme";
 import { usePresetsStore } from "~/lib/presets";
-import { store } from "~/lib/store";
+import { Store, store } from "~/lib/store";
 import { Preset } from "~/types";
 
 const presetsStore = usePresetsStore();
@@ -61,10 +61,13 @@ defineProps<{
             .backgroundStyle
         "
       ></div>
-      <Window mode="edit" :store="preset.settings">
+      <Window mode="edit" :store="preset.settings as Store">
         <!-- <WindowReflection v-if="preset.settings.reflection" /> -->
         <WindowTitle
-          :settings="preset.settings"
+          :settings="{
+            windowControls: preset.settings.windowControls,
+            showWindow: preset.settings.showWindow,
+          }"
           :block="{
             title: preset.name,
             mode: 'edit',

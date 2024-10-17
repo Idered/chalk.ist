@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { usePresetsStore } from "~/lib/presets";
-import { Backdrops } from "~/lib/backdrops";
 import { bundledLanguages } from "shiki/langs";
 import { onMounted, ref, nextTick } from "vue";
 import { HighlighterCore } from "shiki/types.mjs";

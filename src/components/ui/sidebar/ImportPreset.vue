@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { useStorage, useUrlSearchParams } from "@vueuse/core";
-import { nextTick, onMounted, ref } from "vue";
+import { nextTick, onMounted } from "vue";
 import { persistentState } from "~/lib/persistent-state";
 import { usePresetsStore } from "~/lib/presets";
-import { store } from "~/lib/store";
+import { Store, store } from "~/lib/store";
 import { useSearchParams } from "~/lib/utils";
 
 const presetsStore = usePresetsStore();
@@ -14,7 +13,13 @@ onMounted(() => {
     localStorage.setItem("chalk-store-backup", JSON.stringify(store.value));
   }
   if (presetsStore.parsedPreset) {
-    store.value = presetsStore.parsedPreset.settings;
+    store.value = {
+      ...presetsStore.parsedPreset.settings,
+      watermark: "",
+      username: "",
+      name: "",
+      picture: "",
+    } as Store;
   }
 });
 
@@ -36,10 +41,13 @@ const importPreset = () => {
     return;
   }
 
-  const id = presetsStore.createPreset(
-    "Imported Preset",
-    presetsStore.parsedPreset.settings,
-  );
+  const id = presetsStore.createPreset("Imported Preset", {
+    ...presetsStore.parsedPreset.settings,
+    watermark: "",
+    username: "",
+    name: "",
+    picture: "",
+  } as Store);
   cancel();
   persistentState.value.expandPresets = true;
   focusNewPreset(id);

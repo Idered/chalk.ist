@@ -3,7 +3,6 @@ import { useStorage } from "@vueuse/core";
 import { SHADOW_OVERLAY_MAPPING } from "~/lib/constants";
 import { WindowControls } from "~/lib/enums";
 import { Backdrops } from "~/lib/backdrops";
-import { utoa } from "./utils";
 
 const customTheme = {
   foreground: "hsla(0, 0%, 100%, 0.7)",

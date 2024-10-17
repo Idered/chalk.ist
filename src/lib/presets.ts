@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { store, Store } from "./store";
-import { useStorage, useUrlSearchParams, watchImmediate } from "@vueuse/core";
+import { useStorage, watchImmediate } from "@vueuse/core";
 import { atou, useSearchParams, utoa } from "./utils";
 import { z } from "zod";
 import { WindowControls } from "./enums";
@@ -46,12 +46,12 @@ const importPresetSchema = z.object({
     lineHeight: z.number(),
 
     // enum settings
-    backdrop: z.enum(Object.keys(Backdrops) as keyof typeof Backdrops),
-    colorTheme: z.enum(themeNames),
-    fontFamily: z.enum(FONTS.map((item) => item.value)),
-    shadowOverlay: z.enum(Object.keys(SHADOW_OVERLAY_MAPPING)),
-    windowControls: z.enum(Object.values(WindowControls)),
-    windowStyle: z.enum(WINDOW_STYLES.map((item) => item.value)),
+    backdrop: z.enum(Object.keys(Backdrops) as any),
+    colorTheme: z.enum(themeNames as any),
+    fontFamily: z.enum(FONTS.map((item) => item.value) as any),
+    shadowOverlay: z.enum(Object.keys(SHADOW_OVERLAY_MAPPING) as any),
+    windowControls: z.enum(Object.values(WindowControls) as any),
+    windowStyle: z.enum(WINDOW_STYLES.map((item) => item.value) as any),
 
     solidBackground: z.string().regex(hexRegexp),
 
