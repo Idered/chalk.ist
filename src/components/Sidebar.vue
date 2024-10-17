@@ -2,8 +2,10 @@
 import { OnClickOutside } from "@vueuse/components";
 import { ref } from "vue";
 import { persistentState } from "~/lib/persistent-state";
+import { usePresetsStore } from "~/lib/presets";
 
 const isExpanded = ref(false);
+const presetsStore = usePresetsStore();
 </script>
 
 <template>
@@ -16,18 +18,22 @@ const isExpanded = ref(false);
           hidden: !isExpanded,
         }"
       >
-        <div class="grid gap-y-2 px-3 pt-3.5 sm:pb-3">
-          <PresetSettings />
-          <SidebarSeparator />
-          <ColorThemeSettings />
-          <SidebarSeparator />
-          <TextSettings />
-          <SidebarSeparator />
-          <BackdropSettings />
-          <SidebarSeparator />
-          <WindowSettings />
-          <SidebarSeparator />
-          <SocialSettings />
+        <div class="relative grid gap-y-2 px-3 pt-3.5 sm:pb-3">
+          <div class="absolute right-0 top-0 h-screen border-l border-black" />
+          <ImportPreset v-if="presetsStore.isImportingPreset" />
+          <template v-else>
+            <PresetSettings />
+            <SidebarSeparator class="mt-[5px]" />
+            <ColorThemeSettings />
+            <SidebarSeparator />
+            <TextSettings />
+            <SidebarSeparator />
+            <BackdropSettings />
+            <SidebarSeparator />
+            <WindowSettings />
+            <SidebarSeparator />
+            <SocialSettings />
+          </template>
         </div>
       </div>
     </aside>
@@ -39,7 +45,6 @@ const isExpanded = ref(false);
       <Button
         class="group w-10 justify-center bg-slate-700 text-slate-500 hover:bg-slate-700/80 sm:hidden"
         @click="isExpanded = !isExpanded"
-        square="w-10"
       >
         <IconChevronDown
           width="16"

@@ -132,3 +132,33 @@ export function generateRandomBackdrop(): Backdrop[keyof Backdrop] {
     lightsOpacity: 0.17,
   };
 }
+
+export function rgbaToHex(str: string) {
+  // Check if the input is already a hex value
+  if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$/.test(str)) {
+    return str;
+  }
+
+  // Extract rgba values
+  const rgba = str.match(
+    /^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/,
+  );
+
+  if (!rgba) {
+    throw new Error("Invalid rgba string format");
+  }
+
+  // Convert to hex
+  const hex = (x: string) => ("0" + parseInt(x).toString(16)).slice(-2);
+
+  // Handle alpha channel
+  const alpha = rgba[4] ? Math.round(parseFloat(rgba[4]) * 255) : 255;
+
+  return (
+    "#" +
+    hex(rgba[1]) +
+    hex(rgba[2]) +
+    hex(rgba[3]) +
+    (alpha !== 255 ? hex(alpha.toString()) : "")
+  );
+}

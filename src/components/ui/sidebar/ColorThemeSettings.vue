@@ -141,12 +141,12 @@ const themeOptions = computed(() => [
       :key="key"
     >
       <label
-        for="customTheme.keyword"
+        :for="`customTheme_${key}`"
         class="w-[118px] text-xs font-semibold [text-transform:capitalize]"
         >{{ themeLabels[key] || key }}</label
       >
       <PopoverRoot>
-        <PopoverTrigger class="w-full">
+        <PopoverTrigger class="w-full" :id="`customTheme_${key}`">
           <div
             class="h-5 w-full rounded-sm border-2 border-slate-900 bg-slate-800 shadow-[0_0_0_1px_rgba(255,255,255,.17)]"
             :style="{ backgroundColor }"

@@ -59,6 +59,9 @@ importers:
       '@vueuse/integrations':
         specifier: 11.1.0
         version: 11.1.0(fuse.js@6.5.3)(vue@3.5.12(typescript@5.6.3))
+      fflate:
+        specifier: 0.8.2
+        version: 0.8.2
       fuse.js:
         specifier: 6.5.3
         version: 6.5.3
@@ -101,6 +104,9 @@ importers:
       vue-demi:
         specifier: 0.14.10
         version: 0.14.10(vue@3.5.12(typescript@5.6.3))
+      zod:
+        specifier: 3.23.8
+        version: 3.23.8
     devDependencies:
       '@iconify-json/fa6-brands':
         specifier: 1.1.18
@@ -1742,6 +1748,9 @@ packages:
       picomatch:
         optional: true
 
+  fflate@0.8.2:
+    resolution: {integrity: sha512-cPJU47OaAoCbg0pBvzsgpTPhmhqI5eJjh/JIu8tPj5q+T7iLvW/JAYUqmE7KOB4R1ZyEhzBaIQpQpardBF5z8A==}
+
   filelist@1.0.4:
     resolution: {integrity: sha512-w1cEuf3S+DrLCQL7ET6kz+gmlJdbq9J7yXCSjK/OZCPA+qEN1WyF4ZAf0YYJa4/shHJra2t/d/r8SV4Ji+x+8Q==}
 
@@ -3204,6 +3213,9 @@ packages:
 
   zhead@2.2.4:
     resolution: {integrity: sha512-8F0OI5dpWIA5IGG5NHUg9staDwz/ZPxZtvGVf01j7vHqSyZ0raHY+78atOVxRqb73AotX22uV1pXt3gYSstGag==}
+
+  zod@3.23.8:
+    resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -4927,6 +4939,8 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.2
 
+  fflate@0.8.2: {}
+
   filelist@1.0.4:
     dependencies:
       minimatch: 5.1.6
@@ -6476,5 +6490,7 @@ snapshots:
       yargs-parser: 21.1.1
 
   zhead@2.2.4: {}
+
+  zod@3.23.8: {}
 
   zwitch@2.0.4: {}

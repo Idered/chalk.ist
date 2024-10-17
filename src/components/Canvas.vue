@@ -47,14 +47,14 @@ const transform = computed(() => {
       class="grid origin-[center_left] content-center items-start justify-items-center"
       :style="{ marginBlock, transform }"
     >
-      <div class="relative px-2">
+      <div class="relative px-4">
         <FrameResizer />
 
         <div
           ref="editorFrame"
           data-editor-frame
           class="relative"
-          :style="{ width: `${frameWidth - 16}px` }"
+          :style="{ width: `${frameWidth - 32}px` }"
         >
           <WindowResizer />
           <FrameBackground />

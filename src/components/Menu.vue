@@ -45,7 +45,7 @@ function clearLineDecorations() {
 </script>
 ©
 <template>
-  <div>
+  <div class="relative">
     <MenubarRoot
       v-model="currentMenu"
       class="flex items-center overflow-auto border-b border-b-zinc-800 bg-zinc-900 pwa:sm:border-t pwa:sm:border-t-black pwa:sm:shadow-[inset_0_1px_0_rgb(39_39_42)]"
@@ -238,5 +238,6 @@ function clearLineDecorations() {
         Done
       </Button>
     </MenubarRoot>
+    <SidebarSeparator class="mx-0 mt-[-2px]" />
   </div>
 </template>

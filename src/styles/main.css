@@ -21,4 +21,7 @@
   .menubar-item-shortcut {
     @apply ml-auto pl-5 text-slate-500 group-data-[disabled]:text-slate-700 group-data-[highlighted]:text-white;
   }
+  .menubar-separator {
+    @apply -mx-1 my-1 h-px bg-zinc-800;
+  }
 }

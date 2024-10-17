@@ -221,3 +221,5 @@ export function getThemeColors(themeName: string) {
   const theme = allThemes.find((theme) => theme.displayName === themeName);
   return theme && "raw" in theme ? theme.raw : null;
 }
+
+export const themeNames = allThemes.map((theme) => theme.displayName);

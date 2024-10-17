@@ -37,3 +37,9 @@ export type EditMode =
   | "remove"
   | "highlight"
   | "annotate";
+
+export type Preset = {
+  id: string;
+  name: string;
+  settings: Record<string, any>;
+};
