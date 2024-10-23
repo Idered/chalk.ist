@@ -1,12 +1,10 @@
-const plugin = require("tailwindcss");
-
 /**
  * @typedef {import('tailwindcss/types').Config} BaseConfig
  *
  * @type {BaseConfig}
  */
 module.exports = {
-  content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
+  content: ["./nuxt.config.ts", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
     extend: {
       screens: {
