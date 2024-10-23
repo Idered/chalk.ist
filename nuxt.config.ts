@@ -6,6 +6,10 @@ export default defineNuxtConfig({
 
   future: { compatibilityVersion: 4 },
 
+  experimental: {
+    payloadExtraction: false,
+  },
+
   typescript: {
     tsConfig: {
       compilerOptions: {
@@ -30,8 +34,8 @@ export default defineNuxtConfig({
     registerType: "autoUpdate",
     workbox: {
       maximumFileSizeToCacheInBytes: 1024 * 1024 * 5,
+      globPatterns: ["**/*.{js,css,html,png,jpg,jpeg,svg,ico,json,txt,ttf,woff,woff2}"],
     },
-    includeAssets: ["og-image.jpg", "robots.txt", "favicon.ico"],
     manifest: {
       name: "Chalk",
       short_name: "Chalk",
