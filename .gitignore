@@ -37,4 +37,4 @@ supabase/.temp
 .nuxt
 .output
 
-src/components.d.ts
+app/components.d.ts
