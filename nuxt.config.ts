@@ -6,7 +6,7 @@ export default defineNuxtConfig({
 
   nitro: {
     routeRules: {
-      "/": { prerender: true, ssr: false },
+      "/": { prerender: true, static: true },
     },
   },
 
