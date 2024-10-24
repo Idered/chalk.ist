@@ -1,6 +1,7 @@
 import { BlockType } from "~/lib/enums";
 import type { CodeBlock } from "~/types";
 import { persistentState } from "./persistent-state";
+import { v4 } from "uuid";
 
 export function getCodeBlocks() {
   return persistentState.value.blocks.filter(
@@ -36,7 +37,7 @@ export function addEditorBlock() {
       ? "typescript"
       : lastCodeBlock?.language || "typescript";
   persistentState.value.blocks.push({
-    id: crypto.randomUUID(),
+    id: v4(),
     content: "",
     type: BlockType.Code,
     language,
@@ -51,7 +52,7 @@ export function addEditorBlock() {
 
 export function addMarkdownBlock() {
   persistentState.value.blocks.push({
-    id: crypto.randomUUID(),
+    id: v4(),
     content: "",
     type: BlockType.Code,
     language: "markdown",
@@ -66,7 +67,7 @@ export function addMarkdownBlock() {
 
 export function addNoteBlock() {
   persistentState.value.blocks.push({
-    id: crypto.randomUUID(),
+    id: v4(),
     content: "",
     type: BlockType.Note,
     columnSpan: 12,
