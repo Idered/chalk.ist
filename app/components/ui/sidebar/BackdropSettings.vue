@@ -134,7 +134,6 @@ const originalBackdrop = ref<string | number | null>(null);
       @click="
         () => {
           store.backdrop = key;
-          console.log(Backdrops[key]);
           originalBackdrop = null;
         }
       "
