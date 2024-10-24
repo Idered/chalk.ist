@@ -3,6 +3,7 @@ import { store } from "./store";
 import type { Store } from "./store";
 import { useStorage, watchImmediate } from "@vueuse/core";
 import { atou, useSearchParams, utoa } from "./utils";
+import { v4 } from "uuid";
 import { z } from "zod";
 import { WindowControls } from "./enums";
 import { Backdrops } from "./backdrops";
@@ -110,7 +111,7 @@ export const usePresetsStore = defineStore("presets", () => {
   });
 
   function createPreset(name: Preset["name"], settings: Preset["settings"]) {
-    const id = crypto.randomUUID();
+    const id = v4();
 
     presets.value.push({
       id: id,

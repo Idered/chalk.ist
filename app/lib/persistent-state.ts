@@ -2,10 +2,11 @@ import { useStorage } from "@vueuse/core";
 import { DEFAULT_CONTENT } from "./constants";
 import { BlockType } from "./enums";
 import type { Block } from "~/types";
+import { v4 } from "uuid";
 
 const blocks: Block[] = [
   {
-    id: crypto.randomUUID(),
+    id: v4(),
     content: DEFAULT_CONTENT,
     language: "typescript",
     type: BlockType.Code,
