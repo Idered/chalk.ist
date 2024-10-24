@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nuxt dev",
     "prepare": "nuxi prepare",
-    "build": "vue-tsc --noEmit && nuxt generate",
+    "build": "vue-tsc --noEmit && nuxt build",
     "serve": "nuxt preview"
   },
   "prettier": {
