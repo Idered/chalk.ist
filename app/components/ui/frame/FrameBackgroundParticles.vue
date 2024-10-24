@@ -8,7 +8,6 @@ import { store } from "~/lib/store";
 const parentElement = useParentElement();
 const { height } = useElementSize(parentElement);
 
-const width = computed(() => store.value.frameWidth + store.value.paddingX * 2);
 const canvas = ref<HTMLCanvasElement | null>(null);
 const showParticles = computed(
   () => store.value.showParticles && state.supported.particles,
@@ -73,7 +72,7 @@ watchImmediate(showParticles, async () => {
     v-if="showParticles"
     ref="canvas"
     class="particles-bg absolute inset-0"
-    :width="width"
+    :width="store.frameWidth"
     :height="height"
   />
 </template>
