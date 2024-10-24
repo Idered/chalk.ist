@@ -33,3 +33,8 @@ dist-ssr
 .dev
 .env
 supabase/.temp
+
+.nuxt
+.output
+
+app/components.d.ts

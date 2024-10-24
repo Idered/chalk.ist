@@ -4,9 +4,10 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "serve": "vite preview"
+    "dev": "nuxt dev",
+    "prepare": "nuxi prepare",
+    "build": "vue-tsc --noEmit && nuxt build",
+    "serve": "nuxt preview"
   },
   "prettier": {
     "tabWidth": 2,
@@ -29,17 +30,23 @@
     "@fontsource/unifontex": "5.1.0",
     "@fontsource/vt323": "5.1.0",
     "@iconify/vue": "4.1.1",
+    "@nuxt/scripts": "^0.9.5",
+    "@nuxtjs/tailwindcss": "^6.12.2",
+    "@pinia/nuxt": "^0.5.5",
     "@shikijs/markdown-it": "1.22.0",
     "@shikijs/transformers": "1.22.0",
     "@tailwindcss/typography": "0.5.15",
+    "@vite-pwa/nuxt": "^0.10.5",
     "@vueuse/components": "11.1.0",
     "@vueuse/core": "11.1.0",
+    "@vueuse/head": "^2.0.0",
     "@vueuse/integrations": "11.1.0",
     "fflate": "0.8.2",
     "fuse.js": "6.5.3",
     "markdown-it": "13.0.2",
     "modern-screenshot": "4.4.39",
     "mp4-muxer": "^2.3.0",
+    "nuxt": "^3.13.2",
     "pica": "7.1.0",
     "pinia": "2.2.4",
     "radix-vue": "^1.7.3",
@@ -60,19 +67,11 @@
     "@iconify-json/vscode-icons": "1.1.33",
     "@types/markdown-it": "^14.1.2",
     "@types/pica": "^9.0.4",
-    "@vitejs/plugin-vue": "^5.1.4",
-    "@vueuse/head": "2.0.0",
-    "autoprefixer": "10.4.20",
-    "postcss": "8.4.47",
     "prettier": "3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.8",
     "tailwindcss": "3.4.13",
     "tailwindcss-easing": "0.2.1",
     "typescript": "^5.6.3",
-    "vite": "^5.4.8",
-    "vite-plugin-pwa": "0.20.5",
-    "vite-ssg": "0.23.8",
-    "vue-tsc": "2.1.6",
-    "workbox-window": "7.0.0"
+    "vue-tsc": "2.1.6"
   }
 }
