@@ -8,28 +8,30 @@ const isSafari =
 </script>
 
 <template>
-  <main
-    class="grid h-screen"
-    :class="{
-      'layout-safari': isSafari,
-      'layout-not-safari': !isSafari,
-    }"
-    :style="{
-      '--solid-background': store.solidBackground,
-    }"
-  >
-    <div
-      v-if="isSafari"
-      class="flex h-10 items-center justify-center border-b border-zinc-800 bg-zinc-900 px-3 text-[13px] text-slate-300 shadow-[inset_0_-1px_0_theme('colors.zinc.950')] [grid-area:notification]"
+  <ClientOnly>
+    <main
+      class="grid h-screen"
+      :class="{
+        'layout-safari': isSafari,
+        'layout-not-safari': !isSafari,
+      }"
+      :style="{
+        '--solid-background': store.solidBackground,
+      }"
     >
-      <i-ph:warning class="mr-2 text-yellow-500" />
-      Safari is not supported. For the best experience, please use any other
-      browser.
-    </div>
-    <Menu class="[grid-area:menu]" />
-    <Canvas class="[grid-area:canvas]" />
-    <Sidebar class="[grid-area:sidebar]" />
-  </main>
+      <div
+        v-if="isSafari"
+        class="flex h-10 items-center justify-center border-b border-zinc-800 bg-zinc-900 px-3 text-[13px] text-slate-300 shadow-[inset_0_-1px_0_theme('colors.zinc.950')] [grid-area:notification]"
+      >
+        <i-ph:warning class="mr-2 text-yellow-500" />
+        Safari is not supported. For the best experience, please use any other
+        browser.
+      </div>
+      <Menu class="[grid-area:menu]" />
+      <Canvas class="[grid-area:canvas]" />
+      <Sidebar class="[grid-area:sidebar]" />
+    </main>
+  </ClientOnly>
 </template>
 
 <style scoped>
