@@ -6,7 +6,7 @@ export default defineNuxtConfig({
 
   nitro: {
     routeRules: {
-      "/": { prerender: true },
+      // "/": { prerender: true },
     },
   },
 
@@ -39,6 +39,10 @@ export default defineNuxtConfig({
     "@vite-pwa/nuxt",
     "@nuxt/scripts",
   ],
+
+  tailwindcss: {
+    viewer: false,
+  },
 
   pwa: {
     registerType: "autoUpdate",
