@@ -40,14 +40,24 @@ export default defineNuxtConfig({
     "@nuxt/scripts",
   ],
 
+  tailwindcss: {
+    viewer: false,
+  },
+
   pwa: {
     registerType: "autoUpdate",
+    devOptions: {
+      enabled: true,
+    },
     workbox: {
+      navigateFallback: undefined,
+      navigateFallbackDenylist: [/^(?!\/$).*/],
       maximumFileSizeToCacheInBytes: 1024 * 1024 * 5,
       globPatterns: [
         "**/*.{js,css,html,png,jpg,jpeg,svg,ico,json,txt,ttf,woff,woff2}",
       ],
     },
+
     manifest: {
       name: "Chalk",
       short_name: "Chalk",
