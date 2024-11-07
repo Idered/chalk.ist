@@ -174,3 +174,11 @@ export function rgbaToHex(str: string) {
     (alpha !== 255 ? hex(alpha.toString()) : "")
   );
 }
+
+export function toHex(color: string) {
+  return color.startsWith("#")
+    ? color
+    : color.startsWith("rgb")
+      ? rgbaToHex(color)
+      : hslToHex(color);
+}

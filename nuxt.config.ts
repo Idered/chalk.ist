@@ -46,9 +46,6 @@ export default defineNuxtConfig({
 
   pwa: {
     registerType: "autoUpdate",
-    devOptions: {
-      enabled: true,
-    },
     workbox: {
       navigateFallback: undefined,
       navigateFallbackDenylist: [/^(?!\/$).*/],

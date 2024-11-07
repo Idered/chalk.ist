@@ -9,7 +9,7 @@ import { WindowControls } from "./enums";
 import { Backdrops } from "./backdrops";
 import { themeNames } from "./themes";
 import { FONTS, SHADOW_OVERLAY_MAPPING, WINDOW_STYLES } from "./constants";
-import { hslToHex, rgbaToHex } from "./colors";
+import { hslToHex, rgbaToHex, toHex } from "./colors";
 import { computed, ref } from "vue";
 
 type Preset = {
@@ -180,16 +180,10 @@ export const usePresetsStore = defineStore("presets", () => {
           customTheme: Object.fromEntries(
             Object.entries(settings.customTheme).map(([key, value]) => [
               key,
-              value.startsWith("#")
-                ? value
-                : value.startsWith("rgb")
-                  ? rgbaToHex(value)
-                  : value.startsWith("hsl")
-                    ? hslToHex(value)
-                    : value,
+              toHex(value),
             ]),
           ),
-          solidBackground: rgbaToHex(settings.solidBackground),
+          solidBackground: toHex(settings.solidBackground),
         },
       }),
     );

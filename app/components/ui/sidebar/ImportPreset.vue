@@ -27,6 +27,7 @@ const cancel = () => {
   delete params.import;
   presetsStore.isImportingPreset = false;
   store.value = JSON.parse(localStorage.getItem("chalk-store-backup") || "{}");
+  localStorage.removeItem("chalk-store-backup");
 };
 const focusNewPreset = async (id: string) => {
   await nextTick();
