@@ -9,7 +9,7 @@ import { WindowControls } from "./enums";
 import { Backdrops } from "./backdrops";
 import { themeNames } from "./themes";
 import { FONTS, SHADOW_OVERLAY_MAPPING, WINDOW_STYLES } from "./constants";
-import { rgbaToHex } from "./colors";
+import { hslToHex, rgbaToHex } from "./colors";
 import { computed, ref } from "vue";
 
 type Preset = {
@@ -169,6 +169,7 @@ export const usePresetsStore = defineStore("presets", () => {
     }
 
     const { name, picture, watermark, username, ...settings } = preset.settings;
+
     const data = utoa(
       JSON.stringify({
         version: 1,
@@ -179,7 +180,13 @@ export const usePresetsStore = defineStore("presets", () => {
           customTheme: Object.fromEntries(
             Object.entries(settings.customTheme).map(([key, value]) => [
               key,
-              value.startsWith("#") ? value : rgbaToHex(value),
+              value.startsWith("#")
+                ? value
+                : value.startsWith("rgb")
+                  ? rgbaToHex(value)
+                  : value.startsWith("hsl")
+                    ? hslToHex(value)
+                    : value,
             ]),
           ),
           solidBackground: rgbaToHex(settings.solidBackground),

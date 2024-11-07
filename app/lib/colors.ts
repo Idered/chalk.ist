@@ -54,19 +54,31 @@ export function cssGradientToCanvas(
 }
 
 export function hslToHex(hsl: string) {
-  let [h, s, l] = hsl
-    .slice(4, -1)
+  // Check if input is HSLA or HSL
+  const isHsla = hsl.startsWith("hsla");
+  let [h, s, l, a] = hsl
+    .slice(isHsla ? 5 : 4, -1)
     .split(",")
-    .map((x) => parseInt(x, 10));
+    .map((x) => parseFloat(x));
+
   l /= 100;
-  const a = (s * Math.min(l, 1 - l)) / 100;
+  const alpha = (s * Math.min(l, 1 - l)) / 100;
   const f = (n: number) => {
     const k = (n + h / 30) % 12;
-    const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+    const color = l - alpha * Math.max(Math.min(k - 3, 9 - k, 1), -1);
     return Math.round(255 * color)
       .toString(16)
       .padStart(2, "0");
   };
+
+  // If it's HSLA, append the alpha channel
+  if (isHsla && a !== undefined) {
+    const alphaHex = Math.round(a * 255)
+      .toString(16)
+      .padStart(2, "0");
+    return `#${f(0)}${f(8)}${f(4)}${alphaHex}`;
+  }
+
   return `#${f(0)}${f(8)}${f(4)}`;
 }
 
