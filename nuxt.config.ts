@@ -182,6 +182,8 @@ export default defineNuxtConfig({
     "@fontsource/jetbrains-mono/700.css",
     "@fontsource/source-code-pro/400.css",
     "@fontsource/source-code-pro/700.css",
+    "@fontsource/overpass-mono/400.css",
+    "@fontsource/overpass-mono/700.css",
   ],
 
   compatibilityDate: "2024-10-23",
