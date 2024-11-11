@@ -26,6 +26,9 @@ importers:
       '@fontsource/jetbrains-mono':
         specifier: 4.5.8
         version: 4.5.8
+      '@fontsource/overpass-mono':
+        specifier: ^5.1.0
+        version: 5.1.0
       '@fontsource/share-tech-mono':
         specifier: 5.1.0
         version: 5.1.0
@@ -1349,6 +1352,9 @@ packages:
 
   '@fontsource/jetbrains-mono@4.5.8':
     resolution: {integrity: sha512-Wp2oUcXNFqw7pwEZdstZLv09v8lWhMscuSbmPU8VpdxPpC+kbQb6u0sOF/wZX/GZcwJHZyXBaZan0iia16r30Q==}
+
+  '@fontsource/overpass-mono@5.1.0':
+    resolution: {integrity: sha512-Fr4zpSMloNHzqxVudoi0xc3ZjpBlmB232h8cajuZapQ2l85YpdpXhIv8uJfYifQcwiRTqoibYgWOKNHbM0OHEQ==}
 
   '@fontsource/share-tech-mono@5.1.0':
     resolution: {integrity: sha512-u160pF0vGTvg02bhwgiMw7lVhGLWC3aJryP/WGhiKhCVSEFb68sdQZlntiJh8vPGUsdMxFTfzm1+SzW4mR8AxQ==}
@@ -6967,6 +6973,8 @@ snapshots:
   '@fontsource/inter@4.5.10': {}
 
   '@fontsource/jetbrains-mono@4.5.8': {}
+
+  '@fontsource/overpass-mono@5.1.0': {}
 
   '@fontsource/share-tech-mono@5.1.0': {}
 

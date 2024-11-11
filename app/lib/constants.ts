@@ -97,6 +97,7 @@ export const FONTS = [
   "IBM Plex Mono",
   "JetBrains Mono",
   "Nova",
+  "Overpass Mono",
   "Source Code Pro",
 ]
   .map((font) => ({ value: font, label: font }))
