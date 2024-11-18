@@ -24,6 +24,7 @@ export const persistentState = useStorage("chalk-persistent-state", {
   expandCustomThemeOptions: false,
   expandPresets: true,
   expandTwitterOptions: false,
+  expandGithubOptions: false,
   expandWatermarkOptions: false,
   lastCopyMethod: "download_png",
   showUI: true,
