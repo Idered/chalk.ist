@@ -17,6 +17,7 @@ const isSafari =
       }"
       :style="{
         '--solid-background': store.solidBackground,
+        '--custom-background': store.background,
       }"
     >
       <div

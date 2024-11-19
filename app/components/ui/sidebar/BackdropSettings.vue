@@ -83,7 +83,7 @@ const originalBackdrop = ref<string | number | null>(null);
           <div
             class="rounded-[3px] bg-black/40 px-1 text-[10px] font-bold uppercase tracking-wider text-white"
           >
-            Custom
+            Solid
           </div>
         </div>
       </PopoverTrigger>
@@ -112,10 +112,39 @@ const originalBackdrop = ref<string | number | null>(null);
         </PopoverContent>
       </PopoverPortal>
     </PopoverRoot>
+
+    <PopoverRoot>
+      <PopoverTrigger
+        class="group col-span-2 border-2 border-transparent focus:outline-none"
+        :title="`Use Custom backdrop`"
+        @mouseenter="() => { originalBackdrop = originalBackdrop ?? store.backdrop; store.backdrop = 'Custom'; }"
+        @mouseleave="() => { if (originalBackdrop) { store.backdrop = originalBackdrop; originalBackdrop = null; } }"
+        @click="() => { store.backdrop = 'Custom'; originalBackdrop = null; } ">
+        <div
+          class="flex h-[30px] shrink-0 items-center justify-center rounded ring-blue-800 transition group-hover:scale-105 group-hover:opacity-100 group-focus:shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] group-focus:ring-[3px] group-active:scale-95"
+          :style="{ background: store.background }"
+          :class="{ 'shadow-[inset_0_0_0_1px_rgba(255,255,255,.21)] ring-[2px]': store.backdrop === 'Custom', }">
+          <div class="rounded-[3px] bg-black/40 px-1 text-[10px] font-bold uppercase tracking-wider text-white">
+            Custom
+          </div>
+        </div>
+      </PopoverTrigger>
+
+      <PopoverPortal>
+        <PopoverContent
+          :align-offset="8" :side-offset="-12" side="bottom" align="start" class="z-[100000] rounded-md border border-slate-700 bg-slate-800 p-4 font-mono shadow-[rgba(0,0,0,0.25)_0px_14px_28px,rgba(0,0,0,0.22)_0px_10px_10px] will-change-[transform,opacity] data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=top]:animate-slideDownAndFade"
+        >
+          <PopoverArrow />
+            <!-- Popover Content -->
+          <input type="text" v-model="store.background" placeholder="linear-gradient()" />
+        </PopoverContent>
+      </PopoverPortal>
+    </PopoverRoot>
+
     <button
       v-for="(item, key) in Backdrops"
       :class="{
-        hidden: key === 'Solid',
+        hidden: key === 'Solid' || key === 'Custom',
       }"
       @mouseenter="
         () => {
