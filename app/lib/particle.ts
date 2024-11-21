@@ -11,7 +11,7 @@ export class Particle {
     this.x = x;
     this.y = y;
     this.opacity = Math.random() * 0.25;
-    this.size = Math.random() * 2 + 2; // Particle diameter varies from 2px to 4px
+    this.size = (Math.random() * 2 + 2) * 4; // Particle diameter varies from 2px to 4px
     this.speedX = Math.random() * 1 - 0.5;
     this.speedY = Math.random() * 1 - 0.5;
 

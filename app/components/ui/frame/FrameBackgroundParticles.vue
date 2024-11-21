@@ -8,6 +8,8 @@ import { store } from "~/lib/store";
 const parentElement = useParentElement();
 const { height } = useElementSize(parentElement);
 
+const scale = 4;
+
 const canvas = ref<HTMLCanvasElement | null>(null);
 const showParticles = computed(
   () => store.value.showParticles && state.supported.particles,
@@ -33,8 +35,8 @@ watchImmediate(showParticles, async () => {
     if (!(ctx && canvas.value)) {
       return;
     }
-    ctx.clearRect(0, 0, canvas.value.width, canvas.value.height);
 
+    ctx.clearRect(0, 0, canvas.value.width, canvas.value.height);
     // const bg = cssGradientToCanvas(
     //   ctx,
     //   props.theme.background,
@@ -72,7 +74,11 @@ watchImmediate(showParticles, async () => {
     v-if="showParticles"
     ref="canvas"
     class="particles-bg absolute inset-0"
-    :width="store.frameWidth"
-    :height="height"
+    :width="store.frameWidth * scale"
+    :height="height * scale"
+    :style="{
+      width: `${store.frameWidth}px`,
+      height: `${height}px`,
+    }"
   />
 </template>
