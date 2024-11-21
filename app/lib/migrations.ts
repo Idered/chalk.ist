@@ -51,6 +51,7 @@ export function runMigrations() {
   store.value.paddingY = store.value.paddingY ?? 32;
   store.value.shadowOverlay = store.value.shadowOverlay || "none";
   store.value.showLineNumbers = store.value.showLineNumbers ?? true;
+  store.value.socialIcon = store.value.socialIcon ?? "x";
   store.value.showParticles = store.value.showParticles ?? true;
   store.value.showWatermark = store.value.showWatermark ?? true;
   store.value.showWindow = store.value.showWindow ?? true;

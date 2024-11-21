@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { socialIcons } from "~/lib/social-icons";
 import { store } from "~/lib/store";
 </script>
 
@@ -23,29 +24,33 @@ import { store } from "~/lib/store";
         {{ store.watermark }}
       </div>
     </div>
+    <!-- :is="store.username ? 'a' : 'div'" -->
+    <!-- :class="{
+        'hover:bg-black/50': store.username,
+      }" -->
     <component
-      :is="store.username ? 'a' : 'div'"
+      is="div"
       :href="
         store.username ? `https://twitter.com/${store.username}` : undefined
       "
       class="relative z-10 ml-auto mt-4 flex items-center rounded-full bg-black/70 py-1.5 pl-3 pr-4 text-white"
-      :class="{
-        'hover:bg-black/50': store.username,
-      }"
       v-if="
         (store.username || store.name || store.picture) &&
         store.showTwitterBadge
       "
     >
       <img
-        v-if="store.picture"
+        v-if="store.picture && store.socialIcon === 'custom'"
         :src="store.picture"
         width="32"
         height="32"
         class="-my-2 -ml-2 rounded-full"
         alt=""
       />
-      <IconTwitterCircle v-else :width="20" />
+      <component
+        v-else
+        :is="socialIcons[store.socialIcon as keyof typeof socialIcons]"
+      />
       <div v-if="store.name || store.username" class="ml-2 grid gap-0.5">
         <div class="text-xs font-semibold leading-3" v-if="store.name">
           {{ store.name }}

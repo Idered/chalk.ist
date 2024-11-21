@@ -6,6 +6,7 @@ export interface Backdrop {
       background: string;
       filter?: string;
       transform?: string;
+      inset?: string;
     };
     appStyle?: {
       backgroundColor: string;
@@ -83,6 +84,29 @@ export const Backdrops: Backdrop = {
           hsl(222, 16%, 28%),
           hsl(220, 16%, 22%)
         )`,
+    },
+    shadow: "hsl(220, 17%, 17%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.17,
+  },
+
+  TurbulentGradient_1: {
+    backgroundStyle: {
+      background: `linear-gradient(yellow 5%, fuchsia, royalblue 95%)`,
+      filter: `url(#filter-1)`,
+      inset: "-9em",
+    },
+    shadow: "hsl(220, 17%, 17%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.17,
+  },
+
+  TurbulentGradient_2: {
+    backgroundStyle: {
+      // "conic-gradient(from 0deg, #380A1A, #F9493A, #209BC6, #032F73, #B7D6B4, #11298B)",
+      background: `linear-gradient(#ffffff 5%, #808080 50%, #333 95%)`,
+      filter: `url(#filter-1)`,
+      inset: "-9em",
     },
     shadow: "hsl(220, 17%, 17%)",
     shadowsOpacity: 1,

@@ -40,6 +40,7 @@ export const store = useStorage("chalk-store", {
   showLineNumbers: true,
   showParticles: true,
   showTwitterBadge: false,
+  socialIcon: "x",
   showWatermark: false,
   showWindow: true,
   solidBackground: "hsl(0, 0%, 0%)",

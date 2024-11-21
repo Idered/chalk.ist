@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import { twMerge } from "tailwind-merge";
 import { cropImage, resizeImage } from "~/lib/image";
 import { persistentState } from "~/lib/persistent-state";
 import { store } from "~/lib/store";
-
+import { socialIcons } from "~/lib/social-icons";
 function handlePicture(event: Event) {
   const target = event.target as HTMLInputElement;
   if (!target.files) {
@@ -27,7 +28,7 @@ function handlePicture(event: Event) {
     <label
       class="cursor-pointer select-none text-xs font-semibold"
       for="showTwitterBadge"
-      >Twitter/X badge</label
+      >Social badge</label
     >
     <Button
       class="h-5 rounded bg-blue-600/30 px-2.5 text-xs font-semibold text-blue-500 hover:bg-blue-600/40"
@@ -87,21 +88,7 @@ function handlePicture(event: Event) {
       class="row-start-1 row-end-3 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full border border-slate-700 bg-slate-700/30 text-slate-600 transition-colors hover:bg-slate-700/50 hover:text-slate-400"
     >
       <input type="file" class="sr-only" @change="handlePicture" />
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-        aria-hidden="true"
-        role="img"
-        width="24"
-        height="24"
-        preserveAspectRatio="xMidYMid meet"
-        viewBox="0 0 256 256"
-      >
-        <path
-          fill="currentColor"
-          d="M172 56a4 4 0 0 1 4-4h20V32a4 4 0 0 1 8 0v20h20a4 4 0 0 1 0 8h-20v20a4 4 0 0 1-8 0V60h-20a4 4 0 0 1-4-4Zm54.8 56.2A104.1 104.1 0 0 1 228 128a99.6 99.6 0 0 1-32.7 73.9l-.8.8a99.9 99.9 0 0 1-132.9 0a3.6 3.6 0 0 1-.9-.8A100 100 0 0 1 128 28a104.1 104.1 0 0 1 15.8 1.2a4 4 0 0 1 3.3 4.6a4 4 0 0 1-4.6 3.3A100 100 0 0 0 128 36a92 92 0 0 0-65.2 156.9a75.8 75.8 0 0 1 44.5-34.1a44 44 0 1 1 41.4 0a75.8 75.8 0 0 1 44.5 34.1A92.1 92.1 0 0 0 220 128a99 99 0 0 0-1.1-14.5a4 4 0 0 1 3.3-4.6a4 4 0 0 1 4.6 3.3ZM128 156a36 36 0 1 0-36-36a36 36 0 0 0 36 36Zm0 64a91.3 91.3 0 0 0 59.1-21.6a68 68 0 0 0-118.2 0A91.3 91.3 0 0 0 128 220Z"
-        ></path>
-      </svg>
+      <i-solar:user-plus-broken />
     </label>
 
     <div class="col-start-2 grid gap-y-1">
@@ -125,6 +112,21 @@ function handlePicture(event: Event) {
         spellcheck="false"
         placeholder="Username"
         v-model="store.username"
+      />
+    </div>
+    <div
+      class="col-span-2 flex grid-flow-col grid-rows-2 flex-wrap items-center justify-start gap-2"
+    >
+      <component
+        v-for="icon in Object.keys(socialIcons)"
+        :is="socialIcons[icon as keyof typeof socialIcons]"
+        @click="store.socialIcon = icon"
+        class="size-9 cursor-pointer rounded border p-2 hover:bg-slate-700/50"
+        :class="{
+          'border-blue-600/80 bg-blue-900/10 text-blue-300':
+            store.socialIcon === icon,
+          'border-slate-600/40': store.socialIcon !== icon,
+        }"
       />
     </div>
   </div>
