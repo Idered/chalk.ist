@@ -149,6 +149,19 @@ export const chalkistThemes = [
     operator: "#65808b",
   }),
 
+  createTheme("Bluesky", {
+    foreground: "#FFFFFF",
+    variable: "#D6E5FF",
+    comment: "#49639F",
+    keyword: "#0085FF",
+    punctuation: "#65808B",
+    string: "#5FA7CE",
+    number: "#507CFF",
+    regexp: "#3899D5",
+    function: "#6AD9FF",
+    operator: "#65808B",
+  }),
+
   createTheme("Dawn", {
     foreground: "#e4c7c1",
     variable: "#e8917d",

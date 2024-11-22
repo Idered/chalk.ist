@@ -1,5 +1,7 @@
 // import { generateRandomBackdrop } from "./colors";
 
+import { svgToFilterUrl } from "./svg";
+
 export interface Backdrop {
   [key: string]: {
     backgroundStyle: {
@@ -90,22 +92,58 @@ export const Backdrops: Backdrop = {
     lightsOpacity: 0.17,
   },
 
+  TurbulentGradient_2: {
+    backgroundStyle: {
+      background: `linear-gradient(#ffffff 5%, #808080 50%, #333 95%)`,
+      filter: svgToFilterUrl(
+        `<svg xmlns="http://www.w3.org/2000/svg" height="0">
+          <filter id="myFilter">
+            <feTurbulence type="fractalNoise" baseFrequency=".005 .001" numOctaves="2" />
+            <feDisplacementMap xChannelSelector="R" scale="500" in="SourceGraphic" result="bands" />
+            <feTurbulence type="fractalNoise" baseFrequency="3.71" />
+            <feDisplacementMap in="bands" scale="32" xChannelSelector="R" />
+          </filter>
+        </svg>`,
+      ),
+      inset: "-9em",
+    },
+    shadow: "hsl(220, 17%, 17%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.17,
+  },
+
   TurbulentGradient_1: {
     backgroundStyle: {
       background: `linear-gradient(yellow 5%, fuchsia, royalblue 95%)`,
-      filter: `url(#filter-1)`,
+      filter: svgToFilterUrl(
+        `<svg xmlns="http://www.w3.org/2000/svg" height="0">
+          <filter id="myFilter">
+            <feTurbulence type="fractalNoise" baseFrequency=".005 .001" numOctaves="2" />
+            <feDisplacementMap xChannelSelector="R" scale="500" in="SourceGraphic" result="bands" />
+            <feTurbulence type="fractalNoise" baseFrequency="3.71" />
+            <feDisplacementMap in="bands" scale="32" xChannelSelector="R" />
+          </filter>
+        </svg>`,
+      ),
       inset: "-9em",
     },
     shadow: "hsl(220, 17%, 17%)",
     shadowsOpacity: 1,
     lightsOpacity: 0.17,
   },
-
-  TurbulentGradient_2: {
+  TurbulentGradient_3: {
     backgroundStyle: {
-      // "conic-gradient(from 0deg, #380A1A, #F9493A, #209BC6, #032F73, #B7D6B4, #11298B)",
-      background: `linear-gradient(#ffffff 5%, #808080 50%, #333 95%)`,
-      filter: `url(#filter-1)`,
+      background: "linear-gradient(#002c66 5%, #006dff 50%, #99c5ff 95%)",
+      filter: svgToFilterUrl(
+        `<svg xmlns="http://www.w3.org/2000/svg" height="0">
+          <filter id="myFilter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.005 0.003" numOctaves="3" />
+            <feDisplacementMap xChannelSelector="R" scale="430" in="SourceGraphic" result="bands" />
+            <feTurbulence type="fractalNoise" baseFrequency="3.71" />
+            <feDisplacementMap in="bands" scale="32" xChannelSelector="R" />
+          </filter>
+        </svg>`,
+      ),
       inset: "-9em",
     },
     shadow: "hsl(220, 17%, 17%)",
@@ -113,6 +151,43 @@ export const Backdrops: Backdrop = {
     lightsOpacity: 0.17,
   },
 
+  TurbulentGradient_5: {
+    backgroundStyle: {
+      background: "linear-gradient(#003366 5%, #007eff 50%, #C7E3FF 95%)",
+      filter:
+        svgToFilterUrl(`<svg xmlns="http://www.w3.org/2000/svg" height="0">
+    <filter id="myFilter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.009 0.012" numOctaves="5" />
+      <feDisplacementMap xChannelSelector="R" scale="260" in="SourceGraphic" result="bands" />
+      <feTurbulence type="fractalNoise" baseFrequency="3.71" />
+      <feDisplacementMap in="bands" scale="32" xChannelSelector="R" />
+    </filter>
+  </svg>`),
+      inset: "-8em",
+    },
+    shadow: "hsl(220, 17%, 17%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.17,
+  },
+  TurbulentGradient_4: {
+    backgroundStyle: {
+      background: "linear-gradient(#000e66 5%, #0023ff 50%, #99a7ff 95%)",
+      filter: svgToFilterUrl(
+        `<svg xmlns="http://www.w3.org/2000/svg" height="0">
+          <filter id="myFilter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.005 0.002" numOctaves="2" />
+            <feDisplacementMap xChannelSelector="R" scale="380" in="SourceGraphic" result="bands" />
+            <feTurbulence type="fractalNoise" baseFrequency="3.71" />
+            <feDisplacementMap in="bands" scale="32" xChannelSelector="R" />
+          </filter>
+        </svg>`,
+      ),
+      inset: "-9em",
+    },
+    shadow: "hsl(220, 17%, 17%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.17,
+  },
   R1: {
     backgroundStyle: {
       background: `conic-gradient(from 45deg, rgb(102, 7, 203), rgb(14, 188, 212), rgb(184, 71, 243), rgb(82, 14, 204), rgb(0, 168, 244), rgb(79, 92, 184))`,

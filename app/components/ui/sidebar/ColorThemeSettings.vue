@@ -21,6 +21,7 @@ import { persistentState } from "~/lib/persistent-state";
 
 const featuredThemes = allThemes.filter((item) =>
   [
+    "Bluesky",
     "CodeSandbox",
     "Duotone - Dark Sea",
     "Liveblocks",

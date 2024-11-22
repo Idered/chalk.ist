@@ -37,23 +37,7 @@ const backdrop = computed(() => Backdrops[store.value.backdrop]);
         mixBlendMode: SHADOW_OVERLAY_MAPPING[store.shadowOverlay]?.blendMode,
       }"
     />
-    <svg height="0">
-      <filter id="filter-1">
-        <feTurbulence
-          type="fractalNoise"
-          baseFrequency=".005 .001"
-          numOctaves="2"
-        />
-        <feDisplacementMap
-          xChannelSelector="R"
-          scale="500"
-          in="SourceGraphic"
-          result="bands"
-        />
-        <feTurbulence type="fractalNoise" baseFrequency="3.71" />
-        <feDisplacementMap in="bands" scale="32" xChannelSelector="R" />
-      </filter>
-    </svg>
+
     <!-- <div
       class="absolute mix-blend-overlay inset-0 bg-cover"
       :style="{
