@@ -188,6 +188,24 @@ export const Backdrops: Backdrop = {
     shadowsOpacity: 1,
     lightsOpacity: 0.17,
   },
+  TurbulentGradient_6: {
+    backgroundStyle: {
+      background: "linear-gradient(#290066 5%, #6800ff 50%, #c299ff 95%)",
+      filter:
+        svgToFilterUrl(`<svg xmlns="http://www.w3.org/2000/svg" height="0">
+    <filter id="myFilter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.009 0.012" numOctaves="5" />
+      <feDisplacementMap xChannelSelector="R" scale="260" in="SourceGraphic" result="bands" />
+      <feTurbulence type="fractalNoise" baseFrequency="3.71" />
+      <feDisplacementMap in="bands" scale="32" xChannelSelector="R" />
+    </filter>
+  </svg>`),
+      inset: "-9em",
+    },
+    shadow: "hsl(220, 17%, 17%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.17,
+  },
   R1: {
     backgroundStyle: {
       background: `conic-gradient(from 45deg, rgb(102, 7, 203), rgb(14, 188, 212), rgb(184, 71, 243), rgb(82, 14, 204), rgb(0, 168, 244), rgb(79, 92, 184))`,
