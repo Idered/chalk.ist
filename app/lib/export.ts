@@ -82,17 +82,6 @@ export function copyPngToClipboard() {
 }
 
 export function copyTextToClipboard(text: string) {
-  function copyToClipboard(text) {
-    navigator.clipboard
-      .writeText(text)
-      .then(() => {
-        console.log("Text copied successfully");
-      })
-      .catch((err) => {
-        console.error("Failed to copy text: ", err);
-      });
-  }
-
   // Alternative approach using textarea element
   function copyToClipboardFallback(text: string) {
     // Create a temporary textarea element
