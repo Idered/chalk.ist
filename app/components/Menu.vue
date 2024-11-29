@@ -85,11 +85,7 @@ function clearLineDecorations() {
           <i-radix-icons:chevron-down class="ml-1 size-3" />
         </MenubarTrigger>
         <MenubarPortal>
-          <MenubarContent
-            class="menubar-content"
-            :side-offset="8"
-            :align-offset="8"
-          >
+          <MenubarContent class="menubar-content" :side-offset="8">
             <MenubarItem class="menubar-item group" @click="addEditorBlock">
               Add Code Block
               <div class="menubar-item-shortcut">⌃ E</div>
@@ -162,7 +158,7 @@ function clearLineDecorations() {
             v-if="persistentState.lastCopyMethod === 'copy_png'"
             :tabindex="0"
             @pointerdown.stop.prevent="copyPngToClipboard"
-            class="-ml-1 mr-2 flex size-8 items-center justify-center rounded hover:bg-slate-700"
+            class="-ml-2 mr-2 flex size-8 items-center justify-center rounded hover:bg-slate-700"
           >
             <i-radix-icons:clipboard class="size-4" />
           </div>
@@ -170,7 +166,7 @@ function clearLineDecorations() {
             v-if="persistentState.lastCopyMethod === 'download_png'"
             :tabindex="0"
             @pointerdown.stop.prevent="downloadPNG"
-            class="-ml-1 mr-2 flex size-8 items-center justify-center rounded hover:bg-slate-700"
+            class="-ml-2 mr-2 flex size-8 items-center justify-center rounded hover:bg-slate-700"
           >
             <i-radix-icons:download class="size-4" />
           </div>
