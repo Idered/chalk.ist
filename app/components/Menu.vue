@@ -50,46 +50,26 @@ function clearLineDecorations() {
       v-model="currentMenu"
       class="flex items-center overflow-auto border-b border-b-zinc-800 bg-zinc-900 pwa:sm:border-t pwa:sm:border-t-black pwa:sm:shadow-[inset_0_1px_0_rgb(39_39_42)]"
     >
-      <MenubarMenu value="help" v-if="state.editMode === 'code'">
-        <MenubarTrigger class="menubar-trigger">
-          Chalk
-          <i-radix-icons:chevron-down class="ml-1 size-3" />
-        </MenubarTrigger>
+      <Tooltip content="Follow me on Bluesky">
+        <a
+          class="menubar-trigger"
+          href="https://bsky.app/profile/idered.bsky.social"
+        >
+          <i-fa6-brands:bluesky class="size-4" />
+        </a>
+      </Tooltip>
+      <Tooltip content="View source on GitHub">
+        <a class="menubar-trigger" href="https://github.com/Idered/chalk.ist">
+          <i-fa6-brands:github class="size-4" />
+        </a>
+      </Tooltip>
+      <Tooltip content="Buy me a coffee">
+        <a class="menubar-trigger" href="https://www.buymeacoffee.com/idered">
+          <i-ph:coffee class="size-4" />
+        </a>
+      </Tooltip>
 
-        <MenubarPortal>
-          <MenubarContent
-            class="menubar-content"
-            :side-offset="8"
-            :align-offset="8"
-          >
-            <MenubarItem
-              as="a"
-              class="menubar-item group"
-              href="https://x.com/Idered"
-            >
-              <i-fa6-brands:x-twitter class="mr-2 size-4" />
-              Follow on X
-            </MenubarItem>
-            <MenubarItem
-              as="a"
-              class="menubar-item group"
-              href="https://github.com/Idered/chalk.ist"
-            >
-              <i-fa6-brands:github class="mr-2 size-4" />
-              View source on GitHub
-            </MenubarItem>
-            <MenubarItem
-              as="a"
-              class="menubar-item group"
-              href="https://www.buymeacoffee.com/idered"
-            >
-              <i-ph:coffee class="mr-2 size-4" />
-              Buy me a coffee
-            </MenubarItem>
-            <!-- <MenubarSeparator class="h-[1px] bg-green6 m-[5px]" /> -->
-          </MenubarContent>
-        </MenubarPortal>
-      </MenubarMenu>
+      <div class="h-12 border-x border-l-black border-r-zinc-800"></div>
 
       <MenubarMenu value="blocks" v-if="state.editMode === 'code'">
         <MenubarTrigger class="menubar-trigger hidden sm:flex">
@@ -97,7 +77,11 @@ function clearLineDecorations() {
           <i-radix-icons:chevron-down class="ml-1 size-3" />
         </MenubarTrigger>
         <MenubarPortal>
-          <MenubarContent class="menubar-content" :side-offset="8">
+          <MenubarContent
+            class="menubar-content"
+            :side-offset="8"
+            :align-offset="8"
+          >
             <MenubarItem class="menubar-item group" @click="addEditorBlock">
               Add Code Block
               <div class="menubar-item-shortcut">⌃ E</div>
