@@ -38,6 +38,7 @@
     "@shikijs/markdown-it": "1.24.0",
     "@shikijs/transformers": "1.24.0",
     "@tailwindcss/typography": "0.5.15",
+    "@unhead/vue": "^1.11.13",
     "@vite-pwa/nuxt": "^0.10.5",
     "@vueuse/components": "11.1.0",
     "@vueuse/core": "11.1.0",
