@@ -38,3 +38,5 @@ supabase/.temp
 .output
 
 app/components.d.ts
+
+.data
