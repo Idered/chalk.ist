@@ -38,6 +38,7 @@ export default defineNuxtConfig({
     "unplugin-icons/nuxt",
     "@vite-pwa/nuxt",
     "@nuxt/scripts",
+    "@nuxthub/core",
   ],
 
   tailwindcss: {
