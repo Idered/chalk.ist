@@ -5,7 +5,7 @@ import { computed } from "vue";
 import { store } from "~/lib/store";
 
 export function useMarkdown(content: string) {
-  const shiki = useShiki();
+  const { shiki } = useShiki();
 
   const md = computed(() => {
     if (!shiki.value) return;
