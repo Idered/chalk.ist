@@ -19,9 +19,11 @@ const props = defineProps<{
   block: CodeBlock;
 }>();
 
-const shiki = useShiki();
+const { shiki, loadLanguage, isLanguageLoaded, isLanguageLoading, isReady } =
+  useShiki();
 const editor = ref<HTMLTextAreaElement>();
 const formatted = ref<HTMLDivElement>();
+const hasLanguage = ref(false);
 
 function transformerLineNumbers(): ShikiTransformer {
   return {
@@ -108,29 +110,36 @@ function transformerAnnotations(
   };
 }
 
-const hasLanguage = ref(false);
-
 watch(
-  [() => props.block.language, shiki],
+  [() => props.block.language, shiki, isReady],
   async () => {
-    if (!shiki.value) return;
-    hasLanguage.value = shiki.value
-      .getLoadedLanguages()
-      .includes(props.block.language);
-    if (!hasLanguage.value) {
-      await shiki.value?.loadLanguage(bundledLanguages[props.block.language]);
+    if (!shiki.value || !isReady.value) return;
+    hasLanguage.value = false;
+
+    try {
+      if (!isLanguageLoaded(props.block.language)) {
+        await loadLanguage(props.block.language);
+      }
       hasLanguage.value = true;
+    } catch (err) {
+      console.error("Failed to load language:", err);
+      hasLanguage.value = false;
     }
   },
   { immediate: true },
 );
+
+const isLoading = computed(() => {
+  return !isReady.value || isLanguageLoading(props.block.language);
+});
 
 const shikiContent = computed(() => {
   if (
     !shiki.value ||
     !props.block ||
     props.block.type !== BlockType.Code ||
-    !hasLanguage.value
+    !hasLanguage.value ||
+    isLoading.value
   )
     return "";
   const classNames = ["shiki"];
@@ -157,7 +166,6 @@ const shikiContent = computed(() => {
     },
     [] as { line: number; classes: string[] }[],
   );
-
   const hast = shiki.value?.codeToHast(props.block.content, {
     lang: props.block.language,
     theme: store.value.useCustomTheme
@@ -360,18 +368,7 @@ const innerPaddingX = computed(() => `${store.value.innerPaddingX}px`);
 </script>
 
 <template>
-  <div
-    class="grid px-px [grid-template:1fr/1fr]"
-    :style="{
-      '--character-width': characterWidth + 'px',
-    }"
-  >
-    <!-- <div
-      class="absolute mix-blend-multiply inset-px bg-cover z-10"
-      :style="{
-        backgroundImage: 'url(/shadows/shadow-8.png)',
-      }"
-    /> -->
+  <div class="grid px-px [grid-template:1fr/1fr]">
     <div
       class="formatted font-config transition-opacity duration-500"
       ref="formatted"
