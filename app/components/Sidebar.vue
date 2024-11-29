@@ -35,7 +35,6 @@ const presetsStore = usePresetsStore();
             <SocialSettings />
           </template>
         </div>
-        <div data-test-deployment></div>
       </div>
     </aside>
 
