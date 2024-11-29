@@ -49,11 +49,7 @@ const createNewPreset = async () => {
   <div>
     <div class="grid gap-2">
       <div class="flex items-center justify-between gap-2">
-        <label
-          class="cursor-pointer select-none text-xs font-semibold"
-          for="showBackground"
-          >Presets</label
-        >
+        <label class="select-none text-xs font-semibold">Presets</label>
 
         <div class="flex-1"></div>
 

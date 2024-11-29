@@ -16,7 +16,7 @@ defineProps<{
 <template>
   <TooltipProvider>
     <TooltipRoot :delay-duration="500">
-      <TooltipTrigger>
+      <TooltipTrigger as-child>
         <slot />
       </TooltipTrigger>
       <TooltipPortal>

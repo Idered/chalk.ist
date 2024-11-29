@@ -50,24 +50,32 @@ function clearLineDecorations() {
       v-model="currentMenu"
       class="flex items-center overflow-auto border-b border-b-zinc-800 bg-zinc-900 pwa:sm:border-t pwa:sm:border-t-black pwa:sm:shadow-[inset_0_1px_0_rgb(39_39_42)]"
     >
-      <Tooltip content="Follow me on Bluesky">
-        <a
-          class="menubar-trigger"
-          href="https://bsky.app/profile/idered.bsky.social"
-        >
-          <i-fa6-brands:bluesky class="size-4" />
-        </a>
-      </Tooltip>
-      <Tooltip content="View source on GitHub">
-        <a class="menubar-trigger" href="https://github.com/Idered/chalk.ist">
-          <i-fa6-brands:github class="size-4" />
-        </a>
-      </Tooltip>
-      <Tooltip content="Buy me a coffee">
-        <a class="menubar-trigger" href="https://www.buymeacoffee.com/idered">
-          <i-ph:coffee class="size-4" />
-        </a>
-      </Tooltip>
+      <div class="flex items-center">
+        <Tooltip content="Follow me on Bluesky">
+          <a
+            class="menubar-trigger flex w-12 justify-center"
+            href="https://bsky.app/profile/idered.bsky.social"
+          >
+            <i-fa6-brands:bluesky class="size-4" />
+          </a>
+        </Tooltip>
+        <Tooltip content="View source on GitHub">
+          <a
+            class="menubar-trigger flex w-12 justify-center"
+            href="https://github.com/Idered/chalk.ist"
+          >
+            <i-fa6-brands:github class="size-4" />
+          </a>
+        </Tooltip>
+        <Tooltip content="Buy me a coffee">
+          <a
+            class="menubar-trigger flex w-12 justify-center"
+            href="https://www.buymeacoffee.com/idered"
+          >
+            <i-ph:coffee class="size-4" />
+          </a>
+        </Tooltip>
+      </div>
 
       <div class="h-12 border-x border-l-black border-r-zinc-800"></div>
 
@@ -96,7 +104,7 @@ function clearLineDecorations() {
       </MenubarMenu>
 
       <MenubarMenu value="line decorations" v-if="state.editMode === 'code'">
-        <MenubarTrigger class="menubar-trigger">
+        <MenubarTrigger class="menubar-trigger -mx-1">
           <span class="hidden sm:block">Line decorations</span>
           <span class="sm:hidden">Decorations</span>
           <i-radix-icons:chevron-down class="ml-1 size-3" />
