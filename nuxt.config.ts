@@ -49,7 +49,7 @@ export default defineNuxtConfig({
     workbox: {
       navigateFallback: undefined,
       navigateFallbackDenylist: [/^(?!\/$).*/],
-      maximumFileSizeToCacheInBytes: 1024 * 1024 * 5,
+      maximumFileSizeToCacheInBytes: 1024 * 1024 * 10,
       globPatterns: [
         "**/*.{js,css,html,png,jpg,jpeg,svg,ico,json,txt,ttf,woff,woff2}",
       ],
