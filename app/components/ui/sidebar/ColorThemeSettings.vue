@@ -18,6 +18,19 @@ import {
   themeLabels,
 } from "~/lib/themes";
 import { persistentState } from "~/lib/persistent-state";
+import { copyTextToClipboard } from "~/lib/export";
+import { useMagicKeys } from "@vueuse/core";
+
+const { cmd } = useMagicKeys();
+
+function handleCustomThemeEditToggle(event: MouseEvent) {
+  if (cmd.value) {
+    copyTextToClipboard(JSON.stringify(store.value.customTheme));
+  } else {
+    persistentState.value.expandCustomThemeOptions =
+      !persistentState.value.expandCustomThemeOptions;
+  }
+}
 
 const featuredThemes = allThemes.filter((item) =>
   [
@@ -120,16 +133,14 @@ const themeOptions = computed(() => [
     >
     <Button
       class="h-5 rounded bg-blue-600/30 px-2.5 text-xs font-semibold text-blue-500 hover:bg-blue-600/40"
-      @click="
-        persistentState.expandCustomThemeOptions =
-          !persistentState.expandCustomThemeOptions
-      "
+      @click="handleCustomThemeEditToggle"
     >
       <span
         class="text-[10px] uppercase tracking-wider"
         v-if="!persistentState.expandCustomThemeOptions"
         >Edit</span
       >
+      <span v-else-if="cmd">Copy</span>
       <span v-else class="text-[10px] uppercase tracking-wider">Collapse</span>
     </Button>
     <Switch v-model="store.useCustomTheme" id="useCustomTheme" />

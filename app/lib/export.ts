@@ -80,3 +80,60 @@ export function copyPngToClipboard() {
     }),
   ]);
 }
+
+export function copyTextToClipboard(text: string) {
+  function copyToClipboard(text) {
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        console.log("Text copied successfully");
+      })
+      .catch((err) => {
+        console.error("Failed to copy text: ", err);
+      });
+  }
+
+  // Alternative approach using textarea element
+  function copyToClipboardFallback(text: string) {
+    // Create a temporary textarea element
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+
+    // Make it invisible
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+
+    // Add to document
+    document.body.appendChild(textarea);
+
+    // Select the text
+    textarea.select();
+
+    try {
+      // Execute copy command
+      document.execCommand("copy");
+      console.log("Text copied successfully");
+    } catch (err) {
+      console.error("Failed to copy text: ", err);
+    }
+
+    // Remove the temporary element
+    document.body.removeChild(textarea);
+  }
+
+  if (navigator.clipboard) {
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        console.log("Text copied successfully");
+      })
+      .catch((err) => {
+        console.error("Failed to copy text: ", err);
+        // Try fallback if Clipboard API fails
+        copyToClipboardFallback(text);
+      });
+  } else {
+    // Use fallback for browsers that don't support Clipboard API
+    copyToClipboardFallback(text);
+  }
+}
