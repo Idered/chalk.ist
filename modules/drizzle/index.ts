@@ -33,9 +33,9 @@ export default defineNuxtModule({
       return;
     }
 
-    addBuildHooks(nuxt, {
-      hubUrl: process.env.NUXT_HUB_URL || "https://admin.hub.nuxt.com",
-      migrationsPath,
-    });
+    // addBuildHooks(nuxt, {
+    //   hubUrl: process.env.NUXT_HUB_URL || "https://admin.hub.nuxt.com",
+    //   migrationsPath,
+    // });
   },
 });
