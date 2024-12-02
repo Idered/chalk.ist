@@ -17,6 +17,7 @@ export function useDrizzle() {
       "Missing `POSTGRES` hyperdrive binding or `NUXT_POSTGRES_URL` env variable",
     );
   }
+  console.log("dbUrl", { dbUrl, hyperdrive });
 
   const client = postgres(dbUrl, {
     // Disable prefetch as it is not supported for "Transaction" pool mode
