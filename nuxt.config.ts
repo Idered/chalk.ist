@@ -6,7 +6,7 @@ export default defineNuxtConfig({
     blob: true,
     bindings: {
       hyperdrive: {
-        NUXT_POSTGRES: "2a9d489e436c4ba185208f0d9b621758",
+        POSTGRES: process.env.NUXT_HUB_HYPERDRIVE_ID,
       },
     },
   },
