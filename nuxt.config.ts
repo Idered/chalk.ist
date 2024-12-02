@@ -2,6 +2,14 @@ import IconsResolver from "unplugin-icons/resolver";
 import Components from "unplugin-vue-components/vite";
 
 export default defineNuxtConfig({
+  hub: {
+    bindings: {
+      hyperdrive: {
+        POSTGRES: process.env.NUXT_HUB_HYPERDRIVE_ID,
+      },
+    },
+  },
+
   future: { compatibilityVersion: 4 },
 
   nitro: {
