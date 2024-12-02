@@ -3,6 +3,7 @@ import Components from "unplugin-vue-components/vite";
 
 export default defineNuxtConfig({
   hub: {
+    blob: true,
     bindings: {
       hyperdrive: {
         POSTGRES: "2a9d489e436c4ba185208f0d9b621758",
