@@ -2,9 +2,13 @@ import { sharedSnippets } from "~~/server/database/schema";
 
 export default eventHandler(async (event) => {
   const db = useDrizzle();
-  // const snippets = await db.select().from(tables.sharedSnippets);
+
+  const res = await Promise.all([
+    db.select().from(tables.sharedSnippets),
+    new Promise((resolve) => setTimeout(() => resolve(["fail"]), 1000)),
+  ]);
 
   // event.waitUntil(db.$client.end({ timeout: 1 }));
 
-  return [];
+  return res;
 });
