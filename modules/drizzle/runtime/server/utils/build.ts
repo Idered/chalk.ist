@@ -9,16 +9,16 @@ export function addBuildHooks(
     migrationsPath: string;
   },
 ) {
-  if (
-    !process.env.NUXT_HUB_PROJECT_KEY ||
-    !process.env.NUXT_HUB_ENV ||
-    !process.env.NUXT_HUB_PROJECT_DEPLOY_TOKEN
-  ) {
+  if (!process.env.NUXT_HUB_PROJECT_KEY) {
     return;
   }
 
+  console.log("addBuildHooks");
+
   nuxt.hook("nitro:init", async (nitro) => {
+    console.log("nitro:init");
     nitro.hooks.hook("compiled", async () => {
+      console.log("compiled, starting migrations");
       // await $fetch(
       //   `/api/projects/${process.env.NUXT_HUB_PROJECT_KEY}/build/${process.env.NUXT_HUB_ENV}/done`,
       //   {
@@ -41,6 +41,7 @@ export function addBuildHooks(
       //   process.exit(1);
       // });
       const migrationsApplied = await applyMigrations(config.migrationsPath);
+      console.log("migrationsApplied", migrationsApplied);
 
       if (!migrationsApplied) {
         process.exit(1);
