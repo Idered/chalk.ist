@@ -5,11 +5,14 @@ export { sql, eq, and, or } from "drizzle-orm";
 
 import * as schema from "../../../../../server/database/schema";
 import postgres from "postgres";
+import type { H3Event, EventHandlerRequest } from "h3";
 
 export const tables = schema;
 
-export function useDrizzle() {
-  const hyperdrive = process.env.POSTGRES as Hyperdrive | undefined;
+export function useDrizzle(event: H3Event<EventHandlerRequest>) {
+  const hyperdrive = event?.context?.cloudflare?.env?.POSTGRES as
+    | Hyperdrive
+    | undefined;
   const dbUrl = hyperdrive?.connectionString || process.env.NUXT_POSTGRES_URL;
 
   if (!dbUrl) {
@@ -17,7 +20,6 @@ export function useDrizzle() {
       "Missing `POSTGRES` hyperdrive binding or `NUXT_POSTGRES_URL` env variable",
     );
   }
-  console.log("dbUrl", { dbUrl, hyperdrive });
 
   const client = postgres(dbUrl, {
     // Disable prefetch as it is not supported for "Transaction" pool mode
@@ -25,5 +27,5 @@ export function useDrizzle() {
     ssl: hyperdrive ? undefined : "require",
   });
 
-  return drizzle(client);
+  return drizzle({ client, schema });
 }
