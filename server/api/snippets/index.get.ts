@@ -4,6 +4,5 @@ export default eventHandler(async (event) => {
   const db = useDrizzle();
   return JSON.stringify({
     message: "Hello, world!",
-    pg: event.context.cloudflare.env.POSTGRES,
   });
 });
