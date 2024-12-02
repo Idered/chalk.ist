@@ -9,9 +9,11 @@ export async function applyMigrations(migrationsFolder: string) {
       _log(args);
     };
     await migrate(db, { migrationsFolder });
+    await db.$client.end({ timeout: 1 });
     console.log = _log;
     return true;
   } catch (err) {
+    await db.$client.end({ timeout: 1 });
     console.log = _log;
     console.error(err);
     return false;
