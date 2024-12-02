@@ -2,7 +2,7 @@ import type { Hyperdrive } from "@cloudflare/workers-types";
 import { drizzle } from "drizzle-orm/postgres-js";
 export { sql, eq, and, or } from "drizzle-orm";
 
-import * as schema from "../database/schema";
+import * as schema from "../../../../../server/database/schema";
 import postgres from "postgres";
 
 export const tables = schema;
