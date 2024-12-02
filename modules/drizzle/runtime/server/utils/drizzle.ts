@@ -9,7 +9,7 @@ import postgres from "postgres";
 export const tables = schema;
 
 export function useDrizzle() {
-  const hyperdrive = process.env.POSTGRES as Hyperdrive | undefined;
+  const hyperdrive = process.env.NUXT_POSTGRES as Hyperdrive | undefined;
   const dbUrl = hyperdrive?.connectionString || process.env.NUXT_POSTGRES_URL;
 
   if (!dbUrl) {
