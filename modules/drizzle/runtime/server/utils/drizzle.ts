@@ -1,4 +1,5 @@
 import type { Hyperdrive } from "@cloudflare/workers-types";
+import { createError } from "h3";
 import { drizzle } from "drizzle-orm/postgres-js";
 export { sql, eq, and, or } from "drizzle-orm";
 
