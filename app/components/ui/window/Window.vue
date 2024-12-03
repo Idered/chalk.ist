@@ -20,16 +20,16 @@ const enableAppStyle = computed(() => {
 <template>
   <div
     class="relative grid h-full grid-rows-[auto_1fr_auto]"
-    :class="{
-      'rounded-md': store.paddingX !== 0 && store.paddingY !== 0,
-    }"
     :style="
       !store.showWindow
         ? []
         : [
             enableAppStyle
               ? {
-                  backgroundColor: '#03000ADD',
+                  borderRadius: `${store.windowBorderRadius}px`,
+                  backgroundColor: `rgba(15, 15, 15, ${
+                    store.windowBackgroundOpacity / 100
+                  })`,
                   backgroundImage: store.windowNoise
                     ? 'url(/noise.png)'
                     : undefined,
@@ -40,28 +40,28 @@ const enableAppStyle = computed(() => {
               none: '',
               'variant-1': {
                 boxShadow: `
-                0 0 0px 1px rgba(4, 4, 4, ${backdrop.shadowsOpacity}),
-                inset 0 0 0 1px rgba(255,255,255,${backdrop.lightsOpacity}),
+                0 0 0px 1px rgba(4, 4, 4, ${store.windowShadows / 100}),
+                inset 0 0 0 1px rgba(255,255,255,${store.windowHighlights / 100}),
                 0 0 18px 1px rgba(0,0,0,.6)
               `,
               },
               'variant-2': {
                 boxShadow: `
-                0px 0px 0px 1px rgba(4, 4, 4, ${backdrop.shadowsOpacity}),
-                inset 0 1px 0 rgba(255,255,255,${backdrop.lightsOpacity}),
+                0px 0px 0px 1px rgba(4, 4, 4, ${store.windowShadows / 100}),
+                inset 0 1px 0 rgba(255,255,255,${store.windowHighlights / 100}),
                 0px 0px 18px 1px rgba(0,0,0,.6)
               `,
               },
               'variant-3': {
                 boxShadow: `
-                0 0 0px 1px rgba(4, 4, 4, ${backdrop.shadowsOpacity}),
+                0 0 0px 1px rgba(4, 4, 4, ${store.windowShadows / 100}),
                 0 0 18px 1px rgba(0,0,0,.6)
               `,
               },
               'variant-4': {},
               'variant-5': {},
             }[store.windowStyle] || {},
-            enableAppStyle ? backdrop.appStyle : {},
+
             mode === 'preview'
               ? {
                   backgroundColor: 'white',

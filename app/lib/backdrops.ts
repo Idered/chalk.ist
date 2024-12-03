@@ -10,12 +10,7 @@ export interface Backdrop {
       transform?: string;
       inset?: string;
     };
-    appStyle?: {
-      backgroundColor: string;
-    };
     shadow?: string;
-    shadowsOpacity?: number;
-    lightsOpacity?: number;
   };
 }
 
@@ -31,11 +26,6 @@ export const Backdrops: Backdrop = {
       background: `var(--solid-background)`,
     },
     shadow: "hsl(0, 0%, 6%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.08,
-    appStyle: {
-      backgroundColor: "hsla(0, 0%, 6%, 0.85)",
-    },
   },
 
   Monochrome_1: {
@@ -53,11 +43,6 @@ export const Backdrops: Backdrop = {
       transform: `scale(1.385)`,
     },
     shadow: "hsl(0, 0%, 6%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.08,
-    appStyle: {
-      backgroundColor: "hsla(0, 0%, 6%, 0.85)",
-    },
   },
 
   Monochrome_2: {
@@ -70,11 +55,6 @@ export const Backdrops: Backdrop = {
       )`,
     },
     shadow: "hsl(0, 0%, 4%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.08,
-    appStyle: {
-      backgroundColor: "hsla(0, 0%, 6%, 0.85)",
-    },
   },
 
   Nord: {
@@ -88,8 +68,6 @@ export const Backdrops: Backdrop = {
         )`,
     },
     shadow: "hsl(220, 17%, 17%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.17,
   },
 
   TurbulentGradient_2: {
@@ -108,8 +86,6 @@ export const Backdrops: Backdrop = {
       inset: "-9em",
     },
     shadow: "hsl(220, 17%, 17%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.17,
   },
 
   TurbulentGradient_1: {
@@ -128,8 +104,6 @@ export const Backdrops: Backdrop = {
       inset: "-9em",
     },
     shadow: "hsl(220, 17%, 17%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.17,
   },
   TurbulentGradient_3: {
     backgroundStyle: {
@@ -147,8 +121,6 @@ export const Backdrops: Backdrop = {
       inset: "-9em",
     },
     shadow: "hsl(220, 17%, 17%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.17,
   },
 
   TurbulentGradient_5: {
@@ -166,8 +138,6 @@ export const Backdrops: Backdrop = {
       inset: "-8em",
     },
     shadow: "hsl(220, 17%, 17%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.17,
   },
   TurbulentGradient_4: {
     backgroundStyle: {
@@ -185,8 +155,6 @@ export const Backdrops: Backdrop = {
       inset: "-9em",
     },
     shadow: "hsl(220, 17%, 17%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.17,
   },
   TurbulentGradient_6: {
     backgroundStyle: {
@@ -203,8 +171,6 @@ export const Backdrops: Backdrop = {
       inset: "-9em",
     },
     shadow: "hsl(220, 17%, 17%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.17,
   },
   R1: {
     backgroundStyle: {
@@ -213,8 +179,6 @@ export const Backdrops: Backdrop = {
       transform: `scale(2.49328)`,
     },
     shadow: "hsl(140, 40%, 2%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.17,
   },
 
   Lakka: {
@@ -232,8 +196,6 @@ export const Backdrops: Backdrop = {
       transform: `scale(1.385)`,
     },
     shadow: "hsl(13, 80%, 7%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.19,
   },
 
   Chrome: {
@@ -251,11 +213,6 @@ export const Backdrops: Backdrop = {
       transform: `scale(1.385)`,
     },
     shadow: "hsl(300, 50%, 6%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.08,
-    appStyle: {
-      backgroundColor: "#140a17cc",
-    },
   },
 
   Kozuchi: {
@@ -273,11 +230,6 @@ export const Backdrops: Backdrop = {
       transform: `scale(1.385)`,
     },
     shadow: "hsl(220, 80%, 9%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.15,
-    appStyle: {
-      backgroundColor: "#140a17dd",
-    },
   },
 
   Linear: {
@@ -294,12 +246,7 @@ export const Backdrops: Backdrop = {
       filter: `blur(120px)`,
       transform: `scale(.885)`,
     },
-    appStyle: {
-      backgroundColor: `rgba(16, 15, 20, 0.9)`,
-    },
     shadow: "hsl(23, 60%, 6%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.08,
   },
 
   Linear2: {
@@ -309,12 +256,7 @@ export const Backdrops: Backdrop = {
       filter: `blur(120px)`,
       transform: `scale(.885)`,
     },
-    appStyle: {
-      backgroundColor: `rgba(16, 15, 20, 0.9)`,
-    },
     shadow: "hsl(140, 40%, 2%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.08,
   },
 
   R6: {
@@ -325,8 +267,6 @@ export const Backdrops: Backdrop = {
       transform: "scale(1.385)",
     },
     shadow: "hsl(140, 40%, 2%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.17,
   },
 
   R5: {
@@ -336,12 +276,7 @@ export const Backdrops: Backdrop = {
       filter: `blur(120px)`,
       transform: `scale(.885)`,
     },
-    appStyle: {
-      backgroundColor: `rgba(16, 15, 20, 0.9)`,
-    },
     shadow: "hsl(140, 40%, 2%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.08,
   },
 
   R2: {
@@ -351,12 +286,7 @@ export const Backdrops: Backdrop = {
       filter: `blur(120px)`,
       transform: `scale(.885)`,
     },
-    appStyle: {
-      backgroundColor: `rgba(16, 15, 20, 0.9)`,
-    },
     shadow: "hsl(140, 40%, 2%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.08,
   },
 
   R3: {
@@ -366,12 +296,7 @@ export const Backdrops: Backdrop = {
       filter: `blur(120px)`,
       transform: `scale(.885)`,
     },
-    appStyle: {
-      backgroundColor: `rgba(16, 15, 20, 0.9)`,
-    },
     shadow: "hsl(140, 40%, 2%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.08,
   },
 
   R4: {
@@ -381,12 +306,7 @@ export const Backdrops: Backdrop = {
       filter: `blur(120px)`,
       transform: `scale(.885)`,
     },
-    appStyle: {
-      backgroundColor: `rgba(16, 15, 20, 0.9)`,
-    },
     shadow: "hsl(140, 40%, 2%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.08,
   },
 
   Supa: {
@@ -396,12 +316,7 @@ export const Backdrops: Backdrop = {
       filter: "blur(120px)",
       transform: "scale(.885)",
     },
-    appStyle: {
-      backgroundColor: "rgba(16, 15, 20, 0.9)",
-    },
     shadow: "hsl(140, 40%, 2%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.08,
   },
 
   WhiteWithDots: {
@@ -416,20 +331,13 @@ export const Backdrops: Backdrop = {
       )`,
     },
     shadow: "hsl(0, 0%, 10%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.29,
   },
 
   Liveblocks: {
     backgroundStyle: {
       background: `linear-gradient(125deg, rgba(253,226,237,1) 0%, rgba(247,229,246,1) 91%, rgba(244,231,250,1) 100%)`,
     },
-    appStyle: {
-      backgroundColor: `#03000AEE`,
-    },
     shadow: "hsl(347, 100%, 8%)",
-    lightsOpacity: 0.35,
-    shadowsOpacity: 1,
   },
 
   Jigglypuff: {
@@ -442,8 +350,6 @@ export const Backdrops: Backdrop = {
       )`,
     },
     shadow: "hsl(300, 60%, 10%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.29,
   },
 
   Sakura: {
@@ -456,8 +362,6 @@ export const Backdrops: Backdrop = {
     )`,
     },
     shadow: "hsl(330, 80%, 13%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.17,
   },
 
   Lavender: {
@@ -470,8 +374,6 @@ export const Backdrops: Backdrop = {
         )`,
     },
     shadow: "hsl(255, 100%, 10%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.29,
   },
 
   Gengar: {
@@ -484,8 +386,6 @@ export const Backdrops: Backdrop = {
       )`,
     },
     shadow: "hsl(270, 60%, 10%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.29,
   },
 
   Lucario: {
@@ -501,8 +401,6 @@ export const Backdrops: Backdrop = {
       transform: `scale(1.385)`,
     },
     shadow: "hsl(225, 60%, 10%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.29,
   },
 
   Snorlax: {
@@ -518,8 +416,6 @@ export const Backdrops: Backdrop = {
       transform: `scale(1.385)`,
     },
     shadow: "hsl(240, 30%, 10%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.29,
   },
 
   Ocean: {
@@ -532,8 +428,6 @@ export const Backdrops: Backdrop = {
       )`,
     },
     shadow: "hsl(200, 80%, 10%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.29,
   },
 
   Squirtle: {
@@ -546,8 +440,6 @@ export const Backdrops: Backdrop = {
       )`,
     },
     shadow: "hsl(195, 100%, 10%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.29,
   },
 
   TailwindCSS: {
@@ -561,8 +453,6 @@ export const Backdrops: Backdrop = {
         )`,
     },
     shadow: "hsl(198, 93%, 6%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.19,
   },
 
   Bulbasaur: {
@@ -575,8 +465,6 @@ export const Backdrops: Backdrop = {
       )`,
     },
     shadow: "hsl(120, 40%, 10%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.29,
   },
 
   Vue: {
@@ -590,8 +478,6 @@ export const Backdrops: Backdrop = {
       )`,
     },
     shadow: "hsl(153, 50%, 6%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.24,
   },
 
   Sand: {
@@ -604,8 +490,6 @@ export const Backdrops: Backdrop = {
       )`,
     },
     shadow: "hsl(30, 80%, 10%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.29,
   },
 
   Sunset: {
@@ -618,8 +502,6 @@ export const Backdrops: Backdrop = {
       )`,
     },
     shadow: "hsl(30, 80%, 10%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.29,
   },
 
   Dragonite: {
@@ -632,8 +514,6 @@ export const Backdrops: Backdrop = {
       )`,
     },
     shadow: "hsl(39, 100%, 10%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.29,
   },
 
   Dawn: {
@@ -646,8 +526,6 @@ export const Backdrops: Backdrop = {
         )`,
     },
     shadow: "hsl(8, 45%, 13%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.17,
   },
 
   Transparent: {
@@ -656,10 +534,5 @@ export const Backdrops: Backdrop = {
         "repeating-conic-gradient(#000 0% 25%, #111 0% 50%) 0% 0% / 16px 16px",
     },
     shadow: "hsl(0, 0%, 6%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.08,
-    appStyle: {
-      backgroundColor: "hsla(0, 0%, 2%, 0.9)",
-    },
   },
 };

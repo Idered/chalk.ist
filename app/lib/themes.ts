@@ -83,7 +83,7 @@ export const portedThemes = [
   }),
 ];
 
-export const chalkistThemes = [
+export const chalkistDarkThemes = [
   createTheme("Vue", {
     comment: "#387156",
     foreground: "#dff3ea",
@@ -228,7 +228,11 @@ export const themeLabels = {
   regexp: "RegExp",
 };
 
-export const allThemes = [...chalkistThemes, ...portedThemes, ...shikiThemes];
+export const allThemes = [
+  ...chalkistDarkThemes,
+  ...portedThemes,
+  ...shikiThemes,
+];
 
 export function getThemeColors(themeName: string) {
   const theme = allThemes.find((theme) => theme.displayName === themeName);

@@ -61,6 +61,11 @@ export function runMigrations() {
   store.value.watermarkOpacity = store.value.watermarkOpacity || 50;
   store.value.windowNoise = store.value.windowNoise ?? false;
   store.value.windowStyle = store.value.windowStyle || "variant-1";
+  store.value.windowBackgroundOpacity =
+    store.value.windowBackgroundOpacity ?? 90;
+  store.value.windowShadows = store.value.windowShadows ?? 100;
+  store.value.windowHighlights = store.value.windowHighlights ?? 29;
+  store.value.windowBorderRadius = store.value.windowBorderRadius ?? 6;
   store.value.windowControls =
     store.value.windowControls ?? WindowControls.MacOutline;
   store.value.customTheme = store.value.customTheme || {

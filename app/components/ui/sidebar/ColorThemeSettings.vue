@@ -11,7 +11,7 @@ import {
 } from "radix-vue";
 import {
   shikiThemes,
-  chalkistThemes,
+  chalkistDarkThemes,
   portedThemes,
   allThemes,
   getThemeColors,
@@ -57,11 +57,11 @@ const themeOptions = computed(() => [
       .sort((a, b) => a.label.localeCompare(b.label)),
   },
   {
-    group: "Other",
+    group: "Dark",
     children: shikiThemes
       .map((item) => ({ value: item.id, label: item.displayName }))
       .concat(
-        ...chalkistThemes.map((item) => ({
+        ...chalkistDarkThemes.map((item) => ({
           value: item.id,
           label: item.displayName,
           showEdit: true,

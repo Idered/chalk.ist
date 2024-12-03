@@ -7,12 +7,12 @@ import {
   type BundledLanguage,
 } from "shiki";
 import { onMounted, ref } from "vue";
-import { chalkistThemes, portedThemes, shikiThemes } from "~/lib/themes";
+import { chalkistDarkThemes, portedThemes, shikiThemes } from "~/lib/themes";
 
 const shiki = ref<HighlighterCore>();
 const engine = createOnigurumaEngine(import("shiki/wasm"));
 const themes = [
-  ...chalkistThemes,
+  ...chalkistDarkThemes,
   ...portedThemes,
   ...shikiThemes.map((theme) => theme.import),
 ];

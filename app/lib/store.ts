@@ -49,6 +49,10 @@ export const store = useStorage("chalk-store", {
   watermark: "chalk.ist",
   watermarkOpacity: 50,
   windowControls: WindowControls.MacOutline,
+  windowBackgroundOpacity: 90,
+  windowHighlights: 29,
+  windowShadows: 100,
+  windowBorderRadius: 6,
   windowNoise: false,
   windowStyle: "variant-1",
 });

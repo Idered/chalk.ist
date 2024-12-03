@@ -32,6 +32,82 @@ import { store } from "~/lib/store";
     />
   </div>
 
+  <div
+    v-if="['variant-1', 'variant-2', 'variant-3'].includes(store.windowStyle)"
+    class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+  >
+    <label for="windowBackgroundOpacity" class="text-xs font-semibold"
+      >Window opacity</label
+    >
+    <SliderAlt
+      id="windowBackgroundOpacity"
+      class="-my-1"
+      preview-on-focus
+      :model-value="store.windowBackgroundOpacity"
+      @update:model-value="store.windowBackgroundOpacity = $event"
+      :min="80"
+      :max="100"
+      :step="1"
+    />
+  </div>
+
+  <div
+    v-if="['variant-1', 'variant-2', 'variant-3'].includes(store.windowStyle)"
+    class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+  >
+    <label for="windowBorderRadius" class="text-xs font-semibold"
+      >Window rounding</label
+    >
+    <SliderAlt
+      id="windowBorderRadius"
+      class="-my-1"
+      preview-on-focus
+      :model-value="store.windowBorderRadius"
+      @update:model-value="store.windowBorderRadius = $event"
+      :min="0"
+      :max="16"
+      :step="1"
+    />
+  </div>
+
+  <div
+    v-if="['variant-1', 'variant-2'].includes(store.windowStyle)"
+    class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+  >
+    <label for="windowHighlights" class="text-xs font-semibold"
+      >Window highlights</label
+    >
+    <SliderAlt
+      id="windowHighlights"
+      class="-my-1"
+      preview-on-focus
+      :model-value="store.windowHighlights"
+      @update:model-value="store.windowHighlights = $event"
+      :min="0"
+      :max="50"
+      :step="1"
+    />
+  </div>
+
+  <div
+    v-if="['variant-1', 'variant-2'].includes(store.windowStyle)"
+    class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2"
+  >
+    <label for="windowShadows" class="text-xs font-semibold"
+      >Window shadows</label
+    >
+    <SliderAlt
+      id="windowShadows"
+      class="-my-1"
+      preview-on-focus
+      :model-value="store.windowShadows"
+      @update:model-value="store.windowShadows = $event"
+      :min="0"
+      :max="100"
+      :step="1"
+    />
+  </div>
+
   <div class="grid grid-flow-col items-center justify-between gap-x-2 gap-y-2">
     <label for="windowControls" class="text-xs font-semibold"
       >Window controls</label
