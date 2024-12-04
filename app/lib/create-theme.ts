@@ -92,6 +92,7 @@ export function createTheme(name: string, colors: Colors) {
     displayName: name,
     raw,
     colors: {
+      "editor.foreground": colors.foreground,
       "editor.background": "#ff000000",
     },
     settings: [
