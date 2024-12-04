@@ -514,6 +514,10 @@ const innerPaddingX = computed(() => `${store.value.innerPaddingX}px`);
   cursor: pointer;
 }
 
+.is-light-theme .formatted .line:hover {
+  background: hsla(200, 0%, 85%, 0.4);
+}
+
 .formatted .line-number {
   float: left;
   margin-left: calc(v-bind(gutter) * -1 - 4px);
@@ -536,7 +540,7 @@ const innerPaddingX = computed(() => `${store.value.innerPaddingX}px`);
 }
 
 .is-light-theme .formatted .line-number {
-  color: rgba(0, 0, 0, 0.25);
+  color: rgba(0, 0, 0, 0.35);
 }
 
 .formatted .line span {
@@ -547,30 +551,60 @@ const innerPaddingX = computed(() => `${store.value.innerPaddingX}px`);
   background: rgba(255, 255, 255, var(--highlight-opacity, 0.1));
 }
 
+.is-light-theme .formatted .highlight {
+  background: hsla(200, 65%, 85%, var(--highlight-opacity, 0.7));
+}
+
 .formatted .highlight .line-number,
 .formatted .add .line-number,
 .formatted .remove .line-number {
   color: rgba(255, 255, 255, 0.6);
 }
 
+.is-light-theme .formatted .highlight .line-number,
+.is-light-theme .formatted .add .line-number,
+.is-light-theme .formatted .remove .line-number {
+  color: rgba(0, 0, 0, 0.75);
+}
+
 .formatted .highlight .line-number {
   background: rgba(255, 255, 255, 0.1);
+}
+
+.is-light-theme .formatted .highlight .line-number {
+  background: hsla(200, 70%, 45%, 0.15);
 }
 
 .formatted .line.add {
   background: rgba(0, 255, 0, var(--highlight-opacity, 0.15));
 }
 
+.is-light-theme .formatted .line.add {
+  background: hsla(120, 70%, 45%, 0.2);
+}
+
 .formatted .add .line-number {
   background: rgba(0, 255, 0, var(--highlight-opacity, 0.1));
+}
+
+.is-light-theme .formatted .add .line-number {
+  background: hsla(120, 70%, 45%, 0.15);
 }
 
 .formatted .line.remove {
   background: rgba(255, 0, 0, var(--highlight-opacity, 0.15));
 }
 
+.is-light-theme .formatted .line.remove {
+  background: hsla(0, 70%, 45%, 0.2);
+}
+
 .formatted .remove .line-number {
   background: rgba(255, 0, 0, var(--highlight-opacity, 0.1));
+}
+
+.is-light-theme .formatted .remove .line-number {
+  background: hsla(0, 70%, 45%, 0.15);
 }
 
 .annotation {
