@@ -109,6 +109,7 @@ export function createTheme(name: string, colors: Colors) {
           "variable.other.member",
           "variable.other.enummember",
           "variable.language",
+          "support.type.object.module",
         ],
         settings: {
           foreground: colors.variable,

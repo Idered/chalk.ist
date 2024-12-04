@@ -4,6 +4,7 @@ import { computed, ref, watch } from "vue";
 import { store } from "~/lib/store";
 import { BlockType } from "~/lib/enums";
 import { persistentState } from "~/lib/persistent-state";
+import { isLightTheme } from "~/lib/themes";
 
 const container = ref<HTMLDivElement>();
 const editorFrame = ref<HTMLDivElement>();
@@ -74,6 +75,7 @@ const transform = computed(() => {
                   v-if="block.type === BlockType.Code"
                   :store="store"
                   :mode="block.mode"
+                  :is-light-theme="isLightTheme(store.colorTheme)"
                 >
                   <EditorResizer />
                   <WindowReflection />

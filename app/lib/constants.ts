@@ -27,6 +27,7 @@ export const WINDOW_STYLES: {
   value: string;
   label: string;
   features?: {
+    appStyle?: boolean;
     particles?: boolean;
     reflection?: boolean;
     windowTitle?: boolean;
@@ -40,6 +41,7 @@ export const WINDOW_STYLES: {
     value: "variant-4",
     label: "Variant 4",
     features: {
+      appStyle: false,
       particles: false,
       reflection: false,
     },
@@ -48,10 +50,30 @@ export const WINDOW_STYLES: {
     value: "variant-5",
     label: "Variant 5",
     features: {
+      appStyle: false,
       particles: false,
       reflection: false,
     },
   },
+];
+
+export const LIGHT_WINDOW_STYLES: {
+  value: string;
+  label: string;
+  features?: {
+    appStyle?: boolean;
+    particles?: boolean;
+    reflection?: boolean;
+    windowTitle?: boolean;
+  };
+}[] = [
+  { value: "none", label: "None" },
+  { value: "variant-1", label: "Variant 1" },
+  { value: "variant-2", label: "Variant 2" },
+  { value: "variant-3", label: "Variant 3" },
+  { value: "variant-4", label: "Variant 4" },
+  { value: "variant-5", label: "Variant 5" },
+  { value: "variant-6", label: "Variant 6" },
 ];
 
 export const SHADOW_OVERLAY_STYLES = [

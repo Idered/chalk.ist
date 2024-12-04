@@ -535,6 +535,10 @@ const innerPaddingX = computed(() => `${store.value.innerPaddingX}px`);
   color: rgba(255, 255, 255, 0.25);
 }
 
+.is-light-theme .formatted .line-number {
+  color: rgba(0, 0, 0, 0.25);
+}
+
 .formatted .line span {
   white-space: pre-wrap;
 }

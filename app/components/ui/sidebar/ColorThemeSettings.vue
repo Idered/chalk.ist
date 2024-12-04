@@ -16,6 +16,8 @@ import {
   allThemes,
   getThemeColors,
   themeLabels,
+  chalkistLightThemes,
+  lightShikiThemes,
 } from "~/lib/themes";
 import { persistentState } from "~/lib/persistent-state";
 import { copyTextToClipboard } from "~/lib/export";
@@ -54,6 +56,24 @@ const themeOptions = computed(() => [
         label: item.displayName!,
         showEdit: "raw" in item,
       }))
+      .sort((a, b) => a.label.localeCompare(b.label)),
+  },
+  {
+    group: "Light",
+    children: [
+      ...chalkistLightThemes.map((item) => ({
+        value: item.id,
+        label: item.displayName,
+        showEdit: true,
+      })),
+      ...lightShikiThemes.map((item) => ({
+        value: item.id,
+        label: item.displayName,
+      })),
+    ]
+      .filter(
+        (item) => !featuredThemes.find((theme) => theme.id === item.value),
+      )
       .sort((a, b) => a.label.localeCompare(b.label)),
   },
   {

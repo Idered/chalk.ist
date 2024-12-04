@@ -1,3 +1,4 @@
+const plugin = require("tailwindcss/plugin");
 /**
  * @typedef {import('tailwindcss/types').Config} BaseConfig
  *
@@ -100,5 +101,11 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-easing"), require("@tailwindcss/typography")],
+  plugins: [
+    require("tailwindcss-easing"),
+    require("@tailwindcss/typography"),
+    plugin(({ addVariant }) => {
+      addVariant("light", ".is-light-theme &");
+    }),
+  ],
 };

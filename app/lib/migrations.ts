@@ -61,6 +61,7 @@ export function runMigrations() {
   store.value.watermarkOpacity = store.value.watermarkOpacity || 50;
   store.value.windowNoise = store.value.windowNoise ?? false;
   store.value.windowStyle = store.value.windowStyle || "variant-1";
+  store.value.lightWindowStyle = store.value.lightWindowStyle || "variant-1";
   store.value.windowBackgroundOpacity =
     store.value.windowBackgroundOpacity ?? 90;
   store.value.windowShadows = store.value.windowShadows ?? 100;

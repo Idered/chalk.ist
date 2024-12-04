@@ -16,6 +16,10 @@ export const shikiThemes = bundledThemesInfo.filter(
   ({ type, id }) => type === "dark" && excludedThemes.includes(id) === false,
 );
 
+export const lightShikiThemes = bundledThemesInfo.filter(
+  ({ type, id }) => type === "light" && excludedThemes.includes(id) === false,
+);
+
 export const portedThemes = [
   createTheme("Duotone - Dark Sea", {
     function: "#D6E9FF", // uno-1
@@ -80,6 +84,34 @@ export const portedThemes = [
     string: "#fecb52", // duo-1
     number: "#fecb52", // duo-1
     operator: "#b09045", // duo-2
+  }),
+];
+
+export const chalkistLightThemes = [
+  createTheme("Nord Light", {
+    comment: "#667680",
+    foreground: "#0c1a3d",
+    function: "#3559c7",
+    keyword: "#3559c7",
+    number: "#117627",
+    operator: "#36434a",
+    punctuation: "#0c1a3d",
+    regexp: "#117627",
+    string: "#0c1a3d",
+    variable: "#36434a",
+  }),
+
+  createTheme("Vercel Light", {
+    comment: "#666",
+    foreground: "#171717",
+    function: "#7d00cc",
+    keyword: "#c41562",
+    number: "#117627",
+    operator: "#c41562",
+    punctuation: "#171717",
+    regexp: "#107d32",
+    string: "#107d32",
+    variable: "#005ff2",
   }),
 ];
 
@@ -229,9 +261,11 @@ export const themeLabels = {
 };
 
 export const allThemes = [
+  ...chalkistLightThemes,
   ...chalkistDarkThemes,
   ...portedThemes,
   ...shikiThemes,
+  ...lightShikiThemes,
 ];
 
 export function getThemeColors(themeName: string) {
@@ -240,3 +274,9 @@ export function getThemeColors(themeName: string) {
 }
 
 export const themeNames = allThemes.map((theme) => theme.displayName);
+
+export function isLightTheme(themeName: string) {
+  return [...chalkistLightThemes, ...lightShikiThemes].some(
+    (theme) => theme.displayName === themeName || theme.id === themeName,
+  );
+}

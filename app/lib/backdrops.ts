@@ -319,6 +319,13 @@ export const Backdrops: Backdrop = {
     shadow: "hsl(140, 40%, 2%)",
   },
 
+  Lotion: {
+    backgroundStyle: {
+      background: `linear-gradient(#fafafa,#fafafa)`,
+    },
+    shadow: "hsl(0, 0%, 10%)",
+  },
+
   WhiteWithDots: {
     backgroundStyle: {
       background: `

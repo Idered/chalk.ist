@@ -55,6 +55,7 @@ export const store = useStorage("chalk-store", {
   windowBorderRadius: 6,
   windowNoise: false,
   windowStyle: "variant-1",
+  lightWindowStyle: "variant-1",
 });
 
 runMigrations();

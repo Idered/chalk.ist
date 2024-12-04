@@ -43,8 +43,8 @@ defineProps<{
           v-for="_i in [1, 2, 3]"
           class="h-3 w-3 rounded-full"
           :class="{
-            'bg-white/25': block.mode === 'edit',
-            'bg-black/25': block.mode === 'preview',
+            'light:bg-black/25 bg-white/25': block.mode === 'edit',
+            'light:bg-black/25 bg-black/25': block.mode === 'preview',
           }"
         />
       </div>
@@ -57,8 +57,8 @@ defineProps<{
           v-for="_i in [1, 2, 3]"
           class="h-3 w-3 rounded-full border"
           :class="{
-            'border-white/25': block.mode === 'edit',
-            'border-black/25': block.mode === 'preview',
+            'light:border-black/25 border-white/25': block.mode === 'edit',
+            'light:border-black/25 border-black/25': block.mode === 'preview',
           }"
         />
       </div>
@@ -69,7 +69,7 @@ defineProps<{
     <div v-else></div>
 
     <div
-      class="mt-4 flex items-center"
+      class="light:text-zinc-800 mt-4 flex items-center text-slate-500"
       :class="{
         'justify-center': settings.windowControls !== WindowControls.Windows,
         'pl-5': settings.windowControls === WindowControls.Windows,
@@ -127,8 +127,8 @@ defineProps<{
       class="grid grid-flow-col justify-end"
       v-if="settings.windowControls === WindowControls.Windows"
       :class="{
-        'text-white': block.mode === 'edit',
-        'text-black': block.mode === 'preview',
+        'light:text-black text-white': block.mode === 'edit',
+        'light:text-black text-black': block.mode === 'preview',
       }"
     >
       <div class="flex h-8 w-10 items-center justify-center">

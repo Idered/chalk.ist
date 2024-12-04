@@ -4,7 +4,13 @@ import { bundledLanguages } from "shiki/langs";
 import { onMounted, ref, nextTick } from "vue";
 import type { HighlighterCore } from "shiki/types.mjs";
 import { createHighlighterCore, createOnigurumaEngine } from "shiki/index.mjs";
-import { chalkistDarkThemes, portedThemes, shikiThemes } from "~/lib/themes";
+import {
+  chalkistDarkThemes,
+  chalkistLightThemes,
+  lightShikiThemes,
+  portedThemes,
+  shikiThemes,
+} from "~/lib/themes";
 import { persistentState } from "~/lib/persistent-state";
 import { useScroll } from "@vueuse/core";
 import { store } from "~/lib/store";
@@ -18,9 +24,11 @@ onMounted(async () => {
   shiki.value = await createHighlighterCore({
     engine: createOnigurumaEngine(import("shiki/wasm")),
     themes: [
+      ...chalkistLightThemes,
       ...chalkistDarkThemes,
       ...portedThemes,
       ...shikiThemes.map((theme) => theme.import),
+      ...lightShikiThemes.map((theme) => theme.import),
     ],
     langs: [bundledLanguages["javascript"]],
   });

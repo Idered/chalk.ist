@@ -13,6 +13,7 @@ import { Backdrops } from "~/lib/backdrops";
 import { createTheme } from "~/lib/create-theme";
 import { usePresetsStore } from "~/lib/presets";
 import { type Store, store } from "~/lib/store";
+import { isLightTheme } from "~/lib/themes";
 import type { Preset } from "~/types";
 
 const presetsStore = usePresetsStore();
@@ -27,6 +28,9 @@ defineProps<{
   <div
     :data-preset="preset.id"
     class="rounded border border-slate-900 bg-black p-2 pb-0"
+    :class="{
+      'is-light-theme': isLightTheme(preset.settings.colorTheme),
+    }"
     :style="{
       '--solid-background': preset.settings.solidBackground,
     }"
@@ -61,7 +65,11 @@ defineProps<{
             .backgroundStyle
         "
       ></div>
-      <Window mode="edit" :store="preset.settings as Store">
+      <Window
+        mode="edit"
+        :store="preset.settings as Store"
+        :is-light-theme="isLightTheme(preset.settings.colorTheme)"
+      >
         <!-- <WindowReflection v-if="preset.settings.reflection" /> -->
         <WindowTitle
           :settings="{

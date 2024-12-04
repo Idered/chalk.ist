@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { isClient } from "@vueuse/core";
+import { state } from "~/lib/state";
 import { store } from "~/lib/store";
 
 const isSafari =

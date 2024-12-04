@@ -8,6 +8,7 @@ defineProps<{
   min: number;
   max: number;
   step: number;
+  disabled?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -28,7 +29,7 @@ if (import.meta.client && !CSS.supports("animation-timeline: scroll()")) {
 </script>
 
 <template>
-  <div class="control" ref="control">
+  <div class="control" ref="control" :class="{ 'control--disabled': disabled }">
     <input
       :id="id"
       type="range"
@@ -36,6 +37,7 @@ if (import.meta.client && !CSS.supports("animation-timeline: scroll()")) {
       :max="max"
       :step="step"
       :value="modelValue"
+      :disabled="disabled"
       @input="
         emit(
           'update:modelValue',
@@ -226,5 +228,26 @@ if (import.meta.client && !CSS.supports("animation-timeline: scroll()")) {
     view-timeline-name: --thumb;
     view-timeline-axis: inline;
   }
+}
+
+.control--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.control--disabled [type="range"] {
+  cursor: not-allowed;
+}
+
+[type="range"]:disabled {
+  cursor: not-allowed;
+}
+
+[type="range"]:disabled::-webkit-slider-thumb {
+  cursor: not-allowed;
+}
+
+[type="range"]:disabled::-moz-range-thumb {
+  cursor: not-allowed;
 }
 </style>
