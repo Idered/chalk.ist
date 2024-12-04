@@ -65,7 +65,7 @@ export function runMigrations() {
   store.value.windowBackgroundOpacity =
     store.value.windowBackgroundOpacity ?? 90;
   store.value.windowShadows = store.value.windowShadows ?? 100;
-  store.value.windowHighlights = store.value.windowHighlights ?? 29;
+  store.value.windowHighlights = store.value.windowHighlights ?? 20;
   store.value.windowBorderRadius = store.value.windowBorderRadius ?? 6;
   store.value.windowControls =
     store.value.windowControls ?? WindowControls.MacOutline;

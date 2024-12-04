@@ -50,7 +50,7 @@ export const store = useStorage("chalk-store", {
   watermarkOpacity: 50,
   windowControls: WindowControls.MacOutline,
   windowBackgroundOpacity: 90,
-  windowHighlights: 29,
+  windowHighlights: 20,
   windowShadows: 100,
   windowBorderRadius: 6,
   windowNoise: false,
