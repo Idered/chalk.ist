@@ -470,6 +470,7 @@ const innerPaddingX = computed(() => `${store.value.innerPaddingX}px`);
   text-size-adjust: none;
   caret-color: white;
   outline: none;
+  white-space: pre-wrap;
 }
 
 .formatted {
