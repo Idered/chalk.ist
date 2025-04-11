@@ -9,6 +9,8 @@ import RiLinkedinBoxFill from "~icons/ri/linkedin-box-fill";
 import RiLinkedinFill from "~icons/ri/linkedin-fill";
 import RiRedditFill from "~icons/ri/reddit-fill";
 import RiRedditLine from "~icons/ri/reddit-line";
+import RiMastodonLine from "~icons/ri/mastodon-line";
+import RiMastodonFill from "~icons/ri/mastodon-fill";
 import SolarUserCircleLinear from "~icons/solar/user-circle-linear";
 
 export const socialIcons = {
@@ -24,4 +26,6 @@ export const socialIcons = {
   linkedin: RiLinkedinFill,
   redditFill: RiRedditFill,
   redditLine: RiRedditLine,
+  mastodonLine: RiMastodonLine,
+  mastodonFill: RiMastodonFill,
 };
