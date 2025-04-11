@@ -15,27 +15,22 @@ export default defineNuxtModule({
   },
   defaults: {},
   setup(options, nuxt) {
-    nuxt.options.runtimeConfig.drizzle =
-      nuxt.options.runtimeConfig.drizzle || {};
-
-    const migrationsPath = join(
-      nuxt.options.rootDir,
-      "server/database/migrations",
-    );
-    nuxt.options.runtimeConfig.drizzle.migrationsPath = migrationsPath;
-
-    const { resolve } = createResolver(import.meta.url);
-
-    addServerScanDir(resolve("./runtime/server"));
-    addServerImportsDir(resolve("./runtime/server/utils"));
-
-    if (nuxt.options._prepare) {
-      return;
-    }
-
-    addBuildHooks(nuxt, {
-      hubUrl: process.env.NUXT_HUB_URL || "https://admin.hub.nuxt.com",
-      migrationsPath,
-    });
+    // nuxt.options.runtimeConfig.drizzle =
+    //   nuxt.options.runtimeConfig.drizzle || {};
+    // const migrationsPath = join(
+    //   nuxt.options.rootDir,
+    //   "server/database/migrations",
+    // );
+    // nuxt.options.runtimeConfig.drizzle.migrationsPath = migrationsPath;
+    // const { resolve } = createResolver(import.meta.url);
+    // addServerScanDir(resolve("./runtime/server"));
+    // addServerImportsDir(resolve("./runtime/server/utils"));
+    // if (nuxt.options._prepare) {
+    //   return;
+    // }
+    // addBuildHooks(nuxt, {
+    //   hubUrl: process.env.NUXT_HUB_URL || "https://admin.hub.nuxt.com",
+    //   migrationsPath,
+    // });
   },
 });
