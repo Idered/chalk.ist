@@ -42,7 +42,53 @@ function addEditorAnnotation(kind: "error" | "warning") {
 }
 
 function clearEditorAnnotations() {
-  props.block.marks = {};
+  const editor = editorProvider?.get().value;
+  if (!editor) {
+    props.block.marks = {};
+    return;
+  }
+  
+  // If there's no selection (selectionStart === selectionEnd), clear all marks
+  if (editor.selectionStart === editor.selectionEnd) {
+    props.block.marks = {};
+    return;
+  }
+  
+  if (!props.block.marks) return;
+  
+  const lines = editor.value.split("\n");
+  let offset = 0;
+  
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const lineStart = offset;
+    const lineEnd = offset + line.length;
+    const lineNumber = i + 1;
+    
+    // Check if this line intersects with the selection
+    if (editor.selectionStart <= lineEnd && editor.selectionEnd >= lineStart) {
+      const selectionStartInLine = Math.max(editor.selectionStart - offset, 0);
+      const selectionEndInLine = Math.min(editor.selectionEnd - offset, line.length);
+      
+      if (props.block.marks[lineNumber]) {
+        // Filter out marks that are within the selection range
+        props.block.marks[lineNumber] = props.block.marks[lineNumber].filter(mark => {
+          const markEnd = mark.end;
+          const markStart = mark.start;
+          
+          // Keep the mark if it doesn't overlap with the selection
+          return markEnd <= selectionStartInLine || markStart >= selectionEndInLine;
+        });
+        
+        // Remove the line from marks if no marks remain
+        if (props.block.marks[lineNumber].length === 0) {
+          delete props.block.marks[lineNumber];
+        }
+      }
+    }
+    
+    offset += line.length + 1; // +1 for the newline character
+  }
 }
 </script>
 
