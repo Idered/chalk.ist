@@ -16,6 +16,14 @@ export type CodeBlock = {
     character?: number;
     type: "add" | "remove" | "focus" | "highlight" | "annotate";
   }[];
+  marks?: Record<
+    number,
+    Array<{
+      start: number;
+      end: number;
+      kind: "error" | "warning";
+    }>
+  >;
 };
 
 export type NoteBlock = {

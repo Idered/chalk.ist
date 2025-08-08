@@ -6,15 +6,44 @@ import { ExportState } from "~/lib/enums";
 import type { CodeBlock } from "~/types";
 import type { BundledLanguage } from "shiki/langs";
 import { persistentState } from "~/lib/persistent-state";
+import { getEditorProvider } from "../editor-provider";
 
 const props = defineProps<{
   block: CodeBlock;
 }>();
 
+const editorProvider = getEditorProvider();
+
 const setEditorLanguage = (language: BundledLanguage) => {
   props.block.language = language;
   props.block.mode = "edit";
 };
+
+function addEditorAnnotation(kind: "error" | "warning") {
+  const editor = editorProvider?.get().value;
+  if (!editor) return;
+  props.block.marks ??= {};
+  const lines = editor.value.split("\n");
+  let offset = 0;
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const lineStart = offset;
+    const lineEnd = offset + line.length;
+    if (editor.selectionStart <= lineEnd && editor.selectionEnd >= lineStart) {
+      props.block.marks[i + 1] ??= [];
+      props.block.marks[i + 1].push({
+        start: Math.max(editor.selectionStart - offset, 0),
+        end: Math.min(editor.selectionEnd - offset, line.length),
+        kind,
+      });
+    }
+    offset += line.length + 1; // +1 for the newline character
+  }
+}
+
+function clearEditorAnnotations() {
+  props.block.marks = {};
+}
 </script>
 
 <template>
@@ -121,6 +150,33 @@ const setEditorLanguage = (language: BundledLanguage) => {
         <i-ph:eye-closed class="w-4" />
         <span class="ml-2">Edit</span>
       </div>
+    </button>
+
+    <button
+      @click="() => addEditorAnnotation('error')"
+      class="btn underline decoration-red-500 decoration-wavy"
+      type="button"
+      title="Mark error"
+    >
+      E
+    </button>
+
+    <button
+      @click="() => addEditorAnnotation('warning')"
+      class="btn underline decoration-orange-500 decoration-wavy"
+      type="button"
+      title="Mark warning"
+    >
+      W
+    </button>
+
+    <button
+      @click="() => clearEditorAnnotations()"
+      class="btn"
+      type="button"
+      title="Clear warnings and errors"
+    >
+      C
     </button>
   </div>
 </template>

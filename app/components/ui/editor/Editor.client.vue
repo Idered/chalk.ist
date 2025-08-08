@@ -1,19 +1,21 @@
 <script setup lang="ts">
-import { useElementSize, useEventListener } from "@vueuse/core";
 import {
   transformerCompactLineOptions,
   transformerNotationDiff,
   transformerNotationFocus,
 } from "@shikijs/transformers";
-import { bundledLanguages, type ShikiTransformer } from "shiki";
-import { computed, h, ref, watch } from "vue";
-import { store } from "~/lib/store";
-import { BlockType } from "~/lib/enums";
-import { createTheme } from "~/lib/create-theme";
-import { useShiki } from "~/lib/shiki";
-import type { CodeBlock } from "~/types";
+import { useElementSize, useEventListener } from "@vueuse/core";
+import { type ShikiTransformer } from "shiki";
+import { computed, effect, h, ref, watch } from "vue";
 import Annotation from "~/components/ui/editor/Annotation.vue";
+import { transformerNotationErrorsAndWarnings } from "~/lib/annotations-transformer";
+import { createTheme } from "~/lib/create-theme";
+import { BlockType } from "~/lib/enums";
+import { useShiki } from "~/lib/shiki";
 import { state } from "~/lib/state";
+import { store } from "~/lib/store";
+import type { CodeBlock } from "~/types";
+import { getEditorProvider } from "../editor-provider";
 
 const props = defineProps<{
   block: CodeBlock;
@@ -24,6 +26,8 @@ const { shiki, loadLanguage, isLanguageLoaded, isLanguageLoading, isReady } =
 const editor = ref<HTMLTextAreaElement>();
 const formatted = ref<HTMLDivElement>();
 const hasLanguage = ref(false);
+
+getEditorProvider()?.register(editor);
 
 function transformerLineNumbers(): ShikiTransformer {
   return {
@@ -177,6 +181,7 @@ const shikiContent = computed(() => {
       transformerLineNumbers(),
       transformerAnnotations(props.block.transformations),
       transformerCompactLineOptions(lineOptions),
+      transformerNotationErrorsAndWarnings(props.block.marks ?? {}),
     ],
     meta: {
       class: classNames.join(" "),
