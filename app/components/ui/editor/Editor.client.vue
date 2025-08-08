@@ -15,7 +15,6 @@ import { useShiki } from "~/lib/shiki";
 import { state } from "~/lib/state";
 import { store } from "~/lib/store";
 import type { CodeBlock } from "~/types";
-import { getEditorProvider } from "../editor-provider";
 
 const props = defineProps<{
   block: CodeBlock;
@@ -26,8 +25,6 @@ const { shiki, loadLanguage, isLanguageLoaded, isLanguageLoading, isReady } =
 const editor = ref<HTMLTextAreaElement>();
 const formatted = ref<HTMLDivElement>();
 const hasLanguage = ref(false);
-
-getEditorProvider()?.register(editor);
 
 function transformerLineNumbers(): ShikiTransformer {
   return {
@@ -370,10 +367,133 @@ const charactersPerLine = computed(() =>
 );
 
 const innerPaddingX = computed(() => `${store.value.innerPaddingX}px`);
+
+function addEditorAnnotation(kind: "error" | "warning") {
+  const textarea = editor.value;
+  if (!textarea) return;
+  shouldShowToolBar.value = false;
+  props.block.marks ??= {};
+  const lines = textarea.value.split("\n");
+  let offset = 0;
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const lineStart = offset;
+    const lineEnd = offset + line.length;
+    if (
+      textarea.selectionStart <= lineEnd &&
+      textarea.selectionEnd >= lineStart
+    ) {
+      props.block.marks[i + 1] ??= [];
+      props.block.marks[i + 1].push({
+        start: Math.max(textarea.selectionStart - offset, 0),
+        end: Math.min(textarea.selectionEnd - offset, line.length),
+        kind,
+      });
+    }
+    offset += line.length + 1; // +1 for the newline character
+  }
+}
+
+function clearEditorAnnotations() {
+  const textarea = editor.value;
+  shouldShowToolBar.value = false;
+  if (!textarea) {
+    props.block.marks = {};
+    return;
+  }
+
+  // If there's no selection (selectionStart === selectionEnd), clear all marks
+  if (textarea.selectionStart === textarea.selectionEnd) {
+    props.block.marks = {};
+    return;
+  }
+
+  if (!props.block.marks) return;
+
+  const lines = textarea.value.split("\n");
+  let offset = 0;
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const lineStart = offset;
+    const lineEnd = offset + line.length;
+    const lineNumber = i + 1;
+
+    // Check if this line intersects with the selection
+    if (
+      textarea.selectionStart <= lineEnd &&
+      textarea.selectionEnd >= lineStart
+    ) {
+      const selectionStartInLine = Math.max(
+        textarea.selectionStart - offset,
+        0,
+      );
+      const selectionEndInLine = Math.min(
+        textarea.selectionEnd - offset,
+        line.length,
+      );
+
+      if (props.block.marks[lineNumber]) {
+        // Filter out marks that are within the selection range
+        props.block.marks[lineNumber] = props.block.marks[lineNumber].filter(
+          (mark) => {
+            const markEnd = mark.end;
+            const markStart = mark.start;
+
+            // Keep the mark if it doesn't overlap with the selection
+            return (
+              markEnd <= selectionStartInLine || markStart >= selectionEndInLine
+            );
+          },
+        );
+
+        // Remove the line from marks if no marks remain
+        if (props.block.marks[lineNumber].length === 0) {
+          delete props.block.marks[lineNumber];
+        }
+      }
+    }
+
+    offset += line.length + 1; // +1 for the newline character
+  }
+}
+
+const toolBarY = ref(0);
+const toolBarX = ref(0);
+const shouldShowToolBar = ref(false);
+
+useEventListener(editor, "selectionchange", () => {
+  const textarea = editor.value;
+  if (!textarea) return;
+  if (textarea.selectionStart === textarea.selectionEnd) {
+    shouldShowToolBar.value = false;
+    return;
+  }
+  shouldShowToolBar.value = true;
+  const lines = textarea.value.split("\n").map((line) => line.length);
+  let offset = 0;
+  for (let i = 0; i < lines.length; i++) {
+    if (
+      textarea.selectionStart >= offset &&
+      textarea.selectionStart <= offset + lines[i]
+    ) {
+      toolBarY.value = (i - 1) * store.value.lineHeight - textarea.scrollTop;
+      if (toolBarY.value <= 0) {
+        toolBarY.value = (i + 1) * store.value.lineHeight - textarea.scrollTop;
+      }
+      toolBarX.value =
+        store.value.fontSize * (textarea.selectionStart - offset) +
+        store.value.innerPaddingX +
+        lines[i];
+      break;
+    }
+    offset += lines[i] + 1;
+  }
+});
 </script>
 
 <template>
-  <div class="grid px-px [grid-template:1fr/1fr]">
+  <div class="relative grid px-px [grid-template:1fr/1fr]">
     <div
       class="formatted font-config transition-opacity duration-500"
       ref="formatted"
@@ -439,6 +559,43 @@ const innerPaddingX = computed(() => `${store.value.innerPaddingX}px`);
         'font-size': store.fontSize + 'px',
       }"
     />
+    <div
+      v-if="shouldShowToolBar"
+      class="absolute left-[--left] top-[--top] z-50 flex -translate-y-full items-center gap-2 rounded-md bg-slate-700 p-2 shadow-lg"
+      :style="{
+        '--top': `${toolBarY}px`,
+        '--left': `${toolBarX}px`,
+      }"
+    >
+      <span class="text-sm font-semibold">Mark as</span>
+      <span class="text-sm font-semibold opacity-25">|</span>
+      <button
+        @click="() => addEditorAnnotation('error')"
+        class="btn underline decoration-red-500 decoration-wavy"
+        type="button"
+        title="Mark error"
+      >
+        Error
+      </button>
+
+      <button
+        @click="() => addEditorAnnotation('warning')"
+        class="btn underline decoration-orange-500 decoration-wavy"
+        type="button"
+        title="Mark warning"
+      >
+        Warning
+      </button>
+
+      <button
+        @click="() => clearEditorAnnotations()"
+        class="btn"
+        type="button"
+        title="Clear warnings and errors"
+      >
+        Clear
+      </button>
+    </div>
   </div>
 </template>
 

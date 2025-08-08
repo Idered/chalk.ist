@@ -2,7 +2,6 @@
 import { computed } from "vue";
 import { Backdrops } from "~/lib/backdrops";
 import { LIGHT_WINDOW_STYLES, WINDOW_STYLES } from "~/lib/constants";
-import { setEditorProvider } from "../editor-provider";
 import type { Store } from "~/lib/store";
 
 const props = defineProps<{
@@ -10,17 +9,6 @@ const props = defineProps<{
   store: Store;
   isLightTheme: boolean;
 }>();
-
-let editor = ref<HTMLTextAreaElement>();
-
-setEditorProvider({
-  register(_editor) {
-    editor = _editor;
-  },
-  get() {
-    return editor;
-  },
-});
 
 const backdrop = computed(() => Backdrops[props.store.backdrop]);
 const windowStyle = computed(() => {
