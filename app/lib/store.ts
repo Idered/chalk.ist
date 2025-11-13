@@ -20,6 +20,7 @@ const customTheme = {
 export const store = useStorage("chalk-store", {
   backdrop: "R3" as keyof typeof Backdrops,
   backdropNoise: false,
+  background: "linear-gradient(90deg, rgba(168,34,34,1) 0%, rgba(0,212,255,1) 100%)",
   colorTheme: "Vue",
   customTheme,
   fontFamily: "JetBrains Mono",
