@@ -51,12 +51,12 @@ function clearLineDecorations() {
       class="flex items-center overflow-auto border-b border-b-zinc-800 bg-zinc-900 pwa:sm:border-t pwa:sm:border-t-black pwa:sm:shadow-[inset_0_1px_0_rgb(39_39_42)]"
     >
       <div class="flex items-center">
-        <Tooltip content="Follow me on Bluesky">
+        <Tooltip content="Follow me on X">
           <a
             class="menubar-trigger flex w-12 justify-center"
-            href="https://bsky.app/profile/idered.bsky.social"
+            href="https://x.com/idered"
           >
-            <i-fa6-brands:bluesky class="size-4" />
+            <i-fa6-brands:x-twitter class="size-4" />
           </a>
         </Tooltip>
         <Tooltip content="View source on GitHub">
