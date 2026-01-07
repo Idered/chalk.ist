@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, type CSSProperties } from "vue";
 import { Backdrops } from "~/lib/backdrops";
 import { LIGHT_WINDOW_STYLES, WINDOW_STYLES } from "~/lib/constants";
 import { state } from "~/lib/state";
@@ -22,7 +22,8 @@ const windowStyles = computed(() =>
   props.isLightTheme ? LIGHT_WINDOW_STYLES : WINDOW_STYLES,
 );
 const style = computed(() => {
-  const styles: Partial<CSSStyleDeclaration>[] = [];
+  const styles: Partial<CSSProperties>[] = [];
+
   if (!props.store.showWindow) return styles;
 
   if (windowStyle.value?.features?.appStyle !== false) {

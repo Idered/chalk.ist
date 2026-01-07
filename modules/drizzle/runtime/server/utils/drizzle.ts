@@ -9,7 +9,7 @@ import type { H3Event, EventHandlerRequest } from "h3";
 
 export const tables = schema;
 
-export function useDrizzle(event: H3Event<EventHandlerRequest>) {
+export function useDrizzle(event?: H3Event<EventHandlerRequest>) {
   const hyperdrive = event?.context?.cloudflare?.env?.POSTGRES as
     | Hyperdrive
     | undefined;

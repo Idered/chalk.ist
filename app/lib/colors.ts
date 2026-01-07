@@ -140,8 +140,6 @@ export function generateRandomBackdrop(): Backdrop[keyof Backdrop] {
       transform: `scale(1.385)`,
     },
     shadow: "hsl(140, 40%, 2%)",
-    shadowsOpacity: 1,
-    lightsOpacity: 0.17,
   };
 }
 
