@@ -2,7 +2,6 @@
 import { computed, type CSSProperties } from "vue";
 import { Backdrops } from "~/lib/backdrops";
 import { LIGHT_WINDOW_STYLES, WINDOW_STYLES } from "~/lib/constants";
-import { state } from "~/lib/state";
 import type { Store } from "~/lib/store";
 
 const props = defineProps<{
