@@ -28,6 +28,18 @@ export const Backdrops: Backdrop = {
     shadow: "hsl(0, 0%, 6%)",
   },
 
+  Custom: {
+    backgroundStyle: {
+      background: `var(--custom-background)`,
+    },
+    shadow: "hsl(0, 0%, 6%)",
+    shadowsOpacity: 1,
+    lightsOpacity: 0.08,
+    appStyle: {
+      backgroundColor: "hsla(0, 0%, 6%, 0.85)",
+    },
+  },
+
   Monochrome_1: {
     backgroundStyle: {
       background: `conic-gradient(
